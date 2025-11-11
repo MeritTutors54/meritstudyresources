@@ -1,0 +1,15 @@
+.mb-30 {
+    margin-bottom: 30px;
+}
+
+.theme-primary .form-element .form-control.danger {
+    background-image: linear-gradient(45deg, #ff4d4f, #ff7875), linear-gradient(#ff4d4f, #ff7875) !important;
+}
+
+/* admin custom css*/
+.admin-username {
+    background: #f1c286;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+

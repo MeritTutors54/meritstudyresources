@@ -1,0 +1,79 @@
+<?php $__env->startSection('content'); ?>
+    <!-- Start breadcrumb Area -->
+    <div class="rbt-breadcrumb-default ptb--100 ptb_md--50 ptb_sm--30 bg-gradient-1">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-inner text-center">
+                        <h2 class="title">Register</h2>
+                        <ul class="page-list">
+                            <li class="rbt-breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li>
+                                <div class="icon-right"><i class="feather-chevron-right"></i></div>
+                            </li>
+                            <li class="rbt-breadcrumb-item active">Login & Register</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Breadcrumb Area -->
+
+    <div class="rbt-elements-area bg-color-white rbt-section-gap">
+        <div class="container">
+            <div class="row gy-5 row--30">
+                <div class="offset-2 col-lg-8">
+                    <div class="rbt-contact-form contact-form-style-1 max-width-auto">
+                        <h3 class="title">Register</h3>
+                        <form class="max-width-auto" method="post" action="<?php echo e(route('register')); ?>">
+                            <?php if($errors->any()): ?>
+                                <?php echo implode('', $errors->all('<div style="color:red">:message</div>')); ?>
+
+                            <?php endif; ?>
+                            <div class="form-group">
+                                <input name="name" type="text"/>
+                                <?php echo csrf_field(); ?>
+                                <label>Name*</label>
+                                <span class="focus-border"></span>
+                            </div>
+                            <div class="form-group">
+                                <input name="email" type="text" />
+                                <label>Email address *</label>
+                                <span class="focus-border"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <input name="password" type="password" >
+                                <label>Password *</label>
+                                <span class="focus-border"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <input name="password_confirmation" type="password" >
+                                <label>Confirm Password *</label>
+                                <span class="focus-border"></span>
+                            </div>
+
+                            <div class="form-submit-group">
+                                <button type="submit" class="rbt-btn btn-md btn-gradient hover-icon-reverse w-100">
+                                    <span class="icon-reverse-wrapper">
+                                        <span class="btn-text">Register</span>
+                                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                                    </span>
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.frontend', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH F:\xampp\htdocs\ResourceProject\resources\views/auth/register.blade.php ENDPATH**/ ?>
