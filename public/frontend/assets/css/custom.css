@@ -550,9 +550,10 @@ ol.progress-meter li.todo:before {
 /* past paper view pdf */
 .anchor-item {
     border: 1px solid;
-    padding: 5px 5px 5px 5px;
+    padding: 5px 15px 5px 15px;
     border-radius: 7px;
 }
+
 .anchor-item:hover {
     cursor: pointer;
     border-color: #394381;

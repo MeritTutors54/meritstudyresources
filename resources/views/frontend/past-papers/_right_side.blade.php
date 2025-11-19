@@ -124,11 +124,15 @@
                                         @if(!empty($category['subcategories']))
                                             <div class="mt-4 d-flex flex-wrap">
                                                 @foreach($category['subcategories'] as $subCategory)
-                                                    <div class="anchor-item me-4 mb-4 py-2 px-4">
-                                                        <a href="{{ route('past.papers', [$category['slug'], $subCategory['slug']]) }}">
-                                                            <strong>{{ $subCategory['subcategory_name'] }}</strong>
-                                                        </a>
-                                                    </div>
+{{--                                                    <div class="anchor-item mb-5 me-5">--}}
+{{--                                                        <a href="{{ route('past.papers', [$category['slug'], $subCategory['slug']]) }}">--}}
+{{--                                                            <strong>{{ $subCategory['subcategory_name'] }}</strong>--}}
+{{--                                                        </a>--}}
+{{--                                                    </div>--}}
+                                                    <a href="{{ route('past.papers', [$category['slug'], $subCategory['slug']]) }}"
+                                                       class="anchor-item me-4 mb-4 py-2 px-4">
+                                                        <strong>{{ $subCategory['subcategory_name'] }}</strong>
+                                                    </a>
                                                 @endforeach
                                             </div>
                                         @endif
