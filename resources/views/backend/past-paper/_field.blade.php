@@ -123,11 +123,11 @@
                     <label class="form-label" for="is_active">Status </label>
                     <select name="is_active" id="is_active" class="form-select">
                         <option
-                            {{ old('is_active', $past_paper->is_active ?? 0) == 1 ? 'selected' : '' }}
+                            {{ old('is_active', $past_paper->is_active ?? 1) == 1 ? 'selected' : '' }}
                             value="1">Active
                         </option>
                         <option
-                            {{ old('is_active', $past_paper->is_active ?? 0) == 0 ? 'selected' : '' }}
+                            {{ old('is_active', $past_paper->is_active ?? 1) == 0 ? 'selected' : '' }}
                             value="0">Inactive
                         </option>
                     </select>
