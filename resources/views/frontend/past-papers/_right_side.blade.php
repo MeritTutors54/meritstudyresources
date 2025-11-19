@@ -6,6 +6,12 @@
             <li>
                 <a href="{{ route('past.papers', [$params['category']['slug']]) }}">{{ $params['category']['category_name'] }}</a>
             </li>
+            @if(!empty($params['resubcategory']))
+                <li><i class="fa-solid fa-angle-right"></i></li>
+                <li>
+                    <a href="{{ route('past.papers', [$params['category']['slug'], $params['subcategory']['slug'], $params['resubcategory']['slug']]) }}">{{ $params['resubcategory']['resubcategory_name'] }}</a>
+                </li>
+            @endif
             @if(!empty($params['subcategory']))
                 <li><i class="fa-solid fa-angle-right"></i></li>
                 <li>
@@ -17,12 +23,7 @@
                     </a>
                 </li>
             @endif
-            @if(!empty($params['resubcategory']))
-                <li><i class="fa-solid fa-angle-right"></i></li>
-                <li>
-                    <a href="{{ route('past.papers', [$params['category']['slug'], $params['subcategory']['slug'], $params['resubcategory']['slug']]) }}">{{ $params['resubcategory']['resubcategory_name'] }}</a>
-                </li>
-            @endif
+
         </ul>
     </div>
 @endif
