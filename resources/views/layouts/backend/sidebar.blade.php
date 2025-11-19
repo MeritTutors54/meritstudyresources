@@ -29,8 +29,18 @@
                         </a>
                         <ul class="treeview-menu">
                             @can('viewPastPaper', Auth::user())
-                                <li class="{{ request()->is('admin/past-papers*') ? 'active' : '' }}">
+                                <li class="{{ request()->is('admin/past-papers') ? 'active' : '' }}">
                                     <a href="{{ route('admin.past-papers.index') }}">
+                                        <i class="icon-Commit">
+                                            <span class="path1"></span><span class="path2"></span>
+                                        </i>
+                                        All Past Paper
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('createPastPaper', Auth::user())
+                                <li class="{{ request()->is('admin/past-papers/create') ? 'active' : '' }}">
+                                    <a href="{{ route('admin.past-papers.create') }}">
                                         <i class="icon-Commit">
                                             <span class="path1"></span><span class="path2"></span>
                                         </i>
