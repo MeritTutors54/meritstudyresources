@@ -167,7 +167,7 @@ class PastPaperController extends Controller
         }
 
 
-        return to_route('admin.past-papers.index')
+        return to_route('admin.past-papers.create')
             ->with($this->notification['status'], $this->notification['message']);
     }
 
