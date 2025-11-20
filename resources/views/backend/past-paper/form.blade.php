@@ -50,13 +50,44 @@
                             @include('layouts.backend.notification')
                             <!-- /.box-header -->
                             <form action="{{ $actionUrl }}" method="post"
-                                enctype="multipart/form-data">
+                                  enctype="multipart/form-data">
                                 @csrf
                                 @method($method)
                                 @include('backend.past-paper._field')
                             </form>
                         </div>
                     </div>
+                    @if(isset($past_paper))
+                        <div class="col-lg-4 col-12">
+                            <div class="box">
+                                <div class="box-header with-border">
+                                    <h4 class="box-title">Extra Option</h4>
+                                </div>
+
+
+                                <div>
+                                    <div class="box-body">
+                                        <div class="row mb-4">
+                                            <div class="col-lg-12">
+                                                <h5><strong>Question Paper:</strong></h5>
+                                                <a target="_blank" href="{{  asset('uploads/pastpaper/' . $past_paper->ques_paper) }}">
+                                                    <img width="50" src="{{ asset('pdf.png') }}" alt=""/>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <h5><strong>Mark Scheme</strong></h5>
+                                                <a target="_blank" href="{{  asset('uploads/pastpaper/' . $past_paper->ans_paper) }}">
+                                                    <img width="50" src="{{ asset('pdf.png') }}" alt=""/>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </section>
         </div>
@@ -64,7 +95,7 @@
 @endsection
 @section('js')
     <script>
-        $('#video_solution_id').change(function() {
+        $('#video_solution_id').change(function () {
             if ($(this).prop('checked')) {
                 $('#video_section').show();
             } else {
@@ -72,7 +103,7 @@
             }
         });
 
-        $('#pdf_solution_id').change(function() {
+        $('#pdf_solution_id').change(function () {
             if ($(this).prop('checked')) {
                 $('#pdf_solution_section').show();
             } else {
@@ -80,7 +111,7 @@
             }
         });
 
-        $('#video_link_id').on('change', function (){
+        $('#video_link_id').on('change', function () {
             if ($(this).prop('checked')) {
                 $('#video_link_section').show();
                 $('#video_uploads_section').hide();
@@ -90,7 +121,7 @@
             }
         });
 
-        $('#video_uploads_id').on('change', function (){
+        $('#video_uploads_id').on('change', function () {
             if ($(this).prop('checked')) {
                 $('#video_link_section').hide();
                 $('#video_uploads_section').show();
@@ -114,11 +145,11 @@
                     url: url,
                     type: "GET",
                     dataType: "json",
-                    success: function(data) {
+                    success: function (data) {
 
                         subCategoryTag.empty();
                         subCategoryTag.append('<option selected disabled>Select</option>');
-                        $.each(data, function(index, districtObj) {
+                        $.each(data, function (index, districtObj) {
                             subCategoryTag.append('<option value="' + districtObj.id + '">' +
                                 districtObj.subcategory_name + '</option>');
                         });
@@ -141,10 +172,10 @@
                     url: url,
                     type: "GET",
                     dataType: "json",
-                    success: function(data) {
+                    success: function (data) {
                         resubcategoryTag.empty();
                         resubcategoryTag.append('<option selected disabled>Select</option>');
-                        $.each(data, function(index, districtObj) {
+                        $.each(data, function (index, districtObj) {
                             resubcategoryTag.append('<option value="' + districtObj.id + '">' +
                                 districtObj.resubcategory_name + '</option>');
                         });
@@ -164,13 +195,13 @@
         const solutionsField = document.querySelector('.solutions-field');
 
         // Add event listeners to handle changes in radio button selection
-        yesRadio.addEventListener('change', function() {
+        yesRadio.addEventListener('change', function () {
             if (this.checked) {
                 solutionsField.style.display = 'block';  // Show the Solutions field
             }
         });
 
-        noRadio.addEventListener('change', function() {
+        noRadio.addEventListener('change', function () {
             if (this.checked) {
                 solutionsField.style.display = 'none';  // Hide the Solutions field
             }
@@ -186,25 +217,25 @@
 
     </script>
 
-{{--    <script>--}}
-{{--        $("#video_solution_id").on('change', function (el) {--}}
-{{--            if ($(el).prop('checked')) {--}}
-{{--                $('#video_section').show(); // Show video_section when checkbox is checked--}}
-{{--            } else {--}}
-{{--                $('#video_section').hide(); // Hide video_section when checkbox is unchecked--}}
-{{--            }--}}
-{{--        })--}}
+    {{--    <script>--}}
+    {{--        $("#video_solution_id").on('change', function (el) {--}}
+    {{--            if ($(el).prop('checked')) {--}}
+    {{--                $('#video_section').show(); // Show video_section when checkbox is checked--}}
+    {{--            } else {--}}
+    {{--                $('#video_section').hide(); // Hide video_section when checkbox is unchecked--}}
+    {{--            }--}}
+    {{--        })--}}
 
-{{--        function vidioSolution(el) {--}}
+    {{--        function vidioSolution(el) {--}}
 
-{{--        }--}}
-{{--        function pdfSolution(el){--}}
-{{--            if ($(el).prop('checked')) {--}}
-{{--                $('#pdf_solution_section').show(); // Show video_section when checkbox is checked--}}
-{{--            } else {--}}
-{{--                $('#pdf_solution_section').hide(); // Hide video_section when checkbox is unchecked--}}
-{{--            }--}}
-{{--        }--}}
-{{--
-{{--    </script>--}}
+    {{--        }--}}
+    {{--        function pdfSolution(el){--}}
+    {{--            if ($(el).prop('checked')) {--}}
+    {{--                $('#pdf_solution_section').show(); // Show video_section when checkbox is checked--}}
+    {{--            } else {--}}
+    {{--                $('#pdf_solution_section').hide(); // Hide video_section when checkbox is unchecked--}}
+    {{--            }--}}
+    {{--        }--}}
+    {{--
+    {{--    </script>--}}
 @endsection
