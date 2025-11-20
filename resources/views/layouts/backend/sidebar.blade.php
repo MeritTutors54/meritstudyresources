@@ -122,6 +122,14 @@
                                     </a>
                                 </li>
                             @endcan
+                                <li class="{{ request()->is('admin/blog-tags*') ? 'active' : '' }}">
+                                    <a href="{{ route('admin.blog-tags.index') }}">
+                                        <i class="icon-Commit">
+                                            <span class="path1"></span><span class="path2"></span>
+                                        </i>
+                                        Manage tags
+                                    </a>
+                                </li>
                         </ul>
                     </li>
                     {{-- Study Materials --}}

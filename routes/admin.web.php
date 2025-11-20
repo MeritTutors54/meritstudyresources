@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\AdminStuffController;
 use App\Http\Controllers\Backend\Auth\LoginController;
 use App\Http\Controllers\Backend\Blog\BlogCategoryController;
 use App\Http\Controllers\Backend\Blog\BlogsController;
+use App\Http\Controllers\Backend\Blog\BlogTagsController;
 use App\Http\Controllers\Backend\Coupon\CouponController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\Ecommerce\BookCategoryController;
@@ -92,6 +93,8 @@ Route::prefix('admin')->middleware(['auth:admin', 'team.permission'])->group(fun
         ->name('admin.comment.approved');
     Route::get('/blogs/{blog}/comment/{comment}/rejected', [BlogsController::class, 'rejected'])
         ->name('admin.comment.rejected');
+
+    Route::resource('/blog-tags', BlogTagsController::class, ['as' => 'admin']);
 
     /*
     |--------------------------------------------------------------------------

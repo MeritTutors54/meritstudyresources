@@ -130,14 +130,15 @@
                                     <div class="blog_details_right_single_title"><p>Tags</p></div>
                                     <div class="blog_details_right_single_contents">
                                         @if($blog->tags()->count() > 0)
-                                            <ul class="bdrs_tags">
+                                            <div class="d-flex">
                                                 @foreach($blog->tags as $tag)
-                                                    <li><a href="{{ route('blogs', ['p' => $tag->slug]) }}">{{ $tag->name }}</a></li>
+                                                    <a class="anchor-tag" href="{{ route('blogs', ['p' => $tag->slug]) }}">{{ $tag->name }}</a>
                                                 @endforeach
-                                            </ul>
+                                            </div>
                                         @endif
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                         <!-- End Blog Details Right -->

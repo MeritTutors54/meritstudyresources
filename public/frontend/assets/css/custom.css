@@ -531,6 +531,21 @@ ol.progress-meter li.todo:before {
     color: white !important;
 }
 
+.anchor-tag {
+    border: 1px solid #247E3D;
+    color: #247E3D;
+    border-radius: 13px;
+    padding: 8px 22px;
+    margin-right: 12px;
+    transition: 0.2s;
+}
+
+.anchor-tag:hover {
+    cursor: pointer;
+    background: #247E3D;
+    color: white;
+}
+
 .btn-expend {
     border: 1px solid #9e9e9e !important;
     font-size: 16px !important;
