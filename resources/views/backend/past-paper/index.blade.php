@@ -59,13 +59,13 @@
                                         @foreach ($allData as $key => $data)
                                             <tr>
                                                 <td>{{ ++$key }}</td>
-                                                <td>{{ $data->title }}</td>
-                                                <td>{{ $data->series->name }}</td>
-                                                <td>{{ $data->category_model->category_name }}</td>
-                                                <td>{{ $data->subcategory_model->subcategory_name }}
-                                                    -{{ $data->resubcategory_model->unit_code }}
+                                                <td>{{ $data->title ?? "" }}</td>
+                                                <td>{{ $data->series->name ?? "" }}</td>
+                                                <td>{{ $data->category_model->category_name ?? "" }}</td>
+                                                <td>{{ $data->subcategory_model->subcategory_name ?? "" }}
+                                                    -{{ $data->resubcategory_model->unit_code ?? "" }}
                                                 </td>
-                                                <td>{{ $data->resubcategory_model->resubcategory_name }}</td>
+                                                <td>{{ $data->resubcategory_model->resubcategory_name ?? "" }}</td>
                                                 <td>
                                                     @if ($data->is_active == 1)
                                                         <span class="btn-sm btn-success">Active</span>
