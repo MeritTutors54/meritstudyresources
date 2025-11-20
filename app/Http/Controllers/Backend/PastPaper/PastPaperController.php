@@ -35,7 +35,8 @@ class PastPaperController extends Controller
         $allData = PastPaper::query()
             ->where('is_deleted', 0)
             ->with('category_model', 'subcategory_model', 'resubcategory_model', 'series')
-            ->orderBy('id', 'DESC')->get();
+            ->orderBy('id', 'DESC')
+            ->limit(20)->get();
 
         return view('backend.past-paper.index')
             ->with([
