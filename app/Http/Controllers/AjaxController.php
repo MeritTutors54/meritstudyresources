@@ -19,6 +19,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Yajra\DataTables\Facades\DataTables;
 
 class AjaxController extends Controller
 {
@@ -224,7 +225,6 @@ class AjaxController extends Controller
         $grandTotalPrice = MoneyService::convertToReadableMoney($grandTotalPriceObject);
 
 
-
         $grandTotalPriceObject = $grandTotalPriceObject->subtract($couponResult[0]);
         $discountPrice = MoneyService::convertToReadableMoney($couponResult[0]);
         $currentGrandTotalPrice = MoneyService::convertToReadableMoney($grandTotalPriceObject);
@@ -264,20 +264,55 @@ class AjaxController extends Controller
     public function getPastPaper(Request $request): JsonResponse
     {
         $pastPapers = PastPaper::query()
-                ->with(['series'])
-                ->where('title', $request->title)
-                ->where('category', $request->category_id)
-                ->where('subcategory', $request->subcategory_id)
-                ->where('resubcategory', $request->resubcategory_id)
-                ->get()
-                ->sortByDesc(function ($paper) {
-                    return strtotime($paper->series->name);
-                })
-                ->groupBy(function ($paper) {
-                    return $paper->series->name;
-                });
+            ->with(['series'])
+            ->where('title', $request->title)
+            ->where('category', $request->category_id)
+            ->where('subcategory', $request->subcategory_id)
+            ->where('resubcategory', $request->resubcategory_id)
+            ->get()
+            ->sortByDesc(function ($paper) {
+                return strtotime($paper->series->name);
+            })
+            ->groupBy(function ($paper) {
+                return $paper->series->name;
+            });
 
         return response()->json($pastPapers);
+
+    }
+
+    public function indexData()
+    {
+        $allData = PastPaper::query()
+            ->where('is_deleted', 0)
+            ->with('category_model', 'subcategory_model', 'resubcategory_model', 'series')
+            ->orderBy('id', 'DESC');
+
+        return DataTables::eloquent($allData)
+            ->addIndexColumn()
+            ->addColumn('series_name', function ($row) {
+                return $row->series->name ?? '';
+            })
+            ->addColumn('category_name', function ($row) {
+                return $row->category_model->category_name ?? "";
+            })
+            ->addColumn('subcategory_name', function ($row) {
+                return $row->subcategory_model->subcategory_name ?? "";
+            })
+            ->addColumn('resubcategory_name', function ($row) {
+                return $row->resubcategory_model->resubcategory_name ?? "";
+            })
+            ->addColumn('status_badge', function ($row) {
+                if ($row->is_active == 1) {
+                    return '<span class="btn-sm btn-success">Active</span>';
+                }
+                return '<span class="btn-sm btn-danger">Deactivate</span>';
+            })
+            ->addColumn('actions', function ($data) {
+                return view('backend.past-paper._action_button', compact('data'))->render();
+            })
+            ->rawColumns(['status_badge', 'actions'])
+            ->make(true);
 
     }
 

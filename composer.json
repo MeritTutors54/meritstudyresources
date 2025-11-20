@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "ext-fileinfo": "*",
         "intervention/image-laravel": "^1.3",
         "jenssegers/agent": "^2.6",
         "laravel/cashier": "^15.4",
@@ -15,7 +16,7 @@
         "laravel/ui": "^4.5",
         "spatie/laravel-permission": "^6.18",
         "spatie/pdf-to-image": "^3.1",
-        "ext-fileinfo": "*"
+        "yajra/laravel-datatables-oracle": "^11.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.15",
