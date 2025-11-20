@@ -150,14 +150,5 @@
                 ],
             });
         });
-
-
-        $('.dltButton').on('click', function () {
-            let name = $(this).data('name');
-            let url = $(this).data('route');
-            $('#set-action').attr('action', url);
-            $('#element-name').html(name);
-            $('#dltModal').modal('show');
-        });
     </script>
 @endsection
