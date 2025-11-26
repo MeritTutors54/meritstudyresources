@@ -25,7 +25,7 @@ class StorePastPaperRequest extends FormRequest
             'is_paid' => 'required|boolean',
             'ques_paper' => 'required|file|mimes:pdf,doc,docx|max:2048',
             'ans_paper' => 'required|file|mimes:pdf,doc,docx|max:2048',
-            'status' => 'required|integer|in:0,1',
+            'is_active' => 'required|integer|in:0,1',
         ];
     }
 }
