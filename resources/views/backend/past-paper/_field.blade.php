@@ -9,7 +9,7 @@
                            name="title" id="title"
                            class="form-control"
                            value="{{ old('title', $past_paper->title ?? '') }}"
-                           placeholder="Enter title" required>
+                           placeholder="Enter title">
                     @error('title')
                     <div class="form-control-feedback text-danger mt-1">
                         {{ $message }}
@@ -62,6 +62,13 @@
                     <select name="subcategory" onchange="getReSubCategory(this)"
                             id="subcategory" class="form-select" required>
                         <option selected disabled>Select...</option>
+                        @if(!empty($old_cat))
+                            @foreach($old_cat as $sub)
+                                <option
+                                    {{ old('subcategory') == $sub->id ? 'selected' : '' }}
+                                    value="{{ $sub->id }}">{{ $sub->subcategory_name }}</option>
+                            @endforeach
+                        @endif
                         @if(!empty($past_paper))
                             @foreach($subcategories as $subcategory)
                                 <option
@@ -82,6 +89,13 @@
                     <label class="form-label" for="resubcategory">ReSubCategory</label>
                     <select name="resubcategory" id="resubcategory" class="form-select">
                         <option selected disabled>Select...</option>
+                        @if(!empty($old_sub))
+                            @foreach($old_sub as $re)
+                                <option
+                                    {{ old('resubcategory') == $re->id ? 'selected' : '' }}
+                                    value="{{ $re->id }}">{{ $re->resubcategory_name }}</option>
+                            @endforeach
+                        @endif
                         @if(!empty($past_paper))
                             @foreach($resubcategories as $resubcategory)
                                 <option

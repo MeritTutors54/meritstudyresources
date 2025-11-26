@@ -70,17 +70,23 @@
                                         <div class="row mb-4">
                                             <div class="col-lg-12">
                                                 <h5><strong>Question Paper:</strong></h5>
-                                                <a target="_blank" href="{{  asset('uploads/pastpaper/' . $past_paper->ques_paper) }}">
-                                                    <img width="50" src="{{ asset('pdf.png') }}" alt=""/>
-                                                </a>
+                                                @if(!empty($past_paper->ques_paper))
+                                                    <a target="_blank"
+                                                       href="{{  asset('uploads/pastpaper/' . $past_paper->ques_paper) }}">
+                                                        <img width="50" src="{{ asset('pdf.png') }}" alt=""/>
+                                                    </a>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <h5><strong>Mark Scheme</strong></h5>
-                                                <a target="_blank" href="{{  asset('uploads/pastpaper/' . $past_paper->ans_paper) }}">
-                                                    <img width="50" src="{{ asset('pdf.png') }}" alt=""/>
-                                                </a>
+                                                @if(!empty($past_paper->ans_paper))
+                                                    <a target="_blank"
+                                                       href="{{  asset('uploads/pastpaper/' . $past_paper->ans_paper) }}">
+                                                        <img width="50" src="{{ asset('pdf.png') }}" alt=""/>
+                                                    </a>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>

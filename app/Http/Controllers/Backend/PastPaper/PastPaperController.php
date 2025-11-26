@@ -55,10 +55,32 @@ class PastPaperController extends Controller
             ->orderBy('id', 'DESC')
             ->get();
 
+        $old_cat = old('category');
+        if (!empty($old_cat)) {
+            $subcategories = SubCategory::query()
+                ->where('category_id', $old_cat)
+                ->where(['is_active' => 1, 'is_deleted' => 0])
+                ->orderBy('id', 'DESC')
+                ->get();
+            pr($subcategories);
+        }
+
+        $old_sub = old('subcategory');
+        if (!empty($old_sub)) {
+            $resubcategories = Resubcategory::query()
+                ->where('category_id', $old_cat)
+                ->where('subcategory_id', $old_sub)
+                ->where(['is_active' => 1, 'is_deleted' => 0])
+                ->orderBy('id', 'DESC')
+                ->get();
+        }
+
         return view('backend.past-paper.form')
             ->with([
                 'examSeries' => $examSeries,
-                'categories' => $categories
+                'categories' => $categories,
+                'old_cat' => $subcategories ?? null,
+                'old_sub' => $resubcategories ?? null,
             ]);
     }
 
