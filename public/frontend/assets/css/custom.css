@@ -536,6 +536,7 @@ ol.progress-meter li.todo:before {
     color: #247E3D;
     border-radius: 13px;
     padding: 8px 22px;
+    inline-size: max-content;
     margin-right: 12px;
     transition: 0.2s;
 }
