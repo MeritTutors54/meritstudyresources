@@ -55,9 +55,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
             accordionItems.forEach(c => {
                 let accordionDom = document.getElementById('past-paper-accordion');
-                const expandBtn = accordionDom.querySelector('.btn-expend');
-                if (expandBtn) {
-                    expandBtn.textContent = 'Expand All';
+                if (accordionDom) {
+                    const expandBtn = accordionDom.querySelector('.btn-expend');
+                    if (expandBtn) {
+                        expandBtn.textContent = 'Expand All';
+                    }
                 }
 
                 const dropdown = c.querySelector('.merit-menu-dropdown-box');
