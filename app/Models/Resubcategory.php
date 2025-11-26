@@ -36,6 +36,6 @@ class Resubcategory extends Model
 
     public function pastPapers(): HasMany
     {
-        return $this->hasMany(Pastpaper::class, 'resubcategory');
+        return $this->hasMany(PastPaper::class, 'resubcategory');
     }
 }
