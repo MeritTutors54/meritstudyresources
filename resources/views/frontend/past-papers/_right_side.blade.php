@@ -29,7 +29,6 @@
 @endif
 
 @if(!empty($pastPapers))
-
     {{-- this section is responsible for showing title value --}}
     <div class="resources_page_right_title">
         <h3 class="">{{ $params['resubcategory']['resubcategory_name'] }}</h3>
@@ -39,11 +38,6 @@
 
     <div class="mt-5" id="paper-box">
         @foreach($pastPapers as $paper)
-            {{--            <a href="{{ route('past.papers', [$params['category']['slug'], $params['subcategory']['slug'], $params['resubcategory']['slug'], $paper]) }}"--}}
-            {{--               class=" mt-3 anchor-item me-3">--}}
-            {{--                <strong>{{ $paper }}</strong>--}}
-            {{--            </a>--}}
-            {{--@dd($params)--}}
             <button class="anchor-item me-3 clickForPastPaper"
                      data-title="{{ $paper }}"
                      data-category="{{ $params['category']['id'] }}"
@@ -95,10 +89,12 @@
                 <h4 class="mt-3">{{ $params['subcategory']['subcategory_name'] }}</h4>
                 <div class="mt-4">
                     @foreach($resubcategories as $resub)
-                        <a href="{{ route('past.papers', [$params['category']['slug'], $params['subcategory']['slug'], $resub->slug]) }}"
-                           class="anchor-item me-4 py-2 px-4">
-                            <strong>{{ $resub->resubcategory_name }} ({{ $resub->unit_code }})</strong>
-                        </a>
+                        @if($resub['is_active'] == 1)
+                            <a href="{{ route('past.papers', [$params['category']['slug'], $params['subcategory']['slug'], $resub->slug]) }}"
+                               class="anchor-item me-4 py-2 px-4">
+                                <strong>{{ $resub->resubcategory_name }} ({{ $resub->unit_code }})</strong>
+                            </a>
+                        @endif
                     @endforeach
                 </div>
             @endif

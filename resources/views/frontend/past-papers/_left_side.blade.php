@@ -34,12 +34,15 @@
                                             <ul class="rplc_dropdown_items second-ul {{ isset($params['subcategory']) && $params['subcategory']['id'] == $subject['id'] ? 'show' : '' }}">
                                                 @if(!empty($subject['resubcategories']))
                                                     @foreach($subject['resubcategories'] as $resubcategory)
-                                                        <li>
-                                                            <a href="{{ route('past.papers', [$item['slug'], $subject['slug'], $resubcategory['slug']]) }}"
-                                                               class="child-name {{ isset($params['resubcategory']) && $params['resubcategory']['id'] == $resubcategory['id'] ? 'active' : '' }}">
-                                                                {{ ucfirst($resubcategory['resubcategory_name']) }} ({{ $resubcategory['unit_code'] }})
-                                                            </a>
-                                                        </li>
+                                                        @if($resubcategory['is_active'] == 1)
+                                                            <li>
+                                                                <a href="{{ route('past.papers', [$item['slug'], $subject['slug'], $resubcategory['slug']]) }}"
+                                                                   class="child-name {{ isset($params['resubcategory']) && $params['resubcategory']['id'] == $resubcategory['id'] ? 'active' : '' }}">
+                                                                    {{ ucfirst($resubcategory['resubcategory_name']) }}
+                                                                    ({{ $resubcategory['unit_code'] }})
+                                                                </a>
+                                                            </li>
+                                                        @endif
                                                     @endforeach
                                                 @endif
                                             </ul>
