@@ -63,11 +63,15 @@
                                                 <td>{{ $data->subcategory->subcategory_name ?? '' }}
                                                     - {{ $data->unit_code }}</td>
                                                 <td>
-                                                    @if($data->is_active == 1)
-                                                        <span class="btn-sm btn-success">Active</span>
-                                                    @else
-                                                        <span class="btn-sm btn-danger">Inactive</span>
-                                                    @endif
+                                                    <label class="switch">
+                                                        <input type="checkbox" class="statusSwitch" id="togProp-{{$data->id}}"
+                                                               data-id="{{ $data->id }}"
+                                                            {{$data->is_active == 1 ? "checked" : ""}}>
+                                                        <div class="slider round"><!--ADDED HTML -->
+                                                            <span class="on">Active</span>
+                                                            <span class="off">Inactive</span><!--END-->
+                                                        </div>
+                                                    </label>
                                                 </td>
 
                                                 <td class="text-center">
@@ -112,6 +116,64 @@
             $('#element-name').html(name);
             $('#dltModal').modal('show');
         });
+
+        $('.statusSwitch').on('change', function () {
+            let checkbox = $(this);
+            $(".statusSwitch").prop('disabled', true);
+            let categoryID = $(this).data('id');
+
+            // Save previous state BEFORE sending request
+            let previousState = !checkbox.is(':checked');
+
+            $.ajax({
+                url: '{{ route('admin.ajax.updateStatus') }}',
+                type: "post",
+                dataType: 'json',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    category_id: categoryID,
+                    model: "Resubcategory",
+                    column: "is_active"
+                },
+                success: function (response) {
+                    if (response.success) {
+                        // Handle successful login
+                        Swal.fire({
+                            title: 'Success!',
+                            text: response.message,
+                            icon: 'success',
+                            customClass: 'swal-wide',
+                        })
+                    }
+                    $(".statusSwitch").prop('disabled', false);
+                },
+                error: function (error) {
+                    if (error.status === 500) {
+                        let message = error.responseJSON.message;
+
+                        Swal.fire({
+                            title: 'Error!',
+                            text: message,
+                            icon: 'error',
+                            customClass: 'swal-wide',
+                            confirmButtonText: 'Close'
+                        })
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: "An error occurred. Please try again.",
+                            icon: 'error',
+                            customClass: 'swal-wide',
+                            confirmButtonText: 'Close'
+                        })
+                    }
+                    checkbox.prop('checked', previousState);
+                    $(".statusSwitch").prop('disabled', false);
+
+                }
+            });
+
+        })
     </script>
 @endsection
 

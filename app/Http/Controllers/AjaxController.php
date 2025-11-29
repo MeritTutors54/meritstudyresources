@@ -7,6 +7,7 @@ use App\Enums\SubscriptionType;
 use App\Enums\UserType;
 use App\Http\Controllers\Auth\LoginController;
 use App\Models\Cart;
+use App\Models\Category;
 use App\Models\PastPaper;
 use App\Models\Resubcategory;
 use App\Models\SubCategory;
@@ -314,6 +315,42 @@ class AjaxController extends Controller
             ->rawColumns(['status_badge', 'actions'])
             ->make(true);
 
+    }
+
+    public function updateStatus(Request $request)
+    {
+        $modelName = $request->model;
+        $column = $request->column;
+        $modelClass = "App\\Models\\" . $modelName;
+
+        if (!class_exists($modelClass)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Model not found'
+            ], 500);
+        }
+
+        $object = $modelClass::where('id', $request->category_id)->first();
+
+        if (empty($object)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong!',
+            ], 500);
+        }
+
+        if ($object->$column == 1) {
+            $object->$column = 0;
+            $object->save();
+        } else {
+            $object->$column = 1;
+            $object->save();
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => $modelName . ' status updated successfully',
+        ], 200);
     }
 
 }

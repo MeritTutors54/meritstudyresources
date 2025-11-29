@@ -185,6 +185,7 @@
 {{--<script src="{{ asset('backend/assets/vendor_components/apexcharts-bundle/dist/apexcharts.js?v=' . $v) }}"></script>--}}
 <script src="{{ asset("backend/assets/vendor_components/moment/min/moment.min.js") }}"></script>
 <script src="{{ asset('backend/assets/vendor_components/fullcalendar/fullcalendar.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- EduAdmin App -->
 <script src="{{ asset('backend/assets/js/template.js?v=' . $v) }}"></script>
