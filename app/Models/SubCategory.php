@@ -16,6 +16,7 @@ class SubCategory extends Model
         'category_id',
         'slug',
         'is_active',
+        'most_popular',
     ];
 
 

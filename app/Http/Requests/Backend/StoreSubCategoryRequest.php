@@ -22,6 +22,7 @@ class StoreSubCategoryRequest extends FormRequest
             'subcategory_name' => 'required|string|max:200',
             'category_id' => 'required|exists:categories,id',
             'is_active' => 'required|in:0,1',
+            'most_popular' => 'boolean',
         ];
     }
 
@@ -29,7 +30,8 @@ class StoreSubCategoryRequest extends FormRequest
     protected function passedValidation(): void
     {
         $this->merge([
-            'slug' => SlugService::generateSlug($this->subcategory_name ?? '')
+            'slug' => SlugService::generateSlug($this->subcategory_name ?? ''),
+            'most_popular' => $this->most_popular == 1,
         ]);
     }
 }

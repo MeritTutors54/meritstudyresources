@@ -22,6 +22,7 @@ class UpdateSubCategoryRequest extends FormRequest
             'subcategory_name' => 'required|string|max:200',
             'category_id' => 'required|exists:categories,id',
             'is_active' => 'required|in:0,1',
+            'most_popular' => 'boolean',
         ];
     }
 
