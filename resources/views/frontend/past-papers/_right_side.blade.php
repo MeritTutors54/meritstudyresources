@@ -39,10 +39,10 @@
     <div class="mt-5" id="paper-box">
         @foreach($pastPapers as $paper)
             <button class="anchor-item me-3 clickForPastPaper"
-                     data-title="{{ $paper }}"
-                     data-category="{{ $params['category']['id'] }}"
-                     data-subcategory="{{ $params['subcategory']['id'] }}"
-                     data-resubcategory="{{ $params['resubcategory']['id'] }}"
+                    data-title="{{ $paper }}"
+                    data-category="{{ $params['category']['id'] }}"
+                    data-subcategory="{{ $params['subcategory']['id'] }}"
+                    data-resubcategory="{{ $params['resubcategory']['id'] }}"
             >
                 <strong>{{ $paper }}</strong>
             </button>
@@ -103,29 +103,26 @@
             <div class="merit-menu-box" id="past-paper-accordion">
                 <div class="resources_page_right_title">
                     <h3 class="{{ !empty($params['category']) ? '' : 'mt-0' }} mb-4">All Past Paper</h3>
-
                     @if(!empty($categories))
-                        @php $countKey = 0; $lead= 0; @endphp
+                        @php
+                            $countKey = 0;
+                            $indicator = $params['category']['slug'] ?? 'a-levels';
+                        @endphp
                         @foreach($categories as $category)
                             <div class="merit-menu-item mb-3">
                                 <h2 class="merit-menu-header">
                                     <button
-                                        class="menu-button {{ $lead == 0 ? 'active' : '' }}" style="font-size: 24px"
+                                        class="menu-button {{ $indicator == $category['slug'] ? 'active' : '' }}" style="font-size: 24px"
                                         type="button" data-area-id="merit-menu-id-{{ $countKey }}">
                                         {{ strtoupper($category['category_name']) }}
                                     </button>
                                 </h2>
                                 <div id="merit-menu-id-{{ $countKey }}"
-                                     class="merit-menu-dropdown-box {{ $lead == 0 ? 'show' : '' }}">
+                                     class="merit-menu-dropdown-box {{ $indicator == $category['slug'] ? 'show' : '' }}">
                                     <div class="merit-menu-body">
                                         @if(!empty($category['subcategories']))
                                             <div class="mt-4 d-flex flex-wrap">
                                                 @foreach($category['subcategories'] as $subCategory)
-{{--                                                    <div class="anchor-item mb-5 me-5">--}}
-{{--                                                        <a href="{{ route('past.papers', [$category['slug'], $subCategory['slug']]) }}">--}}
-{{--                                                            <strong>{{ $subCategory['subcategory_name'] }}</strong>--}}
-{{--                                                        </a>--}}
-{{--                                                    </div>--}}
                                                     <a href="{{ route('past.papers', [$category['slug'], $subCategory['slug']]) }}"
                                                        class="anchor-item me-4 mb-4 py-2 px-4">
                                                         <strong>{{ $subCategory['subcategory_name'] }}</strong>
@@ -136,7 +133,7 @@
                                     </div>
                                 </div>
                             </div>
-                            @php $countKey++; $lead= 1; @endphp
+                            @php $countKey++; @endphp
                         @endforeach
                     @endif
                 </div>
