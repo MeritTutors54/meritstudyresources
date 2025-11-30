@@ -192,10 +192,23 @@ class UserDashboardController extends Controller
             ->with('plan')
             ->where('user_id', Auth::id())
             ->get()->map(function ($subscription) {
-                $timestamp = $subscription->asStripeSubscription()->current_period_end;
-                $subscription->next_billing_date = Carbon::createFromTimeStamp($timestamp)->toFormattedDateString();
+//                $timestamp = $subscription->asStripeSubscription()->current_period_end;
+//                $subscription->next_billing_date = Carbon::createFromTimeStamp($timestamp)->toFormattedDateString();
+//
+//                return $subscription;
+
+                try {
+                    $stripeSub = $subscription->asStripeSubscription();
+                    $timestamp = $stripeSub->current_period_end;
+                    $subscription->next_billing_date = Carbon::createFromTimeStamp($timestamp)
+                        ->toFormattedDateString();
+                } catch (\Exception $e) {
+                    $subscription->next_billing_date = null;
+                    $subscription->stripe_error = $e->getMessage();
+                }
 
                 return $subscription;
+
             });
 
         return view('frontend.dashboard.subscription-list')
