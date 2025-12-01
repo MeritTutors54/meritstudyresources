@@ -266,7 +266,9 @@ class AjaxController extends Controller
     {
         $pastPapers = PastPaper::query()
             ->with(['series'])
-            ->where('title', $request->title)
+            ->when($request->type !== 'all', function ($query) use ($request) {
+                $query->where('title', $request->title);
+            })
             ->where('category', $request->category_id)
             ->where('subcategory', $request->subcategory_id)
             ->where('resubcategory', $request->resubcategory_id)
@@ -279,7 +281,6 @@ class AjaxController extends Controller
             });
 
         return response()->json($pastPapers);
-
     }
 
     public function indexData()

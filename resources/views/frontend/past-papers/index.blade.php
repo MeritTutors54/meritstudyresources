@@ -61,7 +61,7 @@
         })
 
 
-        $(document).ready( function () {
+        $(document).ready(function () {
             const firstButton = $("#paper-box").find('button').first();
             firstButton.addClass('active')
             firstButton.trigger('click'); // simulates a click
@@ -77,6 +77,7 @@
             const spinner = $("#waiting-logo");
             spinner.removeClass('d-none');
 
+            const type = $(this).data('type');
             const categoryID = $(this).data('category');
             const subCategoryID = $(this).data('subcategory');
             const reSubCategoryID = $(this).data('resubcategory');
@@ -90,6 +91,7 @@
                 url: "{{ route('ajax.get.past.paper') }}",
                 data: {
                     _token: "{{ csrf_token() }}",
+                    type: type,
                     category_id: categoryID,
                     subcategory_id: subCategoryID,
                     resubcategory_id: reSubCategoryID,
@@ -107,13 +109,20 @@
                         const mainLink = '{{ asset('uploads/pastpaper') }}'
                         let paperLinks = '';
                         item.forEach((paper, i) => {
-                            const quesLink = mainLink +'/'+ paper.ques_paper ?? '#';
-                            const markLink = mainLink +'/'+ paper.ans_paper ?? '#';
+                            const quesLink = mainLink + '/' + paper.ques_paper ?? '#';
+                            const markLink = mainLink + '/' + paper.ans_paper ?? '#';
 
-                            paperLinks += '<a href="' + quesLink +'" target="_blank" class="pdf-anchor">' +
-                                '<i class="feather-file-text" style="font-size: 18px; margin-right: 3px"></i> Question</a>' +
-                                '<a href="' + markLink + '" target="_blank" class="ms-auto pdf-anchor"> ' +
-                                '<i class="feather-file-text" style="font-size: 18px; margin-right: 3px"></i> Mark Scheme</a>'
+                            if(type === "all") {
+                                paperLinks += '<div class="d-flex" style="width: 100%"><a href="' + quesLink + '" target="_blank" class="pdf-anchor">' +
+                                    '<i class="feather-file-text" style="font-size: 18px; margin-right: 3px"></i>'+ paper.title +'</a>' +
+                                    '<a href="' + markLink + '" target="_blank" class="ms-auto pdf-anchor"> ' +
+                                    '<i class="feather-file-text" style="font-size: 18px; margin-right: 3px"></i> Mark Scheme</a> </div>'
+                            } else {
+                                paperLinks += '<a href="' + quesLink + '" target="_blank" class="pdf-anchor">' +
+                                    '<i class="feather-file-text" style="font-size: 18px; margin-right: 3px"></i> Question</a>' +
+                                    '<a href="' + markLink + '" target="_blank" class="ms-auto pdf-anchor"> ' +
+                                    '<i class="feather-file-text" style="font-size: 18px; margin-right: 3px"></i> Mark Scheme</a>'
+                            }
                         });
 
                         accordionDom.append(
@@ -132,7 +141,6 @@
                             '</div> ' +
                             '</div>'
                         );
-
                         key++;
                     });
 
@@ -140,7 +148,5 @@
                 }
             })
         })
-
-
     </script>
 @endsection
