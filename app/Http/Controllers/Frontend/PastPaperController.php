@@ -135,7 +135,7 @@ class PastPaperController extends Controller
                 ->whereHas('subcategory', function ($query) use ($subcategorySlug) {
                     $query->where('slug', $subcategorySlug);
                 })
-                ->select(['id', 'resubcategory_name', 'slug', 'unit_code'])
+                ->select(['id', 'resubcategory_name', 'slug', 'unit_code', 'description'])
                 ->first()?->toArray();
         }
 

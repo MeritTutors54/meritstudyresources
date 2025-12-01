@@ -167,6 +167,21 @@
                     @enderror
                 </div>
             </div>
+
+            <div class="col-lg-12 col-12">
+                <div class="form-group">
+                    <label class="form-label" for="description">Description</label>
+                    <textarea
+                        placeholder="Type the content here!"
+                        id="editor1" name="description" rows="10"
+                        cols="80">{!! old('description', $resub_category->description ?? '') !!}</textarea>
+                    @error('description')
+                    <div class="form-control-feedback text-danger mt-1">
+                        {{ $message }}
+                    </div>
+                    @enderror
+                </div>
+            </div>
         </div>
     </div>
     <!-- /.box-body -->

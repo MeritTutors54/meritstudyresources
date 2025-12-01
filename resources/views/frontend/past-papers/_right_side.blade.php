@@ -32,7 +32,16 @@
     {{-- this section is responsible for showing title value --}}
     <div class="resources_page_right_title">
         <h3 class="">{{ $params['resubcategory']['resubcategory_name'] }}</h3>
-        <p>Recognising numerals and important early work to ensure that numbers are written correctly.</p>
+        @if(!empty($params['resubcategory']['description']))
+            <h5 class="mt-3">Description</h5>
+            <div id="descWrapper" class="desc-wrapper">
+                <div id="descText" class="desc-text">
+                    {!! $params['resubcategory']['description'] !!}
+                </div>
+
+                <button id="toggleBtn" class="see-more-btn">See more</button>
+            </div>
+        @endif
     </div>
 
 
@@ -121,7 +130,8 @@
                             <div class="merit-menu-item mb-3">
                                 <h2 class="merit-menu-header">
                                     <button
-                                        class="menu-button {{ $indicator == $category['slug'] ? 'active' : '' }}" style="font-size: 24px"
+                                        class="menu-button {{ $indicator == $category['slug'] ? 'active' : '' }}"
+                                        style="font-size: 24px"
                                         type="button" data-area-id="merit-menu-id-{{ $countKey }}">
                                         {{ strtoupper($category['category_name']) }}
                                     </button>

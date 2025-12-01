@@ -709,3 +709,37 @@ ol.progress-meter li.todo:before {
 .submenu-box {
     /*margin-bottom: 40px;*/
 }
+
+
+/*see more button div*/
+
+.desc-wrapper {
+    display: inline;
+    position: relative;
+}
+
+.desc-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;     /* SHOW ONLY 3 LINES */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 700px;          /* optional */
+}
+
+.desc-text.expanded {
+    display: block;
+    -webkit-line-clamp: unset;
+    overflow: visible;
+    text-overflow: unset;
+}
+
+.see-more-btn {
+    border: none;
+    background: none;
+    color: #339E53;
+    cursor: pointer;
+    padding: 0;
+    font-size: 14px;
+    text-decoration: underline;
+}

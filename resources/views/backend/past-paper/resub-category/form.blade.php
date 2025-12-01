@@ -63,6 +63,11 @@
             </section>
         </div>
     </div>
+@endsection
+@section('js')
+    <script src="{{ asset('backend/assets/vendor_components/ckeditor/ckeditor.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/pages/editor.js')}}"></script>
+
     <script>
         function getSubCategory(el) {
             const category_id = $("#category_id").val();
@@ -89,5 +94,13 @@
             }
 
         }
+    </script>
+
+    <script>
+        // select2.js implemented
+        $('.js-example-basic-single').select2({
+            theme: 'bootstrap-5',
+            tags: true
+        });
     </script>
 @endsection

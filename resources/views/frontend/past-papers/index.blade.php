@@ -44,6 +44,19 @@
     </div>
 @endsection
 @section('js')
+    <script>
+        document.getElementById("toggleBtn").addEventListener("click", function () {
+            const text = document.getElementById("descText");
+
+            if (text.classList.contains("expanded")) {
+                text.classList.remove("expanded");
+                this.textContent = "See more";
+            } else {
+                text.classList.add("expanded");
+                this.textContent = "See less";
+            }
+        });
+    </script>
     <!-- Fancybox JS -->
     <script>
         $(".past-paper-button").on('click', function () {

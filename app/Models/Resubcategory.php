@@ -22,6 +22,7 @@ class Resubcategory extends Model
         'exam_questions',
         'flashcards',
         'is_active',
+        'description'
     ];
 
     public function category(): BelongsTo
