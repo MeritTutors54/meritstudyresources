@@ -47,6 +47,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Title</th>
+                                            <th>Unit Code</th>
                                             <th>Series</th>
                                             <th>Category</th>
                                             <th>SubCategory</th>
@@ -141,6 +142,7 @@
                 columns: [
                     { data: 'id', name: 'id' },
                     { data: 'title', name: 'title' },
+                    { data: 'unit_code', name: 'resubcategory_model.unit_code' },
                     { data: 'series_name', name: 'series.name'},
                     { data: 'category_name', name: 'category_model.category_name'},
                     { data: 'subcategory_name', name: 'subcategory_model.subcategory_name'},

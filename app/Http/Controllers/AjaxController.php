@@ -291,6 +291,9 @@ class AjaxController extends Controller
 
         return DataTables::eloquent($allData)
             ->addIndexColumn()
+            ->addColumn('unit_code', function ($row) {
+                return $row->resubcategory_model->unit_code ?? '';
+            })
             ->addColumn('series_name', function ($row) {
                 return $row->series->name ?? '';
             })
