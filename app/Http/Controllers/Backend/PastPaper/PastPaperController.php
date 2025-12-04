@@ -62,7 +62,7 @@ class PastPaperController extends Controller
                 ->where(['is_active' => 1, 'is_deleted' => 0])
                 ->orderBy('id', 'DESC')
                 ->get();
-            pr($subcategories);
+            
         }
 
         $old_sub = old('subcategory');
