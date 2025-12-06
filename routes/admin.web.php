@@ -53,6 +53,7 @@ Route::prefix('admin')->middleware(['auth:admin', 'team.permission'])->group(fun
     |--------------------------------------------------------------------------
     */
     Route::get('/activities', [AdminActivityLogController::class, 'index'])->name('admin.activity.index');
+    Route::get('/activities/{activityLog}', [AdminActivityLogController::class, 'show'])->name('admin.activity.show');
 
     /*
     |--------------------------------------------------------------------------

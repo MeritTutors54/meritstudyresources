@@ -438,7 +438,8 @@
                                             <div class="box-header no-border px-0">
                                                 <h4 class="box-title">Activity Logs</h4>
                                                 <div class="box-controls pull-right d-md-flex d-none">
-                                                    <a href="{{ route('admin.activity.index') }}">View All Admin Activity</a>
+                                                    <a href="{{ route('admin.activity.index') }}">View All Admin
+                                                        Activity</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -446,10 +447,39 @@
                                             <div class="box-header with-border">
                                                 <h4 class="box-title">Latest 7 log records</h4>
                                                 <div class="box-controls pull-right">
-                                                    <a href="{{ route('admin.activity.index', ['admin_id' => \Illuminate\Support\Facades\Auth::guard('admin')->id()]) }}">View More</a>
+                                                    <a href="{{ route('admin.activity.index', ['admin_id' => \Illuminate\Support\Facades\Auth::guard('admin')->id()]) }}">View
+                                                        More</a>
                                                 </div>
                                             </div>
                                             <!-- /.box-header -->
+                                            <style>
+                                                .description-cell {
+                                                    position: relative;
+                                                    max-width: 300px; /* optional */
+                                                }
+
+                                                .text-wrapper {
+                                                    display: -webkit-box;
+                                                    -webkit-line-clamp: 3; /* show only 3 lines */
+                                                    -webkit-box-orient: vertical;
+                                                    overflow: hidden;
+                                                }
+
+                                                .text-wrapper.expanded {
+                                                    -webkit-line-clamp: unset; /* show full text */
+                                                }
+
+                                                .show-more-btn {
+                                                    margin-top: 5px;
+                                                    background: #3498db;
+                                                    color: #fff;
+                                                    border: none;
+                                                    padding: 4px 8px;
+                                                    border-radius: 4px;
+                                                    cursor: pointer;
+                                                }
+
+                                            </style>
                                             <div class="box-body no-padding">
                                                 <div class="table-responsive">
                                                     <table class="table table-hover">
@@ -458,15 +488,18 @@
                                                             <th>Model</th>
                                                             <th>Action</th>
                                                             <th>Created At</th>
-                                                            <th>New Value</th>
-                                                            <th>Old Value</th>
+{{--                                                            <th>New Value</th>--}}
+{{--                                                            <th>Old Value</th>--}}
+                                                            <th></th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
                                                         @if($activityLogs->isNotEmpty())
                                                             @foreach($activityLogs as $log)
                                                                 <tr>
-                                                                    <td>{{ $log->model_type }}</td>
+                                                                    <td>
+                                                                       {{$log->model_type }}
+                                                                    </td>
                                                                     <td>
                                                                         @if($log->action == 'created')
                                                                             <span
@@ -480,37 +513,102 @@
                                                                         @endif
                                                                     </td>
                                                                     <td>{{ $log->created_at->format('d/m/Y H:i a' ) }}</td>
+{{--                                                                    <td>--}}
+{{--                                                                        @if(!empty($log->new_data))--}}
+{{--                                                                            <ul class="mt-2 text-sm">--}}
+{{--                                                                                @foreach ($log->new_data as $field => $value)--}}
+{{--                                                                                    <li>--}}
+{{--                                                                                        <strong>{{ ucfirst($field) }}--}}
+{{--                                                                                            :</strong>--}}
+{{--                                                                                        {{ is_array($value) ? json_encode($value) : $value }}--}}
+{{--                                                                                    </li>--}}
+{{--                                                                                @endforeach--}}
+{{--                                                                            </ul>--}}
+{{--                                                                        @endif--}}
+{{--                                                                    </td>--}}
+{{--                                                                    <td>--}}
+{{--                                                                        @if(!empty($log->old_data))--}}
+{{--                                                                            <ul class="mt-2 text-sm">--}}
+{{--                                                                                @foreach ($log->old_data as $field => $value)--}}
+{{--                                                                                    <li>--}}
+{{--                                                                                        <strong>{{ ucfirst($field) }}--}}
+{{--                                                                                            :</strong>--}}
+{{--                                                                                        {{ is_array($value) ? json_encode($value) : $value }}--}}
+{{--                                                                                    </li>--}}
+{{--                                                                                @endforeach--}}
+{{--                                                                            </ul>--}}
+{{--                                                                        @endif--}}
+{{--                                                                    </td>--}}
                                                                     <td>
-                                                                        @if(!empty($log->new_data))
-                                                                            <ul class="mt-2 text-sm">
-                                                                                @foreach ($log->new_data as $field => $value)
-                                                                                    <li>
-                                                                                        <strong>{{ ucfirst($field) }}
-                                                                                            :</strong>
-                                                                                        {{ is_array($value) ? json_encode($value) : $value }}
-                                                                                    </li>
-                                                                                @endforeach
-                                                                            </ul>
-                                                                        @endif
-                                                                    </td>
-                                                                    <td>
-                                                                        @if(!empty($log->old_data))
-                                                                            <ul class="mt-2 text-sm">
-                                                                                @foreach ($log->old_data as $field => $value)
-                                                                                    <li>
-                                                                                        <strong>{{ ucfirst($field) }}
-                                                                                            :</strong>
-                                                                                        {{ is_array($value) ? json_encode($value) : $value }}
-                                                                                    </li>
-                                                                                @endforeach
-                                                                            </ul>
-                                                                        @endif
+                                                                        <a href="{{ route('admin.activity.show', [$log]) }}">See More...</a>
                                                                     </td>
                                                                 </tr>
                                                             @endforeach
                                                         @endif
+
                                                         </tbody>
                                                     </table>
+
+
+{{--                                                    <table class="table table-hover">--}}
+{{--                                                        <thead>--}}
+{{--                                                        <tr>--}}
+{{--                                                            <th>Model</th>--}}
+{{--                                                            <th>Action</th>--}}
+{{--                                                            <th>Created At</th>--}}
+{{--                                                            <th>New Value</th>--}}
+{{--                                                            <th>Old Value</th>--}}
+{{--                                                        </tr>--}}
+{{--                                                        </thead>--}}
+{{--                                                        <tbody>--}}
+{{--                                                        @if($activityLogs->isNotEmpty())--}}
+{{--                                                            @foreach($activityLogs as $log)--}}
+{{--                                                                <tr>--}}
+{{--                                                                    <td>{{ $log->model_type }}</td>--}}
+{{--                                                                    <td>--}}
+{{--                                                                        @if($log->action == 'created')--}}
+{{--                                                                            <span--}}
+{{--                                                                                class="badge badge-primary">{{ ucfirst($log->action) }}</span>--}}
+{{--                                                                        @elseif($log->action == 'updated')--}}
+{{--                                                                            <span--}}
+{{--                                                                                class="badge badge-success">{{ ucfirst($log->action) }}</span>--}}
+{{--                                                                        @else--}}
+{{--                                                                            <span--}}
+{{--                                                                                class="badge badge-danger">{{ ucfirst($log->action) }}</span>--}}
+{{--                                                                        @endif--}}
+{{--                                                                    </td>--}}
+{{--                                                                    <td>{{ $log->created_at->format('d/m/Y H:i a' ) }}</td>--}}
+{{--                                                                    <td>--}}
+{{--                                                                        @if(!empty($log->new_data))--}}
+{{--                                                                            <ul class="mt-2 text-sm">--}}
+{{--                                                                                @foreach ($log->new_data as $field => $value)--}}
+{{--                                                                                    <li>--}}
+{{--                                                                                        <strong>{{ ucfirst($field) }}--}}
+{{--                                                                                            :</strong>--}}
+{{--                                                                                        {{ is_array($value) ? json_encode($value) : $value }}--}}
+{{--                                                                                    </li>--}}
+{{--                                                                                @endforeach--}}
+{{--                                                                            </ul>--}}
+{{--                                                                        @endif--}}
+{{--                                                                    </td>--}}
+{{--                                                                    <td>--}}
+{{--                                                                        @if(!empty($log->old_data))--}}
+{{--                                                                            <ul class="mt-2 text-sm">--}}
+{{--                                                                                @foreach ($log->old_data as $field => $value)--}}
+{{--                                                                                    <li>--}}
+{{--                                                                                        <strong>{{ ucfirst($field) }}--}}
+{{--                                                                                            :</strong>--}}
+{{--                                                                                        {{ is_array($value) ? json_encode($value) : $value }}--}}
+{{--                                                                                    </li>--}}
+{{--                                                                                @endforeach--}}
+{{--                                                                            </ul>--}}
+{{--                                                                        @endif--}}
+{{--                                                                    </td>--}}
+{{--                                                                </tr>--}}
+{{--                                                            @endforeach--}}
+{{--                                                        @endif--}}
+{{--                                                        </tbody>--}}
+{{--                                                    </table>--}}
                                                 </div>
                                             </div>
                                             <!-- /.box-body -->
@@ -527,4 +625,45 @@
         </div>
     </div>
     <!-- /.content-wrapper -->
+@endsection
+@section('js')
+    <script>
+        document.querySelectorAll('.show-more-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const wrapper = this.previousElementSibling;
+                wrapper.classList.toggle('expanded');
+
+                this.textContent = wrapper.classList.contains('expanded')
+                    ? 'Show Less'
+                    : 'Show More';
+            });
+        });
+
+
+        document.querySelectorAll('.content-cell').forEach(cell => {
+            let fullText = cell.getAttribute('data-full');
+            cell.querySelector('.short').textContent = fullText.length > 20 ? fullText.substring(0, 20) + "..." : fullText;
+        });
+
+        document.querySelectorAll('.see-more-btn').forEach((btn, index) => {
+            btn.addEventListener('click', function () {
+
+                const row = this.closest('tr');
+                const cell = row.querySelector('.content-cell');
+                const shortEl = cell.querySelector('.short');
+                const fullText = cell.getAttribute('data-full');
+
+                // Toggle between short & full
+                if (shortEl.textContent === fullText) {
+                    shortEl.textContent = fullText.substring(0, 20) + "...";
+                    this.textContent = "See More";
+                } else {
+                    shortEl.textContent = fullText;
+                    this.textContent = "Show Less";
+                }
+            });
+        });
+
+
+    </script>
 @endsection

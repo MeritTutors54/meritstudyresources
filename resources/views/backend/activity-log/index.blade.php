@@ -55,11 +55,12 @@
                                         <thead>
                                         <tr>
                                             <th>Admin Name</th>
-                                            <th class="text-center">Model Name</th>
+                                            <th class="">Model Name</th>
                                             <th class="text-center">Action</th>
                                             <th class="text-center">Date & Time</th>
-                                            <th class="text-center">Old Data</th>
-                                            <th class="text-center">New Data</th>
+                                            <th></th>
+{{--                                            <th class="text-center">Old Data</th>--}}
+{{--                                            <th class="text-center">New Data</th>--}}
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -70,8 +71,8 @@
                                                             {{ $log->name }}
                                                         </strong>
                                                     </td>
-                                                    <td>{{ $log->model_type }}</td>
-                                                    <td>
+                                                    <td class="">{{ $log->model_type }}</td>
+                                                    <td class="text-center">
                                                         @if($log->action == 'created')
                                                             <span
                                                                 class="badge badge-primary">{{ ucfirst($log->action) }}</span>
@@ -83,31 +84,34 @@
                                                                 class="badge badge-danger">{{ ucfirst($log->action) }}</span>
                                                         @endif
                                                     </td>
-                                                    <td>{{ $log->created_at->format('d/m/Y H:i a' ) }}</td>
+                                                    <td class="text-center">{{ $log->created_at->format('d/m/Y H:i a' ) }}</td>
                                                     <td>
-                                                        @if(!empty($log->new_data))
-                                                            <ul class="mt-2 text-sm">
-                                                                @foreach ($log->new_data as $field => $value)
-                                                                    <li>
-                                                                        <strong>{{ ucfirst($field) }}:</strong>
-                                                                        {{ is_array($value) ? json_encode($value) : $value }}
-                                                                    </li>
-                                                                @endforeach
-                                                            </ul>
-                                                        @endif
+                                                        <a href="{{ route('admin.activity.show', [$log]) }}">See More...</a>
                                                     </td>
-                                                    <td>
-                                                        @if(!empty($log->old_data))
-                                                            <ul class="mt-2 text-sm">
-                                                                @foreach ($log->old_data as $field => $value)
-                                                                    <li>
-                                                                        <strong>{{ ucfirst($field) }}:</strong>
-                                                                        {{ is_array($value) ? json_encode($value) : $value }}
-                                                                    </li>
-                                                                @endforeach
-                                                            </ul>
-                                                        @endif
-                                                    </td>
+{{--                                                    <td>--}}
+{{--                                                        @if(!empty($log->new_data))--}}
+{{--                                                            <ul class="mt-2 text-sm">--}}
+{{--                                                                @foreach ($log->new_data as $field => $value)--}}
+{{--                                                                    <li>--}}
+{{--                                                                        <strong>{{ ucfirst($field) }}:</strong>--}}
+{{--                                                                        {{ is_array($value) ? json_encode($value) : $value }}--}}
+{{--                                                                    </li>--}}
+{{--                                                                @endforeach--}}
+{{--                                                            </ul>--}}
+{{--                                                        @endif--}}
+{{--                                                    </td>--}}
+{{--                                                    <td>--}}
+{{--                                                        @if(!empty($log->old_data))--}}
+{{--                                                            <ul class="mt-2 text-sm">--}}
+{{--                                                                @foreach ($log->old_data as $field => $value)--}}
+{{--                                                                    <li>--}}
+{{--                                                                        <strong>{{ ucfirst($field) }}:</strong>--}}
+{{--                                                                        {{ is_array($value) ? json_encode($value) : $value }}--}}
+{{--                                                                    </li>--}}
+{{--                                                                @endforeach--}}
+{{--                                                            </ul>--}}
+{{--                                                        @endif--}}
+{{--                                                    </td>--}}
                                                 </tr>
                                             @endforeach
                                         @endif
