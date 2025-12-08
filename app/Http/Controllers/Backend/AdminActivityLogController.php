@@ -20,30 +20,31 @@ class AdminActivityLogController extends Controller
             ->where('status', Status::ACTIVE->value)
             ->get();
 
-        $activityLogs = AdminActivity::getActivityLogs($q);
 
         return view('backend.activity-log.index')
             ->with([
                 'q' => $q,
                 'admins' => $admins,
-                'activityLogs' => $activityLogs
             ]);
     }
 
     public function show(AdminActivityLog $activityLog): View
     {
         $modelName = AdminActivity::splitStudlyCaseToWords($activityLog->model_type);
-        $old = json_decode($activityLog->old_data, true);
-        $new = json_decode($activityLog->new_data, true);
+        $old = $this->excludeUnwanted(json_decode($activityLog->old_data, true));
+        $new = $this->excludeUnwanted(json_decode($activityLog->new_data, true));
 
         $diffStuff = [];
 
-        foreach ($new as $key => $value) {
-            if (!array_key_exists($key, $old) || $old[$key] !== $value) {
-                $diffStuff[$key] = [
-                    'old' => $old[$key] ?? null,
-                    'new' => $value
-                ];
+
+        if (!empty($new) && !empty($old)) {
+            foreach ($new as $key => $value) {
+                if (!array_key_exists($key, $old) || $old[$key] !== $value) {
+                    $diffStuff[$key] = [
+                        'old' => $old[$key] ?? null,
+                        'new' => $value
+                    ];
+                }
             }
         }
 
@@ -55,5 +56,18 @@ class AdminActivityLogController extends Controller
                 'new' => $new,
                 'diffStuff' => $diffStuff
             ]);
+    }
+
+    public function excludeUnwanted($object)
+    {
+        $excludeKeys = ['created_at', 'updated_at', 'deleted_at'];
+
+        if (!empty($object)) {
+            foreach ($excludeKeys as $key) {
+                unset($object[$key]);
+            }
+        }
+
+        return $object;
     }
 }

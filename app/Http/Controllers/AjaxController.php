@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Activity;
 use App\Enums\Status;
 use App\Enums\SubscriptionType;
 use App\Enums\UserType;
 use App\Http\Controllers\Auth\LoginController;
+use App\Models\AdminActivityLog;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\PastPaper;
@@ -13,6 +15,7 @@ use App\Models\Resubcategory;
 use App\Models\SubCategory;
 use App\Models\Subject;
 use App\Models\SubscriptionPlan;
+use App\Operations\Backend\AdminActivity;
 use App\Operations\Backend\CartActivity;
 use App\Operations\Frontend\CouponActivity;
 use App\Services\MoneyService;
@@ -355,6 +358,45 @@ class AjaxController extends Controller
             'success' => true,
             'message' => $modelName . ' status updated successfully',
         ], 200);
+    }
+
+    public function getAllActivityLog(Request $request)
+    {
+        $q = $request->query('admin_id') ?? null;
+
+        $result = AdminActivityLog::query()
+            ->with('admin')
+            ->orderBy('id', 'DESC');
+
+        if (!empty($q)) {
+            $result->where('admin_id', $q);
+        }
+
+        return DataTables::eloquent($result)
+            ->addIndexColumn()
+            ->addColumn('admin_name', function ($row) {
+                return $row->admin->name ?? '';
+            })
+            ->addColumn('model_name', function ($row) {
+                return AdminActivity::splitStudlyCaseToWords($row->model_type);
+            })
+            ->addColumn('action_badge', function ($row) {
+                if ($row->action === strtolower(Activity::CREATED->name)) {
+                    return '<span class="btn-sm btn-success">'. Activity::CREATED->name .'</span>';
+                } else if ($row->action === strtolower(Activity::DELETED->name)) {
+                    return '<span class="btn-sm btn-danger">'. Activity::DELETED->name .'</span>';
+                }
+                return '<span class="btn-sm btn-warning">'. Activity::UPDATE->name .'</span>';
+            })
+            ->addColumn('date_time', function ($row) {
+                return $row->created_at->format('Y-m-d H:i:s') ?? '';
+            })
+            ->addColumn('more', function ($row) {
+                $route = route('admin.activity.show', [$row]);
+                return '<a href="'.$route.'">See More...</a>';
+            })
+            ->rawColumns(['action_badge', 'more'])
+            ->make(true);
     }
 
 }

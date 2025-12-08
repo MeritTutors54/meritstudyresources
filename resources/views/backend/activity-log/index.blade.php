@@ -51,9 +51,10 @@
                             </div>
                             <div class="box-body">
                                 <div class="table-responsive">
-                                    <table id="example1" class="table table-bordered table-striped">
+                                    <table id="activity-table" class="table table-bordered table-striped">
                                         <thead>
                                         <tr>
+                                            <th>Sl</th>
                                             <th>Admin Name</th>
                                             <th class="">Model Name</th>
                                             <th class="text-center">Action</th>
@@ -64,30 +65,30 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @if($activityLogs->isNotEmpty())
-                                            @foreach($activityLogs as $log)
-                                                <tr>
-                                                    <td><strong>
-                                                            {{ $log->name }}
-                                                        </strong>
-                                                    </td>
-                                                    <td class="">{{ $log->model_type }}</td>
-                                                    <td class="text-center">
-                                                        @if($log->action == 'created')
-                                                            <span
-                                                                class="badge badge-primary">{{ ucfirst($log->action) }}</span>
-                                                        @elseif($log->action == 'updated')
-                                                            <span
-                                                                class="badge badge-success">{{ ucfirst($log->action) }}</span>
-                                                        @else
-                                                            <span
-                                                                class="badge badge-danger">{{ ucfirst($log->action) }}</span>
-                                                        @endif
-                                                    </td>
-                                                    <td class="text-center">{{ $log->created_at->format('d/m/Y H:i a' ) }}</td>
-                                                    <td>
-                                                        <a href="{{ route('admin.activity.show', [$log]) }}">See More...</a>
-                                                    </td>
+{{--                                        @if($activityLogs->isNotEmpty())--}}
+{{--                                            @foreach($activityLogs as $log)--}}
+{{--                                                <tr>--}}
+{{--                                                    <td><strong>--}}
+{{--                                                            {{ $log->name }}--}}
+{{--                                                        </strong>--}}
+{{--                                                    </td>--}}
+{{--                                                    <td class="">{{ $log->model_type }}</td>--}}
+{{--                                                    <td class="text-center">--}}
+{{--                                                        @if($log->action == 'created')--}}
+{{--                                                            <span--}}
+{{--                                                                class="badge badge-primary">{{ ucfirst($log->action) }}</span>--}}
+{{--                                                        @elseif($log->action == 'updated')--}}
+{{--                                                            <span--}}
+{{--                                                                class="badge badge-success">{{ ucfirst($log->action) }}</span>--}}
+{{--                                                        @else--}}
+{{--                                                            <span--}}
+{{--                                                                class="badge badge-danger">{{ ucfirst($log->action) }}</span>--}}
+{{--                                                        @endif--}}
+{{--                                                    </td>--}}
+{{--                                                    <td class="text-center">{{ $log->created_at->format('d/m/Y H:i a' ) }}</td>--}}
+{{--                                                    <td>--}}
+{{--                                                        <a href="{{ route('admin.activity.show', [$log]) }}">See More...</a>--}}
+{{--                                                    </td>--}}
 {{--                                                    <td>--}}
 {{--                                                        @if(!empty($log->new_data))--}}
 {{--                                                            <ul class="mt-2 text-sm">--}}
@@ -112,9 +113,9 @@
 {{--                                                            </ul>--}}
 {{--                                                        @endif--}}
 {{--                                                    </td>--}}
-                                                </tr>
-                                            @endforeach
-                                        @endif
+{{--                                                </tr>--}}
+{{--                                            @endforeach--}}
+{{--                                        @endif--}}
                                         </tbody>
                                     </table>
                                 </div>
@@ -131,6 +132,28 @@
     <script src="{{ asset('backend/assets/vendor_components/datatable/datatables.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/pages/data-table.js') }}"></script>
     <script>
+        $(document).ready(function() {
+            $('#activity-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route("admin.ajax.getAllActivityLog", ['admin_id' => $q]) }}',
+                columns: [
+                    { data: 'id', name: 'id' },
+                    { data: 'admin_name', name: 'admin.name' },
+                    { data: 'model_name', name: 'model_type' },
+                    { data: 'action_badge', name: 'action' },
+                    { data: 'date_time', name: 'created_at'},
+                    { data: 'more', searchable: false}
+                ],
+                columnDefs: [
+                    { className: "text-center", targets: [3] },
+                    { className: "text-center", targets: [4] },
+                    { className: "text-center", targets: [5] }
+                ]
+            });
+        });
+
+
         $("#admin-filter").on('change', function () {
             let value = $(this).val();
             if (value !== "") {

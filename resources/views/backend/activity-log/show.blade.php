@@ -30,67 +30,71 @@
                             @include('layouts.backend.notification')
                             <div class="box-header with-border">
                                 <div class="d-flex gap-3">
-                                    <a style="font-size: 20px" href="{{ route('admin.activity.index') }}"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+                                    <a style="font-size: 20px" href="{{ route('admin.activity.index') }}"><i
+                                            class="fa fa-arrow-left" aria-hidden="true"></i></a>
                                     <h3 class="box-title">{{$log->id}}. {{ $model }} Activity</h3>
                                 </div>
                             </div>
                             <div class="box-body">
                                 <div>
-                                    <h4>Action Completed By: {{ $log->admin->name }}</h4>
+                                    <h4>Action:
+                                        @if($log->action === strtolower(\App\Enums\Activity::CREATED->name))
+                                            <span
+                                                class="badge badge-primary">{{ \App\Enums\Activity::CREATED->name }}</span>
+                                        @elseif($log->action === strtolower(\App\Enums\Activity::DELETED->name))
+                                            <span
+                                                class="badge badge-danger">{{ \App\Enums\Activity::DELETED->name }}</span>
+                                        @else
+                                            <span
+                                                class="badge badge-warning">{{ \App\Enums\Activity::UPDATE->name }}</span>
+                                        @endif
+                                        <span class="badge badge-secondary">{{ $log->admin->name }}</span></h4>
                                 </div>
-                                <div>
-                                    <h4>Action: {{ $log->action }}</h4>
-                                </div>
-                                {{--                                <div class="d-flex align-items-center gap-5">--}}
-                                {{--                                    <div>--}}
-                                {{--                                        <h4>Old Data:</h4>--}}
-                                {{--                                        @foreach ($old as $field => $value)--}}
-                                {{--                                            @if (is_array($value))--}}
-                                {{--                                                <pre><strong>{{ $field }} : </strong> {{ json_encode($value, JSON_PRETTY_PRINT) }}</pre>--}}
-                                {{--                                            @else--}}
-                                {{--                                                <p class="m-0"><strong>{{ $field }} : </strong> {{ $value }}</p>--}}
-                                {{--                                            @endif--}}
-                                {{--                                        @endforeach--}}
-                                {{--                                    </div>--}}
-                                {{--                                    <div>--}}
-                                {{--                                        <h4>New Data:</h4>--}}
+                                <hr>
+                                <style>
+                                    .strike-through {
+                                        text-decoration: line-through;
+                                        color: #777777;
+                                    }
 
-                                {{--                                        @foreach ($new as $field => $value)--}}
-                                {{--                                            @if (is_array($value))--}}
-                                {{--                                                <pre><strong>{{ $field }} : </strong> {{ json_encode($value, JSON_PRETTY_PRINT) }}</pre>--}}
-                                {{--                                            @else--}}
-                                {{--                                                <p class="m-0"><strong>{{ $field }} : </strong> {{ $value }}</p>--}}
-                                {{--                                            @endif--}}
-                                {{--                                        @endforeach--}}
-                                {{--                                    </div>--}}
+                                    .update-section {
+                                        border: 1px solid #d3d3d3;
+                                        padding: 1px 5px;
+                                        border-radius: 4px;
+                                        margin-bottom: 5px;
+                                    }
+                                </style>
                                 <div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <h4>Old</h4>
-                                        </div>
-                                        <div class="col-6">
-                                            <h4>New</h4>
-                                        </div>
-                                    </div>
-                                    @foreach ($diffStuff as $field => $value)
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <p class="m-0"><strong>{{ $field }}
-                                                        : </strong> {{ $value['old'] ?? "n/a" }}</p>
+                                    <h4>Details:</h4>
+                                    @if($diffStuff)
+                                        @foreach ($diffStuff as $field => $value)
+                                            <div>
+                                                <p class="mb-2">
+                                                    <strong>{{ $field }}: </strong>
+                                                    <span class="strike-through">{{ $value['old'] ?? "n/a" }}</span>
+                                                    <span class="update-section">{{ $value['new'] ?? "n/a" }}</span>
+                                                </p>
                                             </div>
-                                            <div class="col-6">
-                                                <p class="m-0"><strong>{{ $field }}
-                                                        : </strong> {{ $value['new'] ?? 'n/a' }}</p>
-                                            </div>
-                                        </div>
-                                    @endforeach
                                 </div>
+                                @endforeach
+                                @else
+                                    @if($old)
+                                        @foreach($old as $key => $value)
+                                            <p class="m-0"><strong>{{ $key }}: </strong> {{ $value }}</p>
+                                        @endforeach
+                                    @endif
+                                    @if($new)
+                                        @foreach($new as $key => $value)
+                                            <p class="m-0"><strong>{{ $key }}: </strong> {{ $value }}</p>
+                                        @endforeach
+                                    @endif
+                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
-        </div>
+        </section>
+    </div>
     </div>
 
 @endsection
