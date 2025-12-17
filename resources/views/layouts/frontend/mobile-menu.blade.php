@@ -46,6 +46,9 @@
                 <li>
                     <a href="{{ route('past.papers') }}">Past Papers</a>
                 </li>
+                  <li>
+                    <a href="{{ route('blogs') }}">Blogs</a>
+                </li>
 
 {{--                <li class="has-dropdown has-menu-child-item">--}}
 {{--                    <a href="#">All Resources</a>--}}

@@ -96,7 +96,6 @@
                                     </li>
                                 @endif
 
-
 {{--                                @can('viewResourcesSection', Auth::user())--}}
 {{--                                    <li class="has-custom-submenu">--}}
 {{--                                        <a href="#">Resources--}}
@@ -157,7 +156,6 @@
                                 </a>
                             </div>
                         @endcan
-
                         <div class="rbt-btn-wrapper d-none d-xl-block">
                             <a href="{{ route('user.dashboard') }}" class="btn-style">Dashboard</a>
                         </div>
