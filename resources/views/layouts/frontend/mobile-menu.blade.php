@@ -6,7 +6,7 @@
             <div class="content">
                 <div class="logo">
                     <a href="{{ route('home') }}">
-                        <img src="{{ asset('frontend/assets/images/merithub/logo.png') }}" alt="Education Logo Images">
+                        <img src="{{ asset(\Illuminate\Support\Facades\Storage::url($settings->site_logo)) }}" alt="Education Logo Images">
                     </a>
                 </div>
                 <div class="rbt-btn-close">
@@ -24,7 +24,7 @@
                 <li>
                     <a href="{{ route('about-us') }}">About us</a>
                 </li>
-
+             {{--
                 <li>
                     <a href="{{ route('products') }}">Products</a>
                 </li>
@@ -41,6 +41,8 @@
                         <a href="{{ route('pricing') }}">Pricing</a>
                     </li>
                 @endguest
+
+                --}}
                 <li>
                     <a href="{{ route('past.papers') }}">Past Papers</a>
                 </li>
