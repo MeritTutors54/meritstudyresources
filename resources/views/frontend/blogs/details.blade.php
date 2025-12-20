@@ -9,6 +9,33 @@
         .rbt-page-banner-wrapper {
             padding: 60px 0px 35px;
         }
+
+         .h1 {
+    font-size: 34px !important;
+
+}
+
+        h2 {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+        h3{
+    font-size: 18px;
+    font-weight: 700;
+
+}
+.anchor-tag {
+    border: 1px solid #247E3D;
+    color: #247E3D;
+    border-radius: 13px;
+    padding: 0px 22px;
+    inline-size: max-content;
+    margin-top: 17px;
+    margin-bottom: 17px;
+    transition: 0.2s;
+}
+
     </style>
     <div class="rbt-page-banner-wrapper">
         <!-- Start Banner BG Image  -->
@@ -73,7 +100,7 @@
                                         {{-- <li><a href="#">Exams</a></li> --}}
 
                                     </ul>
-                                    <h3>{{ $blog->title }} </h3>
+                                    <h1 style="font-size:33px">{{ $blog->title }} </h1>
                                     <p><img src="{{ asset('frontend/calender.png') }}"
                                             alt=""> {{ $blog->created_at->format('F j, Y') }}</p>
                                 </div>
@@ -130,9 +157,9 @@
                                     <div class="blog_details_right_single_title"><p>Tags</p></div>
                                     <div class="blog_details_right_single_contents">
                                         @if($blog->tags()->count() > 0)
-                                            <div class="d-flex">
+                                            <div class="">
                                                 @foreach($blog->tags as $tag)
-                                                    <a class="anchor-tag" href="{{ route('blogs', ['p' => $tag->slug]) }}">{{ $tag->name }}</a>
+                                                    <a class="anchor-tag" href="{{ route('blogs', ['p' => $tag->slug]) }}">{{ $tag->name }}</a><br>
                                                 @endforeach
                                             </div>
                                         @endif

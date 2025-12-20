@@ -12,6 +12,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
      <link rel="canonical" href="{{ url()->current() }}">
 
+
+
+
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:title" content="Merit Study Resources | Free GCSE, IGCSE & A-Level Past Papers & Revision Notes">
+  <meta property="og:description" content="Boost your exam results with Merit Study Resources! Access free GCSE, IGCSE, and A-Level past papers, revision notes, and worksheets instantly.">
+  <meta property="og:url" content="https://meritstudyresources.co.uk/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Merit Study Resources">
+  <meta property="og:image" content="https://meritstudyresources.co.uk/storage/site/1762926347-Logo_MSR.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Merit Study Resources | Free GCSE, IGCSE & A-Level Past Papers & Revision Notes">
+  <meta name="twitter:description" content="Boost your exam results with Merit Study Resources! Access free GCSE, IGCSE, and A-Level past papers, revision notes, and worksheets instantly.">
+  <meta name="twitter:image" content="https://meritstudyresources.co.uk/storage/site/1762926347-Logo_MSR.png">
+  <meta name="twitter:site" content="@MeritstudyR">
+  <meta name="twitter:creator" content="@MeritstudyR">
+
+
     <!-- Favicon -->
     @if(isset($settings) && !empty($settings->site_favicon))
         <link rel="icon" href="{{ asset(\Illuminate\Support\Facades\Storage::url($settings->site_favicon)) }}">
