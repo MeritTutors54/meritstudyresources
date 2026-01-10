@@ -12,6 +12,7 @@
         <link rel="icon" href="{{ asset('backend/assets/images/favicon.ico?v=' . $v) }}">
     @endif
     <title>Admin - Dashboard</title>
+    <link rel="stylesheet" href="{{asset('backend')}}/assets/datatabels/dataTables.min.css">
 
     <!-- Vendors Style-->
     <link rel="stylesheet" href="{{ asset('backend/assets/css/vendors_css.css?v=' . $v) }}">
@@ -186,6 +187,11 @@
 <script src="{{ asset("backend/assets/vendor_components/moment/min/moment.min.js") }}"></script>
 <script src="{{ asset('backend/assets/vendor_components/fullcalendar/fullcalendar.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{{--  --}}
+
+	<script src="{{asset('backend')}}/assets/datatabels/dataTables.min.js"></script>
+	<script src="{{asset('backend')}}/assets/datatabels/dataTables-active.js"></script>
 
 <!-- EduAdmin App -->
 <script src="{{ asset('backend/assets/js/template.js?v=' . $v) }}"></script>
