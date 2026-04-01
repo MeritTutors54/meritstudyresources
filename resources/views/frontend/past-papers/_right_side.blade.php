@@ -31,7 +31,7 @@
 @if(!empty($pastPapers))
     {{-- this section is responsible for showing title value --}}
     <div class="resources_page_right_title">
-        <h3 class="">{{ $params['resubcategory']['resubcategory_name'] }}</h3>
+        <h1 class="" style="font-size:23px">{{ $params['resubcategory']['resubcategory_name'] }}</h1>
         @if(!empty($params['resubcategory']['description']))
             <h5 class="mt-3">Description</h5>
             <div id="descWrapper" class="desc-wrapper">
@@ -104,7 +104,7 @@
         {{-- this section is responsible for showing all subcategory value --}}
         @if(!empty($params['category']) && !empty($params['subcategory']))
             @if(!empty($resubcategories))
-                <h4 class="mt-3">{{ $params['subcategory']['subcategory_name'] }}</h4>
+                <h1 class="mt-3" style="font-size:30px">{{ $params['subcategory']['subcategory_name'] }}</h1>
                 <div class="mt-4">
                     @foreach($resubcategories as $resub)
                         @if($resub['is_active'] == 1)
@@ -120,7 +120,7 @@
             {{-- this section is responsible for showing All Category in a acordion view --}}
             <div class="merit-menu-box" id="past-paper-accordion">
                 <div class="resources_page_right_title">
-                    <h3 class="{{ !empty($params['category']) ? '' : 'mt-0' }} mb-4">All Past Paper</h3>
+                    <h1 class="{{ !empty($params['category']) ? '' : 'mt-0' }} mb-4">All Past Paper</h1>
                     @if(!empty($categories))
                         @php
                             $countKey = 0;

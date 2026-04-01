@@ -33,7 +33,7 @@
                 <div class="col-lg-8">
                     <div class="rbt-accordion-style accordion">
                         <div class="section-title text-start mb--60 text-center">
-                            <h4 class="title">Merit Hub Frequently Asked Question</h4>
+                            <h1 class="title">Merit Study Resources Frequently Asked Question</h1>
                         </div>
                         <div class="rbt-accordion-style rbt-accordion-04 accordion">
                             <div class="accordion" id="faqs-accordionExamplec3">

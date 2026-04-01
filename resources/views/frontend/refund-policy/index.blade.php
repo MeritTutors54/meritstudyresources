@@ -1,7 +1,9 @@
 
-@extends('layouts.frontend',['main_title' => $defaultSEO->meta_title ?? 'Return Policies - MeritStudyResources.co.uk' ])
+@extends('layouts.frontend', [
+    'main_title' => (optional($defaultSEO)->meta_title ?? 'Return Policies - MeritStudyResources.co.uk') . ' Refund'
+])
 @section('page-seo')
-    <meta name="description" content="{{ $defaultSEO->meta_description ?? '' }}">
+    <meta name="description" content="Refund Policy ,{{ $defaultSEO->meta_description ?? '' }}">
     <meta name="keywords" content="{{ $defaultSEO->meta_keywords ?? '' }}">
     <meta name="author" content="{{ $defaultSEO->meta_author ?? '' }}">
 @endsection

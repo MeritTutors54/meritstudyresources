@@ -12,9 +12,9 @@
             <div class="col-lg-12">
                 <div class="section-title text-center mb--60">
                     <span class="subtitle bg-secondary-opacity">Contact Us</span>
-                    <h2 class="title">
-                        {{ $settings->name ?? '' }}
-                    </h2>
+                    <h1 class="title">
+                        Contact with {{ $settings->name ?? '' }}
+                    </h1>
                 </div>
             </div>
         </div>

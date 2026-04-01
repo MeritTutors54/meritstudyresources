@@ -43,7 +43,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="content">
-                        <h2 class="title mt--10 mb--10">{{ $product->name }}</h2>
+                        <h1 class="title mt--10 mb--10" style="font-size:30px">{{ $product->name }}</h1>
                         <span class="rbt-label-style description">By: MeritTutor</span>
 
                         @if(!empty($product->mirror_discount))

@@ -1,4 +1,6 @@
-@extends('layouts.frontend', ['main_title' => 'Single Blog - MeritStudyResources.co.uk' ])
+@extends('layouts.frontend', [
+    'main_title' => $blog->title ?? 'Single Blog - MeritStudyResources.co.uk'
+])
 @section('page-seo')
     <meta name="description" content="{{ $seo['meta_description'] ?? '' }}">
     <meta name="keywords" content="{{ $seo['meta_keywords'] ?? '' }}">
@@ -37,6 +39,49 @@
 }
 
     </style>
+    <style>
+    .course_overview_title ul li a {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 0.88px solid #38df83;
+    border-radius: 40px;
+    font-weight: 600;
+    color: #38df83;
+    transition: 0.2s;
+}
+h2 {
+    font-size: 30px !important;
+    line-height: 80px !important;;
+}
+
+.blog_details_left_title h1 {
+    font-size: 29px;
+    line-height: 42px;
+    font-weight: 600;
+    margin: 13px 0px 17px 0px;
+    text-align: left;
+}
+  .blog_details_left_contents ul{
+  	  list-style: inherit;
+    	margin: 0px 25px;
+  }
+  
+  @media (max-width: 768px) {
+    .blog_details {
+        flex-direction: column;
+        gap: 10px;
+    }
+    h2 {
+      margin-top:10px;
+    font-size: 24px !important;
+    line-height: 35px !important;
+}
+        h1 {
+    font-size: 28px !important;
+    line-height: 30px !important;
+}
+}
+</style>
     <div class="rbt-page-banner-wrapper">
         <!-- Start Banner BG Image  -->
         <div class="rbt-banner-image"></div>

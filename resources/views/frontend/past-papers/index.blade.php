@@ -1,4 +1,11 @@
-@extends('layouts.frontend', ['main_title' => $defaultSEO->meta_title ?? 'Past Papers - MeritStudyResources.co.uk' ])
+{{-- @extends('layouts.frontend', ['main_title' => $defaultSEO->meta_title ?? 'Past Papers - MeritStudyResources.co.uk' ]) --}}
+@extends('layouts.frontend', [
+    'main_title' => 
+        ($params['category']['category_name'] ?? '') .
+        (!empty($params['subcategory']) ? ' - ' . $params['subcategory']['subcategory_name'] : '') .
+        (!empty($params['resubcategory']) ? ' - ' . $params['resubcategory']['resubcategory_name'] : '') .
+        ' | ' . ($defaultSEO->meta_title ?? 'Past Papers - MeritStudyResources.co.uk')
+])
 @section('page-seo')
     <meta name="description" content="{{ $defaultSEO->meta_description ?? '' }}">
     <meta name="keywords" content="{{ $defaultSEO->meta_keywords ?? '' }}">

@@ -10,12 +10,7 @@
     <meta name="robots" content="index, follow"/>
     <link rel="canonical" href="{{ url()->current() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-     <link rel="canonical" href="{{ url()->current() }}">
-
-
-
-
-
+    <link rel="canonical" href="{{ url()->current() }}">
   <!-- Open Graph / Facebook -->
   <meta property="og:title" content="Merit Study Resources | Free GCSE, IGCSE & A-Level Past Papers & Revision Notes">
   <meta property="og:description" content="Boost your exam results with Merit Study Resources! Access free GCSE, IGCSE, and A-Level past papers, revision notes, and worksheets instantly.">
@@ -147,7 +142,6 @@
 <script src="{{ asset('frontend/assets/js/vendor/isotop.js?v=' . $v) }}"></script>
 <script src="{{ asset('frontend/assets/js/vendor/imageloaded.js?v=' . $v) }}"></script>
 
-
 <script src="{{ asset('frontend/assets/js/vendor/wow.js?v=' . $v) }}"></script>
 <script src="{{ asset('frontend/assets/js/vendor/waypoint.min.js?v=' . $v) }}"></script>
 <script src="{{ asset('frontend/assets/js/vendor/easypie.js?v=' . $v) }}"></script>
@@ -198,6 +192,7 @@
     // });
 
 </script>
+
 
 @yield('js')
 </body>

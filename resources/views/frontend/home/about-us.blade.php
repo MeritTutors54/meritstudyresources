@@ -36,10 +36,10 @@
                         <div class="about-us-right">
                             <div class="default-title">
                                 <span class="default-span">About Us</span>
-                                <h2>With expert-crafted revision resources from <span
+                                <h1>With expert-crafted revision resources from <span
                                         class="default-shape">MeritStudyResource <img
                                             src="{{ asset('frontend/assets/images/merithub/title-shape.png') }}"
-                                            alt=""></span></h2>
+                                            alt=""></span></h1>
                             </div>
                             <div class="about-us-right-contents">
                                 <div class="aurc-single">
