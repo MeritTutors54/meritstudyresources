@@ -130,20 +130,8 @@
     <script src="{{ asset('backend/assets/vendor_components/datatable/datatables.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/pages/data-table.js') }}"></script>
 
-   <!-- DataTables CSS & JS (you already have) -->
-<link rel="stylesheet" href="{{ asset('backend/assets/vendor_components/datatable/datatables.min.css') }}">
-
-<!-- Buttons extension CSS -->
-<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
-
-<!-- DataTables Buttons JS -->
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.flash.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+    {{-- <script src="{{ asset('backend/assets/datatables/dataTables.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/pages/dataTables-active.js') }}"></script> --}}
 
     <script>
         $(document).ready(function() {
@@ -169,6 +157,9 @@
             'excel',   // Excel export
             'pdf',     // PDF export
             'print'    // Print
+        ],lengthMenu: [
+            [10, 25, 50, 100, -1],
+            [10, 25, 50, 100, "All"]
         ]
             });
         });
