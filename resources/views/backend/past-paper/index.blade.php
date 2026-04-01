@@ -171,8 +171,8 @@
         buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
 
         lengthMenu: [
-               [10, 25, 50, 100, -1],
-    [10, 25, 50, 100, "All"]
+            [10, 25, 50, 500,1000],
+            [10, 25, 50, 500, 1000]
         ],
 
         pageLength: 10 // default selected
