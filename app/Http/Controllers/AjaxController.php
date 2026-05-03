@@ -81,7 +81,8 @@ class AjaxController extends Controller
             if ($activePlan->duration === $requestedPlan->duration) {
                 if ($activePlan->id === $requestedPlan->id) {
                     return response()->json([
-                        'type' => 'error', 'message' => "You are already subscribed to this package."
+                        'type' => 'error',
+                        'message' => "You are already subscribed to this package."
                     ]);
                 }
 
@@ -89,15 +90,16 @@ class AjaxController extends Controller
                 // if they can only upgrade
                 if ($activePlan->level > $requestedPlan->level) {
                     return response()->json([
-                        'type' => 'error', 'message' => "You can't downgrade your package."
+                        'type' => 'error',
+                        'message' => "You can't downgrade your package."
                     ]);
                 }
             }
 
             return response()->json([
-                'type' => 'error', 'message' => "Please cancel the current subscription first."
+                'type' => 'error',
+                'message' => "Please cancel the current subscription first."
             ]);
-
         }
 
 
@@ -236,7 +238,6 @@ class AjaxController extends Controller
             'currentGrandTotalPrice' => $currentGrandTotalPrice,
             'discountPrice' => $discountPrice,
         ]);
-
     }
 
     public function getSubCategory($category_id): JsonResponse
@@ -263,22 +264,61 @@ class AjaxController extends Controller
 
     public function getPastPaper(Request $request): JsonResponse
     {
-        $pastPapers = PastPaper::query()
-                ->with(['series'])
+        $searchValue = $request->optionalSearch;
+
+        // $pastPapers = PastPaper::query()
+        //     ->with(['series'])
+        //     ->where('title', $request->title)
+        //     ->where('category', $request->category_id)
+        //     ->where('subcategory', $request->subcategory_id)
+        //     ->where('resubcategory', $request->resubcategory_id)
+        //     ->whereHas('series', function ($query) use ($searchValue) {
+        //         $query->when($searchValue, function ($q) use ($searchValue) {
+        //             $q->whereRaw('LOWER(name) LIKE ?', ["%{$searchValue}%"]);
+        //         });
+        //     })
+        //     ->get()
+        //     ->sortByDesc(function ($paper) {
+        //         return strtotime($paper->series->name);
+        //     })
+        //     ->groupBy(function ($paper) {
+        //         return $paper->series->name;
+        //     });
+
+
+        $buildPastPapersQuery = function (?string $search = null) use ($request) {
+            return PastPaper::query()
+                ->with('series')
                 ->where('title', $request->title)
                 ->where('category', $request->category_id)
                 ->where('subcategory', $request->subcategory_id)
                 ->where('resubcategory', $request->resubcategory_id)
-                ->get()
-                ->sortByDesc(function ($paper) {
-                    return strtotime($paper->series->name);
-                })
-                ->groupBy(function ($paper) {
-                    return $paper->series->name;
+                ->when(filled($search), function ($query) use ($search) {
+                    $query->whereHas('series', function ($seriesQuery) use ($search) {
+                        $seriesQuery->whereRaw(
+                            'LOWER(name) LIKE ?',
+                            ['%' . mb_strtolower($search) . '%']
+                        );
+                    });
                 });
+        };
+
+        $pastPapers = $buildPastPapersQuery($searchValue)->get();
+
+        // If searchValue was provided but no records matched, return all records
+        if (filled($searchValue) && $pastPapers->isEmpty()) {
+            $pastPapers = $buildPastPapersQuery(null)->get();
+        }
+
+        $pastPapers = $pastPapers
+            ->sortByDesc(function ($paper) {
+                return strtotime($paper->series->name);
+            })
+            ->groupBy(function ($paper) {
+                return $paper->series->name;
+            });
+
 
         return response()->json($pastPapers);
-
     }
-
 }

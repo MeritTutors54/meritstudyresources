@@ -38,19 +38,66 @@ class PastPaperController extends Controller
 
         // For the dropdown filters
         if (!empty($categorySlug) && !empty($subcategorySlug)) {
-            $resubcategories = Category::query()
-                ->with(['subcategories' => function ($query) use ($subcategorySlug) {
-                    $query->where('slug', $subcategorySlug)
-                        ->with(['resubcategories' => function ($resubQuery) {
-                            $resubQuery->select(['id', 'subcategory_id', 'resubcategory_name', 'slug', 'unit_code']);
-                        }])
-                        ->select(['id', 'category_id', 'subcategory_name', 'slug']);
-                }])
-                ->where('slug', $categorySlug)
-                ->whereHas('subCategories', function ($query) use ($subcategorySlug) {
-                    $query->where('slug', $subcategorySlug);
-                })
-                ->get()->toArray();
+            // $resubcategories = Category::query()
+            //     ->with(['subcategories' => function ($query) use ($subcategorySlug) {
+            //         $query->where('slug', $subcategorySlug)
+            //             ->with(['resubcategories' => function ($resubQuery) {
+            //                 $resubQuery->select(['id', 'subcategory_id', 'resubcategory_name', 'slug', 'unit_code']);
+            //             }])
+            //             ->select(['id', 'category_id', 'subcategory_name', 'slug']);
+            //     }])
+            //     ->where('slug', $categorySlug)
+            //     ->whereHas('subCategories', function ($query) use ($subcategorySlug) {
+            //         $query->where('slug', $subcategorySlug);
+            //     })
+            //     ->get()->toArray();
+
+            $buildQuery = function (?string $search = null) use ($categorySlug, $subcategorySlug) {
+                return Category::query()
+                    ->where('slug', $categorySlug)
+                    ->whereHas('subcategories', function ($query) use ($subcategorySlug) {
+                        $query->where('slug', $subcategorySlug);
+                    })
+                    ->with([
+                        'subcategories' => function ($query) use ($subcategorySlug, $search) {
+                            $query->where('slug', $subcategorySlug)
+                                ->select(['id', 'category_id', 'subcategory_name', 'slug'])
+                                ->with([
+                                    'resubcategories' => function ($resubQuery) use ($search) {
+                                        $resubQuery->select([
+                                            'id',
+                                            'subcategory_id',
+                                            'resubcategory_name',
+                                            'slug',
+                                            'unit_code',
+                                        ]);
+
+                                        if (filled($search)) {
+                                            $resubQuery->whereRaw(
+                                                'LOWER(resubcategory_name) LIKE ?',
+                                                ['%' . mb_strtolower($search) . '%']
+                                            );
+                                        }
+                                    }
+                                ]);
+                        }
+                    ]);
+            };
+
+            $categories = $buildQuery($queryValue)->get();
+
+            // If search was provided but nothing matched, load everything instead
+            $hasMatches = $categories->contains(function ($category) {
+                return $category->subcategories->contains(function ($subcategory) {
+                    return $subcategory->resubcategories->isNotEmpty();
+                });
+            });
+
+            if (filled($queryValue) && ! $hasMatches) {
+                $categories = $buildQuery(null)->get();
+            }
+
+            $resubcategories = $categories->toArray();
         }
 
         if (!empty($categorySlug) && !empty($subcategorySlug) && !empty($resubSlug)) {
@@ -68,6 +115,7 @@ class PastPaperController extends Controller
             //     ->pluck('title')->unique()->values();
 
             if (!empty($categorySlug) && !empty($subcategorySlug) && !empty($resubSlug)) {
+
                 $baseQuery = PastPaper::query()
                     ->with(['series' => function ($seriesQuery) use ($queryValue) {
                         $seriesQuery->when($queryValue, function ($q) use ($queryValue) {
@@ -115,7 +163,7 @@ class PastPaperController extends Controller
                     $query->where('slug', $categorySlug);
                 })
                 ->with(['resubcategories' => function ($query) {
-                    $query->select(['id', 'subcategory_id', 'resubcategory_name', 'slug']);
+                    $query->select(['id', 'subcategory_id', 'resubcategory_name', 'slug', 'unit_code']);
                 }])
                 ->select(['id', 'subcategory_name', 'slug'])
                 ->first()?->toArray();
@@ -149,7 +197,7 @@ class PastPaperController extends Controller
             ]);
     }
 
-    public function viewPDF($id, $type)
+    public function viewPDF(int $id, mixed $type)
     {
         $pastPaper = PastPaper::query()
             ->where('id', $id)->first();
@@ -168,7 +216,7 @@ class PastPaperController extends Controller
             ->header('Content-Disposition', 'inline; filename="document.pdf"');
     }
 
-    public function secretView($secret)
+    public function secretView(string $secret)
     {
         $decrypted = Crypt::decryptString($secret);
 

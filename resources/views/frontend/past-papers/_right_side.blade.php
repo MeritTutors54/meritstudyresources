@@ -43,6 +43,7 @@
             {{--                <strong>{{ $paper }}</strong> --}}
             {{--            </a> --}}
             {{-- @dd($params) --}}
+            <input type="hidden" value="{{ !empty($q) ? $q : '' }}" id="optional-search" />
             <button class="anchor-item me-3 clickForPastPaper" data-title="{{ $paper }}"
                 data-category="{{ $params['category']['id'] }}" data-subcategory="{{ $params['subcategory']['id'] }}"
                 data-resubcategory="{{ $params['resubcategory']['id'] }}">
@@ -75,7 +76,7 @@
                                 @if (!empty($subCategory['resubcategories']))
                                     <div class="d-flex flex-wrap">
                                         @foreach ($subCategory['resubcategories'] as $resub)
-                                            <a href="{{ route('past.papers', [$category['slug'], $subCategory['slug'], $resub['slug']]) }}{{ !empty($q) ? '&q=' . $q : '' }}"
+                                            <a href="{{ route('past.papers', [$category['slug'], $subCategory['slug'], $resub['slug']]) }}{{ !empty($q) ? '?q=' . $q : '' }}"
                                                 class="anchor-item me-3 py-2 px-4">
                                                 <strong>{{ $resub['resubcategory_name'] }}
                                                     ({{ $resub['unit_code'] }})
@@ -96,10 +97,10 @@
                         <div class="mt-3">
                             <h5>{{ $category['category_name'] }}</h5>
                             @if (!empty($category['subcategories']))
-                                <div class="mt-5 mb-5">
+                                <div class="mt-3 d-flex flex-wrap">
                                     @foreach ($category['subcategories'] as $subCategory)
                                         <a href="{{ route('past.papers', [$category['slug'], $subCategory['slug']]) . '?q=' . $q }}"
-                                            class="anchor-item me-3">
+                                            class="anchor-item me-3 mb-3">
                                             <strong>{{ $subCategory['subcategory_name'] }}</strong>
                                         </a>
                                     @endforeach
@@ -114,14 +115,23 @@
         {{-- this section is responsible for showing all subcategory value --}}
         @if (!empty($params['category']) && !empty($params['subcategory']))
             @if (!empty($resubcategories))
-                <h4 class="mt-3">{{ $params['subcategory']['subcategory_name'] }}</h4>
+                <h4 class="mt-3">{{ $params['category']['category_name'] }}</h4>
                 <div class="mt-4">
-                    @foreach ($resubcategories as $resub)
-                        <a href="{{ route('past.papers', [$params['category']['slug'], $params['subcategory']['slug'], $resub->slug]) }}"
-                            class="anchor-item me-4 py-2 px-4">
-                            <strong>{{ $resub->resubcategory_name }} ({{ $resub->unit_code }})</strong>
-                        </a>
-                    @endforeach
+                    <div class="semi-box">
+                        <p>{{ $params['subcategory']['subcategory_name'] }}</p>
+                        @if (!empty($params['subcategory']['resubcategories']))
+                            <div class="d-flex flex-wrap">
+                                @foreach ($params['subcategory']['resubcategories'] as $resub)
+                                    <a href="{{ route('past.papers', [$params['category']['slug'], $params['subcategory']['slug'], $resub['slug']]) }}{{ !empty($q) ? '?q=' . $q : '' }}"
+                                        class="anchor-item me-3 py-2 px-4">
+                                        <strong>{{ $resub['resubcategory_name'] }}
+                                            ({{ $resub['unit_code'] }})
+                                        </strong>
+                                    </a>
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
                 </div>
             @endif
         @else

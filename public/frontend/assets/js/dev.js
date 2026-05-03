@@ -100,8 +100,6 @@ document.addEventListener('DOMContentLoaded', function () {
 // });
 
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('dom loaded');
-
     document.querySelectorAll('.merit-menu-box').forEach(group => {
         group.addEventListener('click', function (e) {
             // Only toggle if a menu-button was clicked
@@ -141,8 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener('click', function (e) {
     if (e.target.matches('.btn-expend')) {
-        console.log('Dynamic button clicked:', e.target);
-
+    
         const items = document.querySelectorAll('.dynamic-base > .merit-menu-header > button');
         items.forEach((elm) => {
             elm.classList.add('active');

@@ -18,26 +18,6 @@
 
                                 <img src="{{ asset('frontend/assets/images/all-resources/search.png') }}" alt="">
                             </form>
-                            @if (!empty($q))
-                                <div id="mode-buttons" class="d-flex justify-content-center gap-5 mt-2">
-                                    <a class="btn_sm_outlook" mode="1"
-                                        href="{{ route('past.papers') . '?q=' . $q . '&mode=1' }}">
-                                        Past Papers
-                                    </a>
-                                    <a class="btn_sm_outlook" mode="2"
-                                        href="{{ route('past.papers') . '?q=' . $q . '&mode=2' }}">
-                                        Categories
-                                    </a>
-                                    <a class="btn_sm_outlook" mode="3"
-                                        href="{{ route('past.papers') . '?q=' . $q . '&mode=3' }}">
-                                        Sub Categories
-                                    </a>
-                                    <a class="btn_sm_outlook" mode="4"
-                                        href="{{ route('past.papers') . '?q=' . $q . '&mode=4' }}">
-                                        Resub Categories
-                                    </a>
-                                </div>
-                            @endif
                         </div>
                         <div class="resources_page_contents mt-3">
                             <!-- Start Left Site -->
@@ -84,36 +64,7 @@
             const firstButton = $("#paper-box").find('button').first();
             firstButton.addClass('active')
             firstButton.trigger('click'); // simulates a click
-
-            // this section is responsible for speacial depedency searches
-            var anchorMode = getUrlParameter('mode');
-            console.log(anchorMode, 'anchorMode');
-            if (anchorMode) {
-                $('#mode-buttons').find('a').each(function() {
-                    if ($(this).attr('mode') === anchorMode) {
-                        $(this).addClass('active');
-                    } else {
-                        $(this).removeClass('active');
-                    }
-                });
-            }
         })
-
-        var getUrlParameter = function getUrlParameter(sParam) {
-            var sPageURL = window.location.search.substring(1),
-                sURLVariables = sPageURL.split('&'),
-                sParameterName,
-                i;
-
-            for (i = 0; i < sURLVariables.length; i++) {
-                sParameterName = sURLVariables[i].split('=');
-
-                if (sParameterName[0] === sParam) {
-                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
-                }
-            }
-            return false;
-        };
 
         let accordionDom = $('#past-paper-accordion');
 
@@ -131,6 +82,8 @@
             const title = $(this).data('title')
 
             let key = 0;
+            
+            const optionalSearchQuery = $("#optional-search").val();
 
             $.ajax({
                 type: 'POST',
@@ -141,7 +94,8 @@
                     category_id: categoryID,
                     subcategory_id: subCategoryID,
                     resubcategory_id: reSubCategoryID,
-                    title: title
+                    title: title,
+                    optionalSearch: optionalSearchQuery,
                 },
                 success: function(data) {
 
