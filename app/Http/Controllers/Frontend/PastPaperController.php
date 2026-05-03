@@ -31,7 +31,7 @@ class PastPaperController extends Controller
         $mode = 1; // Reserved for future use
         $queryValue = mb_strtolower((string) $request->input('q', ''));
 
-        $categories = $this->getDataViaMode($mode, $queryValue);
+        $categories = $this->getData($queryValue, $mode);
         $resubcategories = null;
         $pastPapers = null;
         $params = $this->buildParams($categorySlug, $subcategorySlug, $resubSlug);
@@ -122,7 +122,7 @@ class PastPaperController extends Controller
         ]);
     }
 
-    public function getDataViaMode(int $mode, string $queryValue)
+    public function getData(string $queryValue, int $mode)
     {
         $categories = Category::query()
             ->with([
@@ -142,47 +142,47 @@ class PastPaperController extends Controller
                                 });
                         });
                     })
-                    ->with([
-                        'resubcategories' => function ($resubQuery) use ($queryValue) {
-                            $resubQuery->when($queryValue, function ($q) use ($queryValue) {
-                                $q->where(function ($orQuery) use ($queryValue) {
-                                    $orQuery->whereRaw('LOWER(resubcategory_name) LIKE ?', ["%{$queryValue}%"])
-                                        ->orWhereHas('pastPapers', function ($paperQuery) use ($queryValue) {
-                                            $paperQuery->whereHas('series', function ($seriesQuery) use ($queryValue) {
-                                                $seriesQuery->whereRaw('LOWER(name) LIKE ?', ["%{$queryValue}%"]);
-                                            });
-                                        })
-                                        ->orWhereHas('subcategory', function ($subQuery) use ($queryValue) {
-                                            $subQuery->whereRaw('LOWER(subcategory_name) LIKE ?', ["%{$queryValue}%"]);
-                                        });
-                                });
-                            })
-                            ->with([
-                                'pastPapers' => function ($paperQuery) use ($queryValue) {
-                                    $paperQuery->when($queryValue, function ($q) use ($queryValue) {
-                                        $q->where(function ($orQuery) use ($queryValue) {
-                                            $orQuery->whereHas('series', function ($seriesQuery) use ($queryValue) {
-                                                $seriesQuery->whereRaw('LOWER(name) LIKE ?', ["%{$queryValue}%"]);
+                        ->with([
+                            'resubcategories' => function ($resubQuery) use ($queryValue) {
+                                $resubQuery->when($queryValue, function ($q) use ($queryValue) {
+                                    $q->where(function ($orQuery) use ($queryValue) {
+                                        $orQuery->whereRaw('LOWER(resubcategory_name) LIKE ?', ["%{$queryValue}%"])
+                                            ->orWhereHas('pastPapers', function ($paperQuery) use ($queryValue) {
+                                                $paperQuery->whereHas('series', function ($seriesQuery) use ($queryValue) {
+                                                    $seriesQuery->whereRaw('LOWER(name) LIKE ?', ["%{$queryValue}%"]);
+                                                });
                                             })
-                                            ->orWhereHas('resubcategory_model', function ($resubQuery) use ($queryValue) {
-                                                $resubQuery->whereRaw('LOWER(resubcategory_name) LIKE ?', ["%{$queryValue}%"])
-                                                    ->orWhereHas('subcategory', function ($subQuery) use ($queryValue) {
-                                                        $subQuery->whereRaw('LOWER(subcategory_name) LIKE ?', ["%{$queryValue}%"]);
-                                                    });
+                                            ->orWhereHas('subcategory', function ($subQuery) use ($queryValue) {
+                                                $subQuery->whereRaw('LOWER(subcategory_name) LIKE ?', ["%{$queryValue}%"]);
                                             });
-                                        });
-                                    })
+                                    });
+                                })
                                     ->with([
-                                        'series' => function ($seriesQuery) {
-                                            $seriesQuery->orderBy('name');
+                                        'pastPapers' => function ($paperQuery) use ($queryValue) {
+                                            $paperQuery->when($queryValue, function ($q) use ($queryValue) {
+                                                $q->where(function ($orQuery) use ($queryValue) {
+                                                    $orQuery->whereHas('series', function ($seriesQuery) use ($queryValue) {
+                                                        $seriesQuery->whereRaw('LOWER(name) LIKE ?', ["%{$queryValue}%"]);
+                                                    })
+                                                        ->orWhereHas('resubcategory_model', function ($resubQuery) use ($queryValue) {
+                                                            $resubQuery->whereRaw('LOWER(resubcategory_name) LIKE ?', ["%{$queryValue}%"])
+                                                                ->orWhereHas('subcategory', function ($subQuery) use ($queryValue) {
+                                                                    $subQuery->whereRaw('LOWER(subcategory_name) LIKE ?', ["%{$queryValue}%"]);
+                                                                });
+                                                        });
+                                                });
+                                            })
+                                                ->with([
+                                                    'series' => function ($seriesQuery) {
+                                                        $seriesQuery->orderBy('name');
+                                                    }
+                                                ]);
                                         }
-                                    ]);
-                                }
-                            ])
-                            ->orderBy('resubcategory_name');
-                        }
-                    ])
-                    ->orderBy('subcategory_name');
+                                    ])
+                                    ->orderBy('resubcategory_name');
+                            }
+                        ])
+                        ->orderBy('subcategory_name');
                 }
             ])
             ->where('is_active', Status::ACTIVE->value)
