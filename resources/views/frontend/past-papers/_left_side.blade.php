@@ -2,6 +2,7 @@
     @php $key = 0; @endphp
 
     @if(!empty($categories))
+    {{-- @dd($categories) --}}
         @foreach($categories as $item)
             @php
                 $isFirst = $loop->first;
@@ -35,7 +36,7 @@
                                                 @if(!empty($subject['resubcategories']))
                                                     @foreach($subject['resubcategories'] as $resubcategory)
                                                         <li>
-                                                            <a href="{{ route('past.papers', [$item['slug'], $subject['slug'], $resubcategory['slug']]) }}"
+                                                            <a href="{{ route('past.papers', [$item['slug'], $subject['slug'], $resubcategory['slug']]) }}{{ !empty($q) ? '?q=' . $q : '' }}"
                                                                class="child-name {{ isset($params['resubcategory']) && $params['resubcategory']['id'] == $resubcategory['id'] ? 'active' : '' }}">
                                                                 {{ ucfirst($resubcategory['resubcategory_name']) }} ({{ $resubcategory['unit_code'] }})
                                                             </a>

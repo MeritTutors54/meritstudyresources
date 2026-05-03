@@ -331,9 +331,6 @@ button#dropdownMenuButton {
     cursor: pointer;
 }
 
-.merit-menu-box {
-
-}
 
 .merit-menu-item {
     background-color: #fff;
@@ -510,7 +507,7 @@ ol.progress-meter li.todo:before {
 /* past paper section */
 .fixed-scrolling {
     overflow-y: auto;
-    height: 70vh;
+    max-height: 70vh;
 }
 
 .paper-zone {
@@ -689,6 +686,36 @@ ol.progress-meter li.todo:before {
     color: white !important;
 }
 
-.submenu-box {
-    /*margin-bottom: 40px;*/
+
+
+/* Button section css for custom design */
+
+.btn_sm_outlook {
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #394381;
+    background: transparent;
+    border-radius: 50px;
+    padding: 4px 18px;
+    border: 1px solid #394381;
+    transition: 0.2s;
+}
+.btn_sm_outlook.active, .btn_sm_outlook:hover{
+	background: #394381;
+	color: #fff;
+}
+
+
+/* seach field past paper  */
+.semi-box {
+    margin-top: 15px;
+    border: 1px dashed;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.semi-box p {
+     color: black;
+    font-weight: 600;
 }
