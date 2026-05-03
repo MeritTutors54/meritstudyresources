@@ -266,26 +266,6 @@ class AjaxController extends Controller
     {
         $searchValue = $request->optionalSearch;
 
-        // $pastPapers = PastPaper::query()
-        //     ->with(['series'])
-        //     ->where('title', $request->title)
-        //     ->where('category', $request->category_id)
-        //     ->where('subcategory', $request->subcategory_id)
-        //     ->where('resubcategory', $request->resubcategory_id)
-        //     ->whereHas('series', function ($query) use ($searchValue) {
-        //         $query->when($searchValue, function ($q) use ($searchValue) {
-        //             $q->whereRaw('LOWER(name) LIKE ?', ["%{$searchValue}%"]);
-        //         });
-        //     })
-        //     ->get()
-        //     ->sortByDesc(function ($paper) {
-        //         return strtotime($paper->series->name);
-        //     })
-        //     ->groupBy(function ($paper) {
-        //         return $paper->series->name;
-        //     });
-
-
         $buildPastPapersQuery = function (?string $search = null) use ($request) {
             return PastPaper::query()
                 ->with('series')
