@@ -96,32 +96,31 @@
                                     </li>
                                 @endif
 
-
-                                @can('viewResourcesSection', Auth::user())
-                                    <li class="has-custom-submenu">
-                                        <a href="#">Resources
-                                            <i class="feather-chevron-down"></i>
-                                        </a>
-                                        @if(!empty($allResource))
-                                            <div class="custom-submenu">
-                                                @foreach($allResource as $subjectTitle => $resource)
-                                                    @if(!empty($resource))
-                                                        <div class="submenu-box">
-                                                            <div class="submenu-header">{{ $subjectTitle }}</div>
-                                                            <ul class="custom-submenu-list">
-                                                                @foreach($resource as $subject)
-                                                                    <li class="submenu-item">
-                                                                        <a href="{{ route('resources.topic', [$subject['education_level']['slug'], $subject['slug']]) }}">{{ $subject['education_level']['name'] }}</a>
-                                                                    </li>
-                                                                @endforeach
-                                                            </ul>
-                                                        </div>
-                                                    @endif
-                                                @endforeach
-                                            </div>
-                                        @endif
-                                    </li>
-                                @endcan
+{{--                                @can('viewResourcesSection', Auth::user())--}}
+{{--                                    <li class="has-custom-submenu">--}}
+{{--                                        <a href="#">Resources--}}
+{{--                                            <i class="feather-chevron-down"></i>--}}
+{{--                                        </a>--}}
+{{--                                        @if(!empty($allResource))--}}
+{{--                                            <div class="custom-submenu">--}}
+{{--                                                @foreach($allResource as $subjectTitle => $resource)--}}
+{{--                                                    @if(!empty($resource))--}}
+{{--                                                        <div class="submenu-box">--}}
+{{--                                                            <div class="submenu-header">{{ $subjectTitle }}</div>--}}
+{{--                                                            <ul class="custom-submenu-list">--}}
+{{--                                                                @foreach($resource as $subject)--}}
+{{--                                                                    <li class="submenu-item">--}}
+{{--                                                                        <a href="{{ route('resources.topic', [$subject['education_level']['slug'], $subject['slug']]) }}">{{ $subject['education_level']['name'] }}</a>--}}
+{{--                                                                    </li>--}}
+{{--                                                                @endforeach--}}
+{{--                                                            </ul>--}}
+{{--                                                        </div>--}}
+{{--                                                    @endif--}}
+{{--                                                @endforeach--}}
+{{--                                            </div>--}}
+{{--                                        @endif--}}
+{{--                                    </li>--}}
+{{--                                @endcan--}}
                                 @can('viewPastPaperSection', Auth::user())
                                     <li>
                                         <a href="{{ route('past.papers') }}">
@@ -157,7 +156,6 @@
                                 </a>
                             </div>
                         @endcan
-
                         <div class="rbt-btn-wrapper d-none d-xl-block">
                             <a href="{{ route('user.dashboard') }}" class="btn-style">Dashboard</a>
                         </div>

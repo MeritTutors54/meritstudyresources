@@ -19,12 +19,12 @@ class UpdatePastPaperRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'category' => 'required|string',
-            'subcategory' => 'required|string',
-            'resubcategory' => 'nullable|string',
+            'category' => 'required|integer|exists:categories,id',
+            'subcategory' => 'required|integer|exists:sub_categories,id',
+            'resubcategory' => 'nullable|integer|exists:resubcategories,id',
             'is_paid' => 'required|boolean',
-            'ques_paper' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
-            'ans_paper' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
+            'ques_paper' => 'nullable|file|mimes:pdf,doc,docx|max:5048',
+            'ans_paper' => 'nullable|file|mimes:pdf,doc,docx|max:5048',
         ];
     }
 }

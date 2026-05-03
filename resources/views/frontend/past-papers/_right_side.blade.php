@@ -6,7 +6,13 @@
                 <a
                     href="{{ route('past.papers', [$params['category']['slug']]) }}">{{ $params['category']['category_name'] }}</a>
             </li>
-            @if (!empty($params['subcategory']))
+            @if(!empty($params['resubcategory']))
+                <li><i class="fa-solid fa-angle-right"></i></li>
+                <li>
+                    <a href="{{ route('past.papers', [$params['category']['slug'], $params['subcategory']['slug'], $params['resubcategory']['slug']]) }}">{{ $params['resubcategory']['resubcategory_name'] }}</a>
+                </li>
+            @endif
+            @if(!empty($params['subcategory']))
                 <li><i class="fa-solid fa-angle-right"></i></li>
                 <li>
                     <a href="{{ route('past.papers', [$params['category']['slug'], $params['subcategory']['slug']]) }}">
@@ -28,25 +34,40 @@
     </div>
 @endif
 
-@if (!empty($pastPapers))
+@if(!empty($pastPapers))
     {{-- this section is responsible for showing title value --}}
     <div class="resources_page_right_title">
-        <h3 class="">{{ $params['resubcategory']['resubcategory_name'] }}</h3>
-        <p>Recognising numerals and important early work to ensure that numbers are written correctly.</p>
+        <h1 class="" style="font-size:23px">{{ $params['resubcategory']['resubcategory_name'] }}</h1>
+        @if(!empty($params['resubcategory']['description']))
+            <h5 class="mt-3">Description</h5>
+            <div id="descWrapper" class="desc-wrapper">
+                <div id="descText" class="desc-text">
+                    {!! $params['resubcategory']['description'] !!}
+                </div>
+
+                <button id="toggleBtn" class="see-more-btn">See more</button>
+            </div>
+        @endif
     </div>
 
 
     <div class="mt-5" id="paper-box">
-        @foreach ($pastPapers as $paper)
-            {{--            <a href="{{ route('past.papers', [$params['category']['slug'], $params['subcategory']['slug'], $params['resubcategory']['slug'], $paper]) }}" --}}
-            {{--               class=" mt-3 anchor-item me-3"> --}}
-            {{--                <strong>{{ $paper }}</strong> --}}
-            {{--            </a> --}}
-            {{-- @dd($params) --}}
-            <input type="hidden" value="{{ !empty($q) ? $q : '' }}" id="optional-search" />
-            <button class="anchor-item me-3 clickForPastPaper" data-title="{{ $paper }}"
-                data-category="{{ $params['category']['id'] }}" data-subcategory="{{ $params['subcategory']['id'] }}"
-                data-resubcategory="{{ $params['resubcategory']['id'] }}">
+        <button
+            data-type="all"
+            data-category="{{ $params['category']['id'] }}"
+            data-subcategory="{{ $params['subcategory']['id'] }}"
+            data-resubcategory="{{ $params['resubcategory']['id'] }}"
+            class="anchor-item me-3 clickForPastPaper">
+            <strong>All Papers</strong>
+        </button>
+        @foreach($pastPapers as $paper)
+            <button class="anchor-item me-3 clickForPastPaper"
+                    data-type="none"
+                    data-title="{{ $paper }}"
+                    data-category="{{ $params['category']['id'] }}"
+                    data-subcategory="{{ $params['subcategory']['id'] }}"
+                    data-resubcategory="{{ $params['resubcategory']['id'] }}"
+            >
                 <strong>{{ $paper }}</strong>
             </button>
         @endforeach
@@ -138,34 +159,32 @@
             {{-- this section is responsible for showing All Category in a acordion view --}}
             <div class="merit-menu-box" id="past-paper-accordion">
                 <div class="resources_page_right_title">
-                    <h3 class="{{ !empty($params['category']) ? '' : 'mt-0' }} mb-4">All Past Paper</h3>
-
-                    @if (!empty($categories))
+                    <h1 class="{{ !empty($params['category']) ? '' : 'mt-0' }} mb-4">All Past Paper</h1>
+                    @if(!empty($categories))
                         @php
                             $countKey = 0;
-                            $lead = 0;
+                            $indicator = $params['category']['slug'] ?? 'a-levels';
                         @endphp
-                        @foreach ($categories as $category)
+                        @foreach($categories as $category)
                             <div class="merit-menu-item mb-3">
                                 <h2 class="merit-menu-header">
-                                    <button class="menu-button {{ $lead == 0 ? 'active' : '' }}"
-                                        style="font-size: 24px" type="button"
-                                        data-area-id="merit-menu-id-{{ $countKey }}">
+                                    <button
+                                        class="menu-button {{ $indicator == $category['slug'] ? 'active' : '' }}"
+                                        style="font-size: 24px"
+                                        type="button" data-area-id="merit-menu-id-{{ $countKey }}">
                                         {{ strtoupper($category['category_name']) }}
                                     </button>
                                 </h2>
                                 <div id="merit-menu-id-{{ $countKey }}"
-                                    class="merit-menu-dropdown-box {{ $lead == 0 ? 'show' : '' }}">
+                                     class="merit-menu-dropdown-box {{ $indicator == $category['slug'] ? 'show' : '' }}">
                                     <div class="merit-menu-body">
                                         @if (!empty($category['subcategories']))
                                             <div class="mt-4 d-flex flex-wrap">
-                                                @foreach ($category['subcategories'] as $subCategory)
-                                                    <div class="anchor-item me-4 mb-4 py-2 px-4">
-                                                        <a
-                                                            href="{{ route('past.papers', [$category['slug'], $subCategory['slug']]) }}">
-                                                            <strong>{{ $subCategory['subcategory_name'] }}</strong>
-                                                        </a>
-                                                    </div>
+                                                @foreach($category['subcategories'] as $subCategory)
+                                                    <a href="{{ route('past.papers', [$category['slug'], $subCategory['slug']]) }}"
+                                                       class="anchor-item me-4 mb-4 py-2 px-4">
+                                                        <strong>{{ $subCategory['subcategory_name'] }}</strong>
+                                                    </a>
                                                 @endforeach
                                             </div>
                                         @endif

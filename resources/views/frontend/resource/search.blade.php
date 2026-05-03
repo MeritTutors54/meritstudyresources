@@ -53,39 +53,39 @@
                                                                 <div id="merit-div-id-{{$key}}"
                                                                      class="merit-menu-dropdown-box show">
                                                                     <div class="merit-menu-body">
-                                                                        <ul class="rplc_dropdown mt-1">
-                                                                            @if(isset($branchThree['parents']))
-                                                                                @foreach($branchThree['parents'] as $branchFour)
-                                                                                    <li>
-                                                                                        <a href="#" class="active">
-                                                                                            {{ $branchFour['_meta']['name'] }}
-                                                                                            <i class="fa-solid fa-angle-down"></i>
-                                                                                        </a>
-                                                                                        <ul class="rplc_dropdown_items">
-                                                                                            @foreach($branchFour['topics'] as $branchFive)
-                                                                                                <li>
-                                                                                                    <a class="active"
-                                                                                                        href="{{ route('resources.topic', [$branchOne['_meta']['slug'], $branchTwo['_meta']['slug'], $branchThree['_meta']['slug'], $branchFour['_meta']['slug'], $branchFive['_meta']['slug']]) }}"
-                                                                                                    >
-                                                                                                        {{ $branchFive['_meta']['name'] }}
-                                                                                                    </a>
-                                                                                                </li>
-                                                                                            @endforeach
-                                                                                        </ul>
-                                                                                    </li>
-                                                                                @endforeach
-                                                                            @else
-                                                                                @foreach($branchThree['topics'] as $branchFour)
-                                                                                    <li>
-                                                                                        <a class="active link"
-                                                                                            href="{{ route('resources.topic', [$branchOne['_meta']['slug'], $branchTwo['_meta']['slug'], $branchThree['_meta']['slug'], $branchFour['_meta']['slug']]) }}"
-                                                                                        >
-                                                                                            {{ $branchFour['_meta']['name'] }}
-                                                                                        </a>
-                                                                                    </li>
-                                                                                @endforeach
-                                                                            @endif
-                                                                        </ul>
+{{--                                                                        <ul class="rplc_dropdown mt-1">--}}
+{{--                                                                            @if(isset($branchThree['parents']))--}}
+{{--                                                                                @foreach($branchThree['parents'] as $branchFour)--}}
+{{--                                                                                    <li>--}}
+{{--                                                                                        <a href="#" class="active">--}}
+{{--                                                                                            {{ $branchFour['_meta']['name'] }}--}}
+{{--                                                                                            <i class="fa-solid fa-angle-down"></i>--}}
+{{--                                                                                        </a>--}}
+{{--                                                                                        <ul class="rplc_dropdown_items">--}}
+{{--                                                                                            @foreach($branchFour['topics'] as $branchFive)--}}
+{{--                                                                                                <li>--}}
+{{--                                                                                                    <a class="active"--}}
+{{--                                                                                                        href="{{ route('resources.topic', [$branchOne['_meta']['slug'], $branchTwo['_meta']['slug'], $branchThree['_meta']['slug'], $branchFour['_meta']['slug'], $branchFive['_meta']['slug']]) }}"--}}
+{{--                                                                                                    >--}}
+{{--                                                                                                        {{ $branchFive['_meta']['name'] }}--}}
+{{--                                                                                                    </a>--}}
+{{--                                                                                                </li>--}}
+{{--                                                                                            @endforeach--}}
+{{--                                                                                        </ul>--}}
+{{--                                                                                    </li>--}}
+{{--                                                                                @endforeach--}}
+{{--                                                                            @else--}}
+{{--                                                                                @foreach($branchThree['topics'] as $branchFour)--}}
+{{--                                                                                    <li>--}}
+{{--                                                                                        <a class="active link"--}}
+{{--                                                                                            href="{{ route('resources.topic', [$branchOne['_meta']['slug'], $branchTwo['_meta']['slug'], $branchThree['_meta']['slug'], $branchFour['_meta']['slug']]) }}"--}}
+{{--                                                                                        >--}}
+{{--                                                                                            {{ $branchFour['_meta']['name'] }}--}}
+{{--                                                                                        </a>--}}
+{{--                                                                                    </li>--}}
+{{--                                                                                @endforeach--}}
+{{--                                                                            @endif--}}
+{{--                                                                        </ul>--}}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -110,30 +110,30 @@
                                     <div class="rpri_title">
                                         <h3>Search Results For "{{ $q ?? '' }}"</h3>
                                     </div>
-                                    <div class="resources_page_right_items">
-                                        @if(!empty($resources))
-                                            @foreach($resources as $resource)
-                                                <div class="rpr_single_item clickable"
-                                                     data-link="{{ route("resources.topic.details", [$resource, $resource->slug]) }}"
-                                                >
-                                                    <img
-                                                        src="{{ asset(\Illuminate\Support\Facades\Storage::url($resource->thumbnail_image)) }}"
-                                                        alt="">
-                                                    <a href="#" class="rpri_pages">
-                                                        <img
-                                                            src="{{ asset(\Illuminate\Support\Facades\Storage::url($resource->thumbnail_image)) }}"
-                                                            alt="">
-                                                        {{ $resource->allPage->count() }}
-                                                    </a>
+{{--                                    <div class="resources_page_right_items">--}}
+{{--                                        @if(!empty($resources))--}}
+{{--                                            @foreach($resources as $resource)--}}
+{{--                                                <div class="rpr_single_item clickable"--}}
+{{--                                                     data-link="{{ route("resources.topic.details", [$resource, $resource->slug]) }}"--}}
+{{--                                                >--}}
+{{--                                                    <img--}}
+{{--                                                        src="{{ asset(\Illuminate\Support\Facades\Storage::url($resource->thumbnail_image)) }}"--}}
+{{--                                                        alt="">--}}
+{{--                                                    <a href="#" class="rpri_pages">--}}
+{{--                                                        <img--}}
+{{--                                                            src="{{ asset(\Illuminate\Support\Facades\Storage::url($resource->thumbnail_image)) }}"--}}
+{{--                                                            alt="">--}}
+{{--                                                        {{ $resource->allPage->count() }}--}}
+{{--                                                    </a>--}}
 
-                                                    <div class="rpri_writen">
-                                                        <h6>{{ ucfirst($resource->name) }}</h6>
-                                                        <p>{{ ucfirst($resource->description) }}</p>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        @endif
-                                    </div>
+{{--                                                    <div class="rpri_writen">--}}
+{{--                                                        <h6>{{ ucfirst($resource->name) }}</h6>--}}
+{{--                                                        <p>{{ ucfirst($resource->description) }}</p>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            @endforeach--}}
+{{--                                        @endif--}}
+{{--                                    </div>--}}
                                 </div>
                                 {{--                                @endif--}}
                             </div>

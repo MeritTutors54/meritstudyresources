@@ -32,15 +32,13 @@ class PastPaperController extends Controller
     {
         $this->authorize('viewPastPaper', Auth::user());
 
-        $allData = PastPaper::query()
-            ->where('is_deleted', 0)
-            ->with('category_model', 'subcategory_model', 'resubcategory_model', 'series')
-            ->orderBy('id', 'DESC')->get();
+//        $allData = PastPaper::query()
+//            ->where('is_deleted', 0)
+//            ->with('category_model', 'subcategory_model', 'resubcategory_model', 'series')
+//            ->orderBy('id', 'DESC')
+//            ->limit(20)->get();
 
-        return view('backend.past-paper.index')
-            ->with([
-                'allData' => $allData
-            ]);
+        return view('backend.past-paper.index');
     }
 
     public function create(): View
@@ -57,10 +55,32 @@ class PastPaperController extends Controller
             ->orderBy('id', 'DESC')
             ->get();
 
+        $old_cat = old('category');
+        if (!empty($old_cat)) {
+            $subcategories = SubCategory::query()
+                ->where('category_id', $old_cat)
+                ->where(['is_active' => 1, 'is_deleted' => 0])
+                ->orderBy('id', 'DESC')
+                ->get();
+            
+        }
+
+        $old_sub = old('subcategory');
+        if (!empty($old_sub)) {
+            $resubcategories = Resubcategory::query()
+                ->where('category_id', $old_cat)
+                ->where('subcategory_id', $old_sub)
+                ->where(['is_active' => 1, 'is_deleted' => 0])
+                ->orderBy('id', 'DESC')
+                ->get();
+        }
+
         return view('backend.past-paper.form')
             ->with([
                 'examSeries' => $examSeries,
-                'categories' => $categories
+                'categories' => $categories,
+                'old_cat' => $subcategories ?? null,
+                'old_sub' => $resubcategories ?? null,
             ]);
     }
 
@@ -167,7 +187,7 @@ class PastPaperController extends Controller
         }
 
 
-        return to_route('admin.past-papers.index')
+        return to_route('admin.past-papers.create')
             ->with($this->notification['status'], $this->notification['message']);
     }
 
@@ -355,7 +375,7 @@ class PastPaperController extends Controller
             $this->notification['message'] = $exception->getMessage();
         }
 
-        return to_route('admin.past-papers.index')
+        return back()
             ->with($this->notification['status'], $this->notification['message']);
     }
 

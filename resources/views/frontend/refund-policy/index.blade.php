@@ -1,11 +1,30 @@
 
-@extends('layouts.frontend',['main_title' => $defaultSEO->meta_title ?? 'Return Policies - MeritStudyResources.co.uk' ])
+@extends('layouts.frontend', [
+    'main_title' => (optional($defaultSEO)->meta_title ?? 'Return Policies - MeritStudyResources.co.uk') . ' Refund'
+])
 @section('page-seo')
-    <meta name="description" content="{{ $defaultSEO->meta_description ?? '' }}">
+    <meta name="description" content="Refund Policy ,{{ $defaultSEO->meta_description ?? '' }}">
     <meta name="keywords" content="{{ $defaultSEO->meta_keywords ?? '' }}">
     <meta name="author" content="{{ $defaultSEO->meta_author ?? '' }}">
 @endsection
 @section('content')
+<style>
+         .h1 {
+    font-size: 34px !important;
+
+}
+
+        h2 {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+        h3{
+    font-size: 18px;
+    font-weight: 700;
+
+}
+</style>
     <!-- Start breadcrumb Area -->
     <div class="rbt-breadcrumb-default ptb--100 ptb_md--50 ptb_sm--30 bg-gradient-1">
         <div class="container base-margin-top">

@@ -535,6 +535,22 @@ ol.progress-meter li.todo:before {
     color: white !important;
 }
 
+.anchor-tag {
+    border: 1px solid #247E3D;
+    color: #247E3D;
+    border-radius: 13px;
+    padding: 8px 22px;
+    inline-size: max-content;
+    margin-right: 12px;
+    transition: 0.2s;
+}
+
+.anchor-tag:hover {
+    cursor: pointer;
+    background: #247E3D;
+    color: white;
+}
+
 .btn-expend {
     border: 1px solid #9e9e9e !important;
     font-size: 16px !important;
@@ -553,9 +569,10 @@ ol.progress-meter li.todo:before {
 /* past paper view pdf */
 .anchor-item {
     border: 1px solid;
-    padding: 5px 5px 5px 5px;
+    padding: 5px 15px 5px 15px;
     border-radius: 7px;
 }
+
 .anchor-item:hover {
     cursor: pointer;
     border-color: #394381;
@@ -721,4 +738,38 @@ ol.progress-meter li.todo:before {
     margin-bottom: 5px;
     color: black;
     font-weight: 600;
+}
+
+
+/*see more button div*/
+
+.desc-wrapper {
+    display: inline;
+    position: relative;
+}
+
+.desc-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;     /* SHOW ONLY 3 LINES */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 700px;          /* optional */
+}
+
+.desc-text.expanded {
+    display: block;
+    -webkit-line-clamp: unset;
+    overflow: visible;
+    text-overflow: unset;
+}
+
+.see-more-btn {
+    border: none;
+    background: none;
+    color: #339E53;
+    cursor: pointer;
+    padding: 0;
+    font-size: 14px;
+    text-decoration: underline;
 }

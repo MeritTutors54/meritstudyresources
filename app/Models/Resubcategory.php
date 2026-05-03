@@ -22,6 +22,7 @@ class Resubcategory extends Model
         'exam_questions',
         'flashcards',
         'is_active',
+        'description'
     ];
 
     public function category(): BelongsTo
@@ -36,6 +37,6 @@ class Resubcategory extends Model
 
     public function pastPapers(): HasMany
     {
-        return $this->hasMany(Pastpaper::class, 'resubcategory');
+        return $this->hasMany(PastPaper::class, 'resubcategory');
     }
 }

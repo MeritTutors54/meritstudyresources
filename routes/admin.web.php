@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\AdminStuffController;
 use App\Http\Controllers\Backend\Auth\LoginController;
 use App\Http\Controllers\Backend\Blog\BlogCategoryController;
 use App\Http\Controllers\Backend\Blog\BlogsController;
+use App\Http\Controllers\Backend\Blog\BlogTagsController;
 use App\Http\Controllers\Backend\Coupon\CouponController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\Ecommerce\BookCategoryController;
@@ -52,6 +53,7 @@ Route::prefix('admin')->middleware(['auth:admin', 'team.permission'])->group(fun
     |--------------------------------------------------------------------------
     */
     Route::get('/activities', [AdminActivityLogController::class, 'index'])->name('admin.activity.index');
+    Route::get('/activities/{activityLog}', [AdminActivityLogController::class, 'show'])->name('admin.activity.show');
 
     /*
     |--------------------------------------------------------------------------
@@ -92,6 +94,8 @@ Route::prefix('admin')->middleware(['auth:admin', 'team.permission'])->group(fun
         ->name('admin.comment.approved');
     Route::get('/blogs/{blog}/comment/{comment}/rejected', [BlogsController::class, 'rejected'])
         ->name('admin.comment.rejected');
+
+    Route::resource('/blog-tags', BlogTagsController::class, ['as' => 'admin']);
 
     /*
     |--------------------------------------------------------------------------
@@ -177,5 +181,8 @@ Route::prefix('admin')->middleware(['auth:admin', 'team.permission'])->group(fun
 //    Route::get('/getPastPaperData', [AjaxController::class, 'getPastPaper'])->name('admin.ajax.getPastPaper');
     Route::get('/get-sub-category/{category_id}', [AjaxController::class, 'getSubCategory'])->name('admin.ajax.getSubCategory');
     Route::get('/get-resub-category/{subcategory_id}/', [AjaxController::class, 'getReSubCategory'])->name('admin.ajax.getReSubCategory');
+    Route::get('/users/data', [AjaxController::class, 'indexData'])->name('admin.ajax.getPastPaper');
+    Route::get('/activity-log', [AjaxController::class, 'getAllActivityLog'])->name('admin.ajax.getAllActivityLog');
 
+    Route::post('/update-status', [AjaxController::class, 'updateStatus'])->name('admin.ajax.updateStatus');
 });

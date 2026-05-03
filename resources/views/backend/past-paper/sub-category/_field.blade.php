@@ -40,9 +40,28 @@
             </div>
             <div class="col-lg-6 col-12">
                 <div class="form-group">
-                    <label class="form-label" for="status">Status</label>
+                    <label class="form-label" for="most_popular">Most Popular Subject?</label>
+                    <select name="most_popular"
+                            id="most_popular"
+                            class="form-select">
+
+                        <option {{ old('most_popular', $sub_category->most_popular ?? 0) == 1 ? 'selected' : '' }}
+                                value="1">Yes</option>
+                        <option {{ old('most_popular', $sub_category->most_popular ?? 0) == 0 ? 'selected' : '' }}
+                                value="0">No</option>
+                    </select>
+                    @error('most_popular')
+                    <div class="form-control-feedback text-danger mt-1">
+                        {{ $message }}
+                    </div>
+                    @enderror
+                </div>
+            </div>
+            <div class="col-lg-6 col-12">
+                <div class="form-group">
+                    <label class="form-label" for="is_active">Status</label>
                     <select name="is_active"
-                            id="status"
+                            id="is_active"
                             class="form-select">
 
                         <option {{ old('is_active', $sub_category->is_active ?? '') == "1" ? 'selected' : '' }}
@@ -50,7 +69,7 @@
                         <option {{ old('is_active', $sub_category->is_active ?? '') == "0" ? 'selected' : '' }}
                             value="0">Disabled</option>
                     </select>
-                    @error('status')
+                    @error('is_active')
                     <div class="form-control-feedback text-danger mt-1">
                         {{ $message }}
                     </div>

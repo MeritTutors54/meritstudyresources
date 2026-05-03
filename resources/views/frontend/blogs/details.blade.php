@@ -1,4 +1,6 @@
-@extends('layouts.frontend', ['main_title' => 'Single Blog - MeritStudyResources.co.uk' ])
+@extends('layouts.frontend', [
+    'main_title' => $blog->title ?? 'Single Blog - MeritStudyResources.co.uk'
+])
 @section('page-seo')
     <meta name="description" content="{{ $seo['meta_description'] ?? '' }}">
     <meta name="keywords" content="{{ $seo['meta_keywords'] ?? '' }}">
@@ -9,7 +11,77 @@
         .rbt-page-banner-wrapper {
             padding: 60px 0px 35px;
         }
+
+         .h1 {
+    font-size: 34px !important;
+
+}
+
+        h2 {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+        h3{
+    font-size: 18px;
+    font-weight: 700;
+
+}
+.anchor-tag {
+    border: 1px solid #247E3D;
+    color: #247E3D;
+    border-radius: 13px;
+    padding: 0px 22px;
+    inline-size: max-content;
+    margin-top: 17px;
+    margin-bottom: 17px;
+    transition: 0.2s;
+}
+
     </style>
+    <style>
+    .course_overview_title ul li a {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 0.88px solid #38df83;
+    border-radius: 40px;
+    font-weight: 600;
+    color: #38df83;
+    transition: 0.2s;
+}
+h2 {
+    font-size: 30px !important;
+    line-height: 80px !important;;
+}
+
+.blog_details_left_title h1 {
+    font-size: 29px;
+    line-height: 42px;
+    font-weight: 600;
+    margin: 13px 0px 17px 0px;
+    text-align: left;
+}
+  .blog_details_left_contents ul{
+  	  list-style: inherit;
+    	margin: 0px 25px;
+  }
+  
+  @media (max-width: 768px) {
+    .blog_details {
+        flex-direction: column;
+        gap: 10px;
+    }
+    h2 {
+      margin-top:10px;
+    font-size: 24px !important;
+    line-height: 35px !important;
+}
+        h1 {
+    font-size: 28px !important;
+    line-height: 30px !important;
+}
+}
+</style>
     <div class="rbt-page-banner-wrapper">
         <!-- Start Banner BG Image  -->
         <div class="rbt-banner-image"></div>
@@ -73,7 +145,7 @@
                                         {{-- <li><a href="#">Exams</a></li> --}}
 
                                     </ul>
-                                    <h3>{{ $blog->title }} </h3>
+                                    <h1 style="font-size:33px">{{ $blog->title }} </h1>
                                     <p><img src="{{ asset('frontend/calender.png') }}"
                                             alt=""> {{ $blog->created_at->format('F j, Y') }}</p>
                                 </div>
@@ -130,14 +202,15 @@
                                     <div class="blog_details_right_single_title"><p>Tags</p></div>
                                     <div class="blog_details_right_single_contents">
                                         @if($blog->tags()->count() > 0)
-                                            <ul class="bdrs_tags">
+                                            <div class="">
                                                 @foreach($blog->tags as $tag)
-                                                    <li><a href="{{ route('blogs', ['p' => $tag->slug]) }}">{{ $tag->name }}</a></li>
+                                                    <a class="anchor-tag" href="{{ route('blogs', ['p' => $tag->slug]) }}">{{ $tag->name }}</a><br>
                                                 @endforeach
-                                            </ul>
+                                            </div>
                                         @endif
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                         <!-- End Blog Details Right -->

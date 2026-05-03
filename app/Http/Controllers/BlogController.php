@@ -45,7 +45,7 @@ class BlogController extends Controller
             });
         }
 
-        $blogs = $blogs->where('status', Status::ACTIVE->value)
+        $blogs = $blogs->orderBy('id','DESC')->where('status', Status::ACTIVE->value)
             ->paginate(10);
 
         $latestBlogs = Blogs::query()

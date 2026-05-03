@@ -64,7 +64,7 @@ class SubCategoryController extends Controller
 
         DB::beginTransaction();
         try {
-            $subCategory = SubCategory::query()->create($request->all());
+            SubCategory::query()->create($request->all());
 
             AdminActivity::track($this->log);
 

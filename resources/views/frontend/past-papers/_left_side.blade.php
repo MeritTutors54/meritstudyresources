@@ -24,6 +24,35 @@
                         @if(!empty($item['subcategories']))
                             <div class="rplc_dropdown_main fixed-scrolling mt-1">
                                 <ul class="rplc_dropdown mt-1 first-ul">
+                                    <li style="color: #394381"><strong>Most Popular</strong></li>
+                                    @foreach($item['subcategories'] as $subject)
+                                        @if($subject['most_popular'] == \App\Enums\MostPopular::YES->value)
+                                            <li class="child">
+                                                <a class="{{ isset($params['subcategory']) && $params['subcategory']['id'] == $subject['id'] ? 'active' : '' }}"
+                                                   href="#">
+                                                <span
+                                                    class="child-name">{{ ucfirst($subject['subcategory_name']) }}</span>
+                                                    <i class="fa-solid fa-angle-down"></i>
+                                                </a>
+                                                <ul class="rplc_dropdown_items second-ul {{ isset($params['subcategory']) && $params['subcategory']['id'] == $subject['id'] ? 'show' : '' }}">
+                                                    @if(!empty($subject['resubcategories']))
+                                                        @foreach($subject['resubcategories'] as $resubcategory)
+                                                            @if($resubcategory['is_active'] == 1)
+                                                                <li>
+                                                                    <a href="{{ route('past.papers', [$item['slug'], $subject['slug'], $resubcategory['slug']]) }}"
+                                                                       class="child-name {{ isset($params['resubcategory']) && $params['resubcategory']['id'] == $resubcategory['id'] ? 'active' : '' }}">
+                                                                        {{ ucfirst($resubcategory['resubcategory_name']) }}
+                                                                        ({{ $resubcategory['unit_code'] }})
+                                                                    </a>
+                                                                </li>
+                                                            @endif
+                                                        @endforeach
+                                                    @endif
+                                                </ul>
+                                            </li>
+                                        @endif
+                                    @endforeach
+                                    <li style="color: #394381"><strong>All Subject</strong></li>
                                     @foreach($item['subcategories'] as $subject)
                                         <li class="child">
                                             <a class="{{ isset($params['subcategory']) && $params['subcategory']['id'] == $subject['id'] ? 'active' : '' }}"

@@ -63,6 +63,13 @@
                 {{--                    </a>--}}
                 {{--                </li>--}}
                 <li class="btn-group nav-item d-none d-xl-inline-block">
+                    <a class="waves-effect waves-light nav-link svg-bt-icon go-live"
+                       target="_blank"
+                       href="{{ route('home') }}">
+                        Go <span class="text-danger">Live!</span>
+                    </a>
+                </li>
+                <li class="btn-group nav-item d-none d-xl-inline-block">
                     <a href="{{ route('admin.activity.index') }}" class="waves-effect waves-light nav-link svg-bt-icon"
                        title="Admin Activity">
                         <i class="mdi mdi-playlist-check"></i>

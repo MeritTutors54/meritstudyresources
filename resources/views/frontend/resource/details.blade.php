@@ -34,29 +34,29 @@
                             @if(!empty($resource))
                                 <div class="resources_page_right">
                                     <div class="resources_page_right_pagination">
-                                        <ul>
-                                            @if(!empty($levelModel))
-                                                <li>
-                                                    <a href="{{ route('resource.category', [$levelModel->slug]) }}">
-                                                        {{ ucfirst($levelModel->name) }}
-                                                    </a>
-                                                </li>
-                                            @endif
+{{--                                        <ul>--}}
+{{--                                            @if(!empty($levelModel))--}}
+{{--                                                <li>--}}
+{{--                                                    <a href="{{ route('resource.category', [$levelModel->slug]) }}">--}}
+{{--                                                        {{ ucfirst($levelModel->name) }}--}}
+{{--                                                    </a>--}}
+{{--                                                </li>--}}
+{{--                                            @endif--}}
 
-                                            @if(!empty($subjectModel))
-                                                <li><i class="fa-solid fa-angle-right"></i></li>
-                                                <li>
-                                                    <a href="{{ route('resources.topic', [$levelModel->slug, $subjectModel->slug]) }}">
-                                                        {{ ucfirst($subjectModel->name) }} WorkSheet
-                                                    </a>
-                                                </li>
-                                            @endif
+{{--                                            @if(!empty($subjectModel))--}}
+{{--                                                <li><i class="fa-solid fa-angle-right"></i></li>--}}
+{{--                                                <li>--}}
+{{--                                                    <a href="{{ route('resources.topic', [$levelModel->slug, $subjectModel->slug]) }}">--}}
+{{--                                                        {{ ucfirst($subjectModel->name) }} WorkSheet--}}
+{{--                                                    </a>--}}
+{{--                                                </li>--}}
+{{--                                            @endif--}}
 
-                                            @if(!empty($groupModel))
-                                                <li><i class="fa-solid fa-angle-right"></i></li>
-                                                <li><a href="">{{ ucfirst($groupModel->name) }}</a></li>
-                                            @endif
-                                        </ul>
+{{--                                            @if(!empty($groupModel))--}}
+{{--                                                <li><i class="fa-solid fa-angle-right"></i></li>--}}
+{{--                                                <li><a href="">{{ ucfirst($groupModel->name) }}</a></li>--}}
+{{--                                            @endif--}}
+{{--                                        </ul>--}}
                                     </div>
                                     <div class="resources_page_right_title_main">
                                         <div class="resources_page_right_title">
@@ -289,24 +289,24 @@
                                                 <p>View other related resources that matches with your choices.</p>
                                             </div>
                                             <div class="resources_page_right_items">
-                                                @foreach($relatedResources as $item)
-                                                    <div class="rpr_single_item clickable"
-                                                         data-link="{{ route("resources.topic.details", [$item, $item->slug]) }}">
-                                                        <img
-                                                            src="{{ asset(\Illuminate\Support\Facades\Storage::url($item->thumbnail_image)) }}"
-                                                            alt="">
-                                                        <a href="#" class="rpri_pages">
-                                                            <img
-                                                                src="{{ asset(\Illuminate\Support\Facades\Storage::url($item->thumbnail_image)) }}"
-                                                                alt="">
-                                                            {{ $item->allPage->count() }}
-                                                        </a>
-                                                        <div class="rpri_writen">
-                                                            <h6>{{ ucfirst($item->name) }}</h6>
-                                                            <p>{{ ucfirst($item->description) }}</p>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
+{{--                                                @foreach($relatedResources as $item)--}}
+{{--                                                    <div class="rpr_single_item clickable"--}}
+{{--                                                         data-link="{{ route("resources.topic.details", [$item, $item->slug]) }}">--}}
+{{--                                                        <img--}}
+{{--                                                            src="{{ asset(\Illuminate\Support\Facades\Storage::url($item->thumbnail_image)) }}"--}}
+{{--                                                            alt="">--}}
+{{--                                                        <a href="#" class="rpri_pages">--}}
+{{--                                                            <img--}}
+{{--                                                                src="{{ asset(\Illuminate\Support\Facades\Storage::url($item->thumbnail_image)) }}"--}}
+{{--                                                                alt="">--}}
+{{--                                                            {{ $item->allPage->count() }}--}}
+{{--                                                        </a>--}}
+{{--                                                        <div class="rpri_writen">--}}
+{{--                                                            <h6>{{ ucfirst($item->name) }}</h6>--}}
+{{--                                                            <p>{{ ucfirst($item->description) }}</p>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+{{--                                                @endforeach--}}
                                             </div>
                                         </div>
                                     @endif

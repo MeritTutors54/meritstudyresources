@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     menuLinks.forEach(link => {
         link.addEventListener('click', function (e) {
+
             if (!e.target.matches('a.link')) {
                 e.preventDefault();
                 const currentDropdown = this.nextElementSibling;
@@ -40,65 +41,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-// Manipulating accordions
-
-// document.addEventListener('DOMContentLoaded', function () {
-//     const accordionDivs = document.querySelectorAll('.merit-menu-box > .merit-menu-item');
-//
-//     accordionDivs.forEach(accordion => {
-//         accordion.addEventListener('click', function () {
-//             let id = accordion.querySelector('.menu-button').getAttribute('data-area-id');
-//             document.getElementById(id).classList.add('show');
-//
-//             document.querySelectorAll('.merit-menu-item').forEach(c => {
-//                 if (c !== accordion) {
-//                     c.querySelector('.merit-menu-header > button').classList.remove('active');
-//                     c.querySelector('.merit-menu-dropdown-box').classList.remove('show');
-//                 }
-//             });
-//
-//         });
-//     });
-//
-//     // console.log(accordionDivs);
-// });
-
-// document.addEventListener('DOMContentLoaded', function () {
-//     const accordionGroups = document.querySelectorAll('.merit-menu-box');
-//
-//     console.log('dom loaded');
-//
-//     accordionGroups.forEach(group => {
-//         const accordionItems = group.querySelectorAll('.merit-menu-item');
-//
-//         accordionItems.forEach(item => {
-//             item.addEventListener('click', function () {
-//
-//                 console.log('this has a click');
-//
-//                 accordionItems.forEach(c => {
-//                     const dropdown = c.querySelector('.merit-menu-dropdown-box');
-//                     const button = c.querySelector('.merit-menu-header > button');
-//
-//                     if (c === item) {
-//                         const isVisible = dropdown.classList.contains('show');
-//                         dropdown.classList.toggle('show', !isVisible);
-//                         button.classList.toggle('active', !isVisible);
-//                     } else {
-//                         dropdown.classList.remove('show');
-//                         button.classList.remove('active');
-//                     }
-//                 });
-//             });
-//
-//             const dropdown = item.querySelector('.merit-menu-dropdown-box');
-//             dropdown.addEventListener('click', function (e) {
-//                 e.stopPropagation();
-//             });
-//         });
-//     });
-// });
-
 document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.merit-menu-box').forEach(group => {
         group.addEventListener('click', function (e) {
@@ -109,11 +51,17 @@ document.addEventListener('DOMContentLoaded', function () {
             const item = button.closest('.merit-menu-item');
             if (!item || !group.contains(item)) return;
 
-            console.log('item clicked:', item);
-
             const accordionItems = group.querySelectorAll('.merit-menu-item');
 
             accordionItems.forEach(c => {
+                let accordionDom = document.getElementById('past-paper-accordion');
+                if (accordionDom) {
+                    const expandBtn = accordionDom.querySelector('.btn-expend');
+                    if (expandBtn) {
+                        expandBtn.textContent = 'Expand All';
+                    }
+                }
+
                 const dropdown = c.querySelector('.merit-menu-dropdown-box');
                 const btn = c.querySelector('.merit-menu-header > button');
 
@@ -141,18 +89,25 @@ document.addEventListener('click', function (e) {
     if (e.target.matches('.btn-expend')) {
     
         const items = document.querySelectorAll('.dynamic-base > .merit-menu-header > button');
-        items.forEach((elm) => {
-            elm.classList.add('active');
-        });
-
         const dropdowns = document.querySelectorAll('.dynamic-base > .merit-menu-dropdown-box');
-        console.log('box: ', dropdowns);
-        dropdowns.forEach((elm) => {
-            elm.classList.add('show');
-        });
+
+        const isOpen = button.textContent.trim() === 'Close All';
+
+        if (isOpen) {
+            // --- CLOSE ALL ---
+            button.textContent = 'Expand All';
+
+            items.forEach(elm => elm.classList.remove('active'));
+            dropdowns.forEach(elm => elm.classList.remove('show'));
+        } else {
+            // --- EXPAND ALL ---
+            button.textContent = 'Close All';
+
+            items.forEach(elm => elm.classList.add('active'));
+            dropdowns.forEach(elm => elm.classList.add('show'));
+        }
     }
 });
-
 
 
 
