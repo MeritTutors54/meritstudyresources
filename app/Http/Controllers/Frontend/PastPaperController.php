@@ -224,7 +224,7 @@ class PastPaperController extends Controller
             ->with([
                 'subcategories' => function ($query) use ($subcategorySlug, $search) {
                     $query->where('slug', $subcategorySlug)
-                        ->select(['id', 'category_id', 'subcategory_name', 'slug'])
+                        ->select(['id', 'category_id', 'subcategory_name', 'slug', 'most_popular'])
                         ->with([
                             'resubcategories' => function ($resubQuery) use ($search) {
                                 $resubQuery->select([

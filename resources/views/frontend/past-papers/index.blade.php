@@ -46,6 +46,7 @@
                     </div>
                 </div>
             </div>
+            <input type="hidden" value={{ !empty($q) ? $q : "" }}  id="optional-search">
         </div>
     </div>
 @endsection

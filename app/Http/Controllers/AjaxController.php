@@ -273,7 +273,9 @@ class AjaxController extends Controller
         $buildPastPapersQuery = function (?string $search = null) use ($request) {
             return PastPaper::query()
                 ->with('series')
-                ->where('title', $request->title)
+                ->when($request->type !== "all", function($query) use ($request){
+                    $query->where('title', $request->title);
+                })
                 ->where('category', $request->category_id)
                 ->where('subcategory', $request->subcategory_id)
                 ->where('resubcategory', $request->resubcategory_id)

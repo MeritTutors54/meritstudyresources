@@ -2,7 +2,7 @@
     @php $key = 0; @endphp
 
     @if(!empty($categories))
-    {{-- @dd($categories) --}}
+        {{-- @dd($categories) --}}
         @foreach($categories as $item)
             @php
                 $isFirst = $loop->first;
@@ -19,7 +19,7 @@
                     </button>
                 </h2>
                 <div id="merit-menu-id-{{ $key }}"
-                     class="merit-menu-dropdown-box {{ $shouldBeActive ? 'show' : '' }}">
+                    class="merit-menu-dropdown-box {{ $shouldBeActive ? 'show' : '' }}">
                     <div class="merit-menu-body">
                         @if(!empty($item['subcategories']))
                             <div class="rplc_dropdown_main fixed-scrolling mt-1">
@@ -29,9 +29,9 @@
                                         @if($subject['most_popular'] == \App\Enums\MostPopular::YES->value)
                                             <li class="child">
                                                 <a class="{{ isset($params['subcategory']) && $params['subcategory']['id'] == $subject['id'] ? 'active' : '' }}"
-                                                   href="#">
-                                                <span
-                                                    class="child-name">{{ ucfirst($subject['subcategory_name']) }}</span>
+                                                    href="#">
+                                                    <span
+                                                        class="child-name">{{ ucfirst($subject['subcategory_name']) }}</span>
                                                     <i class="fa-solid fa-angle-down"></i>
                                                 </a>
                                                 <ul class="rplc_dropdown_items second-ul {{ isset($params['subcategory']) && $params['subcategory']['id'] == $subject['id'] ? 'show' : '' }}">
@@ -40,7 +40,7 @@
                                                             @if($resubcategory['is_active'] == 1)
                                                                 <li>
                                                                     <a href="{{ route('past.papers', [$item['slug'], $subject['slug'], $resubcategory['slug']]) }}"
-                                                                       class="child-name {{ isset($params['resubcategory']) && $params['resubcategory']['id'] == $resubcategory['id'] ? 'active' : '' }}">
+                                                                        class="child-name {{ isset($params['resubcategory']) && $params['resubcategory']['id'] == $resubcategory['id'] ? 'active' : '' }}">
                                                                         {{ ucfirst($resubcategory['resubcategory_name']) }}
                                                                         ({{ $resubcategory['unit_code'] }})
                                                                     </a>
@@ -56,7 +56,7 @@
                                     @foreach($item['subcategories'] as $subject)
                                         <li class="child">
                                             <a class="{{ isset($params['subcategory']) && $params['subcategory']['id'] == $subject['id'] ? 'active' : '' }}"
-                                               href="#">
+                                                href="#">
                                                 <span
                                                     class="child-name">{{ ucfirst($subject['subcategory_name']) }}</span>
                                                 <i class="fa-solid fa-angle-down"></i>
@@ -66,7 +66,7 @@
                                                     @foreach($subject['resubcategories'] as $resubcategory)
                                                         <li>
                                                             <a href="{{ route('past.papers', [$item['slug'], $subject['slug'], $resubcategory['slug']]) }}{{ !empty($q) ? '?q=' . $q : '' }}"
-                                                               class="child-name {{ isset($params['resubcategory']) && $params['resubcategory']['id'] == $resubcategory['id'] ? 'active' : '' }}">
+                                                                class="child-name {{ isset($params['resubcategory']) && $params['resubcategory']['id'] == $resubcategory['id'] ? 'active' : '' }}">
                                                                 {{ ucfirst($resubcategory['resubcategory_name']) }} ({{ $resubcategory['unit_code'] }})
                                                             </a>
                                                         </li>
@@ -90,7 +90,3 @@
         </div>
     @endif
 </div>
-
-
-
-
