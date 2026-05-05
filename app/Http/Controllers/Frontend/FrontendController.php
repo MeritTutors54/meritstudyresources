@@ -24,6 +24,7 @@ use App\Models\PastPaper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class FrontendController extends Controller
 {
@@ -185,7 +186,6 @@ class FrontendController extends Controller
                 'testimonials' => $testimonials,
                 'defaultSEO' => $defaultSEO,
             ]);
-
     }
 
 
@@ -248,5 +248,80 @@ class FrontendController extends Controller
                 'subscriptionPricing' => $subscriptionPricing,
                 'testimonials' => $testimonials,
             ]);
+    }
+
+    public function findextention()
+    {
+        $path = public_path('uploads/pastpaper');
+
+        $records = DB::table('past_papers')
+            ->select('id', 'ques_paper', 'ans_paper')
+            ->get();
+
+        $fixed = [];
+
+        foreach ($records as $row) {
+
+            // -------- QUES PAPER --------
+            if (!empty($row->ques_paper)) {
+
+                if (
+                    str_ends_with($row->ques_paper, 'pdf') &&
+                    !str_ends_with($row->ques_paper, '.pdf')
+                ) {
+                    $oldFile = $path . '/' . $row->ques_paper;
+                    $newName = substr($row->ques_paper, 0, -3) . '.pdf';
+                    $newFile = $path . '/' . $newName;
+
+                    if (file_exists($oldFile)) {
+                        rename($oldFile, $newFile);
+
+                        DB::table('past_papers')
+                            ->where('id', $row->id)
+                            ->update(['ques_paper' => $newName]);
+
+                        $fixed[] = [
+                            'id' => $row->id,
+                            'type' => 'ques_paper',
+                            'old' => $row->ques_paper,
+                            'new' => $newName
+                        ];
+                    }
+                }
+            }
+
+            // -------- ANSWER PAPER --------
+            if (!empty($row->ans_paper)) {
+
+                if (
+                    str_ends_with($row->ans_paper, 'pdf') &&
+                    !str_ends_with($row->ans_paper, '.pdf')
+                ) {
+                    $oldFile = $path . '/' . $row->ans_paper;
+                    $newName = substr($row->ans_paper, 0, -3) . '.pdf';
+                    $newFile = $path . '/' . $newName;
+
+                    if (file_exists($oldFile)) {
+                        rename($oldFile, $newFile);
+
+                        DB::table('past_papers')
+                            ->where('id', $row->id)
+                            ->update(['ans_paper' => $newName]);
+
+                        $fixed[] = [
+                            'id' => $row->id,
+                            'type' => 'ans_paper',
+                            'old' => $row->ans_paper,
+                            'new' => $newName
+                        ];
+                    }
+                }
+            }
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'fixed_files' => $fixed
+        ]);
     }
 }

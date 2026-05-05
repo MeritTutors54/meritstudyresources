@@ -50,21 +50,23 @@ Route::group(['middleware' => 'team.permission'], function () {
     | Resource Section
     |--------------------------------------------------------------------------
     */
-//    Route::get('/search', [ResourceController::class, 'search'])->name('resource.search');
-//    Route::get('/all-resources/{educationLevelSlug?}',
-//        [ResourceController::class, 'educationalLevelResource'])->name('resource.category');
-//    Route::get('/all-resources/{educationLevelSlug}/{subjectSlug}/{groupSlug?}/{topicSlug?}/{subTopicSlug?}',
-//        [ResourceController::class, 'topicResource'])->name('resources.topic');
-//    Route::get('/get/{resource}/{resourceSlug}', [ResourceController::class, 'resourceDetails'])->name('resources.topic.details');
-//    Route::get('/get-product/{product_slug}', [ProductController::class, 'details'])
-//        ->name('single.product');
+    //    Route::get('/search', [ResourceController::class, 'search'])->name('resource.search');
+    //    Route::get('/all-resources/{educationLevelSlug?}',
+    //        [ResourceController::class, 'educationalLevelResource'])->name('resource.category');
+    //    Route::get('/all-resources/{educationLevelSlug}/{subjectSlug}/{groupSlug?}/{topicSlug?}/{subTopicSlug?}',
+    //        [ResourceController::class, 'topicResource'])->name('resources.topic');
+    //    Route::get('/get/{resource}/{resourceSlug}', [ResourceController::class, 'resourceDetails'])->name('resources.topic.details');
+    //    Route::get('/get-product/{product_slug}', [ProductController::class, 'details'])
+    //        ->name('single.product');
     /*
     |--------------------------------------------------------------------------
     | Past Paper Section
     |--------------------------------------------------------------------------
     */
-    Route::get('/past-papers/{categorySlug?}/{subcategorySlug?}/{resubSlug?}/{title?}',
-        [PastPaperController::class, 'index'])->name('past.papers');
+    Route::get(
+        '/past-papers/{categorySlug?}/{subcategorySlug?}/{resubSlug?}/{title?}',
+        [PastPaperController::class, 'index']
+    )->name('past.papers');
     Route::get('/pdf/view/{id}/{type}', [PastPaperController::class, 'viewPDF'])->name('pdf.view');
     Route::get('/pdf/{secret}', [PastPaperController::class, 'secretView'])->name('pdf.secret.view');
 
@@ -75,7 +77,7 @@ Route::group(['middleware' => 'team.permission'], function () {
     Route::get('/privacy-policy', [FrontendController::class, 'privacyPolicy'])->name('privacy.policy');
     Route::get('/refund-policy', [FrontendController::class, 'refundPolicy'])->name('refund.policy');
     Route::get('/faq', [FrontendController::class, 'faq'])->name('faq');
-//Route::post('/newsletter-subscribe', [FrontendController::class, 'newsletterSubscribe'])->name('newsletterSubscribe');
+    //Route::post('/newsletter-subscribe', [FrontendController::class, 'newsletterSubscribe'])->name('newsletterSubscribe');
 
     Route::post('/collect-emails', [FrontendController::class, 'collectEmails'])->name('collect-emails');
 
@@ -200,6 +202,7 @@ Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap.i
 */
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
 
+Route::get('/find-extention', [App\Http\Controllers\Frontend\FrontendController::class, 'findextention']);
 
 /*
 |--------------------------------------------------------------------------

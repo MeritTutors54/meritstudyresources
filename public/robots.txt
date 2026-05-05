@@ -1,2 +1,73 @@
 User-agent: *
-Disallow:
+
+# ---------------------------
+# Block private / utility areas
+# ---------------------------
+Disallow: /cgi-bin/
+Disallow: /admin/
+Disallow: /administrator/
+Disallow: /dashboard/
+Disallow: /account/
+Disallow: /my-account/
+Disallow: /user/
+Disallow: /users/
+Disallow: /profile/
+Disallow: /settings/
+Disallow: /checkout/
+Disallow: /cart/
+Disallow: /order/
+Disallow: /orders/
+Disallow: /invoice/
+Disallow: /payment/
+Disallow: /wishlist/
+
+# Auth pages
+Disallow: /login
+Disallow: /login/
+Disallow: /logout
+Disallow: /signin
+Disallow: /signup
+Disallow: /register
+Disallow: /register/
+Disallow: /password
+Disallow: /reset
+Disallow: /forgot
+
+# Internal search
+Disallow: /search
+Disallow: /search/
+
+# APIs / system paths
+Disallow: /api/
+Disallow: /ajax/
+
+# ---------------------------
+# Block tracking / duplicate parameter URLs
+# ---------------------------
+Disallow: /*?*utm_
+Disallow: /*?*fbclid=
+Disallow: /*?*gclid=
+Disallow: /*?*msclkid=
+Disallow: /*?*yclid=
+Disallow: /*?*ref=
+Disallow: /*?*referrer=
+Disallow: /*?*session=
+Disallow: /*?*sessionid=
+Disallow: /*?*sid=
+Disallow: /*?*phpsessid=
+
+# ---------------------------
+# IMPORTANT: Allow PDFs (past papers & worksheets)
+# ---------------------------
+# PDFs are intentionally crawlable & indexable
+Allow: /*.pdf$
+
+# ---------------------------
+# Allow everything else
+# ---------------------------
+Allow: /
+
+# ---------------------------
+# Sitemap
+# ---------------------------
+Sitemap: https://meritstudyresources.co.uk/sitemap.xml
