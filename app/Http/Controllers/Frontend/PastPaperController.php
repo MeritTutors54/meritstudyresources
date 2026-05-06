@@ -233,6 +233,7 @@ class PastPaperController extends Controller
                                     'resubcategory_name',
                                     'slug',
                                     'unit_code',
+                                    'is_active'
                                 ]);
 
                                 if (filled($search)) {
@@ -322,7 +323,7 @@ class PastPaperController extends Controller
                 })
                 ->with([
                     'resubcategories' => function ($query) {
-                        $query->select(['id', 'subcategory_id', 'resubcategory_name', 'slug', 'unit_code']);
+                        $query->select(['id', 'subcategory_id', 'resubcategory_name', 'slug', 'unit_code',]);
                     },
                 ])
                 ->select(['id', 'subcategory_name', 'slug'])
@@ -339,7 +340,7 @@ class PastPaperController extends Controller
                 ->whereHas('subcategory', function ($query) use ($subcategorySlug) {
                     $query->where('slug', $subcategorySlug);
                 })
-                ->select(['id', 'resubcategory_name', 'slug', 'unit_code'])
+                ->select(['id', 'resubcategory_name', 'slug', 'unit_code',])
                 ->first()
                 ?->toArray();
         }

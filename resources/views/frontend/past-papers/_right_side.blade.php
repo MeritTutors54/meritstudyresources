@@ -51,17 +51,17 @@
     </div>
 
 
-    <div class="mt-5" id="paper-box">
+    <div class="mt-4" id="paper-box">
         <button
             data-type="all"
             data-category="{{ $params['category']['id'] }}"
             data-subcategory="{{ $params['subcategory']['id'] }}"
             data-resubcategory="{{ $params['resubcategory']['id'] }}"
-            class="anchor-item me-3 clickForPastPaper">
+            class="anchor-item me-3 mb-3 clickForPastPaper">
             <strong>All Papers</strong>
         </button>
         @foreach($pastPapers as $paper)
-            <button class="anchor-item me-3 clickForPastPaper"
+            <button class="anchor-item me-3 mb-3 clickForPastPaper"
                     data-type="none"
                     data-title="{{ $paper }}"
                     data-category="{{ $params['category']['id'] }}"
