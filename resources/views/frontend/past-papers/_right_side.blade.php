@@ -175,7 +175,7 @@
                                         {{ strtoupper($category['category_name']) }}
                                     </button>
                                 </h2>
-                                <div id="merit-menu-id-{{ $countKey }}"
+                                <div id="merit-menu-id-{{ $countKey }}" style="overflow: auto"
                                      class="merit-menu-dropdown-box {{ $indicator == $category['slug'] ? 'show' : '' }}">
                                     <div class="merit-menu-body">
                                         @if (!empty($category['subcategories']))
