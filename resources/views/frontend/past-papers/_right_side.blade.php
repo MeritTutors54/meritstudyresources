@@ -1,5 +1,5 @@
 <!-- Start Right Site -->
-@if (!empty($params['category']))
+@if (!empty($params['category']) && !empty($params['subcategory']))
     <div class="resources_page_right_pagination">
         <ul>
             <li>
@@ -34,54 +34,59 @@
     </div>
 @endif
 
+
 @if(!empty($pastPapers))
-    {{-- this section is responsible for showing title value --}}
-    <div class="resources_page_right_title">
-        <h1 class="" style="font-size:23px">{{ $params['resubcategory']['resubcategory_name'] }}</h1>
-        @if(!empty($params['resubcategory']['description']))
-            <h5 class="mt-3">Description</h5>
-            <div id="descWrapper" class="desc-wrapper">
-                <div id="descText" class="desc-text">
-                    {!! $params['resubcategory']['description'] !!}
+    @if(!empty($params['category']) && !empty($params['subcategory']))
+
+        {{-- this section is responsible for showing title value --}}
+        <div class="resources_page_right_title">
+            <h1 class="" style="font-size:23px">{{ $params['resubcategory']['resubcategory_name'] }}</h1>
+            @if(!empty($params['resubcategory']['description']))
+                <h5 class="mt-3">Description</h5>
+                <div id="descWrapper" class="desc-wrapper">
+                    <div id="descText" class="desc-text">
+                        {!! $params['resubcategory']['description'] !!}
+                    </div>
+
+                    <button id="toggleBtn" class="see-more-btn">See more</button>
                 </div>
-
-                <button id="toggleBtn" class="see-more-btn">See more</button>
-            </div>
-        @endif
-    </div>
-
-
-    <div class="mt-4" id="paper-box">
-        <button
-            data-type="all"
-            data-category="{{ $params['category']['id'] }}"
-            data-subcategory="{{ $params['subcategory']['id'] }}"
-            data-resubcategory="{{ $params['resubcategory']['id'] }}"
-            class="anchor-item me-3 mb-3 clickForPastPaper">
-            <strong>All Papers</strong>
-        </button>
-        @foreach($pastPapers as $paper)
-            <button class="anchor-item me-3 mb-3 clickForPastPaper"
-                    data-type="none"
-                    data-title="{{ $paper }}"
-                    data-category="{{ $params['category']['id'] }}"
-                    data-subcategory="{{ $params['subcategory']['id'] }}"
-                    data-resubcategory="{{ $params['resubcategory']['id'] }}"
-            >
-                <strong>{{ $paper }}</strong>
-            </button>
-        @endforeach
-    </div>
-
-    <div id="waiting-logo" class="d-none d-flex flex-column justify-content-center align-items-center"
-        style="height: 20vh;">
-        <div class="spinner-border text-primary" style="width: 45px;height: 45px;" role="status">
-            <span class="visually-hidden">Loading...</span>
+            @endif
         </div>
-        <span class="mt-3"><strong>Loading...</strong></span>
-    </div>
 
-    <div class="merit-menu-box mt-2" id="past-paper-accordion"></div>
+
+        <div class="mt-4" id="paper-box">
+            <button
+                data-type="all"
+                data-category="{{ $params['category']['id'] }}"
+                data-subcategory="{{ $params['subcategory']['id'] }}"
+                data-resubcategory="{{ $params['resubcategory']['id'] }}"
+                class="anchor-item me-3 mb-3 clickForPastPaper">
+                <strong>All Papers</strong>
+            </button>
+            @foreach($pastPapers as $paper)
+                <button class="anchor-item me-3 mb-3 clickForPastPaper"
+                        data-type="none"
+                        data-title="{{ $paper }}"
+                        data-category="{{ $params['category']['id'] }}"
+                        data-subcategory="{{ $params['subcategory']['id'] }}"
+                        data-resubcategory="{{ $params['resubcategory']['id'] }}"
+                >
+                    <strong>{{ $paper }}</strong>
+                </button>
+            @endforeach
+        </div>
+
+        <div id="waiting-logo" class="d-none d-flex flex-column justify-content-center align-items-center"
+             style="height: 20vh;">
+            <div class="spinner-border text-primary" style="width: 45px;height: 45px;" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <span class="mt-3"><strong>Loading...</strong></span>
+        </div>
+
+
+        <div class="merit-menu-box mt-2" id="past-paper-accordion"></div>
+    @endif
 @else
     {{-- this section is responsible for showing search value --}}
     @if (!empty($q))
@@ -98,7 +103,7 @@
                                     <div class="d-flex flex-wrap">
                                         @foreach ($subCategory['resubcategories'] as $resub)
                                             <a href="{{ route('past.papers', [$category['slug'], $subCategory['slug'], $resub['slug']]) }}{{ !empty($q) ? '?q=' . $q : '' }}"
-                                                class="anchor-item me-3 py-2 px-4">
+                                               class="anchor-item me-3 py-2 px-4">
                                                 <strong>{{ $resub['resubcategory_name'] }}
                                                     ({{ $resub['unit_code'] }})
                                                 </strong>
@@ -121,7 +126,7 @@
                                 <div class="mt-3 d-flex flex-wrap">
                                     @foreach ($category['subcategories'] as $subCategory)
                                         <a href="{{ route('past.papers', [$category['slug'], $subCategory['slug']]) . '?q=' . $q }}"
-                                            class="anchor-item me-3 mb-3">
+                                           class="anchor-item me-3 mb-3">
                                             <strong>{{ $subCategory['subcategory_name'] }}</strong>
                                         </a>
                                     @endforeach
@@ -144,7 +149,7 @@
                             <div class="d-flex flex-wrap">
                                 @foreach ($params['subcategory']['resubcategories'] as $resub)
                                     <a href="{{ route('past.papers', [$params['category']['slug'], $params['subcategory']['slug'], $resub['slug']]) }}{{ !empty($q) ? '?q=' . $q : '' }}"
-                                        class="anchor-item me-3 py-2 px-4">
+                                       class="anchor-item me-3 py-2 px-4">
                                         <strong>{{ $resub['resubcategory_name'] }}
                                             ({{ $resub['unit_code'] }})
                                         </strong>

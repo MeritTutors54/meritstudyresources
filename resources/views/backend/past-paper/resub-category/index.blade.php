@@ -125,7 +125,7 @@
             $('#dltModal').modal('show');
         });
 
-        $('.statusSwitch').on('change', function () {
+        $('#example1').on('change', '.statusSwitch', function () {
             let checkbox = $(this);
             $(".statusSwitch").prop('disabled', true);
             let categoryID = $(this).data('id');

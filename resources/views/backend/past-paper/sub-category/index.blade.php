@@ -151,7 +151,7 @@
             $('#dltModal').modal('show');
         });
 
-        $(".subjectSwitch").on('change', function () {
+        $('#example1').on('change', '.subjectSwitch', function () {
             let checkbox = $(this);
             $(".subjectSwitch").prop('disabled', true);
             let objectID = $(this).data('id');
@@ -209,7 +209,7 @@
         });
 
 
-        $('.statusSwitch').on('change', function () {
+        $('#example1').on('change', '.statusSwitch', function () {
             let checkbox = $(this);
             $(".statusSwitch").prop('disabled', true);
             let categoryID = $(this).data('id');

@@ -275,12 +275,16 @@ class AjaxController extends Controller
         $buildPastPapersQuery = function (?string $search = null) use ($request) {
             return PastPaper::query()
                 ->with('series')
-                ->when($request->type !== "all", function($query) use ($request){
+                ->where('is_active', '=', '1')
+                ->when($request->type !== "all", function ($query) use ($request) {
                     $query->where('title', $request->title);
                 })
                 ->where('category', $request->category_id)
                 ->where('subcategory', $request->subcategory_id)
                 ->where('resubcategory', $request->resubcategory_id)
+                ->whereHas('series', function ($query) {
+                    $query->where('is_active', '=', '1');
+                })
                 ->when(filled($search), function ($query) use ($search) {
                     $query->whereHas('series', function ($seriesQuery) use ($search) {
                         $seriesQuery->whereRaw(
@@ -305,6 +309,8 @@ class AjaxController extends Controller
             ->groupBy(function ($paper) {
                 return $paper->series->name;
             });
+
+
 
 
         return response()->json($pastPapers);
@@ -339,7 +345,7 @@ class AjaxController extends Controller
 
                 return '
                 <label class="switch">
-                    <input type="checkbox" class="statusSwitch" data-id="'.$row->id.'" id="togProp-' . $row->id .'" '. $checked . '>
+                    <input type="checkbox" class="statusSwitch" data-id="' . $row->id . '" id="togProp-' . $row->id . '" ' . $checked . '>
                     <div class="slider round">
                         <span class="on">Active</span>
                         <span class="off">Inactive</span>
@@ -417,18 +423,18 @@ class AjaxController extends Controller
             })
             ->addColumn('action_badge', function ($row) {
                 if ($row->action === strtolower(Activity::CREATED->name)) {
-                    return '<span class="btn-sm btn-success">'. Activity::CREATED->name .'</span>';
+                    return '<span class="btn-sm btn-success">' . Activity::CREATED->name . '</span>';
                 } else if ($row->action === strtolower(Activity::DELETED->name)) {
-                    return '<span class="btn-sm btn-danger">'. Activity::DELETED->name .'</span>';
+                    return '<span class="btn-sm btn-danger">' . Activity::DELETED->name . '</span>';
                 }
-                return '<span class="btn-sm btn-warning">'. Activity::UPDATE->name .'</span>';
+                return '<span class="btn-sm btn-warning">' . Activity::UPDATE->name . '</span>';
             })
             ->addColumn('date_time', function ($row) {
                 return $row->created_at->format('Y-m-d H:i:s') ?? '';
             })
             ->addColumn('more', function ($row) {
                 $route = route('admin.activity.show', [$row]);
-                return '<a href="'.$route.'">See More...</a>';
+                return '<a href="' . $route . '">See More...</a>';
             })
             ->rawColumns(['action_badge', 'more'])
             ->make(true);

@@ -1,6 +1,6 @@
 {{-- @extends('layouts.frontend', ['main_title' => $defaultSEO->meta_title ?? 'Past Papers - MeritStudyResources.co.uk' ]) --}}
 @extends('layouts.frontend', [
-    'main_title' => 
+    'main_title' =>
         ($params['category']['category_name'] ?? '') .
         (!empty($params['subcategory']) ? ' - ' . $params['subcategory']['subcategory_name'] : '') .
         (!empty($params['resubcategory']) ? ' - ' . $params['resubcategory']['resubcategory_name'] : '') .
@@ -104,7 +104,7 @@
             const title = $(this).data('title')
 
             let key = 0;
-            
+
             const optionalSearchQuery = $("#optional-search").val();
 
             $.ajax({
@@ -159,7 +159,7 @@
                             '" class="merit-menu-dropdown-box">' +
                             '<div class="merit-menu-body"> ' +
                             '<ul class="rplc_dropdown mt-1"> ' +
-                            '<li><h5>Questions and Marksheet</h5></li> ' +
+                            // '<li><h5>Questions and Marksheet</h5></li> ' +
                             '<li><div class="paper-zone">' + paperLinks + '</div></li> ' +
                             '</ul> ' +
                             '</div> ' +

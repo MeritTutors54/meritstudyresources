@@ -174,14 +174,17 @@ class PastPaperController extends Controller
                                             })
                                                 ->with([
                                                     'series' => function ($seriesQuery) {
-                                                        $seriesQuery->orderBy('name');
+                                                        $seriesQuery->orderBy('name')
+                                                            ->where('is_active', '=', '1');
                                                     }
                                                 ]);
                                         }
                                     ])
+                                    ->where('is_active', '=', '1')
                                     ->orderBy('resubcategory_name');
                             }
                         ])
+                        ->where('is_active', '=', '1')
                         ->orderBy('subcategory_name');
                 }
             ])
@@ -218,8 +221,10 @@ class PastPaperController extends Controller
     ) {
         return Category::query()
             ->where('slug', $categorySlug)
+            ->where('is_active', '=', '1')
             ->whereHas('subcategories', function ($query) use ($subcategorySlug) {
-                $query->where('slug', $subcategorySlug);
+                $query->where('slug', $subcategorySlug)
+                    ->where('is_active', '=', '1');
             })
             ->with([
                 'subcategories' => function ($query) use ($subcategorySlug, $search) {
@@ -272,13 +277,13 @@ class PastPaperController extends Controller
                 },
             ])
             ->whereHas('category_model', function ($query) use ($categorySlug) {
-                $query->where('slug', $categorySlug);
+                $query->where('slug', $categorySlug)->where('is_active', '=', '1');
             })
             ->whereHas('subcategory_model', function ($query) use ($subcategorySlug) {
-                $query->where('slug', $subcategorySlug);
+                $query->where('slug', $subcategorySlug)->where('is_active', '=', '1');
             })
             ->whereHas('resubcategory_model', function ($query) use ($resubSlug) {
-                $query->where('slug', $resubSlug);
+                $query->where('slug', $resubSlug)->where('is_active', '=', '1');
             });
 
         $filteredQuery = (clone $baseQuery)
@@ -313,18 +318,21 @@ class PastPaperController extends Controller
         $params['category'] = Category::query()
             ->where('slug', $categorySlug)
             ->select(['id', 'category_name', 'slug'])
+            ->where('is_active', '=', '1')
             ->first()
             ?->toArray();
 
         if (! empty($params['category'])) {
             $params['subcategory'] = SubCategory::query()
                 ->where('slug', $subcategorySlug)
+                ->where('is_active', '=', '1')
                 ->whereHas('category', function ($query) use ($categorySlug) {
                     $query->where('slug', $categorySlug);
                 })
                 ->with([
                     'resubcategories' => function ($query) {
                         $query->select(['id', 'subcategory_id', 'resubcategory_name', 'slug', 'unit_code',])
+                            ->where('is_active', '=', '1')
                             ->orderBy('resubcategory_name', 'asc');
                     },
                 ])
@@ -336,6 +344,7 @@ class PastPaperController extends Controller
         if (! empty($params['category']) && ! empty($params['subcategory'])) {
             $params['resubcategory'] = Resubcategory::query()
                 ->where('slug', $resubSlug)
+                ->where('is_active', '=', '1')
                 ->whereHas('category', function ($query) use ($categorySlug) {
                     $query->where('slug', $categorySlug);
                 })
