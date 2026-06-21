@@ -138,7 +138,15 @@
     <script src="{{ asset('backend/assets/js/pages/data-table.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
 
-
+    <script>
+        $('#example1').DataTable({
+            lengthMenu: [
+                [10, 25, 50, 100, -1],
+                [10, 25, 50, 100, "All"]
+            ],
+            pageLength: 10
+        });
+    </script>
     <script>
         $('.dltButton').on('click', function () {
             let name = $(this).data('name');

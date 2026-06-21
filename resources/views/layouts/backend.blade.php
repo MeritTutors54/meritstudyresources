@@ -190,8 +190,8 @@
 
 {{--  --}}
 
-	<script src="{{asset('backend')}}/assets/datatabels/dataTables.min.js"></script>
-	<script src="{{asset('backend')}}/assets/datatabels/dataTables-active.js"></script>
+<script src="{{asset('backend')}}/assets/datatabels/dataTables.min.js"></script>
+<script src="{{asset('backend')}}/assets/datatabels/dataTables-active.js"></script>
 
 <!-- EduAdmin App -->
 <script src="{{ asset('backend/assets/js/template.js?v=' . $v) }}"></script>

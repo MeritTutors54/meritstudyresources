@@ -57,63 +57,63 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                       {{-- @foreach ($allData as $key => $data)
-                                           <tr>
-                                               <td>{{ ++$key }}</td>
-                                               <td>{{ $data->title ?? "" }}</td>
-                                               <td>{{ $data->series->name ?? "" }}</td>
-                                               <td>{{ $data->category_model->category_name ?? "" }}</td>
-                                               <td>{{ $data->subcategory_model->subcategory_name ?? "" }}
-                                                   -{{ $data->resubcategory_model->unit_code ?? "" }}
-                                               </td>
-                                               <td>{{ $data->resubcategory_model->resubcategory_name ?? "" }}</td>
-                                               <td>
-                                                   @if ($data->is_active == 1)
-                                                       <span class="btn-sm btn-success">Active</span>
-                                                   @else
-                                                       <span class="btn-sm btn-danger">Deactivate</span>
-                                                   @endif
-                                               </td>
+                                        {{-- @foreach ($allData as $key => $data)
+                                            <tr>
+                                                <td>{{ ++$key }}</td>
+                                                <td>{{ $data->title ?? "" }}</td>
+                                                <td>{{ $data->series->name ?? "" }}</td>
+                                                <td>{{ $data->category_model->category_name ?? "" }}</td>
+                                                <td>{{ $data->subcategory_model->subcategory_name ?? "" }}
+                                                    -{{ $data->resubcategory_model->unit_code ?? "" }}
+                                                </td>
+                                                <td>{{ $data->resubcategory_model->resubcategory_name ?? "" }}</td>
+                                                <td>
+                                                    @if ($data->is_active == 1)
+                                                        <span class="btn-sm btn-success">Active</span>
+                                                    @else
+                                                        <span class="btn-sm btn-danger">Deactivate</span>
+                                                    @endif
+                                                </td>
 
-                                                                                             <td>
-                                                                                                  @if ($data->is_active == 1)
-                                                                                                     <a class=" bg-success-light" style="color:green"
-                                                                                                         data-toggle="tooltip" data-placement="top"
-                                                                                                         href="{{ url('admin/past-paper/deactive/' . $data->id) }}"
-                                                                                                         data-original-title="Active"><i
-                                                                                                             class="fa fa-thumbs-up"></i></a>
-                                                                                               @else
-                                                                        <a class="bg-danger-light" style="color:red" data-toggle="tooltip" data-placement="top" href="{{ url('admin/past-paper/active/' . $data->id) }}"
-                                                            data-original-title="Deactive"><i  class="fa fa-thumbs-down"></i></a> 
-                                                                                                @endif
-                                                                                                  <a class=" bg-primary-light"
-                                                                                                      href="{{ route('admin.past-papers.edit', [$data]) }}"
-                                                                                                   title="edit"><i class="fas fa-pencil-alt"></i></a>
+                                                                                              <td>
+                                                                                                   @if ($data->is_active == 1)
+                                                                                                      <a class=" bg-success-light" style="color:green"
+                                                                                                          data-toggle="tooltip" data-placement="top"
+                                                                                                          href="{{ url('admin/past-paper/deactive/' . $data->id) }}"
+                                                                                                          data-original-title="Active"><i
+                                                                                                              class="fa fa-thumbs-up"></i></a>
+                                                                                                @else
+                                                                         <a class="bg-danger-light" style="color:red" data-toggle="tooltip" data-placement="top" href="{{ url('admin/past-paper/active/' . $data->id) }}"
+                                                             data-original-title="Deactive"><i  class="fa fa-thumbs-down"></i></a>
+                                                                                                 @endif
+                                                                                                   <a class=" bg-primary-light"
+                                                                                                       href="{{ route('admin.past-papers.edit', [$data]) }}"
+                                                                                                    title="edit"><i class="fas fa-pencil-alt"></i></a>
 
-                                                                                                  <a id="delete" class="bg-danger-light" style="color:red"
-                                                                                                     data-toggle="tooltip" data-placement="top"
-                                                                                                    href="{{ route('admin.past-papers.destroy', [$data]) }}"
-                                                                                                    data-original-title="Delete"> <i class="fa fa-trash"></i></a>
-                                                                                             </td>
+                                                                                                   <a id="delete" class="bg-danger-light" style="color:red"
+                                                                                                      data-toggle="tooltip" data-placement="top"
+                                                                                                     href="{{ route('admin.past-papers.destroy', [$data]) }}"
+                                                                                                     data-original-title="Delete"> <i class="fa fa-trash"></i></a>
+                                                                                              </td>
 
-                                               <td class="text-center">
-                                                   @can('editPastPaper', Auth::user())
-                                                       <a href="{{ route('admin.past-papers.edit', [$data]) }}">
-                                                           <i class="fa fa-edit" aria-hidden="true"></i>
-                                                       </a>
-                                                   @endcan
+                                                <td class="text-center">
+                                                    @can('editPastPaper', Auth::user())
+                                                        <a href="{{ route('admin.past-papers.edit', [$data]) }}">
+                                                            <i class="fa fa-edit" aria-hidden="true"></i>
+                                                        </a>
+                                                    @endcan
 
-                                                   @can('deletePastPaper', Auth::user())
-                                                       <button type="button"
-                                                               data-route="{{ route('admin.past-papers.destroy', [$data]) }}"
-                                                               data-name="{{ $data->title }}"
-                                                               class="dltButton btn bg-transparent p-0 ms-2">
-                                                           <i class="fa fa-trash-o text-danger" aria-hidden="true"></i>
-                                                       </button>
-                                                   @endcan
-                                               </td>
-                                           </tr>
-                                       @endforeach --}}
+                                                    @can('deletePastPaper', Auth::user())
+                                                        <button type="button"
+                                                                data-route="{{ route('admin.past-papers.destroy', [$data]) }}"
+                                                                data-name="{{ $data->title }}"
+                                                                class="dltButton btn bg-transparent p-0 ms-2">
+                                                            <i class="fa fa-trash-o text-danger" aria-hidden="true"></i>
+                                                        </button>
+                                                    @endcan
+                                                </td>
+                                            </tr>
+                                        @endforeach --}}
                                         </tbody>
                                     </table>
                                 </div>
@@ -133,50 +133,50 @@
     {{-- <script src="{{ asset('backend/assets/datatables/dataTables.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/pages/dataTables-active.js') }}"></script> --}}
     <!-- DataTables CSS & JS (you already have) -->
-<link rel="stylesheet" href="{{ asset('backend/assets/vendor_components/datatable/datatables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/assets/vendor_components/datatable/datatables.min.css') }}">
 
-<!-- Buttons extension CSS -->
-<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+    <!-- Buttons extension CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
 
-<!-- DataTables Buttons JS -->
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.flash.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+    <!-- DataTables Buttons JS -->
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
 
     <script>
-       $(document).ready(function() {
-    $('#past-paper-table').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: '{{ route("admin.ajax.getPastPaper") }}',
+        $(document).ready(function () {
+            $('#past-paper-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route("admin.ajax.getPastPaper") }}',
 
-        columns: [
-            { data: 'id', name: 'id' },
-            { data: 'title', name: 'title' },
-            { data: 'unit_code', name: 'resubcategory_model.unit_code' },
-            { data: 'series_name', name: 'series.name' },
-            { data: 'category_name', name: 'category_model.category_name' },
-            { data: 'subcategory_name', name: 'subcategory_model.subcategory_name' },
-            { data: 'resubcategory_name', name: 'resubcategory_model.resubcategory_name' },
-            { data: 'status_badge', name: 'status', searchable: false },
-            { data: 'actions', name: 'actions', searchable: false },
-        ],
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'title', name: 'title'},
+                    {data: 'unit_code', name: 'resubcategory_model.unit_code'},
+                    {data: 'series_name', name: 'series.name'},
+                    {data: 'category_name', name: 'category_model.category_name'},
+                    {data: 'subcategory_name', name: 'subcategory_model.subcategory_name'},
+                    {data: 'resubcategory_name', name: 'resubcategory_model.resubcategory_name'},
+                    {data: 'status_badge', name: 'status', searchable: false},
+                    {data: 'actions', name: 'actions', searchable: false},
+                ],
 
-        dom: 'Blfrtip', // ✅ IMPORTANT
+                dom: 'Blfrtip', // ✅ IMPORTANT
 
-        buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+                buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
 
-        lengthMenu: [
-            [10, 25, 50, 500,1000],
-            [10, 25, 50, 500, 1000]
-        ],
+                lengthMenu: [
+                    [10, 25, 50, 500, 1000],
+                    [10, 25, 50, 500, 1000]
+                ],
 
-        pageLength: 10 // default selected
-    });
-});
+                pageLength: 10 // default selected
+            });
+        });
     </script>
 @endsection
