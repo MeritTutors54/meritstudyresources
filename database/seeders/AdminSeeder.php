@@ -20,7 +20,6 @@ class AdminSeeder extends Seeder
             return;
         }
 
-
         $admin = Admin::query()->create([
             'name' => 'admin',
             'username' => 'admin',

@@ -6,4 +6,29 @@ namespace App\Enums;
  {
      case INACTIVE = 0;
      case ACTIVE = 1;
+
+     public function label(): string
+     {
+         return match ($this) {
+             self::ACTIVE => 'Active',
+             self::INACTIVE => 'Inactive',
+         };
+     }
+
+     public static function options(): array
+     {
+         $options = [];
+         foreach (self::cases() as $case) {
+             $options[$case->value] = $case->label();
+         }
+         return $options;
+     }
+
+     public function color(): string
+     {
+         return match($this) {
+             self::INACTIVE => 'secondary',
+             self::ACTIVE => 'success',
+         };
+     }
  }
