@@ -298,6 +298,7 @@ class PastPaperController extends Controller
         return $pastPapers
             ->pluck('title')
             ->unique()
+            ->sort()
             ->values()
             ->toArray();
     }
