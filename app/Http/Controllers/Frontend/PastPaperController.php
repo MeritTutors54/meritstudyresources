@@ -324,7 +324,8 @@ class PastPaperController extends Controller
                 })
                 ->with([
                     'resubcategories' => function ($query) {
-                        $query->select(['id', 'subcategory_id', 'resubcategory_name', 'slug', 'unit_code',]);
+                        $query->select(['id', 'subcategory_id', 'resubcategory_name', 'slug', 'unit_code',])
+                            ->orderBy('resubcategory_name', 'asc');
                     },
                 ])
                 ->select(['id', 'subcategory_name', 'slug'])
