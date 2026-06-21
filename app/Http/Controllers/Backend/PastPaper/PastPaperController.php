@@ -45,10 +45,25 @@ class PastPaperController extends Controller
     {
         $this->authorize('createPastPaper', Auth::user());
 
-        $examSeries = PastPaperYear::query()
+        $examSeriesRaw = PastPaperYear::query()
             ->where(['is_active' => 1, 'is_deleted' => 0])
-            ->orderBy('id', 'DESC')
+            ->orderBy('id', 'DESC') // fallback database order
             ->get();
+
+        list($juneSeries, $novemberSeries) = $examSeriesRaw->partition(function ($item) {
+            return str_contains(strtolower($item->name), 'june');
+        });
+
+
+        $sortedJune = $juneSeries->sortByDesc(function ($item) {
+            return strtotime($item->name);
+        });
+
+        $sortedNovember = $novemberSeries->sortByDesc(function ($item) {
+            return strtotime($item->name);
+        });
+
+        $examSeries = $sortedJune->merge($sortedNovember);
 
         $categories = Category::query()
             ->where(['is_active' => 1, 'is_deleted' => 0])
@@ -62,7 +77,7 @@ class PastPaperController extends Controller
                 ->where(['is_active' => 1, 'is_deleted' => 0])
                 ->orderBy('id', 'DESC')
                 ->get();
-            
+
         }
 
         $old_sub = old('subcategory');
@@ -233,10 +248,25 @@ class PastPaperController extends Controller
     {
         $this->authorize('editPastPaper', Auth::user());
 
-        $examSeries = PastPaperYear::query()
+        $examSeriesRaw = PastPaperYear::query()
             ->where(['is_active' => 1, 'is_deleted' => 0])
-            ->orderBy('id', 'DESC')
+            ->orderBy('id', 'DESC') // fallback database order
             ->get();
+
+        list($juneSeries, $novemberSeries) = $examSeriesRaw->partition(function ($item) {
+            return str_contains(strtolower($item->name), 'june');
+        });
+
+
+        $sortedJune = $juneSeries->sortByDesc(function ($item) {
+            return strtotime($item->name);
+        });
+
+        $sortedNovember = $novemberSeries->sortByDesc(function ($item) {
+            return strtotime($item->name);
+        });
+
+        $examSeries = $sortedJune->merge($sortedNovember);
 
         $categories = Category::query()
             ->where(['is_active' => 1, 'is_deleted' => 0])
