@@ -250,7 +250,9 @@ class AjaxController extends Controller
             ->where('category_id', $category_id)
             ->where('is_deleted', 0)
             ->where('is_active', 1)
-            ->select(['subcategory_name', 'id'])->get();
+            ->select(['subcategory_name', 'id'])
+            ->orderBy('subcategory_name', 'asc')
+            ->get();
 
         return response()->json($data);
     }
