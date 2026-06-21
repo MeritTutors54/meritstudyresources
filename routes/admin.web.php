@@ -178,7 +178,6 @@ Route::prefix('admin')->middleware(['auth:admin', 'team.permission'])->group(fun
     |--------------------------------------------------------------------------
     */
     Route::post('/get-subjects', [AjaxController::class, 'getSubjects'])->name('admin.ajax.getSubjects');
-//    Route::get('/getPastPaperData', [AjaxController::class, 'getPastPaper'])->name('admin.ajax.getPastPaper');
     Route::get('/get-sub-category/{category_id}', [AjaxController::class, 'getSubCategory'])->name('admin.ajax.getSubCategory');
     Route::get('/get-resub-category/{subcategory_id}/', [AjaxController::class, 'getReSubCategory'])->name('admin.ajax.getReSubCategory');
     Route::get('/users/data', [AjaxController::class, 'indexData'])->name('admin.ajax.getPastPaper');

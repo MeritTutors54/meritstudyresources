@@ -335,16 +335,27 @@ class AjaxController extends Controller
                 return $row->resubcategory_model->resubcategory_name ?? "";
             })
             ->addColumn('status_badge', function ($row) {
-                if ($row->is_active == 1) {
-                    return '<span class="btn-sm btn-success">Active</span>';
-                }
-                return '<span class="btn-sm btn-danger">Deactivate</span>';
+                $checked = $row->is_active == 1 ? 'checked' : '';
+
+                return '
+                <label class="switch">
+                    <input type="checkbox" class="statusSwitch" data-id="'.$row->id.'" id="togProp-' . $row->id .'" '. $checked . '>
+                    <div class="slider round">
+                        <span class="on">Active</span>
+                        <span class="off">Inactive</span>
+                    </div>
+                </label>';
             })
             ->addColumn('actions', function ($data) {
                 return view('backend.past-paper._action_button', compact('data'))->render();
             })
             ->rawColumns(['status_badge', 'actions'])
             ->make(true);
+
+    }
+
+    public function updatePastPaper(Request $request)
+    {
 
     }
 
