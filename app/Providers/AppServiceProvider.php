@@ -13,6 +13,8 @@ use App\Models\EducationLevel;
 use App\Models\SiteSettings;
 use App\Models\Subject;
 use App\Models\Subscription;
+use App\Repositories\Interfaces\PastPaperRepositoryInterface;
+use App\Repositories\PastPaperRepository;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -34,7 +36,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(PastPaperRepositoryInterface::class, PastPaperRepository::class);
     }
 
     /**

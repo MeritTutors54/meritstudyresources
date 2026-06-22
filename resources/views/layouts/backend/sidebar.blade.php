@@ -29,7 +29,7 @@
                         </a>
                         <ul class="treeview-menu">
                             @can('viewPastPaper', Auth::user())
-                                <li class="{{ request()->is('admin/past-papers') ? 'active' : '' }}">
+                                <li class="{{ request()->routeIs('admin.past-papers.edit') || request()->routeIs('admin.past-papers.index') ? 'active' : '' }}">
                                     <a href="{{ route('admin.past-papers.index') }}">
                                         <i class="icon-Commit">
                                             <span class="path1"></span><span class="path2"></span>
@@ -48,6 +48,14 @@
                                     </a>
                                 </li>
                             @endcan
+{{--                                <li class="">--}}
+{{--                                    <a href="{{ route('admin.past-paper.missing') }}">--}}
+{{--                                        <i class="icon-Commit">--}}
+{{--                                            <span class="path1"></span><span class="path2"></span>--}}
+{{--                                        </i>--}}
+{{--                                        Missing Past Paper--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
                             @can('viewExamSeries', Auth::user())
                                 <li class="{{ request()->is('admin/exam-series*') ? 'active' : '' }}">
                                     <a href="{{ route('admin.exam-series.index') }}">

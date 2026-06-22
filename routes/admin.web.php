@@ -116,6 +116,7 @@ Route::prefix('admin')->middleware(['auth:admin', 'team.permission'])->group(fun
     Route::resource('/sub-categories', SubCategoryController::class, ['as' => 'admin']);
     Route::resource('/resub-categories', ResubCategoryController::class, ['as' => 'admin']);
     Route::resource('/exam-series', ExamSeriesController::class, ['as' => 'admin']);
+    Route::get('/missing-past-papers', [PastPaperController::class, 'missingPastPaper'])->name('admin.past-paper.missing');
 
     /*
     |--------------------------------------------------------------------------

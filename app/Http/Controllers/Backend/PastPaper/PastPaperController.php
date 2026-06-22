@@ -11,20 +11,21 @@ use App\Models\PastPaperYear;
 use App\Models\Resubcategory;
 use App\Models\SubCategory;
 use App\Operations\Backend\AdminActivity;
+use App\Repositories\Interfaces\PastPaperRepositoryInterface;
 use Auth;
 use Carbon\Carbon;
-use DB;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use App\Services\PastPaperService;
 
 class PastPaperController extends Controller
 {
     protected array $log;
     protected array $notification;
 
-    public function __construct()
-    {
+    public function __construct(
+        protected PastPaperRepositoryInterface $pastPaperRepository,
+    ) {
         $this->middleware('auth:admin');
     }
 
@@ -32,11 +33,11 @@ class PastPaperController extends Controller
     {
         $this->authorize('viewPastPaper', Auth::user());
 
-//        $allData = PastPaper::query()
-//            ->where('is_deleted', 0)
-//            ->with('category_model', 'subcategory_model', 'resubcategory_model', 'series')
-//            ->orderBy('id', 'DESC')
-//            ->limit(20)->get();
+        //        $allData = PastPaper::query()
+        //            ->where('is_deleted', 0)
+        //            ->with('category_model', 'subcategory_model', 'resubcategory_model', 'series')
+        //            ->orderBy('id', 'DESC')
+        //            ->limit(20)->get();
 
         return view('backend.past-paper.index');
     }
@@ -77,7 +78,6 @@ class PastPaperController extends Controller
                 ->where(['is_active' => 1, 'is_deleted' => 0])
                 ->orderBy('id', 'DESC')
                 ->get();
-
         }
 
         $old_sub = old('subcategory');
@@ -206,7 +206,7 @@ class PastPaperController extends Controller
             ->with($this->notification['status'], $this->notification['message']);
     }
 
-// video uploads
+    // video uploads
     private function uploadFile($file)
     {
         // Define file storage path
@@ -361,7 +361,6 @@ class PastPaperController extends Controller
                         'pdf_solution' => $PDFSolutionName ?? '',
                     ]);
                 }
-
             }
             if ($request->hasFile('ques_paper')) {
                 $existing = $past_paper;
@@ -437,7 +436,6 @@ class PastPaperController extends Controller
 
         return to_route('admin.past-papers.index')
             ->with($this->notification['status'], $this->notification['message']);
-
     }
 
     // active
@@ -482,4 +480,12 @@ class PastPaperController extends Controller
         }
     }
 
+    public function missingPastPaper()
+    {
+        $all = $this->pastPaperRepository->all();
+
+        $corruptedEntries = PastPaperService::findCorruptedEntry($all);
+
+        dd($corruptedEntries);
+    }
 }
