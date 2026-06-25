@@ -50,14 +50,14 @@ Route::group(['middleware' => 'team.permission'], function () {
     | Resource Section
     |--------------------------------------------------------------------------
     */
-    //    Route::get('/search', [ResourceController::class, 'search'])->name('resource.search');
-    //    Route::get('/all-resources/{educationLevelSlug?}',
-    //        [ResourceController::class, 'educationalLevelResource'])->name('resource.category');
-    //    Route::get('/all-resources/{educationLevelSlug}/{subjectSlug}/{groupSlug?}/{topicSlug?}/{subTopicSlug?}',
-    //        [ResourceController::class, 'topicResource'])->name('resources.topic');
-    //    Route::get('/get/{resource}/{resourceSlug}', [ResourceController::class, 'resourceDetails'])->name('resources.topic.details');
-    //    Route::get('/get-product/{product_slug}', [ProductController::class, 'details'])
-    //        ->name('single.product');
+       Route::get('/search', [ResourceController::class, 'search'])->name('resource.search');
+       Route::get('/all-resources/{educationLevelSlug?}',
+           [ResourceController::class, 'educationalLevelResource'])->name('resource.category');
+       Route::get('/all-resources/{educationLevelSlug}/{subjectSlug}/{groupSlug?}/{topicSlug?}/{subTopicSlug?}',
+           [ResourceController::class, 'topicResource'])->name('resources.topic');
+       Route::get('/get/{resource}/{resourceSlug}', [ResourceController::class, 'resourceDetails'])->name('resources.topic.details');
+       Route::get('/get-product/{product_slug}', [ProductController::class, 'details'])
+           ->name('single.product');
     /*
     |--------------------------------------------------------------------------
     | Past Paper Section

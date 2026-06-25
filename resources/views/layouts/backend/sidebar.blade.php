@@ -15,6 +15,14 @@
                             <span>Dashboard</span>
                         </a>
                     </li>
+                     <li class="{{ request()->is('admin') ? 'active' : '' }}">
+                        <a href="{{ route("admin.missingpastpapers") }}">
+                            <i class="icon-Layout-4-blocks">
+                                <span class="path1"></span><span class="path2"></span>
+                            </i>
+                            <span>Missing Past Papers</span>
+                        </a>
+                    </li>
                     <li class="header">Operations</li>
                     {{--Past Paper--}}
                     <li class="treeview {{ request()->is('admin/categories*') ? 'active menu-open' : '' }}">

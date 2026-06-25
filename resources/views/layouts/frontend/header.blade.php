@@ -41,29 +41,29 @@
                                 <li><a href="{{ route('pricing') }}">Pricing</a></li>
 
 
-{{--                                <li class="has-custom-submenu">--}}
-{{--                                    <a href="#">Resources--}}
-{{--                                        <i class="feather-chevron-down"></i>--}}
-{{--                                    </a>--}}
-{{--                                    @if(!empty($allResource))--}}
-{{--                                        <div class="custom-submenu">--}}
-{{--                                            @foreach($allResource as $subjectTitle => $resource)--}}
-{{--                                                @if(!empty($resource))--}}
-{{--                                                    <div class="submenu-box">--}}
-{{--                                                        <div class="submenu-header">{{ $subjectTitle }}</div>--}}
-{{--                                                        <ul class="custom-submenu-list">--}}
-{{--                                                            @foreach($resource as $subject)--}}
-{{--                                                                <li class="submenu-item">--}}
-{{--                                                                    <a href="{{ route('resources.topic', [$subject['education_level']['slug'], $subject['slug']]) }}">{{ $subject['education_level']['name'] }}</a>--}}
-{{--                                                                </li>--}}
-{{--                                                            @endforeach--}}
-{{--                                                        </ul>--}}
-{{--                                                    </div>--}}
-{{--                                                @endif--}}
-{{--                                            @endforeach--}}
-{{--                                        </div>--}}
-{{--                                    @endif--}}
-{{--                                </li>--}}
+                                <li class="has-custom-submenu">
+                                    <a href="#">Resources
+                                       <i class="feather-chevron-down"></i>
+                                  </a>
+                                   @if(!empty($allResource))
+                                       <div class="custom-submenu">
+                                            @foreach($allResource as $subjectTitle => $resource)
+                                                @if(!empty($resource))
+                                                    <div class="submenu-box">
+                                                       <div class="submenu-header">{{ $subjectTitle }}</div>
+                                                        <ul class="custom-submenu-list">
+                                                            @foreach($resource as $subject)
+                                                               <li class="submenu-item">
+                                                                   <a href="{{ route('resources.topic', [$subject['education_level']['slug'], $subject['slug']]) }}">{{ $subject['education_level']['name'] }}</a>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </div>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </li>
                                 <li><a href="{{ route('past.papers') }}">Past Papers</a></li>
                             </ul>
                         @endguest

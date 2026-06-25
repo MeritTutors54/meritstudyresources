@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use DB;
 use Illuminate\View\View;
+use App\Models\PastPaper;
 
 class DashboardController extends Controller
 {
@@ -124,5 +125,49 @@ class DashboardController extends Controller
             return Redirect()->back()->with($notification);
         }
 
+    }
+
+
+    // missing past papers
+    public function missingpastpapers(){
+
+
+    // $wrongPdfFiles = DB::table('past_papers')
+    //               ->where('is_deleted', 0)
+    //        ->with('category_model', 'subcategory_model', 'resubcategory_model', 'series')
+    //         ->orderBy('id', 'DESC')
+    //     ->where(function ($q) {
+    //         $q->where('ques_paper', 'LIKE', '%pdf')         
+    //           ->where('ques_paper', 'NOT LIKE', '%.pdf');   
+    //     })
+    //     ->orWhere(function ($q) {
+    //         $q->where('ans_paper', 'LIKE', '%pdf')          
+    //           ->where('ans_paper', 'NOT LIKE', '%.pdf');    
+    //     })
+    //     ->get();
+     //return $wrongPdfFiles;
+
+     $wrongPdfFiles = PastPaper::with([
+        'category_model',
+        'subcategory_model',
+        'resubcategory_model',
+        'series'
+    ])
+    ->where('is_deleted', 0)
+    ->where(function ($query) {
+        $query->where(function ($q) {
+                $q->where('ques_paper', 'LIKE', '%pdf')
+                  ->where('ques_paper', 'NOT LIKE', '%.pdf');
+            })
+            ->orWhere(function ($q) {
+                $q->where('ans_paper', 'LIKE', '%pdf')
+                  ->where('ans_paper', 'NOT LIKE', '%.pdf');
+            });
+    })
+    ->orderBy('id', 'DESC')
+    ->get();
+
+
+        return view('backend.missingpastpapers.index',compact('wrongPdfFiles'));
     }
 }

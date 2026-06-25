@@ -5,7 +5,7 @@
             <h2>They talk <span class="default-shape">about us<img
                         src="{{ asset('frontend/assets/images/merithub/title-shape.png') }}" alt=""></span>
             </h2>
-            <p>See What Students and Teachers Are Saying About Merit Hub!</p>
+            <p>See What Students and Teachers Are Saying About Merit Study Resources!</p>
         </div>
         <div class="testimonials-carousel">
             <div class="testimonials-track">

@@ -45,7 +45,11 @@ Route::prefix('admin')->group(function () {
 
 
 Route::prefix('admin')->middleware(['auth:admin', 'team.permission'])->group(function () {
+
     Route::get('/', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
+
+
+    Route::get('/missing-pastpapers', [DashboardController::class, 'missingPastPapers'])->name('admin.missingpastpapers');
 
     /*
     |--------------------------------------------------------------------------

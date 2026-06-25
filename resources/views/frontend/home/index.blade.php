@@ -6,26 +6,6 @@
 @endsection
 @section('content')
 
-    <!--================== Start Discount Area ==================-->
-    {{-- <div class="discount-area-main">
-        <div class="discount-area">
-            <div class="discount-area-single">
-                <h2>ALL Booklets</h2>
-                <p>Year 10 & Year 11 Mathematics</p>
-            </div>
-            <div class="discount-area-single">
-                <p>UPTO</p>
-                <h2>15% OFF</h2>
-            </div>
-            <div class="discount-area-single">
-                <h2>ALL Past Papers</h2>
-                <p>GCSE, IGCSE, A Level, AS Level</p>
-            </div>
-        </div>
-    </div> --}}
-    <!--================== End Discount Area ==================-->
-
-    <!--================== Start Banner Area ==================-->
     <div class="banner-area-main">
         <div class="container">
             <div class="mt-3">
