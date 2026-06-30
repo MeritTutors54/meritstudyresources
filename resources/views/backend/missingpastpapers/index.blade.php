@@ -1,5 +1,8 @@
 @extends('layouts.backend')
 @section('content')
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/2.3.8/css/dataTables.dataTables.min.css">
+<script src="https://cdn.datatables.net/2.3.8/js/dataTables.min.js"></script>
     <div class="content-wrapper">
         <div class="container-full">
             <div class="content-header">
@@ -42,7 +45,7 @@
                             </div>
                             <div class="box-body">
                                 <div class="table-responsive">
-                                    <table id="past-paper-table" class="table table-bordered table-striped">
+                                    <table id="myTable" class="table table-bordered table-striped">
                                         <thead>
                                         <tr>
                                             <th>#</th>
@@ -52,7 +55,7 @@
                                             <th>Category</th>
                                             <th>SubCategory</th>
                                             <th>Resubcategory</th>
-                                            <th>Status</th>
+                                         
                                             <th>Manage</th>
                                         </tr>
                                         </thead>
@@ -75,26 +78,7 @@
                                                    @endif
                                                </td>
 
-                                                                                             <td>
-                                                                                                  @if ($data->is_active == 1)
-                                                                                                     <a class=" bg-success-light" style="color:green"
-                                                                                                         data-toggle="tooltip" data-placement="top"
-                                                                                                         href="{{ url('admin/past-paper/deactive/' . $data->id) }}"
-                                                                                                         data-original-title="Active"><i
-                                                                                                             class="fa fa-thumbs-up"></i></a>
-                                                                                               @else
-                                                                        <a class="bg-danger-light" style="color:red" data-toggle="tooltip" data-placement="top" href="{{ url('admin/past-paper/active/' . $data->id) }}"
-                                                            data-original-title="Deactive"><i  class="fa fa-thumbs-down"></i></a> 
-                                                                                                @endif
-                                                                                                  <a class=" bg-primary-light"
-                                                                                                      href="{{ route('admin.past-papers.edit', $data->id) }}"
-                                                                                                   title="edit"><i class="fas fa-pencil-alt"></i></a>
-
-                                                                                                  <a id="delete" class="bg-danger-light" style="color:red"
-                                                                                                     data-toggle="tooltip" data-placement="top"
-                                                                                                    href="{{ route('admin.past-papers.destroy', $data->id) }}"
-                                                                                                    data-original-title="Delete"> <i class="fa fa-trash"></i></a>
-                                                                                             </td>
+                                                                                        
 
                                                <td class="text-center">
                                                    @can('editPastPaper', Auth::user())
@@ -125,4 +109,10 @@
             </section>
         </div>
     </div>
+
+    <script>
+        $(document).ready( function () {
+    $('#myTable').DataTable();
+} );
+        </script>
 @endsection
