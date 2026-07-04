@@ -87,14 +87,14 @@
 
         <div class="navbar-custom-menu r-side">
             <ul class="nav navbar-nav">
-                <li class="btn-group nav-item d-lg-inline-flex d-none">
-                    <a href="#" data-provide="fullscreen" class="waves-effect waves-light nav-link full-screen"
-                        title="Full Screen">
-                        <i class="icon-Expand-arrows">
-                            <span class="path1"></span><span class="path2"></span>
-                        </i>
-                    </a>
-                </li>
+{{--                <li class="btn-group nav-item d-lg-inline-flex d-none">--}}
+{{--                    <a href="#" data-provide="fullscreen" class="waves-effect waves-light nav-link full-screen"--}}
+{{--                        title="Full Screen">--}}
+{{--                        <i class="icon-Expand-arrows">--}}
+{{--                            <span class="path1"></span><span class="path2"></span>--}}
+{{--                        </i>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
                 @can('viewForAdminRole', Auth::user())
                     <li class="btn-group nav-item d-none d-xl-inline-block">
                         <a href="{{ route('admin.permission.index') }}"

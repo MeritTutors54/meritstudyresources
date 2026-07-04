@@ -963,9 +963,9 @@ throw new Error('template requires jQuery')
     if (event) event.preventDefault()
     Plugin.call($(this), 'toggle')
   })
-  
+
   // Slim scrolling
-  
+
   $('.inner-content-div').slimScroll({
     height: '200'
   });
@@ -973,11 +973,11 @@ throw new Error('template requires jQuery')
   $('.sm-scrol').slimScroll({
     height: '250'
   });
-	
+
   $('.direct-chat-messages').slimScroll({
     height: '420'
   });
-	
+
   $('.chat-box-one').slimScroll({
     height: '550'
   });
@@ -997,32 +997,32 @@ throw new Error('template requires jQuery')
   $('.chat-box-one-side3').slimScroll({
     height: '685'
   });
-	
+
   $('.notification-side').slimScroll({
     height: '325'
   });
-	
+
   $('.suggestions-side').slimScroll({
     height: '300'
   });
-	
+
   $('.events-side').slimScroll({
     height: '265'
-  });	
-	
+  });
+
   $('.pat-div').slimScroll({
     height: '204'
   });
 $('.demo-panel-bx').slimScroll({
     height: 'auto'
   });
-  
+
   $(".search-box a, .search-box .app-search .srh-btn").on('click', function() {
         $(".app-search").toggle(200);
     });
-	
-	
-	
+
+
+
   // Close
     //
     $(document).on('click', '.box-btn-close', function() {
@@ -1059,22 +1059,22 @@ $('.demo-panel-bx').slimScroll({
     $(document).on('click', '.box-btn-fullscreen', function(){
       $(this).parents('.box').toggleClass('box-fullscreen').removeClass('box-maximize');
     });
-	
-		
+
+
 		// Disable demonstrative links!
     //
     $(document).on('click', 'a[href="#"]', function(e){
       e.preventDefault();
     });
-	
-	
+
+
     // This is for the innerleft sidebar
     $(".open-left-block").on('click', function() {
         $('.left-block').toggleClass('open-panel');
         $('.open-left-block').toggleClass('mdi-menu');
     });
-	
-	
+
+
     // Upload
     //
     $(document).on('click', '.file-browser', function() {
@@ -1112,8 +1112,8 @@ $('.demo-panel-bx').slimScroll({
       $(this).next('.custom-file-control').attr('data-input-value', filename);
     });
     $('.custom-file-control:not([data-input-value])').attr('data-input-value', 'Choose file...');
-	
-		
+
+
 
 	/* The todo list plugin */
 	  $('.todo-list').todoList({
@@ -1124,31 +1124,31 @@ $('.demo-panel-bx').slimScroll({
 		  window.console.log($(this), 'The element has been unchecked');
 		}
 	  });
-	
+
 	// bradcrumb section
-	
-		$('#thismonth').sparkline([8, 5, 4, 7, 9, 7, 10, 9], {
-				type: 'bar',
-				height: '35',
-				barWidth: '4',
-				resize: true,
-				barSpacing: '4',
-				barColor: '#843cf7'
-			});
-		$('#lastyear').sparkline([8, 5, 4, 7, 9, 7, 10, 9], {
-				type: 'bar',
-				height: '35',
-				barWidth: '4',
-				resize: true,
-				barSpacing: '4',
-				barColor: '#ec4b71'
-			});
-		var sparkResize;
-	
-        $("#chat-circle, #chat-box-toggle, #chat-popup").click(function(){
-            $("#chat-box-body").toggleClass("show");
-          });
-	
+
+    // $('#thismonth').sparkline([8, 5, 4, 7, 9, 7, 10, 9], {
+    //     type: 'bar',
+    //     height: '35',
+    //     barWidth: '4',
+    //     resize: true,
+    //     barSpacing: '4',
+    //     barColor: '#843cf7'
+    // });
+    // $('#lastyear').sparkline([8, 5, 4, 7, 9, 7, 10, 9], {
+    //     type: 'bar',
+    //     height: '35',
+    //     barWidth: '4',
+    //     resize: true,
+    //     barSpacing: '4',
+    //     barColor: '#ec4b71'
+    // });
+    // var sparkResize;
+    //
+    // $("#chat-circle, #chat-box-toggle, #chat-popup").click(function () {
+    //     $("#chat-box-body").toggleClass("show");
+    // });
+
 }(jQuery) // End of use strict
 
 // Fullscreen
@@ -1164,7 +1164,7 @@ $('.demo-panel-bx').slimScroll({
 
 +function ($) {
   'use strict'
-	
+
 // Dynamic active menu
     var path = window.location.pathname.split("/").pop();
     var target = $('.sidebar-menu li a[href="'+path+'"]');
@@ -1176,7 +1176,7 @@ $('.demo-panel-bx').slimScroll({
 
 +function ($) {
   'use strict'
-	
+
 // Dynamic active horizontal menu
     var path = window.location.pathname.split("/").pop();
     var target = $('.sm li a[href="'+path+'"]');
@@ -1188,8 +1188,8 @@ $('.demo-panel-bx').slimScroll({
 
 // feather icon
 	$(function () {
-		'use strict'			
-		feather.replace();		
+		'use strict'
+		feather.replace();
 	}); // End of use strict
 
 
@@ -1534,47 +1534,47 @@ $('.demo-panel-bx').slimScroll({
 
 
 // Demo panel
-function w3_open() {
-  document.getElementById("mySidebar").style.display = "block";
-  document.getElementById("myOverlay").style.display = "block";
-}
+// function w3_open() {
+//   document.getElementById("mySidebar").style.display = "block";
+//   document.getElementById("myOverlay").style.display = "block";
+// }
 
-function w3_close() {
-  document.getElementById("mySidebar").style.display = "none";
-  document.getElementById("myOverlay").style.display = "none";
-}
+// function w3_close() {
+//   document.getElementById("mySidebar").style.display = "none";
+//   document.getElementById("myOverlay").style.display = "none";
+// }
 
-// loader 
-		
-	var loader;
+// loader
 
-	function loadNow(opacity) {
-		if (opacity <= 0) {
-			displayContent();
-		} else {
-			loader.style.opacity = opacity;
-			window.setTimeout(function() {
-				loadNow(opacity - 0.05);
-			}, 50);
-		}
-	}
-
-	function displayContent() {
-		loader.style.display = 'none';
-	}
-
-	document.addEventListener("DOMContentLoaded", function() {
-		loader = document.getElementById('loader');
-		loadNow(1);
-	});
-
-
-new PerfectScrollbar(".multinav-scroll");
-
-
-var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-  return new bootstrap.Tooltip(tooltipTriggerEl)
-})
+// 	var loader;
+//
+// 	function loadNow(opacity) {
+// 		if (opacity <= 0) {
+// 			displayContent();
+// 		} else {
+// 			loader.style.opacity = opacity;
+// 			window.setTimeout(function() {
+// 				loadNow(opacity - 0.05);
+// 			}, 50);
+// 		}
+// 	}
+//
+// 	function displayContent() {
+// 		loader.style.display = 'none';
+// 	}
+//
+// 	document.addEventListener("DOMContentLoaded", function() {
+// 		loader = document.getElementById('loader');
+// 		loadNow(1);
+// 	});
+//
+//
+// new PerfectScrollbar(".multinav-scroll");
+//
+//
+// var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+// var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+//   return new bootstrap.Tooltip(tooltipTriggerEl)
+// })
 
 
