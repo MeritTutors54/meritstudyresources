@@ -15,14 +15,7 @@
                             <span>Dashboard</span>
                         </a>
                     </li>
-                     <li class="{{ request()->is('admin') ? 'active' : '' }}">
-                        <a href="{{ route("admin.missingpastpapers") }}">
-                            <i class="icon-Layout-4-blocks">
-                                <span class="path1"></span><span class="path2"></span>
-                            </i>
-                            <span>Missing Past Papers</span>
-                        </a>
-                    </li>
+
                     <li class="header">Operations</li>
                     {{--Past Paper--}}
                     <li class="treeview {{ request()->is('admin/categories*') ? 'active menu-open' : '' }}">
@@ -56,14 +49,14 @@
                                     </a>
                                 </li>
                             @endcan
-{{--                                <li class="">--}}
-{{--                                    <a href="{{ route('admin.past-paper.missing') }}">--}}
-{{--                                        <i class="icon-Commit">--}}
-{{--                                            <span class="path1"></span><span class="path2"></span>--}}
-{{--                                        </i>--}}
-{{--                                        Missing Past Paper--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
+                            <li class="{{ request()->is('admin/missing-pastpapers') ? 'active' : '' }}">
+                                <a href="{{ route("admin.missing.pastpapers") }}">
+                                    <i class="icon-Commit">
+                                        <span class="path1"></span><span class="path2"></span>
+                                    </i>
+                                    <span>Missing Past Papers</span>
+                                </a>
+                            </li>
                             @can('viewExamSeries', Auth::user())
                                 <li class="{{ request()->is('admin/exam-series*') ? 'active' : '' }}">
                                     <a href="{{ route('admin.exam-series.index') }}">
@@ -138,14 +131,14 @@
                                     </a>
                                 </li>
                             @endcan
-                                <li class="{{ request()->is('admin/blog-tags*') ? 'active' : '' }}">
-                                    <a href="{{ route('admin.blog-tags.index') }}">
-                                        <i class="icon-Commit">
-                                            <span class="path1"></span><span class="path2"></span>
-                                        </i>
-                                        Manage tags
-                                    </a>
-                                </li>
+                            <li class="{{ request()->is('admin/blog-tags*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.blog-tags.index') }}">
+                                    <i class="icon-Commit">
+                                        <span class="path1"></span><span class="path2"></span>
+                                    </i>
+                                    Manage tags
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     {{-- Study Materials --}}

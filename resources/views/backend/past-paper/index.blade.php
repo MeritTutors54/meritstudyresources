@@ -47,13 +47,13 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Title</th>
-                                            <th>Unit Code</th>
-                                            <th>Series</th>
+                                            <th class="text-center">Unit Code</th>
+                                            <th class="text-center">Series</th>
                                             <th>Category</th>
                                             <th>SubCategory</th>
                                             <th>Resubcategory</th>
-                                            <th>Status</th>
-                                            <th>Manage</th>
+                                            <th class="text-center">Status</th>
+                                            <th class="text-center">Manage</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -98,13 +98,13 @@
                 columns: [
                     {data: 'id', name: 'id'},
                     {data: 'title', name: 'title'},
-                    {data: 'unit_code', name: 'resubcategory_model.unit_code'},
-                    {data: 'series_name', name: 'series.name'},
+                    {data: 'unit_code', name: 'resubcategory_model.unit_code', className: 'text-center'},
+                    {data: 'series_name', name: 'series.name', className: 'text-center'},
                     {data: 'category_name', name: 'category_model.category_name'},
                     {data: 'subcategory_name', name: 'subcategory_model.subcategory_name'},
                     {data: 'resubcategory_name', name: 'resubcategory_model.resubcategory_name'},
-                    {data: 'status_badge', name: 'status', searchable: false},
-                    {data: 'actions', name: 'actions', searchable: false},
+                    {data: 'status_badge', name: 'status', searchable: false, className: 'text-center'},
+                    {data: 'actions', name: 'actions', searchable: false, className: 'text-center'},
                 ],
 
                 dom: 'Blfrtip', // ✅ IMPORTANT

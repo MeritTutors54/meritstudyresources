@@ -49,8 +49,6 @@ Route::prefix('admin')->middleware(['auth:admin', 'team.permission'])->group(fun
     Route::get('/', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
 
 
-    Route::get('/missing-pastpapers', [DashboardController::class, 'missingPastPapers'])->name('admin.missingpastpapers');
-
     /*
     |--------------------------------------------------------------------------
     | Admin Activity Tracking
@@ -120,7 +118,8 @@ Route::prefix('admin')->middleware(['auth:admin', 'team.permission'])->group(fun
     Route::resource('/sub-categories', SubCategoryController::class, ['as' => 'admin']);
     Route::resource('/resub-categories', ResubCategoryController::class, ['as' => 'admin']);
     Route::resource('/exam-series', ExamSeriesController::class, ['as' => 'admin']);
-    Route::get('/missing-past-papers', [PastPaperController::class, 'missingPastPaper'])->name('admin.past-paper.missing');
+    Route::get('/missing-pastpapers', [PastPaperController::class, 'missingPastPaper'])
+        ->name('admin.missing.pastpapers');
 
     /*
     |--------------------------------------------------------------------------

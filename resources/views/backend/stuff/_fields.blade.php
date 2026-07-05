@@ -84,7 +84,7 @@
 
                         @if(!empty($roles))
                             @foreach($roles as $role)
-                                @if($role->name != 'super-admin')
+                                @if($role->name != 'super-admin' || auth()->user()->hasRole('super-admin'))
                                     <option
                                         {{ old('role', isset($stuff) ? (string)$getRole : "") === (string)$role->name ? 'selected' : '' }}
                                         value="{{ $role->name }}">

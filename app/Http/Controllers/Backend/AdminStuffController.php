@@ -4,14 +4,12 @@ namespace App\Http\Controllers\Backend;
 
 use App\Enums\Status;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Backend\StoreAdminRequest;
 use App\Models\Admin;
-use App\Models\AdminActivityLog;
 use App\Models\Role;
 use App\Operations\Backend\AdminActivity;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 use DB;
-use App\Models\User;
 use Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -24,6 +22,7 @@ class AdminStuffController extends Controller
     public function __construct()
     {
         $this->middleware('auth:admin');
+        setPermissionsTeamId(\App\Enums\Team::TeamAdmin->value);
     }
 
 
@@ -54,7 +53,7 @@ class AdminStuffController extends Controller
             ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreAdminRequest $request)
     {
         $this->authorize('createStuff', Auth::user());
 
@@ -63,30 +62,10 @@ class AdminStuffController extends Controller
             'model_type' => 'App\Models\Admin',
         ];
 
-        $request->validate([
-            'name' => 'required|string|max:200',
-            'username' => 'required|string|max:20|unique:admins,username',
-            'email' => [
-                'required',
-                'string',
-                'max:200',
-                'unique:admins',
-                'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/'
-            ],
-            'password' => 'required|string|min:6',
-            'status' => 'required|in:0,1',
-            'role' => 'required|exists:roles,name',
-        ], [
-            'email.required' => 'The email field is required.',
-            'email.string' => 'The email must be a string.',
-            'email.max' => 'The email may not be greater than 200 characters.',
-            'email.unique' => 'This email is already registered.',
-            'email.regex' => 'Please enter a valid email address.',
-        ]);
-
         DB::beginTransaction();
         try {
-            $stuff = Admin::query()->create($request->all());
+            $stuff = Admin::query()->create($request->except('_token', '_method'));
+
             if (!empty($request->role)) {
                 $stuff->assignRole($request->role);
             }
@@ -94,7 +73,7 @@ class AdminStuffController extends Controller
             AdminActivity::track($this->log, $stuff);
 
             $this->notification['status'] = 'success';
-            $this->notification['message'] = 'Stuff created.';
+            $this->notification['message'] = 'Admin stuff created.';
 
             DB::commit();
         } catch (\Exception $exception) {
@@ -159,7 +138,7 @@ class AdminStuffController extends Controller
             }
 
             if (!empty($request->role)) {
-                $stuff->assignRole($request->role);
+                $stuff->syncRoles($request->role);
             }
 
             AdminActivity::track($this->log, $stuff);

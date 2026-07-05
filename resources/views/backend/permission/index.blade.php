@@ -63,9 +63,9 @@
                                     </div>
                                 </div>
                                 <div class="box-body">
-                                    <p>Left side of <code> ::</code> that sign mean the <b>role name</b> and right side
-                                        is
-                                        <b>guard name</b>.</p>
+{{--                                    <p>Left side of <code> ::</code> that sign mean the <b>role name</b> and right side--}}
+{{--                                        is--}}
+{{--                                        <b>guard name</b>.</p>--}}
                                     <div class="row">
                                         @if(!empty($permissions))
                                             @foreach($permissions as $title => $subPermission)

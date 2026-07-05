@@ -6,12 +6,14 @@ namespace App\Enums;
  {
      case INACTIVE = 0;
      case ACTIVE = 1;
+     case DELETED = -1;
 
      public function label(): string
      {
          return match ($this) {
              self::ACTIVE => 'Active',
              self::INACTIVE => 'Inactive',
+             self::DELETED => 'Deleted',
          };
      }
 
@@ -29,6 +31,7 @@ namespace App\Enums;
          return match($this) {
              self::INACTIVE => 'secondary',
              self::ACTIVE => 'success',
+             self::DELETED => 'danger',
          };
      }
  }

@@ -17,7 +17,7 @@
                                             <i class="mdi mdi-home-outline"></i>
                                         </a>
                                     </li>
-                                    <li class="breadcrumb-item active" aria-current="page">Past Papers</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Missing Past Papers</li>
                                 </ol>
                             </nav>
                         </div>
@@ -31,7 +31,7 @@
                             @include('layouts.backend.notification')
                             <div class="box-header with-border">
                                 <div class="d-flex align-items-center">
-                                    <h3 class="box-title">Past Papers</h3>
+                                    <h3 class="box-title">Missing Past Papers</h3>
                                     @can('createPastPaper', Auth::user())
                                         <a href="{{ route('admin.past-papers.create') }}"
                                            class="ms-auto waves-effect waves-light btn btn-primary">
@@ -50,13 +50,13 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Title</th>
-                                            <th>Unit Code</th>
-                                            <th>Series</th>
+                                            <th class="text-center">Unit Code</th>
+                                            <th class="text-center">Series</th>
                                             <th>Category</th>
                                             <th>SubCategory</th>
                                             <th>Resubcategory</th>
-                                         
-                                            <th>Manage</th>
+                                            <th class="text-center">Status</th>
+                                            <th class="text-center">Manage</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -64,22 +64,20 @@
                                            <tr>
                                                <td>{{ ++$key }}</td>
                                                <td>{{ $data->title ?? "" }}</td>
-                                               <td>{{ $data->series->name ?? "" }}</td>
+                                               <td class="text-center">{{ $data->resubcategory_model->unit_code ?? "" }}</td>
+                                               <td class="text-center">{{ $data->series->name ?? "" }}</td>
                                                <td>{{ $data->category_model->category_name ?? "" }}</td>
                                                <td>{{ $data->subcategory_model->subcategory_name ?? "" }}
                                                    -{{ $data->resubcategory_model->unit_code ?? "" }}
                                                </td>
                                                <td>{{ $data->resubcategory_model->resubcategory_name ?? "" }}</td>
-                                               <td>
+                                               <td class="text-center">
                                                    @if ($data->is_active == 1)
                                                        <span class="btn-sm btn-success">Active</span>
                                                    @else
                                                        <span class="btn-sm btn-danger">Deactivate</span>
                                                    @endif
                                                </td>
-
-                                                                                        
-
                                                <td class="text-center">
                                                    @can('editPastPaper', Auth::user())
                                                        <a href="{{ route('admin.past-papers.edit',$data->id) }}">
@@ -97,7 +95,7 @@
                                                    @endcan
                                                </td>
                                            </tr>
-                                       @endforeach 
+                                       @endforeach
                                         </tbody>
                                     </table>
                                 </div>

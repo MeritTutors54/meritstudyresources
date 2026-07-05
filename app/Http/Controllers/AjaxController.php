@@ -340,17 +340,10 @@ class AjaxController extends Controller
             ->addColumn('resubcategory_name', function ($row) {
                 return $row->resubcategory_model->resubcategory_name ?? "";
             })
-            ->addColumn('status_badge', function ($row) {
-                $checked = $row->is_active == 1 ? 'checked' : '';
+            ->addColumn('status_badge', function ($data) {
+                $checked = $data->is_active == 1 ? 'checked' : '';
 
-                return '
-                <label class="switch">
-                    <input type="checkbox" class="statusSwitch" data-id="' . $row->id . '" id="togProp-' . $row->id . '" ' . $checked . '>
-                    <div class="slider round">
-                        <span class="on">Active</span>
-                        <span class="off">Inactive</span>
-                    </div>
-                </label>';
+                return view('backend.past-paper._switch_status', compact('data', 'checked'))->render();
             })
             ->addColumn('actions', function ($data) {
                 return view('backend.past-paper._action_button', compact('data'))->render();

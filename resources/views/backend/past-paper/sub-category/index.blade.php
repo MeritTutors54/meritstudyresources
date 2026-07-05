@@ -5,7 +5,7 @@
             <div class="content-header">
                 <div class="d-flex align-items-center">
                     <div class="me-auto">
-                        <h3 class="page-title">All SubCategories</h3>
+                        <h3 class="page-title">All Subcategories</h3>
                         <div class="d-inline-block align-items-center">
                             <nav>
                                 <ol class="breadcrumb">
@@ -14,7 +14,7 @@
                                             <i class="mdi mdi-home-outline"></i>
                                         </a>
                                     </li>
-                                    <li class="breadcrumb-item active" aria-current="page">SubCategories</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Subcategories</li>
                                 </ol>
                             </nav>
                         </div>
@@ -47,12 +47,11 @@
                                     <table id="example1" class="table table-bordered table-striped">
                                         <thead>
                                         <tr>
-
-                                            <th>SubCategory Name</th>
-                                            <th>Most Popular</th>
+                                            <th>Subcategory Name</th>
+                                            <th class="text-center">Most Popular</th>
                                             <th>Category Name</th>
-                                            <th>Status</th>
-                                            <th>Manage</th>
+                                            <th class="text-center">Status</th>
+                                            <th class="text-center">Manage</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -60,21 +59,10 @@
                                             @foreach($allData as $data)
                                                 <tr>
                                                     <td>{{ $data->subcategory_name }}</td>
-{{--                                                    <td>--}}
-{{--                                                        @if($data->most_popular == \App\Enums\MostPopular::YES->value)--}}
-{{--                                                            <span class="badge badge-success">--}}
-{{--                                                                {{ ucfirst(strtolower(\App\Enums\MostPopular::from($data->most_popular)->name)) }}--}}
-{{--                                                            </span>--}}
-{{--                                                        @else--}}
-{{--                                                            <span class="badge badge-secondary">--}}
-{{--                                                                {{ ucfirst(strtolower(\App\Enums\MostPopular::from($data->most_popular)->name)) }}--}}
-{{--                                                            </span>--}}
-{{--                                                        @endif--}}
-{{--                                                    </td>--}}
-
-                                                    <td>
+                                                    <td class="text-center">
                                                         <label class="switch">
-                                                            <input type="checkbox" class="subjectSwitch" id="togProp-{{ $data->id }}"
+                                                            <input type="checkbox" class="subjectSwitch"
+                                                                   id="togProp-{{ $data->id }}"
                                                                    data-id="{{ $data->id }}"
                                                                 {{ $data->most_popular == 1 ? "checked" : "" }}>
                                                             <div class="slider round"><!--ADDED HTML -->
@@ -83,19 +71,27 @@
                                                             </div>
                                                         </label>
                                                     </td>
-
-
                                                     <td>{{ $data->category->category_name ?? '' }}</td>
                                                     <td class="text-center">
-                                                        <label class="switch">
-                                                            <input type="checkbox" class="statusSwitch" id="togProp-{{ $data->id }}"
-                                                                   data-id="{{ $data->id }}"
-                                                                {{ $data->is_active == 1 ? "checked" : "" }}>
-                                                            <div class="slider round"><!--ADDED HTML -->
-                                                                <span class="on">Active</span>
-                                                                <span class="off">Inactive</span><!--END-->
-                                                            </div>
-                                                        </label>
+                                                        @can('updatePastPaperSubcategory', Auth::user())
+                                                            <label class="switch">
+                                                                <input type="checkbox" class="statusSwitch"
+                                                                       id="togProp-{{ $data->id }}"
+                                                                       data-id="{{ $data->id }}"
+                                                                    {{ $data->is_active == 1 ? "checked" : "" }}>
+                                                                <div class="slider round"><!--ADDED HTML -->
+                                                                    <span class="on">Active</span>
+                                                                    <span class="off">Inactive</span><!--END-->
+                                                                </div>
+                                                            </label>
+                                                        @else
+                                                            @if($data->is_active == \App\Enums\Status::ACTIVE->value)
+                                                                <span class="badge badge-success font-weight-bold">Active</span>
+                                                            @else
+                                                                <span
+                                                                    class="badge badge-danger text-white">Inactive</span>
+                                                            @endif
+                                                        @endcan
                                                     </td>
                                                     <td class="text-center">
                                                         @can('updatePastPaperSubcategory', Auth::user())

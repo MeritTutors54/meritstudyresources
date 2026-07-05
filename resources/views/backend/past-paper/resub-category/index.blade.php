@@ -50,8 +50,8 @@
                                             <th>ReSubCategory Name</th>
                                             <th>Category Name</th>
                                             <th>SubCategory Name - Uint Code</th>
-                                            <th>Status</th>
-                                            <th>Manage</th>
+                                            <th class="text-center">Status</th>
+                                            <th class="text-center">Manage</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -62,7 +62,8 @@
                                                 <td>{{ $data->category->category_name ?? '' }}</td>
                                                 <td>{{ $data->subcategory->subcategory_name ?? '' }}
                                                     - {{ $data->unit_code }}</td>
-                                                <td>
+                                                <td class="text-center">
+                                                    @can('editPastPaperResubcategory')
                                                     <label class="switch">
                                                         <input type="checkbox" class="statusSwitch" id="togProp-{{$data->id}}"
                                                                data-id="{{ $data->id }}"
@@ -72,6 +73,14 @@
                                                             <span class="off">Inactive</span><!--END-->
                                                         </div>
                                                     </label>
+                                                    @else
+                                                        @if($data->is_active == \App\Enums\Status::ACTIVE->value)
+                                                            <span class="badge badge-success font-weight-bold">Active</span>
+                                                        @else
+                                                            <span
+                                                                class="badge badge-danger text-white">Inactive</span>
+                                                        @endif
+                                                    @endcan
                                                 </td>
 
                                                 <td class="text-center">

@@ -482,10 +482,27 @@ class PastPaperController extends Controller
 
     public function missingPastPaper()
     {
-        $all = $this->pastPaperRepository->all();
+        $wrongPdfFiles = PastPaper::with([
+            'category_model',
+            'subcategory_model',
+            'resubcategory_model',
+            'series'
+        ])
+            ->where('is_deleted', 0)
+            ->where(function ($query) {
+                $query->where(function ($q) {
+                    $q->where('ques_paper', 'LIKE', '%pdf')
+                        ->where('ques_paper', 'NOT LIKE', '%.pdf');
+                })
+                    ->orWhere(function ($q) {
+                        $q->where('ans_paper', 'LIKE', '%pdf')
+                            ->where('ans_paper', 'NOT LIKE', '%.pdf');
+                    });
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
 
-        $corruptedEntries = PastPaperService::findCorruptedEntry($all);
 
-        dd($corruptedEntries);
+        return view('backend.past-paper.missing-past-papers.index',compact('wrongPdfFiles'));
     }
 }

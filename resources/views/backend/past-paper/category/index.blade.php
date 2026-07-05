@@ -56,6 +56,7 @@
                                                 <tr>
                                                     <td>{{ $category->category_name }}</td>
                                                     <td class="text-center">
+                                                        @can('updatePastPaperCategory', Auth::user())
                                                         <label class="switch">
                                                             <input type="checkbox" class="statusSwitch" id="togProp-{{$category->id}}"
                                                                    data-id="{{ $category->id }}"
@@ -65,6 +66,13 @@
                                                                 <span class="off">Inactive</span><!--END-->
                                                             </div>
                                                         </label>
+                                                        @else
+                                                            @if($category->is_active == \App\Enums\Status::ACTIVE->value)
+                                                                <span class="badge badge-success font-weight-bold">Active</span>
+                                                            @else
+                                                                <span class="badge badge-danger text-white">Inactive</span>
+                                                            @endif
+                                                        @endcan
                                                     </td>
                                                     <td class="text-center">
                                                         @can('updatePastPaperCategory', Auth::user())
