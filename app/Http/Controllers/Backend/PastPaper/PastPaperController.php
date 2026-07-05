@@ -12,11 +12,10 @@ use App\Models\Resubcategory;
 use App\Models\SubCategory;
 use App\Operations\Backend\AdminActivity;
 use App\Repositories\Interfaces\PastPaperRepositoryInterface;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
-use App\Services\PastPaperService;
 
 class PastPaperController extends Controller
 {
@@ -32,12 +31,6 @@ class PastPaperController extends Controller
     public function index(): View
     {
         $this->authorize('viewPastPaper', Auth::user());
-
-        //        $allData = PastPaper::query()
-        //            ->where('is_deleted', 0)
-        //            ->with('category_model', 'subcategory_model', 'resubcategory_model', 'series')
-        //            ->orderBy('id', 'DESC')
-        //            ->limit(20)->get();
 
         return view('backend.past-paper.index');
     }
@@ -414,7 +407,7 @@ class PastPaperController extends Controller
 
         $this->log = [
             'action' => 'deleted',
-            'model_type' => 'App\Models\Category',
+            'model_type' => 'App\Models\Category', // Side note: make sure this shouldn't be 'App\Models\PastPaper'!
             'old_data' => json_encode($past_paper->toArray()),
         ];
 
@@ -423,19 +416,21 @@ class PastPaperController extends Controller
             $past_paper->delete();
             AdminActivity::track($this->log, $past_paper);
 
-            $this->notification['status'] = 'success';
-            $this->notification['message'] = 'PastPaper has been deleted';
-
             DB::commit();
+
+            // Return a proper JSON response for your AJAX success block
+            return response()->json([
+                'success' => true,
+                'message' => 'PastPaper has been deleted'
+            ], 200);
         } catch (\Exception $exception) {
             DB::rollBack();
-
-            $this->notification['status'] = 'error';
-            $this->notification['message'] = $exception->getMessage();
         }
 
-        return to_route('admin.past-papers.index')
-            ->with($this->notification['status'], $this->notification['message']);
+        return response()->json([
+            'success' => false,
+            'message' => $exception->getMessage()
+        ], 500);
     }
 
     // active
@@ -503,6 +498,6 @@ class PastPaperController extends Controller
             ->get();
 
 
-        return view('backend.past-paper.missing-past-papers.index',compact('wrongPdfFiles'));
+        return view('backend.past-paper.missing-past-papers.index', compact('wrongPdfFiles'));
     }
 }

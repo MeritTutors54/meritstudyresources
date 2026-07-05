@@ -34,8 +34,8 @@
                                            class="ms-auto waves-effect waves-light btn btn-primary">
                                             <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                                             <span class="ms-2">
-                                            Create New
-                                        </span>
+                                                Create New
+                                            </span>
                                         </a>
                                     @endcan
                                 </div>
@@ -44,17 +44,17 @@
                                 <div class="table-responsive">
                                     <table id="past-paper-table" class="table table-bordered table-striped">
                                         <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Title</th>
-                                            <th class="text-center">Unit Code</th>
-                                            <th class="text-center">Series</th>
-                                            <th>Category</th>
-                                            <th>SubCategory</th>
-                                            <th>Resubcategory</th>
-                                            <th class="text-center">Status</th>
-                                            <th class="text-center">Manage</th>
-                                        </tr>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Title</th>
+                                                <th class="text-center">Unit Code</th>
+                                                <th class="text-center">Series</th>
+                                                <th>Category</th>
+                                                <th>SubCategory</th>
+                                                <th>Resubcategory</th>
+                                                <th class="text-center">Status</th>
+                                                <th class="text-center">Manage</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
                                         </tbody>
@@ -64,7 +64,6 @@
                         </div>
                     </div>
                 </div>
-                @include('layouts.backend.delete-modal')
             </section>
         </div>
     </div>
@@ -89,11 +88,11 @@
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#past-paper-table').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{{ route("admin.ajax.getPastPaper") }}',
+                ajax: '{{ route('admin.ajax.getPastPaper') }}',
 
                 columns: [
                     {data: 'id', name: 'id'},
