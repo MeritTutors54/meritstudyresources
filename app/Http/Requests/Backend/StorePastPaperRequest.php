@@ -5,6 +5,9 @@ namespace App\Http\Requests\Backend;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+
 class StorePastPaperRequest extends FormRequest
 {
     /**
@@ -27,5 +30,14 @@ class StorePastPaperRequest extends FormRequest
             'ans_paper' => 'required|file|mimes:pdf,doc,docx|max:5120',
             'is_active' => 'required|integer|in:0,1',
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'status' => 'error',
+            'message' => 'The given data was invalid.',
+            'errors' => $validator->errors()
+        ], 422));
     }
 }

@@ -187,6 +187,11 @@ class PastPaperController extends Controller
             $this->notification['message'] = 'PastPaper has been created';
 
             DB::commit();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'PastPaper has been created successfully.'
+            ], 200);
         } catch (\Exception $exception) {
             DB::rollBack();
 
@@ -194,9 +199,14 @@ class PastPaperController extends Controller
             $this->notification['message'] = $exception->getMessage();
         }
 
+        return response()->json([
+            'status' => 'error',
+            'message' => $exception->getMessage()
+        ], 500);
 
-        return to_route('admin.past-papers.create')
-            ->with($this->notification['status'], $this->notification['message']);
+
+        // return to_route('admin.past-papers.create')
+        //     ->with($this->notification['status'], $this->notification['message']);
     }
 
     // video uploads
@@ -397,8 +407,13 @@ class PastPaperController extends Controller
             $this->notification['message'] = $exception->getMessage();
         }
 
-        return back()
-            ->with($this->notification['status'], $this->notification['message']);
+        return response()->json([
+            'status' => $this->notification['status'],
+            'message' => $this->notification['message']
+        ], 200);
+
+        // return back()
+        //     ->with($this->notification['status'], $this->notification['message']);
     }
 
     public function destroy(PastPaper $past_paper)
