@@ -33,6 +33,7 @@ Route::group(['middleware' => 'team.permission'], function () {
     Route::get('/verification', [RegisterController::class, 'verification'])->name('verification');
 
     Route::get('/', [FrontendController::class, 'home'])->name('home');
+    Route::get('/home2', [FrontendController::class, 'anotherHome'])->name('home');
 
     Route::get('/blogs', [BlogController::class, 'index'])->name('blogs');
     Route::get('/blogs/{slug}', [BlogController::class, 'details'])->name('blogs.details');

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Enums\SEOPage;
 use App\Enums\Status;
+use App\Enums\SubscriptionDuration;
+use App\Enums\SubscriptionLevel;
 use App\Enums\SubscriptionType;
 use App\Enums\UserType;
 use App\Http\Controllers\Controller;
@@ -30,7 +32,7 @@ class FrontendController extends Controller
 {
     protected array $seoCore;
 
-    public function home(): View
+    public function anotherHome(): View
     {
         $subscriptionPricing = SubscriptionPlan::query()
             ->where('status', Status::ACTIVE->value)
@@ -51,6 +53,10 @@ class FrontendController extends Controller
 
         $testimonials = Testimonial::query()->get();
 
+         $faqs = Faq::query()
+            ->where('status', Status::ACTIVE->value)
+            ->take(5)->get();
+
         $defaultSEO = Seo::query()
             ->where('page_title', SEOPage::HOME->value)
             ->first();
@@ -62,6 +68,58 @@ class FrontendController extends Controller
                 'products' => $products,
                 'counter' => $counter,
                 'testimonials' => $testimonials,
+                'faqs' => $faqs,
+            ]);
+    }
+
+    public function home(): View
+    {
+        $subscriptionPricing = SubscriptionPlan::query()
+            ->where('status', Status::ACTIVE->value)
+            ->get()
+            ->groupBy(function ($plan) {
+                return strtolower(SubscriptionLevel::from($plan->level)->name);
+            })
+            ->map(function ($plansByLevel) {
+                // Group each level into 2 types (e.g., School vs. Individual)
+                return $plansByLevel->groupBy(function ($plan) {
+                    return strtolower(SubscriptionType::from($plan->type)->name);
+                })->map(function ($plansByType) {
+                    return $plansByType->groupBy(function ($p) {
+                            return strtolower(SubscriptionDuration::from($p->duration)->name);
+                        
+                    });
+                });
+            });
+
+        $products = Product::query()
+            ->where('status', Status::ACTIVE->value)
+            ->get();
+
+        $counter['past_papers'] = PastPaper::query()->count();
+        $counter['resources'] = MeritResource::query()->count();
+        $counter['users'] = User::query()->where('type', '!=', UserType::STUDENT->value)->count();
+        $counter['students'] = User::query()->where('type', UserType::STUDENT->value)->count();
+
+
+        $testimonials = Testimonial::query()->latest('created_at')->take(4)->get();
+
+        $faqs = Faq::query()
+            ->where('status', Status::ACTIVE->value)
+            ->take(5)->get();
+
+        $defaultSEO = Seo::query()
+            ->where('page_title', SEOPage::HOME->value)
+            ->first();
+
+        return view('frontend.home.index-2')
+            ->with([
+                'defaultSEO' => $defaultSEO,
+                'subscriptionPricing' => $subscriptionPricing,
+                'products' => $products,
+                'counter' => $counter,
+                'testimonials' => $testimonials,
+                'faqs' => $faqs,
             ]);
     }
 

@@ -514,7 +514,7 @@ ol.progress-meter li.todo:before {
 /* past paper section */
 .fixed-scrolling {
     overflow-y: auto;
-    max-height: 50vh;
+    max-height: 70vh;
 }
 
 .paper-zone {
