@@ -2,32 +2,22 @@
 
 namespace App\Providers;
 
-use App\Enums\SEOPage;
-use App\Enums\Status;
-use App\Enums\UserType;
 use App\Events\SubscribeEvent;
-use App\Listeners\NewSubscriberListener;
 use App\Listeners\SendSubscriberEmailListener;
 use App\Models\Cart;
-use App\Models\EducationLevel;
 use App\Models\SiteSettings;
 use App\Models\Subject;
 use App\Models\Subscription;
 use App\Repositories\Interfaces\PastPaperRepositoryInterface;
 use App\Repositories\PastPaperRepository;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use App\Models\CompanyInformation;
-use App\Models\Logo;
-use App\Models\Seo;
 use App\Models\Social;
-use App\Models\Category;
+use App\Repositories\Interfaces\SubscriptionPlanRepositoryInterface;
+use App\Repositories\SubscriptionPlanRepository;
 use Laravel\Cashier\Cashier;
-use Spatie\Permission\PermissionRegistrar;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -37,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(PastPaperRepositoryInterface::class, PastPaperRepository::class);
+
+        $this->app->bind(SubscriptionPlanRepositoryInterface::class, SubscriptionPlanRepository::class);
     }
 
     /**

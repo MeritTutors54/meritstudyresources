@@ -2,14 +2,6 @@
 <nav class="navbar navbar-expand-lg navbar-msr fixed-top" id="mainNav">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('home') }}">
-            <style>
-                .new-logo {
-                    width: 155px;
-                    height: 100%;
-                    object-fit: contain;
-                }
-            </style>
-
             <span class="brand-mark">
                 <img class="new-logo" src="{{ asset('frontend/assets/images/logo/logo.png') }}"
                      alt="logo">
@@ -48,16 +40,16 @@
         <div class="collapse navbar-collapse" id="navMain">
             @guest
             <ul class="navbar-nav mx-auto my-3 my-lg-0">
-                <li class="nav-item"><a class="nav-link nav-link-msr active" href="{{ url('/') }}">Home</a></li>
-                <li class="nav-item"><a class="nav-link nav-link-msr active" href="{{ route('blogs') }}">Blogs</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-msr" href="{{ url('/') }}">Home</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-msr" href="{{ route('blogs') }}">Blogs</a></li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-msr active" href="{{ route('about-us') }}">About Us</a>
+                    <a class="nav-link nav-link-msr" href="{{ route('about-us') }}">About Us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-msr active" href="{{ route('products') }}">Products</a>
+                    <a class="nav-link nav-link-msr" href="{{ route('products') }}">Products</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-msr active" href="{{ route('pricing') }}">Pricing</a>
+                    <a class="nav-link nav-link-msr" href="{{ route('pricing') }}">Pricing</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link nav-link-msr" href="#" data-bs-toggle="dropdown" aria-expanded="true">
@@ -87,13 +79,13 @@
                     @endif
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-msr active" href="{{ route('past.papers') }}">
+                    <a class="nav-link nav-link-msr" href="{{ route('past.papers') }}">
                         Past Papers
                     </a>
                 </li>
             </ul>
             <div class="d-flex gap-2 my-2 my-lg-0">
-                <a href="#" class="btn-ghost-navy">Login</a>
+                <a href="{{ route('login') }}" class="btn-ghost-navy">Login</a>
                 <a href="#" class="btn-brand">Contact Us</a>
             </div>
             @endguest
