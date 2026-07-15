@@ -53,7 +53,7 @@ class FrontendController extends Controller
 
         $testimonials = Testimonial::query()->get();
 
-         $faqs = Faq::query()
+        $faqs = Faq::query()
             ->where('status', Status::ACTIVE->value)
             ->take(5)->get();
 
@@ -86,8 +86,7 @@ class FrontendController extends Controller
                     return strtolower(SubscriptionType::from($plan->type)->name);
                 })->map(function ($plansByType) {
                     return $plansByType->groupBy(function ($p) {
-                            return strtolower(SubscriptionDuration::from($p->duration)->name);
-                        
+                        return strtolower(SubscriptionDuration::from($p->duration)->name);
                     });
                 });
             });
@@ -269,8 +268,12 @@ class FrontendController extends Controller
     {
         SubscribeEmail::query()->create($request->all());
 
-        return to_route('home')
-            ->with('success', 'Our offerings will now connect you seamlessly ..');
+        // return to_route('home')
+        //     ->with('success', 'Our offerings will now connect you seamlessly ..');
+        return response()->json([
+            'success' => true,
+            'message' => 'Our offerings will now connect you seamlessly.'
+        ], 200);
     }
 
     public function pricing(): View

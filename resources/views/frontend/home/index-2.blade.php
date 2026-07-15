@@ -19,7 +19,7 @@
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </a>
-                        <a href="#products" class="btn-ghost-navy">
+                        <a href="{{ route('past.papers') }}" class="btn-ghost-navy">
                             <svg viewBox="0 0 24 24" fill="none" width="16" height="16">
                                 <path d="M6 4h9l3 3v13H6z" stroke="currentColor" stroke-width="1.6"
                                     stroke-linejoin="round" />
@@ -228,7 +228,7 @@
                                 certified subject tutors.</p>
                         </div>
                     </div>
-                    <a href="#products" class="btn-brand mt-3">View All Resources
+                    <a href="{{ route('resource.category') }}" class="btn-brand mt-3">View All Resources
                         <svg viewBox="0 0 24 24" fill="none" width="16" height="16">
                             <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="#fff" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round" />
@@ -594,7 +594,7 @@
                     <h2 class="mt-4 mb-3" style="font-size:2.2rem;">Questions, answered</h2>
                     <p class="lead-muted">Can't find what you're after? Reach out and our support team will get back to
                         you within one working day.</p>
-                    <a href="#" class="btn-brand mt-2">Contact Support
+                    <a href="{{ route('contact-us') }}" class="btn-brand mt-2">Contact Support
                         <svg viewBox="0 0 24 24" fill="none" width="16" height="16">
                             <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="#fff" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round" />
@@ -634,12 +634,66 @@
                     resources</h2>
                 <p class="mb-4" style="color:#B7BEDB;">Subscribe now — it's free, and you can unsubscribe whenever
                     you like.</p>
-                <form class="d-flex flex-column flex-sm-row gap-3 justify-content-center mx-auto"
-                    style="max-width:460px;">
-                    <input type="email" class="form-control input-pill" placeholder="Enter your email">
+                <form id="newsletter-form" action="{{ route('collect-emails') }}" method="POST"
+                    class="d-flex flex-column flex-sm-row gap-3 justify-content-center mx-auto" style="max-width:460px;">
+                    @csrf
+                    <input type="email" name="email" class="form-control input-pill" placeholder="Enter your email">
                     <button type="submit" class="btn-light-pill flex-shrink-0">Subscribe</button>
                 </form>
+                <div id="form-error" class="text-danger mt-3 d-none"></div>
+                <div id="form-success" class="text-success mt-3 d-none"></div>
             </div>
         </div>
     </section>
 @endsection
+@push('js')
+    <script>
+        document.getElementById('newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault(); // Stop the page from reloading
+
+            const form = this;
+            const errorDiv = document.getElementById('form-error');
+            const successDiv = document.getElementById('form-success');
+
+            // Hide previous messages
+            errorDiv.classList.add('d-none');
+            successDiv.classList.add('d-none');
+
+            // Gather form data
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest', // Tells Laravel it's an AJAX request
+                    },
+                    body: formData
+                })
+                .then(async response => {
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        // Success (Status code 200-299)
+                        successDiv.textContent = data.message || 'Thank you for subscribing!';
+                        successDiv.classList.remove('d-none');
+                        form.reset(); // Clear the input field
+                    } else if (response.status === 422) {
+                        // Laravel Validation Errors
+                        let errors = Object.values(data.errors).flat().join(' ');
+                        errorDiv.textContent = errors;
+                        errorDiv.classList.remove('d-none');
+                    } else {
+                        // General Errors
+                        errorDiv.textContent = data.message || 'Something went wrong. Please try again.';
+                        errorDiv.classList.remove('d-none');
+                    }
+                })
+                .catch(error => {
+                    console.log('errr: ', error);
+                    
+                    errorDiv.textContent = 'Network error. Please try again.';
+                    errorDiv.classList.remove('d-none');
+                });
+        });
+    </script>
+@endpush

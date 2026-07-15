@@ -86,7 +86,7 @@
                 </ul>
                 <div class="d-flex gap-2 my-2 my-lg-0">
                     <a href="{{ route('login') }}" class="btn-ghost-navy">Login</a>
-                    <a href="#" class="btn-brand">Contact Us</a>
+                    <a href="{{ route('contact-us') }}" class="btn-brand">Contact Us</a>
                 </div>
             @endguest
         </div>

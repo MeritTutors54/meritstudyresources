@@ -2,14 +2,11 @@
 
 namespace App\Http\Requests\Frontend;
 
-use App\Enums\UserType;
-use App\Services\InvoiceService;
-use App\Services\SlugService;
-use App\Services\TokenService;
+
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+
 
 class StoreSubscribeEmailRequest extends FormRequest
 {
@@ -42,5 +39,16 @@ class StoreSubscribeEmailRequest extends FormRequest
             'email.max'      => 'Email may not be greater than 200 characters.',
             'email.regex'    => 'Please enter a valid email address (example: user@example.com).',
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'success' => false,
+                'message' => 'Validation errors occurred.',
+                'errors'  => $validator->errors()
+            ], 422)
+        );
     }
 }
