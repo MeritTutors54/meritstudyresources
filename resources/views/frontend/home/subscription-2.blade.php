@@ -1,4 +1,3 @@
-
 <section class="section-pad bg-mint" id="pricing">
     <div class="container">
         <div class="text-center mb-5">
@@ -68,31 +67,74 @@
                                     </p>
                                     <div class="ticket-cut"></div>
                                     <ul class="price-list">
-                                        <li><svg viewBox="0 0 24 24" fill="none">
+                                        <li>
+                                            <svg viewBox="0 0 24 24" fill="none">
                                                 <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.2"
                                                     stroke-linecap="round" />
-                                            </svg>User limit: 10</li>
-                                        <li><svg viewBox="0 0 24 24" fill="none">
+                                            </svg>
+                                            User limit :
+                                            <span class="dynamic-value"
+                                                data-yearly="{{ $plan['school']['yearly'][0]->user_limit }}"
+                                                data-monthly="{{ $plan['school']['monthly'][0]->user_limit }}">
+                                                {{ $plan['school']['yearly'][0]->user_limit }}
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <svg viewBox="0 0 24 24" fill="none">
                                                 <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.2"
                                                     stroke-linecap="round" />
-                                            </svg>Unlimited package downloads</li>
-                                        <li><svg viewBox="0 0 24 24" fill="none">
+                                            </svg>
+                                            Package Download Limit :
+                                            <span class="dynamic-value"
+                                                data-yearly="{{ $plan['school']['yearly'][0]->download_limit }}"
+                                                data-monthly="{{ $plan['school']['monthly'][0]->download_limit }}">
+                                                {{ $plan['school']['yearly'][0]->download_limit }}
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <svg viewBox="0 0 24 24" fill="none">
                                                 <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.2"
                                                     stroke-linecap="round" />
-                                            </svg>Full library access</li>
-                                        <li><svg viewBox="0 0 24 24" fill="none">
+                                            </svg>
+                                            Weekly Download Limit :
+                                            <span class="dynamic-value"
+                                                data-yearly="{{ $plan['school']['yearly'][0]->weekly_limit }}"
+                                                data-monthly="{{ $plan['school']['monthly'][0]->weekly_limit }}">
+                                                {{ $plan['school']['yearly'][0]->weekly_limit }}
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <svg viewBox="0 0 24 24" fill="none">
                                                 <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.2"
                                                     stroke-linecap="round" />
-                                            </svg>Dedicated account manager</li>
+                                            </svg>
+                                            Has Full Access :
+                                            <span class="dynamic-value"
+                                                data-yearly="{{ \App\Enums\Statement::from($plan['school']['yearly'][0]->has_full_access)->name }}"
+                                                data-monthly="{{ \App\Enums\Statement::from($plan['school']['monthly'][0]->has_full_access)->name }}">
+                                                {{ \App\Enums\Statement::from($plan['school']['yearly'][0]->has_full_access)->name }}
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <svg viewBox="0 0 24 24" fill="none">
+                                                <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.2"
+                                                    stroke-linecap="round" />
+                                            </svg>
+                                            Trial Days :
+                                            <span class="dynamic-value"
+                                                data-yearly="{{ $plan['school']['yearly'][0]->trial_days }}"
+                                                data-monthly="{{ $plan['school']['monthly'][0]->trial_days }}">
+                                                {{ $plan['school']['yearly'][0]->trial_days }}
+                                            </span>
+                                        </li>
                                     </ul>
-                                    @if ($k == 'standard')
-                                        <a href="#" class="btn-brand w-100 justify-content-center mt-4">Select
-                                            Package</a>
-                                    @else
-                                        <a href="#"
-                                            class="btn-ghost-navy w-100 justify-content-center mt-4">Select
-                                            Package</a>
-                                    @endif
+
+                                    <a href="{{ route('user.subscription.checkout', ['q' => $plan['school']['yearly'][0]->slug]) }}"
+                                        data-yearly="{{ route('user.subscription.checkout', ['q' => $plan['school']['yearly'][0]->slug]) }}"
+                                        data-monthly="{{ route('user.subscription.checkout', ['q' => $plan['school']['monthly'][0]->slug]) }}"
+                                        class="plan-link btn-brand {{ $k == 'standard' ? 'btn-brand' : 'btn-ghost-navy' }} w-100 justify-content-center mt-4">
+                                        Select Package
+                                    </a>
                                 </div>
                             </div>
                         @endforeach
@@ -127,31 +169,73 @@
                                     </p>
                                     <div class="ticket-cut"></div>
                                     <ul class="price-list">
-                                        <li><svg viewBox="0 0 24 24" fill="none">
+                                        <li>
+                                            <svg viewBox="0 0 24 24" fill="none">
                                                 <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.2"
                                                     stroke-linecap="round" />
-                                            </svg>User limit: 10</li>
-                                        <li><svg viewBox="0 0 24 24" fill="none">
+                                            </svg>
+                                            User limit :
+                                            <span class="dynamic-value"
+                                                data-yearly="{{ $plan['student']['yearly'][0]->user_limit }}"
+                                                data-monthly="{{ $plan['student']['monthly'][0]->user_limit }}">
+                                                {{ $plan['student']['yearly'][0]->user_limit }}
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <svg viewBox="0 0 24 24" fill="none">
                                                 <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.2"
                                                     stroke-linecap="round" />
-                                            </svg>Unlimited package downloads</li>
-                                        <li><svg viewBox="0 0 24 24" fill="none">
+                                            </svg>
+                                            Package Download Limit :
+                                            <span class="dynamic-value"
+                                                data-yearly="{{ $plan['student']['yearly'][0]->download_limit }}"
+                                                data-monthly="{{ $plan['student']['monthly'][0]->download_limit }}">
+                                                {{ $plan['student']['yearly'][0]->download_limit }}
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <svg viewBox="0 0 24 24" fill="none">
                                                 <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.2"
                                                     stroke-linecap="round" />
-                                            </svg>Full library access</li>
-                                        <li><svg viewBox="0 0 24 24" fill="none">
+                                            </svg>
+                                            Weekly Download Limit :
+                                            <span class="dynamic-value"
+                                                data-yearly="{{ $plan['student']['yearly'][0]->weekly_limit }}"
+                                                data-monthly="{{ $plan['student']['monthly'][0]->weekly_limit }}">
+                                                {{ $plan['student']['yearly'][0]->weekly_limit }}
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <svg viewBox="0 0 24 24" fill="none">
                                                 <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.2"
                                                     stroke-linecap="round" />
-                                            </svg>Dedicated account manager</li>
+                                            </svg>
+                                            Has Full Access :
+                                            <span class="dynamic-value"
+                                                data-yearly="{{ \App\Enums\Statement::from($plan['student']['yearly'][0]->has_full_access)->name }}"
+                                                data-monthly="{{ \App\Enums\Statement::from($plan['student']['monthly'][0]->has_full_access)->name }}">
+                                                {{ \App\Enums\Statement::from($plan['student']['yearly'][0]->has_full_access)->name }}
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <svg viewBox="0 0 24 24" fill="none">
+                                                <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.2"
+                                                    stroke-linecap="round" />
+                                            </svg>
+                                            Trial Days :
+                                            <span class="dynamic-value"
+                                                data-yearly="{{ $plan['student']['yearly'][0]->trial_days }}"
+                                                data-monthly="{{ $plan['student']['monthly'][0]->trial_days }}">
+                                                {{ $plan['student']['yearly'][0]->trial_days }}
+                                            </span>
+                                        </li>
                                     </ul>
-                                    @if ($k == 'standard')
-                                        <a href="#" class="btn-brand w-100 justify-content-center mt-4">Select
-                                            Package</a>
-                                    @else
-                                        <a href="#"
-                                            class="btn-ghost-navy w-100 justify-content-center mt-4">Select
-                                            Package</a>
-                                    @endif
+                                    <a href="{{ route('user.subscription.checkout', ['q' => $plan['student']['yearly'][0]->slug]) }}"
+                                        data-yearly="{{ route('user.subscription.checkout', ['q' => $plan['student']['yearly'][0]->slug]) }}"
+                                        data-monthly="{{ route('user.subscription.checkout', ['q' => $plan['student']['monthly'][0]->slug]) }}"
+                                        class="plan-link btn-brand {{ $k == 'standard' ? 'btn-brand' : 'btn-ghost-navy' }} w-100 justify-content-center mt-4">
+                                        Select Package
+                                    </a>
                                 </div>
                             </div>
                         @endforeach

@@ -11,7 +11,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap"
         rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/style-2.css?v=' . $v) }}">
@@ -66,6 +66,12 @@
             });
             document.querySelectorAll('.period-label').forEach(el => {
                 el.textContent = mode === 'yearly' ? 'yearly' : 'monthly';
+            });
+            document.querySelectorAll('.price-list .dynamic-value').forEach(el => {
+                el.textContent = mode === 'yearly' ? el.dataset.yearly : el.dataset.monthly;
+            });
+            document.querySelectorAll('.plan-link').forEach(el => {
+                el.href = mode === 'yearly' ? el.dataset.yearly : el.dataset.monthly;
             });
         }
     </script>
