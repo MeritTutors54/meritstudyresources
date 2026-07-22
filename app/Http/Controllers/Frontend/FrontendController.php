@@ -32,46 +32,6 @@ class FrontendController extends Controller
 {
     protected array $seoCore;
 
-    public function anotherHome(): View
-    {
-        $subscriptionPricing = SubscriptionPlan::query()
-            ->where('status', Status::ACTIVE->value)
-            ->get()
-            ->groupBy(function ($plan) {
-                return strtolower(SubscriptionType::from($plan->type)->name);
-            });
-
-        $products = Product::query()
-            ->where('status', Status::ACTIVE->value)
-            ->get();
-
-        $counter['past_papers'] = PastPaper::query()->count();
-        $counter['resources'] = MeritResource::query()->count();
-        $counter['users'] = User::query()->where('type', '!=', UserType::STUDENT->value)->count();
-        $counter['students'] = User::query()->where('type', UserType::STUDENT->value)->count();
-
-
-        $testimonials = Testimonial::query()->get();
-
-        $faqs = Faq::query()
-            ->where('status', Status::ACTIVE->value)
-            ->take(5)->get();
-
-        $defaultSEO = Seo::query()
-            ->where('page_title', SEOPage::HOME->value)
-            ->first();
-
-        return view('frontend.home.index')
-            ->with([
-                'defaultSEO' => $defaultSEO,
-                'subscriptionPricing' => $subscriptionPricing,
-                'products' => $products,
-                'counter' => $counter,
-                'testimonials' => $testimonials,
-                'faqs' => $faqs,
-            ]);
-    }
-
     public function home(): View
     {
         $subscriptionPricing = SubscriptionPlan::query()
@@ -135,7 +95,7 @@ class FrontendController extends Controller
             ->where('page_title', SEOPage::ABOUT_US->value)
             ->first();
 
-        return view('frontend.about-us.index')->with([
+        return view('frontend.about-us.index-2')->with([
             'defaultSEO' => $defaultSEO,
             'counter' => $counter,
             'testimonials' => $testimonials,

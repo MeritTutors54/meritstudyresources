@@ -1602,3 +1602,46 @@ hr.footer-line {
 .field-input[type="password"] {
     letter-spacing: 0.08em;
 }
+.breadcrumb-msr {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .78rem;
+    color: var(--muted);
+    letter-spacing: .04em;
+}
+
+.breadcrumb-msr a {
+    color: var(--green-dark);
+    font-weight: 600;
+}
+.page-banner {
+    padding: 150px 0 70px;
+    background: radial-gradient(ellipse 700px 420px at 88% -8%, rgba(31, 158, 89, .10), transparent 70%), radial-gradient(ellipse 600px 400px at 0% 100%, rgba(26, 33, 82, .06), transparent 70%), #fff;
+    position: relative;
+    overflow: hidden;
+}
+.team-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    text-align: center;
+    padding: 30px 20px;
+    height: 100%;
+    transition: .25s ease;
+}
+.team-avatar {
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #fff;
+    font-size: 1.4rem;
+    margin: 0 auto 16px;
+}
+.value-card {
+    padding: 30px 26px;
+    height: 100%;
+}
