@@ -158,6 +158,8 @@
     </section>
 
     <!-- ============================= NEWSLETTER ============================= -->
-    @include('frontend.includes.newsletter')
+    <section class="section-pad bg-mint">
+        @include('frontend.includes.newsletter')
+    </section>
 
 @endsection

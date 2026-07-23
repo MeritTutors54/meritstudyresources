@@ -626,7 +626,9 @@
     </section>
 
     <!-- ============================= NEWSLETTER ============================= -->
-    @include('frontend.includes.newsletter')
+    <section class="section-pad">
+        @include('frontend.includes.newsletter')
+    </section>
 
 @endsection
 @push('js')

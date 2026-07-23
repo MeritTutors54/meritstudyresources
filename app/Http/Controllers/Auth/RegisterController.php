@@ -23,19 +23,26 @@ class RegisterController extends Controller
 {
     use RegistersUsers;
 
+    public function showRegistrationForm()
+    {
+        return view('auth.register-2');
+    }
+
     protected function validator(array $request): ValidationResponse
     {
         return Validator::make($request, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:3', 'same:confirm_password'],
+            'agree_term' => ['required', 'accepted'],
+        ], [
+            'agree_term.required' => "The agreement needs to be accepted.",
         ]);
     }
 
     public function register(Request $request): View
     {
         $this->validator($request->all())->validate();
-
 
         $encrypted = Crypt::encrypt($request->all());
 

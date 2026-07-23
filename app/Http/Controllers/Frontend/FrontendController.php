@@ -162,7 +162,7 @@ class FrontendController extends Controller
             ->where('page_title', SEOPage::FAQ->value)
             ->first();
 
-        return view('frontend.faq.index')->with([
+        return view('frontend.faq.index-2')->with([
             'defaultSEO' => $defaultSEO,
             'faqs' => $faqs,
             'testimonials' => $testimonials,
@@ -179,7 +179,7 @@ class FrontendController extends Controller
             ->where('page_title', SEOPage::PRIVACY_POLICY->value)
             ->first();
 
-        return view('frontend.privacy-policy.index')
+        return view('frontend.privacy-policy.index-2')
             ->with([
                 'defaultSEO' => $defaultSEO,
                 'privacyPolicy' => $privacyPolicy->value ?? "",
@@ -216,7 +216,7 @@ class FrontendController extends Controller
             ->where('page_title', SEOPage::TERMS_CONDITION->value)
             ->first();
 
-        return view('frontend.terms-conditions.index')
+        return view('frontend.terms-conditions.index-2')
             ->with([
                 'defaultSEO' => $defaultSEO,
                 'termsAndCondition' => $termsAndCondition->value ?? "",

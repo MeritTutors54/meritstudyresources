@@ -22,11 +22,10 @@
 
     @yield('content')
 
-    @hasSection('no-footer')
-        {{-- Do nothing, skip the footer --}}
-    @else
+
+    @unless($hideFooter ?? false)
         @include('layouts.frontend.footer-2')
-    @endif
+    @endunless
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
     <script>

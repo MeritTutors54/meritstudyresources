@@ -38,53 +38,54 @@
 
         <div class="collapse navbar-collapse" id="navMain">
             @guest
-                <ul class="navbar-nav mx-auto my-3 my-lg-0">
-                    <li class="nav-item"><a class="nav-link nav-link-msr" href="{{ url('/') }}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link nav-link-msr" href="{{ route('blogs') }}">Blogs</a></li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-msr" href="{{ route('about-us') }}">About Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-msr" href="{{ route('products') }}">Products</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-msr" href="{{ route('pricing') }}">Pricing</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link nav-link-msr" href="#" data-bs-toggle="dropdown" aria-expanded="true">
-                            Resources
-                            <svg class="dropdown-chevron" viewBox="0 0 24 24" fill="none" width="14" height="14"
-                                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
-                        </a>
-                        @if (!empty($allResource))
-                            <ul class="dropdown-menu" data-bs-popper="static">
-                                @foreach ($allResource as $subjectTitle => $resource)
-                                    @if (!empty($resource))
-                                        <div class="nav-link-msr father-of-child">
-                                            {{ $subjectTitle }}
-                                        </div>
-                                        @foreach ($resource as $subject)
-                                            <li class="nav-item">
-                                                <a class="nav-item nav-link-msr msr-child dropdown-item"
-                                                    href="{{ route('resources.topic', [$subject['education_level']['slug'], $subject['slug']]) }}"">
-                                                    {{ $subject['education_level']['name'] }}
-                                                </a>
-                                            </li>
-                                        @endforeach
-                                    @endif
-                                @endforeach
-                            </ul>
-                        @endif
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-msr" href="{{ route('past.papers') }}">
-                            Past Papers
-                        </a>
-                    </li>
-                </ul>
-                <div class="d-flex gap-2 my-2 my-lg-0">
+                    <ul class="navbar-nav mx-auto my-3 my-lg-0">
+                        <li class="nav-item"><a class="nav-link nav-link-msr" href="{{ url('/') }}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link nav-link-msr" href="{{ route('blogs') }}">Blogs</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-msr" href="{{ route('about-us') }}">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-msr" href="{{ route('products') }}">Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-msr" href="{{ route('pricing') }}">Pricing</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link nav-link-msr" href="#" data-bs-toggle="dropdown" aria-expanded="true">
+                                Resources
+                                <svg class="dropdown-chevron" viewBox="0 0 24 24" fill="none" width="14" height="14"
+                                     stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </a>
+                            @if (!empty($allResource))
+                                <ul class="dropdown-menu" data-bs-popper="static">
+                                    @foreach ($allResource as $subjectTitle => $resource)
+                                        @if (!empty($resource))
+                                            <div class="nav-link-msr father-of-child">
+                                                {{ $subjectTitle }}
+                                            </div>
+                                            @foreach ($resource as $subject)
+                                                <li class="nav-item">
+                                                    <a class="nav-item nav-link-msr msr-child dropdown-item"
+                                                       href="{{ route('resources.topic', [$subject['education_level']['slug'], $subject['slug']]) }}">
+                                                        {{ $subject['education_level']['name'] }}
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        @endif
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-msr" href="{{ route('past.papers') }}">
+                                Past Papers
+                            </a>
+                        </li>
+                    </ul>
+
+                <div class="d-flex gap-2 my-2 my-lg-0 m-auto">
                     <a href="{{ route('login') }}" class="btn-ghost-navy">Login</a>
                     <a href="{{ route('contact-us') }}" class="btn-brand">Contact Us</a>
                 </div>
