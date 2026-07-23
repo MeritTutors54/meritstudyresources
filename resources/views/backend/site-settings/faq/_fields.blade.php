@@ -37,6 +37,30 @@
             </div>
             <div class="col-lg-4 col-12">
                 <div class="form-group">
+                    <label class="form-label" for="genre">Genre</label>
+                    <select name="genre"
+                            id="genre"
+                            class="form-select">
+                        <option value="">Select...</option>
+                        @if(!empty($genres))
+                            @foreach($genres as $genre)
+                                <option
+                                    {{ old('genre', isset($faq) ? (string)$faq->genre : "") === (string)$genre->value ? 'selected' : '' }}
+                                    value="{{ $genre->value }}">
+                                    {{ ucfirst(strtolower($genre->name))  }}
+                                </option>
+                            @endforeach
+                        @endif
+                    </select>
+                    @error('genre')
+                    <div class="form-control-feedback text-danger mt-1">
+                        {{ $message }}
+                    </div>
+                    @enderror
+                </div>
+            </div>
+            <div class="col-lg-4 col-12">
+                <div class="form-group">
                     <label class="form-label" for="status">Status</label>
                     <select name="status"
                             id="status"

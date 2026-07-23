@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Enums\FaqGenre;
 use App\Enums\SEOPage;
 use App\Enums\Status;
 use App\Enums\SubscriptionDuration;
@@ -164,8 +165,9 @@ class FrontendController extends Controller
 
         return view('frontend.faq.index-2')->with([
             'defaultSEO' => $defaultSEO,
-            'faqs' => $faqs,
+            'FAQs' => $faqs,
             'testimonials' => $testimonials,
+            'cases' => FaqGenre::cases(),
         ]);
     }
 

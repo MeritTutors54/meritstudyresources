@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend\SiteSettings;
 
+use App\Enums\FaqGenre;
 use App\Enums\Status;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\StoreFAQRequest;
@@ -42,10 +43,12 @@ class FaqController extends Controller
         $this->authorize('createFAQ', Auth::user());
 
         $statuses = Status::cases();
+        $genres = FaqGenre::cases();
 
         return view('backend.site-settings.faq.form')
             ->with([
                 'statuses' => $statuses,
+                'genres' => $genres,
             ]);
     }
 
@@ -60,7 +63,7 @@ class FaqController extends Controller
 
         DB::beginTransaction();
         try {
-            $faq = Faq::query()->create(request()->all());
+            $faq = Faq::query()->create($request->all());
 
             AdminActivity::track($this->log, $faq);
 
@@ -85,6 +88,7 @@ class FaqController extends Controller
 
         return view('backend.site-settings.faq.form')->with([
             'faq' => $faq,
+            'genres' => FaqGenre::cases(),
             'statuses' => Status::cases(),
         ]);
     }

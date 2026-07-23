@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests\Backend;
 
+use App\Enums\FaqGenre;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class StoreFAQRequest extends FormRequest
 {
@@ -21,6 +23,10 @@ class StoreFAQRequest extends FormRequest
             'question' => 'required|string|max:2500',
             'answer' => 'required|string|max:2500',
             'status' => 'required|in:0,1',
+            'genre' => [
+                'required',
+                Rule::enum(FaqGenre::class)
+            ],
         ];
     }
 }

@@ -49,6 +49,7 @@
                                         <tr>
                                             <th>Question</th>
                                             <th>Answer</th>
+                                            <th>Genre</th>
                                             <th class="text-center">Status</th>
                                             <th class="text-center">Action</th>
                                         </tr>
@@ -59,6 +60,7 @@
                                                 <tr>
                                                     <td>{{ $faq->question }}</td>
                                                     <td>{{ $faq->answer }}</td>
+                                                    <td>{{ !empty($faq->genre) ? $faq->genre->label() : "" }}</td>
                                                     <td class="text-center">
                                                         @if($faq->status === \App\Enums\Status::ACTIVE->value)
                                                             <span class="badge badge-success">
