@@ -47,49 +47,56 @@
                                     <table id="example1" class="table table-bordered table-striped">
                                         <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th class="text-center">Value</th>
-                                            <th class="text-center">Status</th>
-                                            <th class="text-center">Action</th>
+                                            <th style="width: 20%;">Title</th>
+                                            <th style="width: 45%;">Description</th>
+                                            <th class="text-center" style="width: 15%;">Policy</th>
+                                            <th class="text-center" style="width: 10%;">Status</th>
+                                            <th class="text-center" style="width: 10%;">Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @if(isset($policies) && $policies->isNotEmpty())
-                                            @foreach($policies as $policy)
-                                                <tr>
-                                                    <td>{{ $policy->key }}</td>
+                                            @if(!empty($policies))
+                                                @foreach($policies as $data)
+                                                    <tr>
+                                                        <td><strong>{{ $data->title }}</strong></td>
 
-                                                    <td>{!! Str::limit(html_entity_decode($policy->value), 300, '...') !!}</td>
-                                                    <td class="text-center">
-                                                        @if($policy->status === \App\Enums\Status::ACTIVE->value)
-                                                            <span class="badge badge-success">
-                                                                {{ ucfirst(strtolower(\App\Enums\Status::from($policy->status)->name)) }}
+                                                        <td>
+                                                            {{-- strip_tags prevents unclosed HTML tags from breaking table styles --}}
+                                                            {{ Str::limit(strip_tags(html_entity_decode($data->description)), 150, '...') }}
+                                                        </td>
+
+                                                        {{-- Updated from $data->policy to $data->genre --}}
+                                                        <td class="text-center">
+                                                            <span class="badge bg-primary">
+                                                                {{ $data->policy?->label() ?? 'N/A' }}
                                                             </span>
-                                                        @else
-                                                            <span class="badge badge-secondary">
-                                                                {{ ucfirst(strtolower(\App\Enums\Status::from($policy->status)->name)) }}
+                                                        </td>
+
+                                                        <td class="text-center">
+                                                            <span class="badge badge-{{ $data->status->color() }}">
+                                                                {{ $data->status->label() }}
                                                             </span>
-                                                        @endif
-                                                    </td>
-                                                    <td class="text-center">
-                                                        @can('updatePolicy', Auth::user())
-                                                            <a href="{{ route('admin.policies.edit', [$policy]) }}">
-                                                                <i class="fa fa-edit" aria-hidden="true"></i>
-                                                            </a>
-                                                        @endcan
-                                                        @can('deletePolicy', Auth::user())
-                                                            <button type="button"
-                                                                    data-route="{{ route('admin.policies.destroy', [$policy]) }}"
-                                                                    data-name="{{ $policy->key }}"
-                                                                    class="dltButton btn bg-transparent p-0 ms-2">
-                                                                <i class="fa fa-trash-o text-danger"
-                                                                   aria-hidden="true"></i>
-                                                            </button>
-                                                        @endcan
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        @endif
+                                                        </td>
+
+                                                        <td class="text-center">
+                                                            @can('updatePolicy', Auth::user())
+                                                                <a href="{{ route('admin.policies.edit', [$data]) }}">
+                                                                    <i class="fa fa-edit text-primary" aria-hidden="true"></i>
+                                                                </a>
+                                                            @endcan
+                                                            @can('deletePolicy', Auth::user())
+                                                                <button type="button"
+                                                                        data-route="{{ route('admin.policies.destroy', [$data]) }}"
+                                                                        data-name="{{ $data->title }}"
+                                                                        class="dltButton btn btn-sm btn-transparent ms-1">
+                                                                    <i class="fa fa-trash-o text-danger"
+                                                                       aria-hidden="true"></i>
+                                                                </button>
+                                                            @endcan
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @endif
                                         </tbody>
                                     </table>
                                 </div>

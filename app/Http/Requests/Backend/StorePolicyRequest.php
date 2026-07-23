@@ -2,8 +2,11 @@
 
 namespace App\Http\Requests\Backend;
 
+use App\Enums\Policy;
+use App\Enums\Status;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class StorePolicyRequest extends FormRequest
 {
@@ -19,9 +22,17 @@ class StorePolicyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'key' => 'required|string',
-            'value' => 'required|string',
-            'status' => 'required|in:0,1'
+            'title' => 'required|string|max:200',
+            'description' => 'required|string|max:2000',
+
+            'status' => [
+                'required',
+                Rule::enum(Status::class)
+            ],
+            'policy' => [
+                'required',
+                Rule::enum(Policy::class)
+            ]
         ];
     }
 }

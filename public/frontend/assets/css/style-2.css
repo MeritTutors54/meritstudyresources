@@ -1544,6 +1544,7 @@ hr.footer-line {
     display: flex;
     align-items: center;
     gap: 12px;
+    scroll-margin-top: 100px;
 }
 
 .legal-content h2 .num-badge {

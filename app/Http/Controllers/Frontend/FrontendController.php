@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Enums\FaqGenre;
+use App\Enums\Policy;
 use App\Enums\SEOPage;
 use App\Enums\Status;
 use App\Enums\SubscriptionDuration;
@@ -173,7 +174,10 @@ class FrontendController extends Controller
 
     public function privacyPolicy()
     {
-        $privacyPolicy = PolicySettings::query()->where('key', 'Privacy Policy')->first();
+        $privacyPolicy = PolicySettings::query()
+            ->where('policy', Policy::Privacy->value)
+            ->where('status', Status::ACTIVE->value)
+            ->get();
 
         $testimonials = Testimonial::query()->get();
 
@@ -184,14 +188,17 @@ class FrontendController extends Controller
         return view('frontend.privacy-policy.index-2')
             ->with([
                 'defaultSEO' => $defaultSEO,
-                'privacyPolicy' => $privacyPolicy->value ?? "",
+                'privacyPolicy' => $privacyPolicy,
                 'testimonials' => $testimonials,
             ]);
     }
 
     public function refundPolicy()
     {
-        $refundPolicy = PolicySettings::query()->where('key', 'Refund Policy')->first();
+        $refundPolicy = PolicySettings::query()
+            ->where('policy', Policy::Refund->value)
+            ->where('status', Status::ACTIVE->value)
+            ->get();
 
         $testimonials = Testimonial::query()->get();
 
@@ -199,9 +206,9 @@ class FrontendController extends Controller
             ->where('page_title', SEOPage::HOME->value)
             ->first();
 
-        return view('frontend.refund-policy.index')
+        return view('frontend.refund-policy.index-2')
             ->with([
-                'refundPolicy' => $refundPolicy->value ?? "",
+                'refunds' => $refundPolicy,
                 'testimonials' => $testimonials,
                 'defaultSEO' => $defaultSEO,
             ]);
@@ -210,7 +217,10 @@ class FrontendController extends Controller
 
     public function termsCondition(): View
     {
-        $termsAndCondition = PolicySettings::query()->where('key', 'Terms & Conditions')->first();
+        $terms = PolicySettings::query()
+            ->where('policy', Policy::Terms->value)
+            ->where('status', Status::ACTIVE->value)
+            ->get();
 
         $testimonials = Testimonial::query()->get();
 
@@ -221,7 +231,7 @@ class FrontendController extends Controller
         return view('frontend.terms-conditions.index-2')
             ->with([
                 'defaultSEO' => $defaultSEO,
-                'termsAndCondition' => $termsAndCondition->value ?? "",
+                'terms' => $terms,
                 'testimonials' => $testimonials,
             ]);
     }

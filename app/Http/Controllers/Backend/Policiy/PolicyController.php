@@ -61,7 +61,7 @@ class PolicyController extends Controller
 
         DB::beginTransaction();
         try {
-            $policy = PolicySettings::query()->create($request->all());
+            $policy = PolicySettings::query()->create($request->except('_token', '_method'));
             AdminActivity::track($this->log, $policy);
 
             $this->notification['alert-type'] = 'success';
@@ -70,6 +70,7 @@ class PolicyController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
+
 
             $this->notification['alert-type'] = 'error';
             $this->notification['message'] = $e->getMessage();
