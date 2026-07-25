@@ -102,6 +102,7 @@ class BlogController extends Controller
 
         // finding the blog using slug
         $blog = Blogs::query()
+            ->with('author', 'category', 'author', 'tags')
             ->where('slug', $slug)
             ->where('status', Status::ACTIVE->value)
             ->first();
@@ -141,7 +142,7 @@ class BlogController extends Controller
         $seo ['meta_author'] = $defaultSEO->meta_author ?? '';
         $seo ['meta_description'] = !empty($defaultSEO) ? $defaultSEO->meta_description . ',' . $builtIn : $builtIn;
 
-        return view('frontend.blogs.details')
+        return view('frontend.blogs.details-2')
             ->with([
                 'blog' => $blog,
                 'latestBlogs' => $latestBlogs,

@@ -112,7 +112,7 @@ class FrontendController extends Controller
             ->where('page_title', SEOPage::CONTACT->value)
             ->first();
 
-        return view('frontend.contact-us.index')
+        return view('frontend.contact-us.index-2')
             ->with([
                 'defaultSEO' => $defaultSEO,
                 'settings' => $settings,
@@ -127,6 +127,9 @@ class FrontendController extends Controller
             'phone' => 'required|string|max:25',
             'subject' => 'required|string|max:255',
             'message' => 'required|string|max:1000',
+            'agree_check' => 'required'
+        ], [
+            'agree_check.required' => "You must agree with all privacy policies"
         ]);
 
         $insert = Contact::query()->create([
@@ -266,7 +269,17 @@ class FrontendController extends Controller
             ->where('status', Status::ACTIVE->value)
             ->get()
             ->groupBy(function ($plan) {
-                return strtolower(SubscriptionType::from($plan->type)->name);
+                return strtolower(SubscriptionLevel::from($plan->level)->name);
+            })
+            ->map(function ($plansByLevel) {
+                // Group each level into 2 types (e.g., School vs. Individual)
+                return $plansByLevel->groupBy(function ($plan) {
+                    return strtolower(SubscriptionType::from($plan->type)->name);
+                })->map(function ($plansByType) {
+                    return $plansByType->groupBy(function ($p) {
+                        return strtolower(SubscriptionDuration::from($p->duration)->name);
+                    });
+                });
             });
 
         $testimonials = Testimonial::query()->get();
@@ -275,7 +288,7 @@ class FrontendController extends Controller
             ->where('page_title', SEOPage::PRICING->value)
             ->first();
 
-        return view('frontend.pricing.index')
+        return view('frontend.pricing.index-2')
             ->with([
                 'defaultSEO' => $defaultSEO,
                 'subscriptionPricing' => $subscriptionPricing,
