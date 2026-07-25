@@ -28,12 +28,10 @@ class Admin extends Authenticatable
         'status',
     ];
 
-
     protected $hidden = [
         'password',
         'remember_token',
     ];
-
 
     protected function casts(): array
     {
@@ -41,6 +39,17 @@ class Admin extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function getInitialsAttribute(): string
+    {
+        $words = explode(' ', trim($this->name));
+
+        if (count($words) === 1) {
+            return strtoupper(mb_substr($words[0], 0, 2));
+        }
+
+        return strtoupper(mb_substr($words[0], 0, 1) . mb_substr(end($words), 0, 1));
     }
 
     public function teams(): BelongsToMany

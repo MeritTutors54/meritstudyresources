@@ -188,6 +188,12 @@ class BlogsController extends Controller
 
         DB::beginTransaction();
         try {
+            if ($request->has('is_feature') && $request->is_feature == 1) {
+                Blogs::query()->where('id', '!=', $blog->id)
+                    ->where('is_feature', 1) // Optional optimization to only update existing featured blogs
+                    ->update(['is_feature' => 0]);
+            }
+
             $blog->update($request->all());
 
             if (!empty($request->blog_tags)) {

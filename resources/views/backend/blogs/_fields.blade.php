@@ -1,7 +1,7 @@
 <div>
     <div class="box-body">
         <div class="row">
-            <div class="col-lg-10 col-12">
+            <div class="col-lg-8 col-12">
                 <div class="form-group">
                     <label for="title"
                            class="form-label">Blog Title</label>
@@ -36,6 +36,31 @@
                         @endif
                     </select>
                     @error('status')
+                    <div class="form-control-feedback text-danger mt-1">
+                        {{ $message }}
+                    </div>
+                    @enderror
+                </div>
+            </div>
+            <div class="col-lg-2 col-12">
+                <div class="form-group">
+                    <label class="form-label" for="is-feature">Feature Blog?</label>
+                    <select name="is_feature"
+                            id="is-feature"
+                            class="form-select">
+                        <option value="">Select...</option>
+                        <option
+                            {{ old('is_feature', isset($blog) ? (string)$blog->is_feature : "") === "0" ? 'selected' : '' }}
+                            value="0">
+                            No
+                        </option>
+                        <option
+                            {{ old('is_feature', isset($blog) ? (string)$blog->is_feature : "") === "1" ? 'selected' : '' }}
+                            value="1">
+                            Yes
+                        </option>
+                    </select>
+                    @error('is_feature')
                     <div class="form-control-feedback text-danger mt-1">
                         {{ $message }}
                     </div>

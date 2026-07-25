@@ -279,7 +279,7 @@ class PastPaperController extends Controller
         $subcategories = SubCategory::query()
             ->where('category_id', $past_paper->category)
             ->where(['is_active' => 1, 'is_deleted' => 0])
-            ->orderBy('id', 'DESC')
+            ->orderBy('subcategory_name', 'ASC')
             ->get();
 
         $resubcategories = Resubcategory::query()

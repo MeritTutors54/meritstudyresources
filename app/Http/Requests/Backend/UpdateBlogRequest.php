@@ -27,6 +27,7 @@ class UpdateBlogRequest extends FormRequest
             'blog_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'details' => 'nullable|string',
             'status' => 'required|in:0,1',
+            'is_feature' => 'required|in:0,1',
         ];
     }
 

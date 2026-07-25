@@ -25,6 +25,7 @@ class Blogs extends Model
         'author_id',
         'description',
         'blog_category_id',
+        'is_feature',
     ];
 
     protected $with = ['author', 'images'];

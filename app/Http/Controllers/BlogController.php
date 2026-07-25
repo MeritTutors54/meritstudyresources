@@ -31,7 +31,7 @@ class BlogController extends Controller
         $q = $request->query('q');
 
         $blogs = Blogs::query()
-            ->with('category');
+            ->with(['category', 'author']);
 
         if (!empty($q)) {
             $blogs->whereHas('category', function ($query) use ($q) {
@@ -45,8 +45,15 @@ class BlogController extends Controller
             });
         }
 
-        $blogs = $blogs->orderBy('id','DESC')->where('status', Status::ACTIVE->value)
-            ->paginate(10);
+        $blogs = $blogs->orderBy('id','DESC')
+            ->where('status', Status::ACTIVE->value)
+            ->paginate(12);
+
+        $featured = Blogs::query()
+            ->with(['category', 'author'])
+            ->where('status', Status::ACTIVE->value)
+            ->where('is_feature', 1)
+            ->first();
 
         $latestBlogs = Blogs::query()
             ->where('status', Status::ACTIVE->value)
@@ -69,13 +76,14 @@ class BlogController extends Controller
             ->where('page_title', SEOPage::BLOGS->value)
             ->first();
 
-        return view('frontend.blogs.index')
+        return view('frontend.blogs.index-2')
             ->with([
                 'defaultSEO' => $defaultSEO,
                 'blogs' => $blogs ?? '',
                 'latestBlogs' => $latestBlogs,
                 'tags' => $tags,
                 'popularBlogs' => $popularBlogs,
+                'featured' => $featured
             ]);
     }
 

@@ -57,7 +57,12 @@
                                         @if(isset($blogs) && $blogs->isNotEmpty())
                                             @foreach($blogs as $blog)
                                                 <tr>
-                                                    <td>{{ $blog->title }}</td>
+                                                    <td>{{ $blog->title }}
+                                                        @if($blog->is_feature == 1)
+                                                            <br/>
+                                                            <span class="badge badge-success">Featured Blog</span>
+                                                        @endif
+                                                    </td>
                                                     <td>{{ $blog->author->name }}</td>
                                                     <td>
                                                         @if($blog->tags()->count() > 0)
