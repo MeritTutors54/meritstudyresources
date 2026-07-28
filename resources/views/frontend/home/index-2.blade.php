@@ -1,4 +1,10 @@
 @extends('layouts.frontend-2')
+
+@section('title', $defaultSEO->meta_title ?? $global_seo['seo_title'])
+@section('meta_description', $defaultSEO->meta_description ?? $global_seo['seo_description'])
+@section('meta_keywords', $defaultSEO->meta_keywords ?? $global_seo['seo_keywords'])
+@section('meta_author', $defaultSEO->meta_author ?? $global_seo['soe_author'])
+
 @section('content')
     <!-- ============================= HERO ============================= -->
     <header class="hero" id="home">
@@ -556,11 +562,11 @@
                                 <div class="accordion-item">
                                     <h3 class="accordion-header">
                                         <button class="accordion-button {{ $k == 0 ? '' : 'collapsed' }}" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#f2">
+                                            data-bs-toggle="collapse" data-bs-target="#f{{$k}}">
                                             {{ $faq->question }}
                                         </button>
                                     </h3>
-                                    <div id="f2" class="accordion-collapse collapse {{ $k == 0 ? 'show' : '' }}"
+                                    <div id="f{{$k}}" class="accordion-collapse collapse {{ $k == 0 ? 'show' : '' }}"
                                         data-bs-parent="#faqAccordion">
                                         <div class="accordion-body">{{ $faq->answer }}</div>
                                     </div>

@@ -1,9 +1,10 @@
-@extends('layouts.frontend-2', ['main_title' => $defaultSEO->meta_title ?? 'Contact Us - MeritStudyResources.co.uk' ])
-@section('page-seo')
-    <meta name="description" content="{{ $defaultSEO->meta_description ?? '' }}">
-    <meta name="keywords" content="{{ $defaultSEO->meta_keywords ?? '' }}">
-    <meta name="author" content="{{ $defaultSEO->meta_author ?? '' }}">
-@endsection
+@extends('layouts.frontend-2')
+
+@section('title', $defaultSEO->meta_title ?? $global_seo['seo_title'])
+@section('meta_description', $defaultSEO->meta_description ?? $global_seo['seo_description'])
+@section('meta_keywords', $defaultSEO->meta_keywords ?? $global_seo['seo_keywords'])
+@section('meta_author', $defaultSEO->meta_author ?? $global_seo['soe_author'])
+
 @section('content')
     <!-- ============================= PAGE HEADER ============================= -->
     <header class="page-banner text-center">
@@ -132,16 +133,18 @@
                                 @enderror
                             </div>
 
-                            <label class="form-check-msr my-3">
+                            <label class="form-check-msr {{ $errors->has('agree_check') ? 'mt-3 mb-0' : 'my-3' }}">
                                 <input type="checkbox" name="agree_check"> I agree to the
                                 <a href="{{ route('privacy.policy') }}"
                                    style="color:var(--green-dark);font-weight:600;margin-left:4px;">
                                     Privacy Policy
                                 </a>
-                                @error('agree_check')
-                                <small class="text-danger">{{ $message }}</small>
-                                @enderror
                             </label>
+                            @error('agree_check')
+                            <div class="mb-3">
+                                <small class="text-danger">{{ $message }}</small>
+                            </div>
+                            @enderror
 
                             <button type="submit" class="btn-brand btn-brand-block">
                                 Send Message

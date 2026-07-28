@@ -1,5 +1,7 @@
 @extends('layouts.frontend')
 
+@section('title', 'Reset Password - ' . $global_seo['seo_title'])
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">

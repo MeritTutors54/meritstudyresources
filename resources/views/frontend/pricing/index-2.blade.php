@@ -1,9 +1,10 @@
-@extends('layouts.frontend-2', ['main_title' => $defaultSEO->meta_title ?? 'Pricing - MeritStudyResources.co.uk' ])
-@section('page-seo')
-    <meta name="description" content="{{ $defaultSEO->meta_description ?? '' }}">
-    <meta name="keywords" content="{{ $defaultSEO->meta_keywords ?? '' }}">
-    <meta name="author" content="{{ $defaultSEO->meta_author ?? '' }}">
-@endsection
+@extends('layouts.frontend-2')
+
+@section('title', $defaultSEO->meta_title ?? $global_seo['seo_title'])
+@section('meta_description', $defaultSEO->meta_description ?? $global_seo['seo_description'])
+@section('meta_keywords', $defaultSEO->meta_keywords ?? $global_seo['seo_keywords'])
+@section('meta_author', $defaultSEO->meta_author ?? $global_seo['soe_author'])
+
 @section('content')
     <!-- ============================= PAGE HEADER ============================= -->
     <header class="page-banner text-center">

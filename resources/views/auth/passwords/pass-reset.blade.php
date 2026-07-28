@@ -1,10 +1,7 @@
 @extends('layouts.frontend')
-@extends('layouts.frontend', ['main_title' => 'Reset Password - MeritStudyResources.co.uk' ])
-@section('page-seo')
-    <meta name="description" content="{{ $defaultSEO->meta_description ?? '' }}">
-    <meta name="keywords" content="{{ $defaultSEO->meta_keywords ?? '' }}">
-    <meta name="author" content="{{ $defaultSEO->meta_author ?? '' }}">
-@endsection
+
+@section('title', 'Reset Password - ' . $global_seo['seo_title'])
+
 @section('content')
     <!-- Start breadcrumb Area -->
     <div class="rbt-breadcrumb-default ptb--100 ptb_md--50 ptb_sm--30 bg-gradient-1">

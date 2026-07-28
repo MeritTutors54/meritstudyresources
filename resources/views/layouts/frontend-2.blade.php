@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Merit Study Resources — Past Papers, Worksheets &amp; Revision Resources</title>
+
+    {{-- Title Tag --}}
+    <title>@yield('title', $main_title ?? $seo->meta_title ?? config('app.name'))</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,6 +17,31 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/style-2.css?v=' . $v) }}">
+
+    <link rel="icon" type="image/png" href="{{ asset('frontend/assets/images/favicon/favicon-96x96.png') }}" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="{{ asset('frontend/assets/images/favicon/favicon.svg') }}" />
+    <link rel="shortcut icon" href="{{ asset('frontend/assets/images/favicon/favicon.ico') }}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('frontend/assets/images/favicon/apple-touch-icon.png') }}" />
+    <link rel="manifest" href="{{ asset('frontend/assets/images/favicon/site.webmanifest') }}" />
+
+    {{-- Standard SEO Meta Tags --}}
+    <meta name="description" content="@yield('meta_description', $seo->meta_description ?? '')">
+    <meta name="keywords" content="@yield('meta_keywords', $seo->meta_keywords ?? '')">
+    <meta name="author" content="@yield('meta_author', $seo->meta_author ?? '')">
+
+    {{-- Verification Tags --}}
+    @if(!empty($seo->google_verification))
+        <meta name="google-site-verification" content="{{ $seo->google_verification }}" />
+    @endif
+    @if(!empty($seo->bing_verification))
+        <meta name="msvalidate.01" content="{{ $seo->bing_verification }}" />
+    @endif
+
+    {{-- Open Graph / Social Media --}}
+    <meta property="og:title" content="@yield('title', $seo->meta_title ?? config('app.name'))">
+    <meta property="og:description" content="@yield('meta_description', $seo->meta_description ?? '')">
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:url" content="{{ url()->current() }}">
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-YDG4M0JY4F"></script>

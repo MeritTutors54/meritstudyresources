@@ -1,4 +1,7 @@
 @extends('layouts.frontend')
+
+@section('title', 'Select Organization - ' . $global_seo['seo_title'])
+
 @section('content')
     <!-- Start breadcrumb Area -->
     <div class="rbt-breadcrumb-default ptb--100 ptb_md--50 ptb_sm--30 bg-gradient-1">

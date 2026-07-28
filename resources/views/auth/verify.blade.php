@@ -1,4 +1,7 @@
 @extends('layouts.frontend')
+
+@section('title', 'Verify User - ' . $global_seo['seo_title'])
+
 @section('content')
 <div class="rbt-breadcrumb-default ptb--100 ptb_md--50 ptb_sm--30 bg-gradient-1">
   <div class="container">
@@ -7,7 +10,7 @@
               <div class="breadcrumb-inner text-center">
                   <h2 class="title">Email Verification</h2>
                   <ul class="page-list">
-                      <li class="rbt-breadcrumb-item"><a href="index.html">Home</a></li>
+                      <li class="rbt-breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
                       <li>
                           <div class="icon-right"><i class="feather-chevron-right"></i></div>
                       </li>
@@ -27,7 +30,7 @@
       box-shadow: -1px 8px 11px rgb(0 0 0 / 10%);
       max-width: 700px;
       background: #fff;
-      
+
       .form-control {
         display: block;
         height: 50px;
@@ -35,13 +38,13 @@
         text-align: center;
         font-size: 1.25rem;
         min-width: 0;
-        
+
         &:last-child {
           margin-right: 0;
         }
       }
     }
-    
+
     .form-control {
         margin: 0px 5px;
         display: block;
@@ -57,13 +60,13 @@
         transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     }
     </style>
-    
+
     <div class="container">
         <div class="row">
             <div class="col-md-2"></div>
                 <div class="col-md-8 mt-10" style="padding-top: 106px;padding-bottom: 66px;">
                     <p style="font-weight: 500;font-family: 'Flaticon';font-size: 18px;color: red;">Please check your email for the 6-digit verification code to continue with your exam booking.</p>
-                    <form method="POST" action="{{ route('verify.code') }}"> 
+                    <form method="POST" action="{{ route('verify.code') }}">
                                     @csrf
                         <h4 class="text-center mb-4">Enter your code</h4>
                         <input type="number" hidden value="{{ $id }}" name="id">
@@ -86,7 +89,7 @@
                       </div>
                         {{-- <button type="submit" class="theme-btn btn-style-nine">Verify Email</button> --}}
                     </form>
-    
+
                 </div>
             </div>
         </div>
@@ -100,7 +103,7 @@
       arrowLeft: 37,
       arrowRight: 39,
     }
-    
+
     function handleInput(e) {
       const input = e.target
       const nextInput = input.nextElementSibling
@@ -111,7 +114,7 @@
         }
       }
     }
-    
+
     function handlePaste(e) {
       e.preventDefault()
       const paste = e.clipboardData.getData('text')
@@ -119,39 +122,39 @@
         input.value = paste[i] || ''
       })
     }
-    
-    function handleBackspace(e) { 
+
+    function handleBackspace(e) {
       const input = e.target
       if (input.value) {
         input.value = ''
         return
       }
-      
+
       input.previousElementSibling.focus()
     }
-    
+
     function handleArrowLeft(e) {
       const previousInput = e.target.previousElementSibling
       if (!previousInput) return
       previousInput.focus()
     }
-    
+
     function handleArrowRight(e) {
       const nextInput = e.target.nextElementSibling
       if (!nextInput) return
       nextInput.focus()
     }
-    
+
     form.addEventListener('input', handleInput)
     inputs[0].addEventListener('paste', handlePaste)
-    
+
     inputs.forEach(input => {
       input.addEventListener('focus', e => {
         setTimeout(() => {
           e.target.select()
         }, 0)
       })
-      
+
       input.addEventListener('keydown', e => {
         switch(e.keyCode) {
           case KEYBOARDS.backspace:
@@ -163,11 +166,11 @@
           case KEYBOARDS.arrowRight:
             handleArrowRight(e)
             break
-          default:  
+          default:
         }
       })
     })
-    
+
     </script>
 {{--
 <div class="container">

@@ -13,6 +13,7 @@ use App\Repositories\PastPaperRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Social;
 use App\Repositories\Interfaces\SubscriptionPlanRepositoryInterface;
@@ -36,68 +37,46 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $v = Config::get('app.v');
-
         Event::listen(
             SubscribeEvent::class,
             SendSubscriberEmailListener::class
         );
 
+        Cashier::useSubscriptionModel(Subscription::class);
+
         if ($this->app->runningInConsole()) {
             return;
         }
 
-        Cashier::useSubscriptionModel(Subscription::class);
+        $this->bootViewGlobals();
+    }
 
-        $version = Config::get('app.version');
-
-        $settings = SiteSettings::query()->first();
-
-        $socials = Social::query()->get();
-
-        $subjects = Subject::query()
-            ->with('educationLevel')
-            ->get()
-            ->groupBy(function ($item) {
-                return $item->name;
-            })
-            ->toArray();
-
-//        dd($subjects['English'][0]['education_level']['name']);
-
-//        $educationLevels = EducationLevel::query()
-//            ->with('allSubjects')
-//            ->where('status', Status::ACTIVE->value)
-//            ->get()->groupBy(function ($item) {
-//                dd($item);
-//            });
-
-//        dd($educationLevels);
-
-        view()->composer('*', function ($view) {
-            static $shared = false;
-            if (!$shared) {
-                $cartCount = 0;
-                if (Auth::check()) {
-                    $user = Auth::user();
-                    if (isset($user->type)) {
-                        $cartCount = Cart::query()
-                            ->where('user_id', $user->id)
-                            ->count();
-                    }
-                }
-                $view->with('cartCount', $cartCount);
-                $shared = true;
-            }
+    protected function bootViewGlobals(): void
+    {
+        // Lazy-load layout data only when views are actually rendered
+        View::composer('*', function ($view) {
+            $view->with('cartCount', Auth::check() ? Cart::query()->where('user_id', Auth::id())->count() : 0);
         });
 
-        view()->share([
-            'allResource' => $subjects ?? null,
+        // Query database items once or pull from cache if preferred
+        $settings = SiteSettings::query()->first();
+        $socials = Social::all();
+        $subjects = Subject::with('educationLevel')
+            ->get()
+            ->groupBy('name');
+
+        View::share([
+            'subject' => $subjects,
             'settings' => $settings,
-//            'defaultSEO' => $defaultSEO,
             'socials' => $socials,
-            'v' => $v
+            'v' => Config::get('app.v'),
+            'version' => Config::get('app.version'),
+            'global_seo' => [
+                'seo_title' => 'MeritStudyResource - meritstudyresource.co.uk',
+                'seo_description' => 'Boost your exam results with Merit Study Resources! Access free GCSE, IGCSE, and A-Level past papers, revision notes, and worksheets instantly.',
+                'seo_keywords' => 'GCSE past papers, IGCSE past papers, A-Level past papers, exam revision, revision notes, worksheets, free past papers',
+                'seo_author' => 'Merit Study Resource',
+            ]
         ]);
-        view()->share('version', $version);
     }
 }

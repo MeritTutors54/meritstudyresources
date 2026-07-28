@@ -32,8 +32,6 @@ use Illuminate\Support\Facades\DB;
 
 class FrontendController extends Controller
 {
-    protected array $seoCore;
-
     public function home(): View
     {
         $subscriptionPricing = SubscriptionPlan::query()
@@ -72,6 +70,8 @@ class FrontendController extends Controller
         $defaultSEO = Seo::query()
             ->where('page_title', SEOPage::HOME->value)
             ->first();
+
+//        dd($defaultSEO);
 
         return view('frontend.home.index-2')
             ->with([

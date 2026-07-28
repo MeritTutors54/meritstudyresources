@@ -1,5 +1,7 @@
 @extends('auth.auth-layout')
 
+@section('title', 'Register - ' . $global_seo['seo_title'])
+
 @section('content')
     <div class="auth-wrap">
         <div class="auth-card" style="max-width:480px;">

@@ -1,4 +1,7 @@
 @extends('auth.auth-layout')
+
+@section('title', 'Select Organization - ' . $global_seo['seo_title'])
+
 @section('content')
     <!-- Start breadcrumb Area -->
     <header class="page-banner text-center" style="padding-bottom:50px;">
