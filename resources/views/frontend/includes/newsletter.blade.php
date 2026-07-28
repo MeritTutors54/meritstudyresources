@@ -15,3 +15,54 @@
         <div id="form-success" class="text-success mt-3 d-none"></div>
     </div>
 </div>
+@push('js')
+    <script>
+        document.getElementById('newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault(); // Stop the page from reloading
+
+            const form = this;
+            const errorDiv = document.getElementById('form-error');
+            const successDiv = document.getElementById('form-success');
+
+            // Hide previous messages
+            errorDiv.classList.add('d-none');
+            successDiv.classList.add('d-none');
+
+            // Gather form data
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest', // Tells Laravel it's an AJAX request
+                },
+                body: formData
+            })
+                .then(async response => {
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        // Success (Status code 200-299)
+                        successDiv.textContent = data.message || 'Thank you for subscribing!';
+                        successDiv.classList.remove('d-none');
+                        form.reset(); // Clear the input field
+                    } else if (response.status === 422) {
+                        // Laravel Validation Errors
+                        let errors = Object.values(data.errors).flat().join(' ');
+                        errorDiv.textContent = errors;
+                        errorDiv.classList.remove('d-none');
+                    } else {
+                        // General Errors
+                        errorDiv.textContent = data.message || 'Something went wrong. Please try again.';
+                        errorDiv.classList.remove('d-none');
+                    }
+                })
+                .catch(error => {
+                    console.log('errr: ', error);
+
+                    errorDiv.textContent = 'Network error. Please try again.';
+                    errorDiv.classList.remove('d-none');
+                });
+        });
+    </script>
+@endpush

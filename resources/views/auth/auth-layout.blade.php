@@ -32,9 +32,19 @@
             </span>
             <span class="brand-wordmark">MERIT STUDY<br><span class="l2">RESOURCES</span></span>
         </a>
+
+        @if(request()->routeIs('register'))
+            <div class="d-flex gap-2 ms-auto">
+                <a href="{{ route('login') }}" class="btn-ghost-navy">Login</a>
+            </div>
+        @else
         <div class="d-flex gap-2 ms-auto">
-            <a href="{{ route('login') }}" class="btn-ghost-navy">Log In</a>
+            <a href="{{ route('register') }}" class="btn-ghost-navy">Create Account</a>
         </div>
+
+        @endif
+
+
     </div>
 </nav>
 
@@ -74,6 +84,17 @@
     //     }
     //     window.location.href = 'dashboard.html';
     // });
+
+    let selectedOrg = 'student';
+    function selectOrg(type){
+        selectedOrg = type;
+        document.getElementById('optStudent').classList.toggle('selected', type === 'student');
+        document.getElementById('optSchool').classList.toggle('selected', type === 'school');
+    }
+    function continueRegister(){
+        // In production this would pass `selectedOrg` along to the backend / next step
+        window.location.href = 'dashboard.html';
+    }
 </script>
 </body>
 </html>

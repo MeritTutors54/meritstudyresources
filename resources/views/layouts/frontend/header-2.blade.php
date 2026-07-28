@@ -29,6 +29,7 @@
                     </svg>
                     <span class="cart-badge" id="cartCount">0</span>
                 </a>
+                <a href="{{ route('user.dashboard') }}" class="btn-brand">Dashboard</a>
             @endauth
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">

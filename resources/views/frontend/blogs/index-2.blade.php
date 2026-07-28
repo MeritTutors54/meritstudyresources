@@ -102,18 +102,7 @@
 
     <!-- ============================= NEWSLETTER ============================= -->
     <section class="section-pad bg-mint">
-        <div class="container">
-            <div class="newsletter-box bg-navy-2 p-5 p-md-5 text-center text-white">
-                <span class="eyebrow eyebrow-light"><span class="divider-dot"></span> NEVER MISS A POST</span>
-                <h2 class="text-white mt-4 mb-2" style="font-size:1.9rem;">Get new articles in your inbox</h2>
-                <p class="mb-4" style="color:#B7BEDB;">One email a week, no spam — just revision tips worth reading.</p>
-                <form class="d-flex flex-column flex-sm-row gap-3 justify-content-center mx-auto"
-                      style="max-width:460px;">
-                    <input type="email" class="form-control input-pill" placeholder="Enter your email">
-                    <button type="submit" class="btn-light-pill flex-shrink-0">Subscribe</button>
-                </form>
-            </div>
-        </div>
+        @include('frontend.includes.newsletter')
     </section>
 @endsection
 @push('js')

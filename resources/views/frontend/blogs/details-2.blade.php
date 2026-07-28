@@ -65,19 +65,19 @@
 
             <div class="row mt-5 gy-5">
                 <!-- TOC SIDEBAR -->
-                <div class="col-lg-3 d-none d-lg-block">
-                    <div class="toc-box">
-                        <p class="toc-title">In this article</p>
-                        <a href="#why-plans-fail">Why most revision plans fail</a>
-                        <a href="#eight-week">The 8-week framework</a>
-                        <a href="#active-recall">Using active recall properly</a>
-                        <a href="#past-papers-role">Where past papers fit in</a>
-                        <a href="#final-week">The final week</a>
-                    </div>
-                </div>
+{{--                <div class="col-lg-3 d-none d-lg-block">--}}
+{{--                    <div class="toc-box">--}}
+{{--                        <p class="toc-title">In this article</p>--}}
+{{--                        <a href="#why-plans-fail">Why most revision plans fail</a>--}}
+{{--                        <a href="#eight-week">The 8-week framework</a>--}}
+{{--                        <a href="#active-recall">Using active recall properly</a>--}}
+{{--                        <a href="#past-papers-role">Where past papers fit in</a>--}}
+{{--                        <a href="#final-week">The final week</a>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
                 <!-- ARTICLE BODY -->
-                <div class="col-lg-9">
+                <div class="col-lg-12">
                     <div class="article-body">
                         {!! $blog->details !!}
                     </div>
@@ -212,17 +212,6 @@
 
     <!-- ============================= NEWSLETTER ============================= -->
     <section class="section-pad">
-        <div class="container">
-            <div class="newsletter-box bg-navy-2 p-5 p-md-5 text-center text-white">
-                <span class="eyebrow eyebrow-light"><span class="divider-dot"></span> NEVER MISS A POST</span>
-                <h2 class="text-white mt-4 mb-2" style="font-size:1.9rem;">Get new articles in your inbox</h2>
-                <p class="mb-4" style="color:#B7BEDB;">One email a week, no spam — just revision tips worth reading.</p>
-                <form class="d-flex flex-column flex-sm-row gap-3 justify-content-center mx-auto"
-                      style="max-width:460px;">
-                    <input type="email" class="form-control input-pill" placeholder="Enter your email">
-                    <button type="submit" class="btn-light-pill flex-shrink-0">Subscribe</button>
-                </form>
-            </div>
-        </div>
+        @include('frontend.includes.newsletter')
     </section>
 @endsection

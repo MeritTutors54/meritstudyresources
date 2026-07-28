@@ -46,7 +46,7 @@ class RegisterController extends Controller
 
         $encrypted = Crypt::encrypt($request->all());
 
-        return view('auth.organize')
+        return view('auth.organize-2')
             ->with([
                 'data' => $encrypted
             ]);

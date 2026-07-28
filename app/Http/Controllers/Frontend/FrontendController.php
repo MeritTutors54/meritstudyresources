@@ -282,7 +282,7 @@ class FrontendController extends Controller
                 });
             });
 
-        $testimonials = Testimonial::query()->get();
+        $testimonials = Testimonial::query()->get()->take(8);
 
         $defaultSEO = Seo::query()
             ->where('page_title', SEOPage::PRICING->value)
