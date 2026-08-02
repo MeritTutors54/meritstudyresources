@@ -16,13 +16,16 @@ class Product extends Model
     use HasFactory, softDeletes;
 
     protected $fillable = [
-        'name',
+        'title',
         'slug',
         'book_variant_id',
+        'year_group_id',
         'description',
         'regular_price',
         'discount_price',
+        'discount_percentage',
         'image',
+        'sku',
         'search_text',
         'stripe_price_id',
         'status'
@@ -72,5 +75,10 @@ class Product extends Model
         $discountPercentage = (($this->mirror_price - $this->mirror_discount) / $this->mirror_price) * 100;
 
         return round($discountPercentage, 2);
+    }
+
+    public function yearGroup(): BelongsTo
+    {
+        return $this->belongsTo(YearGroup::class, 'year_group_id', 'id');
     }
 }

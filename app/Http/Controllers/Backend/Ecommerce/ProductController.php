@@ -11,12 +11,14 @@ use App\Models\BookSubject;
 use App\Models\BookVariant;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\YearGroup;
 use App\Operations\Backend\AdminActivity;
 use App\Operations\Backend\StripeProductActivity;
 use App\Services\FileService;
 use App\Services\MoneyService;
 use App\Services\SlugService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
@@ -55,6 +57,9 @@ class ProductController extends Controller
         $bookVariants = BookVariant::query()
             ->where('status', Status::ACTIVE)
             ->get();
+        $yearGroups = YearGroup::query()->where('status', Status::ACTIVE)->get();
+
+        dd($yearGroups);
 
         return view('backend.ecommerce.product.form')
             ->with([
@@ -64,7 +69,9 @@ class ProductController extends Controller
     }
 
     public function store(StoreProductRequest $request): RedirectResponse
+//    public function store(Request $request): RedirectResponse
     {
+        dd($request->all());
         $this->authorize('createProduct', Auth::user());
 
         $this->log = [
@@ -120,11 +127,13 @@ class ProductController extends Controller
         $bookVariants = BookVariant::query()
             ->where('status', Status::ACTIVE)
             ->get();
+        $yearGroups = YearGroup::query()->get();
 
         return view('backend.ecommerce.product.form')
             ->with([
                 'product' => $product,
                 'statuses' => $statuses,
+                'yearGroups' => $yearGroups,
                 'bookVariants' => $bookVariants,
             ]);
     }
@@ -142,22 +151,24 @@ class ProductController extends Controller
         DB::beginTransaction();
 
         try {
-            $product->update([
-                'name' => $request->name ?? '',
-                'slug' => $request->slug ?? '',
-                'book_variant_id' => $request->book_variant_id ?? '',
-                'description' => $request->description ?? '',
-                'regular_price' => $request->regular_price ?? 0,
-                'discount_price' => $request->discount_price ?? 0,
-                'image' => $request->image ?? '',
-                'status' => $request->status ?? '',
+            $data = $product->update([
+                'title' => $request->title ?? $product->title,
+                'slug' => $request->slug ?? $product->slug,
+                'book_variant_id' => $request->book_variant_id ?? $product->book_variant_id,
+                'description' => $request->description ?? $product->description,
+                'regular_price' => $request->regular_price ?? $product->mirror_price,
+                'discount_price' => $request->discount_price ?? $product->mirror_discount,
+                'discount_percentage' => $request->discount_percentage ?? $product->discount_percentage,
+                'sku' => $request->sku ?? $product->sku,
+                'year_group_id' => $request->year_group_id ?? $product->year_group_id,
+                'image' => $request->image ?? $product->image,
+                'status' => $request->status ?? $product->status,
             ]);
-
             if (count($request->samples ?? []) > 0) {
                 foreach ($request->samples ?? [] as $sample) {
                     ProductImage::query()->create([
                         'product_id' => $product->id,
-                        'path' => $sample ?? '',
+                        'path' => $sample->path,
                     ]);
                 }
             }

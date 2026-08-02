@@ -27,7 +27,8 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::group(['middleware' => 'team.permission'], function () {
-    Route::get('/forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.form');
+    Route::get('/forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])
+        ->name('forget.password.form');
     Route::post('/forget-password', [ForgotPasswordController::class, 'sendResetLinkEmail']);
     Route::post('/organize', [RegisterController::class, 'create'])->name('organize');
     Route::get('/verification', [RegisterController::class, 'verification'])->name('verification');

@@ -16,6 +16,7 @@ use App\Http\Controllers\Backend\Ecommerce\BookVariantController;
 use App\Http\Controllers\Backend\Ecommerce\DeliveryChargeController;
 use App\Http\Controllers\Backend\Ecommerce\OrderController;
 use App\Http\Controllers\Backend\Ecommerce\ProductController;
+use App\Http\Controllers\Backend\Ecommerce\YearGroupController;
 use App\Http\Controllers\Backend\PastPaper\CategoryController;
 use App\Http\Controllers\Backend\PastPaper\ExamSeriesController;
 use App\Http\Controllers\Backend\PastPaper\PastPaperController;
@@ -150,6 +151,7 @@ Route::prefix('admin')->middleware(['auth:admin', 'team.permission'])->group(fun
     Route::resource('/book-subjects', BookSubjectController::class, ['as' => 'admin']);
     Route::resource('/book-variants', BookVariantController::class, ['as' => 'admin']);
     Route::resource('/products', ProductController::class, ['as' => 'admin']);
+    Route::resource('/year-groups', YearGroupController::class, ['as' => 'admin']);
 
     Route::get('/manage-orders', [OrderController::class, 'index'])->name('admin.manage.order');
     Route::get('/manage-orders/{order}', [OrderController::class, 'details'])

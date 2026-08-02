@@ -5,11 +5,7 @@
 @section('meta_keywords', $defaultSEO->meta_keywords ?? $global_seo['seo_keywords'])
 @section('meta_author', $defaultSEO->meta_author ?? $global_seo['seo_author'])
 
-@section('page-seo')
-    <meta name="description" content="Refund Policy ,{{ $defaultSEO->meta_description ?? '' }}">
-    <meta name="keywords" content="{{ $defaultSEO->meta_keywords ?? '' }}">
-    <meta name="author" content="{{ $defaultSEO->meta_author ?? '' }}">
-@endsection
+
 @section('content')
     <div class="page-banner">
         <div class="container">

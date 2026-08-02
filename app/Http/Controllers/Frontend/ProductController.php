@@ -49,7 +49,7 @@ class ProductController extends Controller
             ->where('page_title', SEOPage::PRODUCTS->value)
             ->first();
 
-        return view('frontend.product.index')
+        return view('frontend.product.index-2')
             ->with([
                 'defaultSEO' => $defaultSEO,
                 'products' => $products
@@ -63,6 +63,11 @@ class ProductController extends Controller
         }
 
         $product = Product::query()
+            ->with([
+                'bookVariant' => function ($query) {
+                    $query->with(['bookCategory', 'bookSubject']);
+                }
+            ])
             ->where('slug', $product_slug)
             ->first();
 
@@ -76,20 +81,11 @@ class ProductController extends Controller
             ->where('page_title', SEOPage::PRODUCTS->value)
             ->first();
 
-        $buildInKeywords = $product->name
-            . ',' . $product->bookVariant->name . ', '
-            . $product->bookVariant->bookSubject->name . ', '
-            . $product->bookVariant->bookCategory->name;
-
-       $seo['meta_keywords'] = !empty($defaultSEO) ? $defaultSEO->meta_keyword . ', ' . $buildInKeywords : $buildInKeywords;
-       $seo['meta_author'] = $defaultSEO->meta_author ?? '';
-       $seo['meta_description'] = !empty($defaultSEO) ? $defaultSEO->meta_description . ', ' . $product->description : $product->description;
-
-        return view('frontend.product.details')
+        return view('frontend.product.details-2')
             ->with([
                 'product' => $product,
                 'relatedProducts' => $relatedProducts,
-                'seo' => $seo
+                'defaultSEO' => $defaultSEO
             ]);
 
     }

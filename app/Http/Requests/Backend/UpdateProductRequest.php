@@ -25,7 +25,7 @@ class UpdateProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => [
+            'title' => [
                 'required', 'string', 'max:255',
                 Rule::unique('products')
                     ->ignore($this->product->id)
@@ -39,9 +39,11 @@ class UpdateProductRequest extends FormRequest
             'regular_price' => ['required', 'regex:/^\d+(\.\d{2})?$/', 'between:0,999999.99'],
             'discount_price' => ['nullable', 'regex:/^\d+(\.\d{2})?$/', 'between:0,999999.99'],
             'status' => 'required|in:0,1',
-            'file' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-            'pdf_sample' => ['required', 'array', 'min:1'],
-            'pdf_sample.*' => 'required|mimes:jpg,jpeg,png|max:2048',
+            'year_group_id' => 'required|integer|exists:year_groups,id',
+            'sku' => 'required|string|max:100',
+            'file' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'pdf_sample' => ['nullable', 'array', 'min:1'],
+            'pdf_sample.*' => 'nullable|mimes:jpg,jpeg,png|max:2048',
         ];
     }
 
@@ -61,14 +63,14 @@ class UpdateProductRequest extends FormRequest
         $uploadPath = 'products';
         $sampleUploadPath = 'products/sample';
 
-
-        if($this->hasFile('pdf_sample')) {
+        // if input has PDF sample
+        if ($this->hasFile('pdf_sample')) {
             if ($this->product->getSampleImages()->count() > 0) {
                 foreach ($this->product->getSampleImages as $prevImage) {
                     FileService::checkFile($prevImage->path);
                 }
             }
-            $sample_files =  [];
+            $sample_files = [];
             foreach ($this->pdf_sample as $sample) {
                 $imageName = FileService::storeFile($sampleUploadPath . '/', $sample ?? '');
                 $sample_files[] = $sampleUploadPath . '/' . $imageName;
@@ -79,7 +81,7 @@ class UpdateProductRequest extends FormRequest
             ]);
         }
 
-
+        // If input has file then store the file
         if ($this->hasFile('file')) {
             if (!empty($this->product->image)) {
                 FileService::checkFile($this->product->image);
@@ -91,9 +93,25 @@ class UpdateProductRequest extends FormRequest
             ]);
         }
 
-        $this->merge([
-            'slug' => SlugService::generateSlug($this->name ?? '')
-        ]);
+        // Discount Percentage
+        $regularPrice = (float)($this->regular_price ?? 0);
+        $discountPrice = (float)($this->discount_price ?? 0);
 
+        $discountPercentage = null;
+
+        // Calculate percentage only if regular price is valid and discount price is provided
+        if ($regularPrice > 0 && $this->filled('discount_price')) {
+            // Formula: ((Regular Price - Discount Price) / Regular Price) * 100
+            $calculated = (($regularPrice - $discountPrice) / $regularPrice) * 100;
+
+            // Round to 2 decimal places (or use round($calculated) for whole numbers)
+            $discountPercentage = max(0, round($calculated, 2));
+        }
+
+        // Generating Slug
+        $this->merge([
+            'slug' => SlugService::generateSlug($this->title ?? ''),
+            'discount_percentage' => $discountPercentage,
+        ]);
     }
 }

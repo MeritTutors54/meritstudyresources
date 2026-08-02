@@ -71,7 +71,6 @@
                                         </span>
                                     </button>
                                 </div>
-
                                 @include('backend.ecommerce.product._extra_fields')
                             </div>
                         </div>

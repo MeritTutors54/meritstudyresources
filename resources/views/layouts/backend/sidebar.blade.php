@@ -263,6 +263,13 @@
                                     </a>
                                 </li>
                             @endcan
+                                <li class="{{ request()->is('admin/year-groups*') ? 'active' : '' }}">
+                                    <a href="{{ route('admin.year-groups.index') }}">
+                                        <i class="icon-Commit"><span class="path1"></span><span
+                                                class="path2"></span></i>
+                                        Manage Year Group
+                                    </a>
+                                </li>
                         </ul>
                     </li>
                     <li class="treeview">
