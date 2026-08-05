@@ -77,6 +77,18 @@ class Product extends Model
         return round($discountPercentage, 2);
     }
 
+    public function getMirrorActualPriceAttribute(): float
+    {
+        $currencies = new ISOCurrencies();
+        $formatter  = new DecimalMoneyFormatter($currencies);
+
+        if (!empty($this->discount_price)) {
+            return $formatter->format($this->discount_price);
+        }
+
+        return $formatter->format($this->price);
+    }
+
     public function yearGroup(): BelongsTo
     {
         return $this->belongsTo(YearGroup::class, 'year_group_id', 'id');

@@ -53,11 +53,11 @@ final class CouponActivity
 
             if ($coupon->discount_type === DiscountType::FIXED->value) {
                 $discountPriceObject = MoneyService::parseMoney($coupon->discount_value, $coupon->base_currency);
-                $msg = 'Fixed discount £' . $coupon->discount_value;
+                $msg = 'Applied a fixed discount of £' . $coupon->discount_value;
             } else {
                 $value = $coupon->discount_value / 100;
                 $discountPriceObject = $price->multiply((string) $value);
-                $msg = 'Discount of ' . $coupon->discount_value . '%';
+                $msg =  $coupon->discount_value . '% discount applied in total';
             }
         }
 

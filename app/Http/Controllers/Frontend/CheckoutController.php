@@ -50,7 +50,7 @@ class CheckoutController extends Controller
         $deliveryCharge = MoneyService::convertToReadableMoney($deliveryChargeObject);
 
 
-        return view('frontend.checkout.index')
+        return view('frontend.checkout.index-2')
             ->with([
                 'cartItems' => $cartItems,
                 'subTotalPrice' => $subTotalPrice,

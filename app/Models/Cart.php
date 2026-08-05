@@ -35,8 +35,6 @@ class Cart extends Model
         return $formatter->format($this->unit_price); // "853.00"
     }
 
-
-
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);

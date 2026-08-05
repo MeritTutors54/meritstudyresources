@@ -188,13 +188,7 @@
                                             <button type="button"
                                                     id="apply-coupon-button"
                                                     class="rbt-btn btn-gradient hover-icon-reverse btn-sm">
-                                                    <span class="icon-reverse-wrapper">
-                                                        <span class="btn-text">Apply Code</span>
-                                                        <span class="btn-icon"><i
-                                                                class="feather-arrow-right"></i></span>
-                                                        <span class="btn-icon"><i
-                                                                class="feather-arrow-right"></i></span>
-                                                    </span>
+                                                    Apply Code
                                             </button>
                                         </div>
                                     </div>

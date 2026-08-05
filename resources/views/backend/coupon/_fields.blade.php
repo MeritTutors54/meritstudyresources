@@ -135,17 +135,18 @@
                     @enderror
                 </div>
             </div>
+            
 
             <div class="col-lg-12 col-12">
                 <div class="form-group">
                     <label for="description"
-                           class="form-label">Book Category Description</label>
+                           class="form-label">Coupon Description</label>
                     <textarea
                         name="description"
                         id="description"
                         class="form-control"
                         placeholder="Enter book category description"
-                        rows="4">{{ old('description', $book_category->description ?? "") }}</textarea>
+                        rows="4">{{ old('description', $coupon->description ?? "") }}</textarea>
                     @error('description')
                     <div class="form-control-feedback text-danger mt-1">
                         {{ $message }}
