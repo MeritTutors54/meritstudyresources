@@ -200,8 +200,8 @@ class PastPaperController extends Controller
         }
 
         return response()->json([
-            'status' => 'error',
-            'message' => $exception->getMessage()
+            'status' => $this->notification['status'],
+            'message' => $this->notification['message']
         ], 500);
 
 

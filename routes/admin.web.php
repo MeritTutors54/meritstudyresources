@@ -187,7 +187,7 @@ Route::prefix('admin')->middleware(['auth:admin', 'team.permission'])->group(fun
     Route::get('/get-sub-category/{category_id}', [AjaxController::class, 'getSubCategory'])->name('admin.ajax.getSubCategory');
     Route::get('/get-resub-category/{subcategory_id}/', [AjaxController::class, 'getReSubCategory'])->name('admin.ajax.getReSubCategory');
     Route::get('/users/data', [AjaxController::class, 'indexData'])->name('admin.ajax.getPastPaper');
-    Route::get('/users/data', [AjaxController::class, 'subcategoryData'])->name('admin.ajax.table.getSubCategory');
+    Route::get('/users/sub-cat-data', [AjaxController::class, 'subcategoryData'])->name('admin.ajax.table.getSubCategory');
     Route::get('/activity-log', [AjaxController::class, 'getAllActivityLog'])->name('admin.ajax.getAllActivityLog');
 
     Route::post('/update-status', [AjaxController::class, 'updateStatus'])->name('admin.ajax.updateStatus');

@@ -92,7 +92,7 @@ input:checked + .slider:before {
     left: 50%;
     font-size: 11px;
     font-family: Verdana, sans-serif;
-    user-select:none;
+    user-select: none;
 }
 
 .on {
@@ -103,7 +103,7 @@ input:checked + .slider:before {
     left: 50%;
     font-size: 11px;
     font-family: Verdana, sans-serif;
-    user-select:none;
+    user-select: none;
 }
 
 input:checked + .slider .on {
@@ -147,11 +147,411 @@ input:checked + .slider .off {
     overflow-y: auto;
 
     /* Hide scrollbar for Chrome, Safari, and Opera */
+
     &::-webkit-scrollbar {
         display: none;
     }
 
     /* Hide scrollbar for IE, Edge, and Firefox */
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+/*
+============================
+=====   New Section   ======
+============================
+*/
+
+/*border-bottom: 1px solid #2c425d;*/
+/*background: linear-gradient(90deg, #0f1b2d, #16253b);*/
+
+.custom-blue-bg {
+    background: linear-gradient(90deg, #0f1b2d, #16253b);
+    color: #fff;
+}
+
+.custom-body-deep {
+    background: #0f1b2d;
+    color: #fff;
+}
+
+.custom-input[type=text], .custom-select {
+    width: 100%;
+    height: 40px;
+    border: 1px solid #4d6888;
+    border-radius: 8px;
+    background: #1c3048;
+    color: #fff;
+    padding: 0 12px;
+    font-size: 14px;
+    outline: none;
+}
+
+.upload-group > label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.full {
+    grid-column: 1/-1
+}
+
+.upload-group {
+    margin-top: 4px
+}
+
+.file-line {
+    display: grid;
+    grid-template-columns:118px 1fr auto auto;
+    align-items: center;
+    min-height: 42px;
+    border: 1px solid #4d6888;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #1c3048;
+}
+
+.file-trigger {
+    height: 42px;
+    margin: 0;
+    padding: 0 14px;
+    border-right: 1px solid #4d6888;
+    background: #314967;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.file-trigger span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+.hidden-input {
+    display: none
+}
+
+.file-name {
+    height: 42px;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    font-size: 14px;
+    color: #e7edf5;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.action-btn {
+    height: 30px;
+    margin-right: 7px;
+    padding: 0 11px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    background: transparent;
+}
+
+.preview-btn {
+    border: 1px solid #63d5c4;
+    color: #7ee5d5
+}
+
+.delete-btn {
+    border: 1px solid #ff8a8a;
+    color: #ff9b9b
+}
+
+.action-btn:disabled {
+    opacity: .45;
+    cursor: not-allowed
+}
+
+.progress-track {
+    height: 12px;
+    margin-top: 8px;
+    background: #314861;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    width: 0;
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), #35d0a1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    transition: width .12s linear;
+}
+
+.progress-info {
+    display: grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap: 8px;
+    margin-top: 7px;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.progress-info span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+.progress-info strong {
+    color: #fff
+}
+
+.upload-status {
+    min-height: 14px;
+    margin-top: 5px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.upload-status.uploading {
+    color: #ffd285
+}
+
+.upload-status.done {
+    color: #68e0ba
+}
+
+.upload-status.error {
+    color: #ff9a9a
+}
+
+.solution-row {
+    margin-top: 4px
+}
+
+.solution-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #ffffff; /* Adjusted for dark background */
+}
+.custom-radio-options {
+    display: flex;
+    gap: 150px
+}
+
+.custom-radio-item,
+.custom-radio-item {
+    display: inline-flex; /* Ensures label stays tight to its content */
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+/* Hide original native radio input */
+.custom-radio-item input[type="radio"],
+.custom-checkbox-item input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Base style for custom radio circle */
+.custom-radio-item .radio-btn {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #b8c5d4;
+    border-radius: 50%;
+    position: relative;
+    box-sizing: border-box;
+}
+
+/* Inner bullet (hidden by default) */
+.custom-radio-item .radio-btn::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 8px;
+    height: 8px;
+    background-color: #ff6b3d;
+    border-radius: 50%;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Checked states */
+.custom-radio-item input[type="radio"]:checked + .radio-btn {
+    border-color: #ff6b3d;
+}
+
+.custom-radio-item input[type="radio"]:checked + .radio-btn::after {
+    transform: translate(-50%, -50%) scale(1); /* Reveals bullet */
+}
+
+.custom-checkbox-options {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.custom-checkbox-item .checkbox-btn {
+    display: inline-flex;
+    align-items: center;
+    width: 22px;
+    height: 22px;
+    border: 2px solid #8a99ad;
+    border-radius: 4px;
+    position: relative;
+    box-sizing: border-box;
+    transition: all 0.2s ease-in-out;
+    background-color: transparent;
+}
+
+.custom-checkbox-item .checkbox-text {
+    position: relative;
+    left: 5px;
+    top: -5px;
+}
+
+/* Checkbox Checkmark Icon */
+.custom-checkbox-item .checkbox-btn::after {
+    content: "";
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    width: 5px;
+    height: 10px;
+    border: solid #ffffff;
+    border-width: 0 2px 2px 0;
+    transform: translate(-50%, -50%) rotate(45deg) scale(0);
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Checkbox Checked State */
+.custom-checkbox-item input[type="checkbox"]:checked + .checkbox-btn {
+    background-color: #ff6b3d;
+    border-color: #ff6b3d;
+}
+
+.custom-checkbox-item input[type="checkbox"]:checked + .checkbox-btn::after {
+    transform: translate(-50%, -55%) rotate(45deg) scale(1);
+}
+
+.custom-radio-item:hover .radio-btn,
+.custom-checkbox-item:hover .checkbox-btn {
+    border-color: #ff6b3d;
+}
+
+.custom-divider {
+    padding: 10px;
+    border-radius: 8px;
+    background: #16253b;
+}
+
+/* Near Full-Screen Dialog Sizing */
+@media (min-width: 768px) {
+    #previewModal .modal-dialog {
+        max-width: 92vw; /* 92% of screen width */
+        height: 90vh;    /* 90% of screen height */
+        margin: 5vh auto;
+    }
+
+    #previewModal .modal-content {
+        height: 100%;
+    }
+}
+
+/* Ensure the iframe fills all available body space */
+#previewModal .modal-body {
+    overflow: hidden;
+    background-color: #f8f9fa;
+}
+
+#previewModal .viewer {
+    width: 100%;
+    height: 100%;
+    min-height: 92vw;
+    border: none;
+}
+
+
+/* Full-screen semi-transparent overlay (50% black) */
+.alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* 50% opacity background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Ensures it stays on top of all content */
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* Modal Content Box */
+.alert-box {
+    background-color: #ffffff;
+    padding: 24px 32px;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+.alert-title {
+    margin: 0 0 12px 0;
+    font-size: 1.25rem;
+    color: #111827;
+}
+
+.alert-message {
+    margin: 0 0 20px 0;
+    font-size: 0.95rem;
+    color: #4b5563;
+    line-height: 1.5;
+}
+
+/* "Okay" Button */
+.alert-btn {
+    background-color: #2563eb;
+    color: #ffffff;
+    border: none;
+    padding: 10px 24px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.alert-btn:hover {
+    background-color: #1d4ed8;
+}
+
+/* Class added via JS to smoothly hide the modal */
+.alert-overlay.hidden {
+    display: none;
 }

@@ -22,6 +22,7 @@ class StorePastPaperRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
+            'exam_series' => 'required|integer|exists:past_paper_years,id',
             'category' => 'required|integer|exists:categories,id',
             'subcategory' => 'required|integer|exists:sub_categories,id',
             'resubcategory' => 'required|integer|exists:resubcategories,id',
@@ -36,7 +37,6 @@ class StorePastPaperRequest extends FormRequest
     {
         throw new HttpResponseException(response()->json([
             'status' => 'error',
-            'message' => 'The given data was invalid.',
             'errors' => $validator->errors()
         ], 422));
     }
