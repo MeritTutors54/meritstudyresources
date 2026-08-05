@@ -311,8 +311,6 @@ class AjaxController extends Controller
             });
 
 
-
-
         return response()->json($pastPapers);
     }
 
@@ -351,6 +349,37 @@ class AjaxController extends Controller
             ->rawColumns(['status_badge', 'actions'])
             ->make(true);
 
+    }
+
+    public function subcategoryData()
+    {
+        $allData = SubCategory::query()
+            ->with(['category', 'resubcategories'])
+            ->where('is_deleted', 0)
+            ->orderBy('subcategory_name', 'asc');
+
+
+        return DataTables::eloquent($allData)
+            ->addIndexColumn()
+            ->addColumn('subcategory_name', function ($row) {
+                return $row->subcategory_name ?? '';
+            })
+            ->addColumn('most_popular', function ($row) {
+                $data = $row;
+                return view('backend.past-paper.sub-category._most_popular_switch', compact('data'))->render();
+            })
+            ->addColumn('category_name', function ($row) {
+                return $row->category->category_name ?? "";
+            })
+            ->addColumn('status', function ($row) {
+                $data = $row;
+                return view('backend.past-paper.sub-category._status_switch', compact('data'))->render();
+            })
+            ->addColumn('manage', function ($data) {
+                return view('backend.past-paper.sub-category._manage_section', compact('data'))->render();
+            })
+            ->rawColumns(['most_popular', 'status', 'manage'])
+            ->toJson();
     }
 
     public function updatePastPaper(Request $request)

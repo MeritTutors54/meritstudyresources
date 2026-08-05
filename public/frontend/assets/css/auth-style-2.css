@@ -1894,3 +1894,45 @@ body.dash-body {
     font-weight: 500;
     margin-top: 3px;
 }
+
+.cart-toast {
+    position: fixed;
+    bottom: 26px;
+    right: 26px;
+    background: var(--navy-3);
+    color: #fff;
+    padding: 14px 22px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: var(--shadow-md);
+    z-index: 3000;
+    transform: translateY(20px);
+    opacity: 0;
+    pointer-events: none;
+    transition: .3s ease;
+    font-size: .88rem;
+    font-weight: 600;
+}
+
+.cart-toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.cart-toast .ct-ico {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.cart-toast .ct-ico svg {
+    width: 14px;
+    height: 14px;
+}

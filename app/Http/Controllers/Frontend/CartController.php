@@ -40,7 +40,7 @@ class CartController extends Controller
         $deliveryCharge = MoneyService::convertToReadableMoney($deliveryChargeObject);
 
 
-        return view('frontend.cart.index')
+        return view('frontend.cart.index-2')
             ->with([
                 'siteSettings' => $siteSettings,
                 'cartItems' => $cartItems,

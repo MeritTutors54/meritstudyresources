@@ -44,9 +44,10 @@
                             </div>
                             <div class="box-body">
                                 <div class="table-responsive">
-                                    <table id="example1" class="table table-bordered table-striped">
+                                    <table id="sub-category-table" class="table table-bordered table-striped">
                                         <thead>
                                         <tr>
+                                            <th>SL</th>
                                             <th>Subcategory Name</th>
                                             <th class="text-center">Most Popular</th>
                                             <th>Category Name</th>
@@ -55,64 +56,6 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @if(isset($allData) && $allData->isNotEmpty())
-                                            @foreach($allData as $data)
-                                                <tr>
-                                                    <td>{{ $data->subcategory_name }}</td>
-                                                    <td class="text-center">
-                                                        <label class="switch">
-                                                            <input type="checkbox" class="subjectSwitch"
-                                                                   id="togProp-{{ $data->id }}"
-                                                                   data-id="{{ $data->id }}"
-                                                                {{ $data->most_popular == 1 ? "checked" : "" }}>
-                                                            <div class="slider round"><!--ADDED HTML -->
-                                                                <span class="on">Yes</span>
-                                                                <span class="off">No</span><!--END-->
-                                                            </div>
-                                                        </label>
-                                                    </td>
-                                                    <td>{{ $data->category->category_name ?? '' }}</td>
-                                                    <td class="text-center">
-                                                        @can('updatePastPaperSubcategory', Auth::user())
-                                                            <label class="switch">
-                                                                <input type="checkbox" class="statusSwitch"
-                                                                       id="togProp-{{ $data->id }}"
-                                                                       data-id="{{ $data->id }}"
-                                                                    {{ $data->is_active == 1 ? "checked" : "" }}>
-                                                                <div class="slider round"><!--ADDED HTML -->
-                                                                    <span class="on">Active</span>
-                                                                    <span class="off">Inactive</span><!--END-->
-                                                                </div>
-                                                            </label>
-                                                        @else
-                                                            @if($data->is_active == \App\Enums\Status::ACTIVE->value)
-                                                                <span class="badge badge-success font-weight-bold">Active</span>
-                                                            @else
-                                                                <span
-                                                                    class="badge badge-danger text-white">Inactive</span>
-                                                            @endif
-                                                        @endcan
-                                                    </td>
-                                                    <td class="text-center">
-                                                        @can('updatePastPaperSubcategory', Auth::user())
-                                                            <a href="{{ route('admin.sub-categories.edit', [$data])}}">
-                                                                <i class="fa fa-edit" aria-hidden="true"></i>
-                                                            </a>
-                                                        @endcan
-
-                                                        @can('deletePastPaperSubcategory')
-                                                            <button type="button"
-                                                                    data-route="{{ route('admin.sub-categories.destroy', [$data->id]) }}"
-                                                                    data-name="{{ $data->subcategory_name }}"
-                                                                    class="dltButton btn bg-transparent p-0 ms-2">
-                                                                <i class="fa fa-trash-o text-danger"
-                                                                   aria-hidden="true"></i>
-                                                            </button>
-                                                        @endcan
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        @endif
                                         </tbody>
                                     </table>
                                 </div>
@@ -129,15 +72,44 @@
 @section('js')
     <script src="{{ asset('backend/assets/vendor_components/datatable/datatables.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/pages/data-table.js') }}"></script>
+
     <script>
-        $('#example1').DataTable({
-            lengthMenu: [
-                [10, 25, 50, 100, -1],
-                [10, 25, 50, 100, "All"]
-            ],
-            pageLength: 10
+        $(document).ready(function() {
+            $('#sub-category-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('admin.ajax.table.getSubCategory') }}',
+
+                columns: [
+                    // Matches DT_RowIndex from addIndexColumn()
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    { data: 'subcategory_name', name: 'subcategory_name' },
+                    { data: 'most_popular', name: 'most_popular', orderable: false, searchable: false, className: 'text-center' },
+                    { data: 'category_name', name: 'category.category_name', className: 'text-center' },
+                    { data: 'status', name: 'status', orderable: false, searchable: false, className: 'text-center' },
+                    { data: 'manage', name: 'manage', orderable: false, searchable: false, className: 'text-center' },
+                ],
+
+                dom: 'Blfrtip',
+                buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+                lengthMenu: [
+                    [10, 25, 50, 500, 1000, -1],
+                    [10, 25, 50, 500, 1000, "All"]
+                ],
+                pageLength: 10
+            });
         });
     </script>
+
+{{--    <script>--}}
+{{--        $('#').DataTable({--}}
+{{--            lengthMenu: [--}}
+{{--                [10, 25, 50, 100, -1],--}}
+{{--                [10, 25, 50, 100, "All"]--}}
+{{--            ],--}}
+{{--            pageLength: 10--}}
+{{--        });--}}
+{{--    </script>--}}
     <script>
         $('.dltButton').on('click', function () {
             let name = $(this).data('name');
@@ -147,7 +119,9 @@
             $('#dltModal').modal('show');
         });
 
-        $('#example1').on('change', '.subjectSwitch', function () {
+        const dataTable = $('#sub-category-table');
+
+        dataTable.on('change', '.subjectSwitch', function () {
             let checkbox = $(this);
             $(".subjectSwitch").prop('disabled', true);
             let objectID = $(this).data('id');
@@ -205,7 +179,7 @@
         });
 
 
-        $('#example1').on('change', '.statusSwitch', function () {
+        dataTable.on('change', '.statusSwitch', function () {
             let checkbox = $(this);
             $(".statusSwitch").prop('disabled', true);
             let categoryID = $(this).data('id');

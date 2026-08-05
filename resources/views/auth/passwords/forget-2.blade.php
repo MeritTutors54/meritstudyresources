@@ -29,7 +29,8 @@
                         </svg>
                         <input type="email" id="loginEmail" name="email"
                                value="{{ old('email') }}"
-                               class="form-control-msr @error('email') is-invalid @enderror" placeholder="you@example.com">
+                               class="form-control-msr @error('email') is-invalid @enderror"
+                               placeholder="you@example.com">
                     </div>
                     @error('email')
                     <span class="invalid-feedback d-block">{{ $message }}</span>
@@ -47,8 +48,24 @@
             </form>
 
             <p class="text-center mt-4 mb-0" style="font-size:.9rem;color:var(--muted);">
-                Remember your password? <a href="{{ route('login') }}" class="fw-semibold" style="color:var(--green-dark);">Log in</a>
+                Remember your password? <a href="{{ route('login') }}" class="fw-semibold"
+                                           style="color:var(--green-dark);">Log in</a>
             </p>
         </div>
+
+
+        <!-- Success Message -->
+        @if (session('status'))
+            <div class="cart-toast show" id="cartToast">
+                <span class="ct-ico">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M5 13l4 4L19 7" stroke="#fff"
+                              stroke-width="2.4" stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                <span id="cartToastText">A resend link is sent to your mail. Please check your inbox</span>
+            </div>
+        @endif
     </div>
 @endsection
