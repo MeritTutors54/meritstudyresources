@@ -489,7 +489,7 @@ a {
     padding: 16px 0;
     position: relative;
     transform: skewY(-1.2deg);
-    margin: 0 -2px;
+    margin: 0;
 }
 
 .marquee-track {
