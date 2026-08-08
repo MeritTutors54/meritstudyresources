@@ -60,33 +60,33 @@ class StoreProductRequest extends FormRequest
 
     protected function passedValidation(): void
     {
-        dd('ssss');
-//        $uploadPath = 'products';
-//        $sampleUploadPath = 'products/sample';
+//        dd('ssss');
+        $uploadPath = 'products';
+        $sampleUploadPath = 'products/sample';
 //
-//        if($this->hasFile('pdf_sample')) {
-//            $sample_files =  [];
-//            foreach ($this->pdf_sample as $sample) {
-//                $imageName = FileService::storeFile($sampleUploadPath . '/', $sample ?? '');
-//                $sample_files[] = $sampleUploadPath . '/' . $imageName;
-//            }
+        if($this->hasFile('pdf_sample')) {
+            $sample_files =  [];
+            foreach ($this->pdf_sample as $sample) {
+                $imageName = FileService::storeFile($sampleUploadPath . '/', $sample ?? '');
+                $sample_files[] = $sampleUploadPath . '/' . $imageName;
+            }
+
+            $this->merge([
+                'samples' => $sample_files
+            ]);
+        }
 //
-//            $this->merge([
-//                'samples' => $sample_files
-//            ]);
-//        }
+        if ($this->hasFile('file')) {
+            $imageName = FileService::storeFile($uploadPath . '/', $this->file ?? '');
+
+            $this->merge([
+                'image' => $uploadPath . '/' . $imageName,
+            ]);
+        }
 //
-//        if ($this->hasFile('file')) {
-//            $imageName = FileService::storeFile($uploadPath . '/', $this->file ?? '');
-//
-//            $this->merge([
-//                'image' => $uploadPath . '/' . $imageName,
-//            ]);
-//        }
-//
-//        $this->merge([
-//            'slug' => SlugService::generateSlug($this->name ?? '')
-//        ]);
+        $this->merge([
+            'slug' => SlugService::generateSlug($this->name ?? '')
+        ]);
 
     }
 }

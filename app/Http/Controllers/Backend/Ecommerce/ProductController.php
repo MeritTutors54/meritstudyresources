@@ -57,21 +57,20 @@ class ProductController extends Controller
         $bookVariants = BookVariant::query()
             ->where('status', Status::ACTIVE)
             ->get();
-        $yearGroups = YearGroup::query()->where('status', Status::ACTIVE)->get();
-
-        dd($yearGroups);
+        $yearGroups = YearGroup::query()->get();
 
         return view('backend.ecommerce.product.form')
             ->with([
                 'statuses' => $statuses,
                 'bookVariants' => $bookVariants,
+                'yearGroups' => $yearGroups
             ]);
     }
 
     public function store(StoreProductRequest $request): RedirectResponse
 //    public function store(Request $request): RedirectResponse
     {
-        dd($request->all());
+//        dd($request->all());
         $this->authorize('createProduct', Auth::user());
 
         $this->log = [
@@ -83,13 +82,15 @@ class ProductController extends Controller
 
         try {
             $product = Product::query()->create([
-                'name' => $request->name ?? '',
+                'title' => $request->title ?? '',
                 'slug' => $request->slug ?? '',
                 'book_variant_id' => $request->book_variant_id ?? '',
                 'description' => $request->description ?? '',
                 'regular_price' => $request->regular_price ?? 0,
                 'discount_price' => $request->discount_price ?? 0,
+                'year_group_id' => $request->year_group_id ?? '',
                 'image' => $request->image ?? '',
+                'sku' => $request->sku ?? '',
                 'status' => $request->status ?? '',
             ]);
 
@@ -168,7 +169,7 @@ class ProductController extends Controller
                 foreach ($request->samples ?? [] as $sample) {
                     ProductImage::query()->create([
                         'product_id' => $product->id,
-                        'path' => $sample->path,
+                        'path' => $sample,
                     ]);
                 }
             }

@@ -174,7 +174,7 @@
                         @if(!empty($statuses))
                             @foreach($statuses as $status)
                                 <option
-                                    {{ old('status', isset($book_category) ? (string)$book_category->status : "1") === (string)$status->value ? 'selected' : '' }}
+                                    {{ old('status', isset($product) ? (string)$product->status : "1") === (string)$status->value ? 'selected' : '' }}
                                     value="{{ $status->value }}">
                                     {{ ucfirst(strtolower($status->name))  }}
                                 </option>

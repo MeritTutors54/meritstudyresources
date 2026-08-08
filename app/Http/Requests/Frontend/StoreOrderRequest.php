@@ -33,7 +33,7 @@ class StoreOrderRequest extends FormRequest
                 Rule::notIn([$this->billing_phone ?? '']),
             ],
             'billing_address' => 'required|string|max:3000',
-            'remarks' => 'required|string|max:2000',
+            'remarks' => 'nullable|string|max:2000',
             'billing_city' => 'required|string|max:200',
             'billing_state' => 'required|string|max:200',
             'billing_post_code' => 'required|string|max:200',

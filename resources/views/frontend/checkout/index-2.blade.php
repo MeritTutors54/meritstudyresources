@@ -151,17 +151,15 @@
                         <div class="col-lg-5">
                             <div class="cart-summary-panel">
                                 <h2 class="h5 mb-3">Order Summary</h2>
-                                <div class="checkout-success-alert d-none">
-                                    hello aksdjasdjaoisjdapsjdapidapisjdaipsjdaipjapidajpdajpidj asdaasdasda
-                                </div>
+                                <div class="checkout-success-alert d-none"></div>
                                 <div id="orderItems">
                                     @if(!empty($cartItems))
                                         @foreach($cartItems as $item)
                                             <div class="order-item-row">
                                                 <div class="order-thumb-sm">
                                                     <img style="object-fit: cover; width: 100%; height: 100%; display: block"
-                                                         src="https://images.unsplash.com/photo-1779896412430-b9ea6a9e742d?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                                         alt="sssss">
+                                                         src="{{ asset(\Illuminate\Support\Facades\Storage::url($item->product->image)) }}"
+                                                         alt="{{ $item->product->title }}">
                                                 </div>
                                                 <div class="order-item-info">
                                                     <div class="oi-name">{{ $item->product->title }}</div>
