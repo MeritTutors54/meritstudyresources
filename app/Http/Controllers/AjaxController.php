@@ -462,4 +462,45 @@ class AjaxController extends Controller
             ->make(true);
     }
 
+    public function searchPastPaper(Request $request)
+    {
+        $query = trim($request->input('q'));
+
+        if (strlen($query) < 2) {
+            return response()->json([]);
+        }
+
+        $results = Resubcategory::with(['subcategory.category'])
+            ->where('is_active', 1)
+            ->where('is_deleted', 0)
+            ->where(function ($q) use ($query) {
+                $q->where('resubcategory_name', 'LIKE', "%{$query}%")
+                    ->orWhere('unit_code', 'LIKE', "%{$query}%")
+                    ->orWhereHas('subcategory', function ($subQ) use ($query) {
+                        $subQ->where('subcategory_name', 'LIKE', "%{$query}%")
+                            ->orWhereHas('category', function ($catQ) use ($query) {
+                                $catQ->where('category_name', 'LIKE', "%{$query}%");
+                            });
+                    });
+            })
+            ->get()
+            ->map(function ($resub) {
+                $subcategory = $resub->subcategory;
+                $category = $subcategory ? $subcategory->category : null;
+
+                return [
+                    'id' => $resub->id,
+                    'category_name' => $category ? $category->category_name : '',
+                    'subcategory_name' => $subcategory ? $subcategory->subcategory_name : '',
+                    'resubcategory_name' => $resub->resubcategory_name,
+                    'unit_code' => $resub->unit_code,
+                    'url' => ($category && $subcategory)
+                        ? route('past.papers.details', [$category->slug, $subcategory->slug, $resub->slug])
+                        : '#',
+                ];
+            });
+
+        return response()->json($results);
+    }
+
 }

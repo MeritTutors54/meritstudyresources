@@ -17,14 +17,6 @@
                     </div> --}}
 
                     <a class="navbar-brand d-flex align-items-center gap-2 mb-3" href="{{ route('home') }}">
-                        <style>
-                            .new-logo {
-                                width: 155px;
-                                height: 100%;
-                                object-fit: contain;
-                            }
-                        </style>
-
                         <span class="brand-mark">
                             <img class="new-logo" src="{{ asset('frontend/assets/images/logo/logo-light.png') }}"
                                 alt="logo">

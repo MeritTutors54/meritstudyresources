@@ -20,7 +20,7 @@ class PastPaper extends Model
 
     public function series(): BelongsTo
     {
-        return $this->belongsTo(PastPaperYear::class, 'exam_series')
+        return $this->belongsTo(PastPaperYear::class, 'exam_series', 'id')
             ->select(['id', 'name']);
     }
 

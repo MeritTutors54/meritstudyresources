@@ -65,10 +65,15 @@ Route::group(['middleware' => 'team.permission'], function () {
     | Past Paper Section
     |--------------------------------------------------------------------------
     */
-    Route::get(
-        '/past-papers/{categorySlug?}/{subcategorySlug?}/{resubSlug?}/{title?}',
-        [PastPaperController::class, 'index']
-    )->name('past.papers');
+//    Route::get(
+//        '/past-papers/{categorySlug?}/{subcategorySlug?}/{resubSlug?}/{title?}',
+//        [PastPaperController::class, 'index']
+//    )->name('past.papers');
+//
+
+    Route::get('/past-papers', [PastPaperController::class, 'index'])->name('past.papers');
+    Route::get('/past-papers/{category_slug}/{subcategory_slug}/{resubcategory_slug}',
+        [PastPaperController::class, 'details'])->name('past.papers.details');
     Route::get('/pdf/view/{id}/{type}', [PastPaperController::class, 'viewPDF'])->name('pdf.view');
     Route::get('/pdf/{secret}', [PastPaperController::class, 'secretView'])->name('pdf.secret.view');
 
@@ -185,6 +190,8 @@ Route::group(['middleware' => 'team.permission'], function () {
         ->middleware('auth');
 
     Route::post('ajax/get-past-paper', [AjaxController::class, 'getPastPaper'])->name('ajax.get.past.paper');
+
+    Route::post('ajax/past-papers/search', [AjaxController::class, 'searchPastPaper'])->name('ajax.search.past-papers');
 });
 
 /*

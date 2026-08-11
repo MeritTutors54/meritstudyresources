@@ -24,63 +24,73 @@ class PastPaperController extends Controller
         $resubSlug = null,
         $title = null,
     ): View {
-        if (Auth::check()) {
-            $this->authorize('viewPastPaperSection', Auth::user());
-        }
-
-        $mode = 1; // Reserved for future use
-        $queryValue = mb_strtolower((string) $request->input('q', ''));
-
-        $categories = $this->getData($queryValue, $mode);
-        $resubcategories = null;
-        $pastPapers = null;
-        $params = $this->buildParams($categorySlug, $subcategorySlug, $resubSlug);
-
-        if (filled($categorySlug) && filled($subcategorySlug)) {
-            $categoriesQuery = $this->buildCategorySubcategoryQuery(
-                $categorySlug,
-                $subcategorySlug,
-                $queryValue
-            );
-
-            $categoriesCollection = $categoriesQuery->get();
-
-            // If search returns nothing, fall back to full list
-            if (filled($queryValue) && ! $this->hasResubcategoryMatches($categoriesCollection)) {
-                $categoriesCollection = $this->buildCategorySubcategoryQuery(
-                    $categorySlug,
-                    $subcategorySlug,
-                    null
-                )->get();
-            }
-
-            $categories = $categoriesCollection->toArray();
-            $resubcategories = $categories;
-        }
-
-        if (filled($categorySlug) && filled($subcategorySlug) && filled($resubSlug)) {
-            $pastPapers = $this->getPastPaperTitles(
-                $categorySlug,
-                $subcategorySlug,
-                $resubSlug,
-                $queryValue
-            );
-        }
+        $categories = Category::query()
+            ->where('is_active', Status::ACTIVE->value)
+            ->with(['subcategories.resubcategories'])
+            ->get();
 
         $defaultSEO = Seo::query()
             ->where('page_title', SEOPage::PAST_PAPER->value)
             ->first();
 
-        return view('frontend.past-papers.index')->with([
-            'q' => $queryValue,
-            'params' => $params,
+        return view('frontend.past-papers.index-2')->with([
             'categories' => $categories,
-            'pastPapers' => $pastPapers,
-            'resubcategories' => $resubcategories,
-            'mode' => $mode,
             'defaultSEO' => $defaultSEO,
             'results' => null,
         ]);
+    }
+
+    public function details(
+        string $category_slug,
+        string $subcategory_slug,
+        string $resubcategory_slug,
+    ): View
+    {
+        // 1. Retrieve Current Route Context
+        $category = Category::query()
+            ->where('slug', $category_slug)
+            ->where('is_active', 1)->where('is_deleted', 0)
+            ->firstOrFail();
+
+        $subcategory = Subcategory::query()
+            ->where('slug', $subcategory_slug)
+            ->where('category_id', $category->id)
+            ->where('is_active', 1)->where('is_deleted', 0)
+            ->firstOrFail();
+
+        $resubcategory = Resubcategory::query()
+            ->where('slug', $resubcategory_slug)
+            ->where('subcategory_id', $subcategory->id)
+            ->where('is_active', 1)->where('is_deleted', 0)
+            ->firstOrFail();
+
+        // 2. Query Past Papers & Group by Series/Year
+        $pastPapers = PastPaper::with('series')
+            ->where('resubcategory', $resubcategory->id)
+            ->where('is_active', 1)
+            ->where('is_deleted', 0)
+            ->get();
+
+        // Group collection by Series (PastPaperYear)
+        $groupedPapers = $pastPapers->groupBy(function ($paper) {
+            return $paper->series ? $paper->series->name : 'Other Sessions';
+        });
+
+        // 3. Stats calculation
+        $totalPapers = $pastPapers->count();
+        $totalSessions = $groupedPapers->count();
+
+        $paperGroups = $pastPapers->pluck('title', 'id')->unique();
+
+        return view('frontend.past-papers.details-2', compact(
+            'category',
+            'subcategory',
+            'resubcategory',
+            'groupedPapers',
+            'totalPapers',
+            'totalSessions',
+            'paperGroups',
+        ));
     }
 
     public function viewPDF(int $id, mixed $type)
@@ -358,4 +368,71 @@ class PastPaperController extends Controller
 
         return $params;
     }
+
+
+//    public function index(
+//        Request $request,
+//                $categorySlug = null,
+//                $subcategorySlug = null,
+//                $resubSlug = null,
+//                $title = null,
+//    ): View {
+//        if (Auth::check()) {
+//            $this->authorize('viewPastPaperSection', Auth::user());
+//        }
+//
+//        $mode = 1; // Reserved for future use
+//        $queryValue = mb_strtolower((string) $request->input('q', ''));
+//
+//        $categories = $this->getData($queryValue, $mode);
+//        $resubcategories = null;
+//        $pastPapers = null;
+//        $params = $this->buildParams($categorySlug, $subcategorySlug, $resubSlug);
+//
+//        if (filled($categorySlug) && filled($subcategorySlug)) {
+//            $categoriesQuery = $this->buildCategorySubcategoryQuery(
+//                $categorySlug,
+//                $subcategorySlug,
+//                $queryValue
+//            );
+//
+//            $categoriesCollection = $categoriesQuery->get();
+//
+//            // If search returns nothing, fall back to full list
+//            if (filled($queryValue) && ! $this->hasResubcategoryMatches($categoriesCollection)) {
+//                $categoriesCollection = $this->buildCategorySubcategoryQuery(
+//                    $categorySlug,
+//                    $subcategorySlug,
+//                    null
+//                )->get();
+//            }
+//
+//            $categories = $categoriesCollection->toArray();
+//            $resubcategories = $categories;
+//        }
+//
+//        if (filled($categorySlug) && filled($subcategorySlug) && filled($resubSlug)) {
+//            $pastPapers = $this->getPastPaperTitles(
+//                $categorySlug,
+//                $subcategorySlug,
+//                $resubSlug,
+//                $queryValue
+//            );
+//        }
+//
+//        $defaultSEO = Seo::query()
+//            ->where('page_title', SEOPage::PAST_PAPER->value)
+//            ->first();
+//
+//        return view('frontend.past-papers.index-2')->with([
+//            'q' => $queryValue,
+//            'params' => $params,
+//            'categories' => $categories,
+//            'pastPapers' => $pastPapers,
+//            'resubcategories' => $resubcategories,
+//            'mode' => $mode,
+//            'defaultSEO' => $defaultSEO,
+//            'results' => null,
+//        ]);
+//    }
 }
