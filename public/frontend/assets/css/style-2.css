@@ -4818,10 +4818,6 @@ body.dash-body {
     padding: 8px;
 }
 
-.d-none {
-    display: none !important;
-}
-
 /* Individual Search Row */
 .search-result-item {
     display: flex;

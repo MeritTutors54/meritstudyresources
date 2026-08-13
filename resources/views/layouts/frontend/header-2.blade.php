@@ -36,37 +36,59 @@
         <div class="collapse navbar-collapse" id="navMain">
             <ul class="navbar-nav mx-auto my-3 my-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link nav-link-msr" href="{{ url('/') }}">Home</a>
+                    <a class="nav-link nav-link-msr {{ request()->routeIs('home') ? 'active' : '' }}"
+                       href="{{ route('home') }}">Home</a>
                 </li>
 
                 @guest
-                    <li class="nav-item"><a class="nav-link nav-link-msr" href="{{ route('blogs') }}">Blogs</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-msr {{ request()->routeIs('blogs') || request()->routeIs('blogs.details') ? 'active' : '' }}"
+                           href="{{ route('blogs') }}">Blogs</a>
+                    </li>
                 @else
                     @can('viewBlogsSection', Auth::user())
-                        <li class="nav-item"><a class="nav-link nav-link-msr" href="{{ route('blogs') }}">Blogs</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-msr {{ request()->routeIs('blogs') || request()->routeIs('blogs.details') ? 'active' : '' }}"
+                               href="{{ route('blogs') }}">Blogs</a>
+                        </li>
                     @endcan
                 @endguest
 
                 <li class="nav-item">
-                    <a class="nav-link nav-link-msr" href="{{ route('about-us') }}">About Us</a>
+                    <a class="nav-link nav-link-msr {{ request()->routeIs('about-us') ? 'active' : '' }}"
+                       href="{{ route('about-us') }}">
+                        About Us</a>
                 </li>
 
                 @guest
-                    <li class="nav-item"><a class="nav-link nav-link-msr" href="{{ route('products') }}">Products</a></li>
-                    <li class="nav-item"><a class="nav-link nav-link-msr" href="{{ route('pricing') }}">Pricing</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-msr {{ request()->routeIs('products') ? 'active' : '' }}"
+                           href="{{ route('products') }}">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-msr {{ request()->routeIs('pricing') ? 'active' : '' }}"
+                           href="{{ route('pricing') }}">Pricing</a>
+                    </li>
                 @else
                     @can('viewProductsSection', Auth::user())
-                        <li class="nav-item"><a class="nav-link nav-link-msr" href="{{ route('products') }}">Products</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-msr {{ request()->routeIs('products') ? 'active' : '' }}"
+                               href="{{ route('products') }}">Products</a>
+                        </li>
                     @endcan
 
                     @if (Auth::user()->type !== \App\Enums\UserType::TEACHER->value)
-                        <li class="nav-item"><a class="nav-link nav-link-msr" href="{{ route('pricing') }}">Pricing</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-msr {{ request()->routeIs('pricing') ? 'active' : '' }}"
+                               href="{{ route('pricing') }}">Pricing</a>
+                        </li>
                     @endif
                 @endguest
 
                 <!-- Resources Dropdown -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link nav-link-msr" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link nav-link-msr {{ request()->routeIs('') ? 'active' : '' }}"
+                       href="#" data-bs-toggle="dropdown" aria-expanded="false">
                         Resources
                         <svg class="dropdown-chevron" viewBox="0 0 24 24" fill="none" width="14" height="14"
                              stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -95,7 +117,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link nav-link-msr" href="{{ route('past.papers') }}">
+                    <a class="nav-link nav-link-msr {{ request()->routeIs('past.papers') || request()->routeIs('past.papers.details') ? 'active' : '' }}"
+                       href="{{ route('past.papers') }}">
                         Past Papers
                     </a>
                 </li>
