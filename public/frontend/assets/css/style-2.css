@@ -3142,6 +3142,9 @@ body.dash-body {
 }
 
 .pp-board-list a:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: var(--green);
     color: var(--green-dark);
 }
 

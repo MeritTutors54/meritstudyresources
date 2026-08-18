@@ -19,14 +19,19 @@ class PastPaperController extends Controller
 {
     public function index(
         Request $request,
-        $categorySlug = null,
-        $subcategorySlug = null,
-        $resubSlug = null,
-        $title = null,
     ): View {
         $categories = Category::query()
             ->where('is_active', Status::ACTIVE->value)
-            ->with(['subcategories.resubcategories'])
+            ->orderBy('category_name', 'asc')
+            ->with([
+                'subcategories' => function ($query) {
+                    $query->orderBy('subcategory_name', 'asc')->with([
+                        'resubcategories' => function ($query) {
+                            $query->orderBy('resubcategory_name', 'asc');
+                        }
+                    ]);
+                }
+            ])
             ->get();
 
         $defaultSEO = Seo::query()
@@ -66,15 +71,33 @@ class PastPaperController extends Controller
 
         // 2. Query Past Papers & Group by Series/Year
         $pastPapers = PastPaper::with('series')
+            ->orderBy('title', 'asc')
             ->where('resubcategory', $resubcategory->id)
             ->where('is_active', 1)
             ->where('is_deleted', 0)
             ->get();
 
         // Group collection by Series (PastPaperYear)
-        $groupedPapers = $pastPapers->groupBy(function ($paper) {
-            return $paper->series ? $paper->series->name : 'Other Sessions';
-        });
+//        $groupedPapers = $pastPapers->groupBy(function ($paper) {
+//            return $paper->series ? $paper->series->name : 'Other Sessions';
+//        });
+
+        $groupedPapers = $pastPapers
+            ->groupBy(function ($paper) {
+                return $paper->series ? $paper->series->name : 'Other Sessions';
+            })
+            ->sortBy(function ($papers, $seriesName) {
+                // Priority weight: June = 1, November = 2, Anything else = 3
+                $priority = 3;
+                if (stripos($seriesName, 'june') !== false) {
+                    $priority = 1;
+                } elseif (stripos($seriesName, 'november') !== false) {
+                    $priority = 2;
+                }
+
+                // Sorts by series group priority first, then alphabetically/by year
+                return $priority . '_' . $seriesName;
+            });
 
         // 3. Stats calculation
         $totalPapers = $pastPapers->count();

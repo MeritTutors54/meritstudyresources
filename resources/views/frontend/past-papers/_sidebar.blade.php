@@ -47,7 +47,7 @@
                                 <ul class="pp-board-list" id="subBio-{{$subcategory->id}}" style="display: none;">
                                     @foreach($subcategory->resubcategories as $resubcategory)
                                         <li>
-                                            <a href="#">
+                                            <a href="{{ route('past.papers.details', [$category->slug, $subcategory->slug, $resubcategory->slug]) }}">
                                                 {{ $resubcategory->resubcategory_name }}
                                                 ({{ $resubcategory->unit_code }})
                                             </a>
@@ -75,7 +75,7 @@
                                 <ul class="pp-board-list" id="subBio-{{$subcategory->id}}" style="display: none;">
                                     @foreach($subcategory->resubcategories as $resubcategory)
                                         <li>
-                                            <a href="#">
+                                            <a href="{{ route('past.papers.details', [$category->slug, $subcategory->slug, $resubcategory->slug]) }}">
                                                 {{ $resubcategory->resubcategory_name }}
                                                 ({{ $resubcategory->unit_code }})
                                             </a>
