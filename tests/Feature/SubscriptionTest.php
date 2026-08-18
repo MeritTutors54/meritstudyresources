@@ -1,5 +1,6 @@
 <?php
 
+namespace Tests\Feature;
 
 use App\Enums\SubscriptionDuration;
 use App\Enums\SubscriptionType;

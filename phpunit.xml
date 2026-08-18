@@ -28,6 +28,9 @@
         <env name="SESSION_DRIVER" value="array"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="DB_CONNECTION" value="mysql"/>
+        <env name="DB_HOST" value="mysql"/>
         <env name="DB_DATABASE" value="test_case"/>
+        <env name="DB_USERNAME" value="root"/>
+        <env name="DB_PASSWORD" value="rootpassword"/>
     </php>
 </phpunit>
