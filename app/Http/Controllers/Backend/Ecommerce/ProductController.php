@@ -68,9 +68,7 @@ class ProductController extends Controller
     }
 
     public function store(StoreProductRequest $request): RedirectResponse
-//    public function store(Request $request): RedirectResponse
     {
-//        dd($request->all());
         $this->authorize('createProduct', Auth::user());
 
         $this->log = [
@@ -81,18 +79,7 @@ class ProductController extends Controller
         DB::beginTransaction();
 
         try {
-            $product = Product::query()->create([
-                'title' => $request->title ?? '',
-                'slug' => $request->slug ?? '',
-                'book_variant_id' => $request->book_variant_id ?? '',
-                'description' => $request->description ?? '',
-                'regular_price' => $request->regular_price ?? 0,
-                'discount_price' => $request->discount_price ?? 0,
-                'year_group_id' => $request->year_group_id ?? '',
-                'image' => $request->image ?? '',
-                'sku' => $request->sku ?? '',
-                'status' => $request->status ?? '',
-            ]);
+            $product = Product::query()->create($request->except('_token', '_method'));
 
             if (count($request->samples ?? []) > 0) {
                 foreach ($request->samples ?? [] as $sample) {
@@ -152,19 +139,8 @@ class ProductController extends Controller
         DB::beginTransaction();
 
         try {
-            $data = $product->update([
-                'title' => $request->title ?? $product->title,
-                'slug' => $request->slug ?? $product->slug,
-                'book_variant_id' => $request->book_variant_id ?? $product->book_variant_id,
-                'description' => $request->description ?? $product->description,
-                'regular_price' => $request->regular_price ?? $product->mirror_price,
-                'discount_price' => $request->discount_price ?? $product->mirror_discount,
-                'discount_percentage' => $request->discount_percentage ?? $product->discount_percentage,
-                'sku' => $request->sku ?? $product->sku,
-                'year_group_id' => $request->year_group_id ?? $product->year_group_id,
-                'image' => $request->image ?? $product->image,
-                'status' => $request->status ?? $product->status,
-            ]);
+            $data = $product->update($request->except('_token', '_method'));
+
             if (count($request->samples ?? []) > 0) {
                 foreach ($request->samples ?? [] as $sample) {
                     ProductImage::query()->create([

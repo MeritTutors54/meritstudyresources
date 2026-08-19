@@ -35,9 +35,9 @@ class StoreProductRequest extends FormRequest
             'book_variant_id' => 'required|exists:book_variants,id',
             'year_group_id' => 'required|exists:year_groups,id',
             'description' => 'nullable|string|max:3000',
+            'sku' => 'required|string|max:200',
             'regular_price' => ['required', 'regex:/^\d+(\.\d{2})?$/', 'between:0,999999.99'],
             'discount_price' => ['nullable', 'regex:/^\d+(\.\d{2})?$/', 'between:0,999999.99'],
-            'discount_percentage' => ['nullable', 'numeric', 'between:0,100', 'regex:/^\d+(\.\d{1,2})?$/'],
             'status' => 'required|in:0,1',
             'file' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             'pdf_sample' => ['required', 'array', 'min:1'],
@@ -60,10 +60,9 @@ class StoreProductRequest extends FormRequest
 
     protected function passedValidation(): void
     {
-//        dd('ssss');
         $uploadPath = 'products';
         $sampleUploadPath = 'products/sample';
-//
+
         if($this->hasFile('pdf_sample')) {
             $sample_files =  [];
             foreach ($this->pdf_sample as $sample) {
@@ -75,7 +74,7 @@ class StoreProductRequest extends FormRequest
                 'samples' => $sample_files
             ]);
         }
-//
+
         if ($this->hasFile('file')) {
             $imageName = FileService::storeFile($uploadPath . '/', $this->file ?? '');
 
@@ -83,9 +82,19 @@ class StoreProductRequest extends FormRequest
                 'image' => $uploadPath . '/' . $imageName,
             ]);
         }
-//
+
+        $discountPercentage = 0;
+
+        if ($this->regular_price > 0 && !empty($this->discount_price)) {
+            $discountPercentage = round((($this->regular_price - $this->discount_price) / $this->regular_price) * 100, 2);
+        }
+
+        $variant = BookVariant::find($this->book_variant_id);
+
         $this->merge([
-            'slug' => SlugService::generateSlug($this->name ?? '')
+            'discount_percentage' => $discountPercentage,
+            'slug' => SlugService::generateSlug($this->title ?? ''),
+            'search_text' => $variant->seach_text . '' . $this->title . ' ' . $this->sku,
         ]);
 
     }

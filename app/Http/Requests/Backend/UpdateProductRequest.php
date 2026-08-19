@@ -108,10 +108,13 @@ class UpdateProductRequest extends FormRequest
             $discountPercentage = max(0, round($calculated, 2));
         }
 
+        $variant = BookVariant::find($this->book_variant_id);
+
         // Generating Slug
         $this->merge([
             'slug' => SlugService::generateSlug($this->title ?? ''),
             'discount_percentage' => $discountPercentage,
+            'search_text' => $variant->seach_text . '' . $this->title . ' ' . $this->sku,
         ]);
     }
 }
