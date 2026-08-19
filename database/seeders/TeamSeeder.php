@@ -15,6 +15,7 @@ class TeamSeeder extends Seeder
     {
         Team::query()->updateOrCreate([
             'name' => 'Team-Admin',
+            'guard_name' => 'admin',
         ]);
 
         Team::query()->updateOrCreate([

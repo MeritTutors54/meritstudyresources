@@ -23,8 +23,8 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
 
             SubscriptionPlanSeeder::class,
-            CategorySeeder::class,
-            SubCategorySeeder::class,
+//            CategorySeeder::class,
+//            SubCategorySeeder::class,
         ]);
 
     }

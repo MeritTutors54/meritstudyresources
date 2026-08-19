@@ -2,31 +2,14 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Enums\ResourceType;
 use App\Enums\SEOPage;
-use App\Enums\Statement;
 use App\Enums\Status;
 use App\Http\Controllers\Controller;
-use App\Models\MeritResource;
 use App\Models\Product;
 use App\Models\Seo;
-use App\Operations\Frontend\DeviceActivity;
-use App\Operations\Frontend\DownloadHistoryActivity;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use App\Models\User;
-use Carbon\Carbon;
-use Illuminate\Support\Str;
 use Illuminate\View\View;
-use Jenssegers\Agent\Agent;
-use Laravel\Cashier\Subscription;
-use Spatie\Permission\PermissionRegistrar;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ProductController extends Controller
 {
@@ -87,6 +70,5 @@ class ProductController extends Controller
                 'relatedProducts' => $relatedProducts,
                 'defaultSEO' => $defaultSEO
             ]);
-
     }
 }

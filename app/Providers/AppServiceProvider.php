@@ -44,7 +44,7 @@ class AppServiceProvider extends ServiceProvider
 
         Cashier::useSubscriptionModel(Subscription::class);
 
-        if ($this->app->runningInConsole()) {
+        if ($this->app->runningInConsole() && !$this->app->runningUnitTests()) {
             return;
         }
 

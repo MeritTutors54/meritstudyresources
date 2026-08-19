@@ -4,10 +4,14 @@ namespace Database\Seeders;
 
 use App\Models\Admin;
 use App\Models\Category;
+use App\Models\Team;
 use App\Services\PermissionService;
 use App\Services\SlugService;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Log;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 class AdminSeeder extends Seeder
 {
@@ -16,19 +20,41 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
+
         if (Admin::query()->count() > 0) {
             return;
         }
 
-        $admin = Admin::query()->create([
-            'name' => 'admin',
-            'username' => 'admin',
-            'email' => 'admin@admin.com',
-            'password' => bcrypt('password'),
-            'status' => 1,
-            'team_id' => 1
+        $team = Team::query()->firstOrCreate(
+            ['name' => 'Team-Admin', 'guard_name' => 'admin']
+        );
+
+        app(PermissionRegistrar::class)->setPermissionsTeamId($team->id);
+
+        $admin = Admin::query()->firstOrCreate(
+            ['email' => 'admin@admin.com'],
+            [
+                'name' => 'admin',
+                'username' => 'admin',
+                'password' => bcrypt('password'),
+                'status' => 1,
+                'team_id' => $team->id,
+            ]
+        );
+
+        Log::info($admin);
+
+        $role = Role::query()->firstOrCreate([
+            'name' => 'super-admin',
+            'guard_name' => 'admin',
+            'team_id' => $team->id
         ]);
 
-        PermissionService::shift(1, $admin, 'super-admin');
+//        setPermissionsTeamId($team->id);
+        $p = getPermissionsTeamId();
+        Log::info('getPermissionsTeamId =' . $p);
+
+        $admin->assignRole($role);
     }
 }
