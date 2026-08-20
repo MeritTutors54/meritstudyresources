@@ -17,7 +17,7 @@
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger d-inline" id="modalBtnDelete">
-                        <i class="align-middle feather-fix" data-feather="trash"></i>
+                        <i class="align-middle" style="height: 16px;position: relative;top: -2px;" data-feather="trash"></i>
                         Delete
                     </button>
                 </form>

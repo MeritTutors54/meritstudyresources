@@ -100,7 +100,7 @@
                                                         <div class="btn-group">
                                                             @can('updateProduct', Auth::user())
                                                                 <a href="{{ route('admin.products.edit', [$product]) }}"
-                                                                   class="btn btn-sm btn-info-light waves-effect me-1"
+                                                                   class="btn btn-sm text-primary waves-effect me-1"
                                                                    title="Edit Product">
                                                                     <i class="fa fa-edit" aria-hidden="true"></i>
                                                                 </a>
@@ -109,7 +109,7 @@
                                                                 <button type="button"
                                                                         data-route="{{ route('admin.products.destroy', [$product]) }}"
                                                                         data-name="{{ $product->title ?? $product->name }}"
-                                                                        class="dltButton btn btn-sm btn-danger-light waves-effect"
+                                                                        class="dltButton btn btn-sm text-danger waves-effect"
                                                                         title="Delete Product">
                                                                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                                                                 </button>
