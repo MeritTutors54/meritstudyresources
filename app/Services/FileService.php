@@ -20,7 +20,7 @@ final class FileService
     {
         $image = time() . '-' . $file->getClientOriginalName();
         $imageName = $image;
-        $file->storeAs('public/' . $path, $imageName);
+        $file->storeAs($path, $imageName, 'public');
 
         return $imageName;
     }

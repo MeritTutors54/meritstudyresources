@@ -3,14 +3,13 @@
 namespace App\Http\Requests\Backend;
 
 use App\Models\BookVariant;
+use App\Models\ProductImage;
 use App\Services\FileService;
-use App\Services\PDFService;
 use App\Services\SlugService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
-use Laravel\Cashier\Cashier;
-use Stripe\Exception\ApiErrorException;
+use Illuminate\Validation\Validator;
 
 class UpdateProductRequest extends FormRequest
 {
@@ -58,6 +57,26 @@ class UpdateProductRequest extends FormRequest
         ];
     }
 
+
+    public function withValidator(Validator $validator): void
+    {
+        $validator->after(function ($validator) {
+            $product = $this->product;
+
+            $existingSamplesCount = ProductImage::query()->where('product_id', $product->id)->count();
+
+            $hasNewUploads = $this->hasFile('pdf_sample') && count(array_filter($this->file('pdf_sample', []))) > 0;
+
+            // If there are no existing sample images left in DB AND no new sample images uploaded
+            if ($existingSamplesCount === 0 && !$hasNewUploads) {
+                $validator->errors()->add(
+                    'pdf_sample',
+                    'Please upload at least one sample image.'
+                );
+            }
+        });
+    }
+
     protected function passedValidation(): void
     {
         $uploadPath = 'products';
@@ -65,11 +84,6 @@ class UpdateProductRequest extends FormRequest
 
         // if input has PDF sample
         if ($this->hasFile('pdf_sample')) {
-            if ($this->product->getSampleImages()->count() > 0) {
-                foreach ($this->product->getSampleImages as $prevImage) {
-                    FileService::checkFile($prevImage->path);
-                }
-            }
             $sample_files = [];
             foreach ($this->pdf_sample as $sample) {
                 $imageName = FileService::storeFile($sampleUploadPath . '/', $sample ?? '');

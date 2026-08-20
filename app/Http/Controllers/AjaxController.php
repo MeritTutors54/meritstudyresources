@@ -11,6 +11,7 @@ use App\Models\AdminActivityLog;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\PastPaper;
+use App\Models\ProductImage;
 use App\Models\Resubcategory;
 use App\Models\SubCategory;
 use App\Models\Subject;
@@ -22,6 +23,7 @@ use App\Services\MoneyService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -501,6 +503,24 @@ class AjaxController extends Controller
             });
 
         return response()->json($results);
+    }
+
+    public function deleteSampleProductImage(int|string $id)
+    {
+        $sample = ProductImage::query()->findOrFail($id);
+
+        // Delete physical file from storage disk if it exists
+        if ($sample->path && Storage::disk('public')->exists($sample->path)) {
+            Storage::disk('public')->delete($sample->path);
+        }
+
+        // Delete database record
+        $sample->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Sample image deleted successfully.'
+        ]);
     }
 
 }

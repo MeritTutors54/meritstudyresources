@@ -4,13 +4,10 @@ namespace App\Http\Requests\Backend;
 
 use App\Models\BookVariant;
 use App\Services\FileService;
-use App\Services\PDFService;
 use App\Services\SlugService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
-use Laravel\Cashier\Cashier;
-use Stripe\Exception\ApiErrorException;
 
 class StoreProductRequest extends FormRequest
 {
@@ -60,42 +57,60 @@ class StoreProductRequest extends FormRequest
 
     protected function passedValidation(): void
     {
+        $merges = [];
         $uploadPath = 'products';
         $sampleUploadPath = 'products/sample';
 
-        if($this->hasFile('pdf_sample')) {
-            $sample_files =  [];
-            foreach ($this->pdf_sample as $sample) {
-                $imageName = FileService::storeFile($sampleUploadPath . '/', $sample ?? '');
-                $sample_files[] = $sampleUploadPath . '/' . $imageName;
+        // 1. Handle Multiple PDF Samples
+        if ($this->hasFile('pdf_sample')) {
+            $sampleFiles = [];
+            $samples = is_array($this->file('pdf_sample'))
+                ? $this->file('pdf_sample')
+                : [$this->file('pdf_sample')];
+
+            foreach ($samples as $sample) {
+                if ($sample) {
+                    $fileName = FileService::storeFile($sampleUploadPath, $sample);
+                    $sampleFiles[] = $sampleUploadPath . '/' . $fileName;
+                }
             }
 
-            $this->merge([
-                'samples' => $sample_files
-            ]);
+            $merges['samples'] = $sampleFiles;
         }
 
+        // 2. Handle Single Image File
         if ($this->hasFile('file')) {
-            $imageName = FileService::storeFile($uploadPath . '/', $this->file ?? '');
-
-            $this->merge([
-                'image' => $uploadPath . '/' . $imageName,
-            ]);
+            $imagesUploadedPath = FileService::storeFile($uploadPath, $this->file('file'));
+            $merges['image'] = $uploadPath .'/'. $imagesUploadedPath;
         }
 
+        // 3. Calculate Discount Percentage
+        $regularPrice = (float) $this->input('regular_price', 0);
+        $discountPrice = (float) $this->input('discount_price', 0);
         $discountPercentage = 0;
 
-        if ($this->regular_price > 0 && !empty($this->discount_price)) {
-            $discountPercentage = round((($this->regular_price - $this->discount_price) / $this->regular_price) * 100, 2);
+        if ($regularPrice > 0 && $discountPrice > 0 && $discountPrice < $regularPrice) {
+            $discountPercentage = round((($regularPrice - $discountPrice) / $regularPrice) * 100, 2);
         }
 
+        // 4. Generate Slug and Search Text safely
         $variant = BookVariant::find($this->book_variant_id);
+        $variantSearchText = $variant?->search_text ?? $variant?->seach_text ?? '';
 
-        $this->merge([
+        // Filter out empty parts and join with a single space
+        $searchText = implode(' ', array_filter([
+            $variantSearchText,
+            $this->input('title'),
+            $this->input('sku'),
+        ]));
+
+        $merges = array_merge($merges, [
             'discount_percentage' => $discountPercentage,
-            'slug' => SlugService::generateSlug($this->title ?? ''),
-            'search_text' => $variant->seach_text . '' . $this->title . ' ' . $this->sku,
+            'slug' => SlugService::generateSlug($this->input('title', '')),
+            'search_text' => trim($searchText),
         ]);
 
+        // 5. Single Consolidated Merge
+        $this->merge($merges);
     }
 }

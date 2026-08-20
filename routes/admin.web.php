@@ -191,4 +191,6 @@ Route::prefix('admin')->middleware(['auth:admin', 'team.permission'])->group(fun
     Route::get('/activity-log', [AjaxController::class, 'getAllActivityLog'])->name('admin.ajax.getAllActivityLog');
 
     Route::post('/update-status', [AjaxController::class, 'updateStatus'])->name('admin.ajax.updateStatus');
+
+    Route::delete('/product-samples/{id}', [AjaxController::class, 'deleteSampleProductImage'])->name('admin.ajax.product.samples.destroy');
 });

@@ -135,7 +135,7 @@ class ProductController extends Controller
             'model_type' => 'App\Models\Product',
             'old_data' => json_encode($product->toArray()),
         ];
-
+        
         DB::beginTransaction();
 
         try {
@@ -208,5 +208,6 @@ class ProductController extends Controller
             ->with($this->notification['status'], $this->notification['message']);
 
     }
+
 
 }
