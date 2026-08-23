@@ -21,7 +21,9 @@
                         {{ strtoupper($subcategory->subcategory_name) }}
                         ({{ $resubcategory->unit_code }})
                         <span class="text-green">Past Papers</span></h1>
-                    <p class="pl-sub mb-0">Full past papers and mark schemes for AQA A Level Accounting, sorted by exam
+                    <p class="pl-sub mb-0">Full past papers and mark schemes for
+                        {{ $resubcategory->resubcategory_name }}
+                        {{ $category->category_name }} {{ $subcategory->subcategory_name }}, sorted by exam
                         session.</p>
                 </div>
                 <span class="pl-board-chip">
@@ -97,7 +99,6 @@
                 <div class="col-lg-3">
                     <div class="pp-sidebar">
                         <p class="pp-sidebar-title">Filter by level</p>
-                        {{--    @dd($categories)--}}
                         @if(!empty($category))
                             <div class="pp-level-group">
                                 <button class="pp-level-toggle" aria-expanded="true"
@@ -137,18 +138,18 @@
                                                           stroke-linejoin="round"/>
                                                 </svg>
                                             </button>
-                                        @endif
 
-                                        @if(!empty($resubcategory))
-                                            <ul class="pp-board-list" id="subBio-{{$subcategory->id}}"
-                                                style="display: block;">
-                                                <li>
-                                                    <a class="active" href="#">
-                                                        {{ $resubcategory->resubcategory_name }}
-                                                        ({{ $resubcategory->unit_code }})
-                                                    </a>
-                                                </li>
-                                            </ul>
+                                            @if(!empty($resubcategory))
+                                                <ul class="pp-board-list" id="subBio-{{$subcategory->id}}"
+                                                    style="display: block;">
+                                                    <li>
+                                                        <a class="active" href="#">
+                                                            {{ $resubcategory->resubcategory_name }}
+                                                            ({{ $resubcategory->unit_code }})
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            @endif
                                         @endif
                                     @endif
 
@@ -198,7 +199,7 @@
                                 </button>
                             @endforeach
                         </div>
-                        <button class="expand-all-btn" id="expandAllBtn" onclick="toggleExpandAll()">
+                        <button class="expand-all-btn" id="expandAllBtn">
                             Expand All
                         </button>
                     </div>
@@ -207,82 +208,12 @@
                         <div class="tab-view" id="all-paper">
                             @if($groupedPapers->isNotEmpty())
                                 @foreach($groupedPapers as $series => $past_papers)
-                                    @php
-                                        $slug = strtolower(str_replace(' ', '-', $series));
-                                    @endphp
-                                    <div class="session-block">
-                                        <button class="session-header" data-target="{{ $slug }}">
-                                        <span class="sh-left">
-                                            <span class="sh-ico">
-                                                <svg viewBox="0 0 24 24" fill="none">
-                                                    <path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="1.8"
-                                                          stroke-linecap="round"/>
-                                                    <circle cx="12" cy="12" r="9" stroke="currentColor"
-                                                            stroke-width="1.8"/>
-                                                </svg>
-                                            </span>
-                                            {{ $series }}
-                                            <span class="sh-count">{{ count($past_papers) }} papers</span>
-{{--                                            <span class="sh-latest">Latest</span>--}}
-                                        </span>
-                                            <svg class="sh-chev" viewBox="0 0 24 24" fill="none">
-                                                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"
-                                                      stroke-linecap="round"
-                                                      stroke-linejoin="round"/>
-                                            </svg>
-                                        </button>
-                                        <div class="session-body" id="{{ $slug }}">
-                                            @if(!empty($past_papers))
-                                                @foreach($past_papers as $paper)
-                                                    @php
-                                                        $paperSlug = strtolower(str_replace(' ', '-', $paper->title));
-                                                        $paperSlug .= '-' . $paper->category . '-' . $paper->exam_series . '-' . $paper->subcategory . '-' . $paper->resubcategory;
-                                                    @endphp
-                                                    <div class="paper-row" data-paper="{{ $paperSlug }}">
-                                                        <a href="{{ asset('uploads/pastpaper') . '/' . $paper->ques_paper }}"
-                                                           target="_blank"
-                                                           class="paper-link">
-                                                            <svg class="pl-ico" viewBox="0 0 24 24" fill="none">
-                                                                <path d="M6 4h9l5 5v11H6z" stroke="currentColor"
-                                                                      stroke-width="1.6"
-                                                                      stroke-linejoin="round"/>
-                                                                <path d="M9 12h6M9 15h6M9 9h2" stroke="currentColor"
-                                                                      stroke-width="1.6"
-                                                                      stroke-linecap="round"/>
-                                                            </svg>
-                                                            {{ $paper->title }}
-                                                        </a>
-                                                        <a href="{{ asset('uploads/pastpaper') . '/' . $paper->ans_paper }}"
-                                                           target="_blank" class="ms-link">
-                                                            <svg viewBox="0 0 24 24" fill="none">
-                                                                <path d="M6 4h9l5 5v11H6z" stroke="currentColor"
-                                                                      stroke-width="1.6"
-                                                                      stroke-linejoin="round"/>
-                                                            </svg>
-                                                            Mark Scheme
-                                                        </a>
-                                                    </div>
-                                                @endforeach
-                                            @endif
-                                        </div>
-                                    </div>
-                                @endforeach
-                            @endif
-                        </div>
-                        @foreach($paperGroups as $key => $paperTitle)
-                            @php
-                                $anotherPaperSlugInBottom = strtolower(str_replace(' ', '-', $paperTitle));
-                            @endphp
-                            <div class="tab-view d-none" id="{{ $anotherPaperSlugInBottom }}-{{ $key }}">
-                                @if($groupedPapers->isNotEmpty())
-                                    @foreach($groupedPapers as $series => $past_papers)
+                                    @if($past_papers->isNotEmpty())
                                         @php
-                                            $anotherSeriesSlug = strtolower(str_replace(' ', '-', $series));
-
-                                            $finalSlug = $anotherPaperSlugInBottom . '-' . $key . '-' . $anotherSeriesSlug;
+                                            $slug = strtolower(str_replace(' ', '-', $series));
                                         @endphp
                                         <div class="session-block">
-                                            <button class="session-header" data-target="{{ $finalSlug }}">
+                                            <button class="session-header" data-target="{{ $slug }}">
                                                 <span class="sh-left">
                                                     <span class="sh-ico">
                                                         <svg viewBox="0 0 24 24" fill="none">
@@ -294,6 +225,7 @@
                                                         </svg>
                                                     </span>
                                                     {{ $series }}
+                                                    <span class="sh-count">{{ count($past_papers) }} papers</span>
                                                 </span>
                                                 <svg class="sh-chev" viewBox="0 0 24 24" fill="none">
                                                     <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"
@@ -301,13 +233,19 @@
                                                           stroke-linejoin="round"/>
                                                 </svg>
                                             </button>
-                                            <div class="session-body" id="{{ $finalSlug }}">
+                                            <div class="session-body" id="{{ $slug }}">
                                                 @if(!empty($past_papers))
                                                     @foreach($past_papers as $paper)
-                                                        @if($paper->title === $paperTitle)
-                                                            <div class="paper-row">
+                                                        @if(!empty($paper))
+                                                            @php
+
+                                                                $paperSlug = strtolower(str_replace(' ', '-', $paper->title));
+                                                                $paperSlug .= '-' . $paper->category . '-' . $paper->exam_series . '-' . $paper->subcategory . '-' . $paper->resubcategory;
+                                                            @endphp
+                                                            <div class="paper-row" data-paper="{{ $paperSlug }}">
                                                                 <a href="{{ asset('uploads/pastpaper') . '/' . $paper->ques_paper }}"
-                                                                   target="_blank" class="paper-link">
+                                                                   target="_blank"
+                                                                   class="paper-link">
                                                                     <svg class="pl-ico" viewBox="0 0 24 24" fill="none">
                                                                         <path d="M6 4h9l5 5v11H6z" stroke="currentColor"
                                                                               stroke-width="1.6"
@@ -317,7 +255,7 @@
                                                                               stroke-width="1.6"
                                                                               stroke-linecap="round"/>
                                                                     </svg>
-                                                                    Question
+                                                                    {{ $paper->title }}
                                                                 </a>
                                                                 <a href="{{ asset('uploads/pastpaper') . '/' . $paper->ans_paper }}"
                                                                    target="_blank" class="ms-link">
@@ -334,6 +272,82 @@
                                                 @endif
                                             </div>
                                         </div>
+                                    @endif
+                                @endforeach
+                            @endif
+                        </div>
+                        @foreach($paperGroups as $key => $paperTitle)
+                            @php
+                                $anotherPaperSlugInBottom = strtolower(str_replace(' ', '-', $paperTitle));
+                            @endphp
+                            <div class="tab-view d-none" id="{{ $anotherPaperSlugInBottom }}-{{ $key }}">
+                                @if($groupedPapers->isNotEmpty())
+                                    @foreach($groupedPapers as $series => $past_papers)
+                                        @if($past_papers->isNotEmpty())
+                                            @php
+                                                $anotherSeriesSlug = strtolower(str_replace(' ', '-', $series));
+
+                                                $finalSlug = $anotherPaperSlugInBottom . '-' . $key . '-' . $anotherSeriesSlug;
+                                            @endphp
+                                            <div class="session-block">
+                                                <button class="session-header" data-target="{{ $finalSlug }}">
+                                                <span class="sh-left">
+                                                    <span class="sh-ico">
+                                                        <svg viewBox="0 0 24 24" fill="none">
+                                                            <path d="M12 7v5l3.5 2" stroke="currentColor"
+                                                                  stroke-width="1.8"
+                                                                  stroke-linecap="round"/>
+                                                            <circle cx="12" cy="12" r="9" stroke="currentColor"
+                                                                    stroke-width="1.8"/>
+                                                        </svg>
+                                                    </span>
+                                                    {{ $series }}
+                                                </span>
+                                                    <svg class="sh-chev" viewBox="0 0 24 24" fill="none">
+                                                        <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"
+                                                              stroke-linecap="round"
+                                                              stroke-linejoin="round"/>
+                                                    </svg>
+                                                </button>
+                                                <div class="session-body" id="{{ $finalSlug }}">
+                                                    @if(!empty($past_papers))
+                                                        @foreach($past_papers as $paper)
+                                                            @if(!empty($paper))
+                                                                @if($paper->title === $paperTitle)
+                                                                    <div class="paper-row">
+                                                                        <a href="{{ asset('uploads/pastpaper') . '/' . $paper->ques_paper }}"
+                                                                           target="_blank" class="paper-link">
+                                                                            <svg class="pl-ico" viewBox="0 0 24 24"
+                                                                                 fill="none">
+                                                                                <path d="M6 4h9l5 5v11H6z"
+                                                                                      stroke="currentColor"
+                                                                                      stroke-width="1.6"
+                                                                                      stroke-linejoin="round"/>
+                                                                                <path d="M9 12h6M9 15h6M9 9h2"
+                                                                                      stroke="currentColor"
+                                                                                      stroke-width="1.6"
+                                                                                      stroke-linecap="round"/>
+                                                                            </svg>
+                                                                            Question
+                                                                        </a>
+                                                                        <a href="{{ asset('uploads/pastpaper') . '/' . $paper->ans_paper }}"
+                                                                           target="_blank" class="ms-link">
+                                                                            <svg viewBox="0 0 24 24" fill="none">
+                                                                                <path d="M6 4h9l5 5v11H6z"
+                                                                                      stroke="currentColor"
+                                                                                      stroke-width="1.6"
+                                                                                      stroke-linejoin="round"/>
+                                                                            </svg>
+                                                                            Mark Scheme
+                                                                        </a>
+                                                                    </div>
+                                                                @endif
+                                                            @endif
+                                                        @endforeach
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @endif
                                     @endforeach
                                 @endif
                             </div>
@@ -346,6 +360,8 @@
 @endsection
 @push('js')
     <script>
+
+
         document.querySelectorAll('.papers-tab-btn').forEach((tabBtn) => {
             tabBtn.addEventListener('click', () => {
                 const clickedBtn = tabBtn;
@@ -362,35 +378,105 @@
             })
         })
     </script>
-    <script>
-        document.querySelectorAll('.session-header').forEach((btn) => {
-            btn.addEventListener('click', () => {
-                console.log('hehe: ', btn.dataset.target);
-                const target = document.getElementById(btn.dataset.target);
-                console.log("dom: ", target);
-                btn.classList.toggle('session-open');
-                target.classList.toggle('open');
-            })
-        })
-    </script>
-    <script>
-        function toggleExpandAll() {
-            const blocks = document.querySelectorAll('#sessionList .session-block');
 
-            // Check if at least one block is currently closed
-            const shouldExpand = Array.from(blocks).some(block => {
-                const header = block.querySelector('.session-header');
-                return header && !header.classList.contains('session-open');
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const expandBtn = document.getElementById('expandAllBtn');
+
+            // Set to store the series slugs or indices currently opened
+            const openSeriesSet = new Set();
+
+            // Helper: Extract unique series key from header's target ID
+            function getSeriesKey(header) {
+                // Fallback: If finalSlug is paper-key-series, grab the series part or the block index
+                const block = header.closest('.session-block');
+                const tab = header.closest('.tab-view');
+                return Array.from(tab.querySelectorAll('.session-block')).indexOf(block);
+            }
+
+            // Helper: Apply open/close state to all tabs based on openSeriesSet
+            function syncAllTabs() {
+                const tabs = document.querySelectorAll('#sessionList .tab-view');
+
+                tabs.forEach(tab => {
+                    const blocks = tab.querySelectorAll('.session-block');
+                    blocks.forEach((block, index) => {
+                        const header = block.querySelector('.session-header');
+                        const targetBody = header ? document.getElementById(header.dataset.target) : null;
+                        const isOpen = openSeriesSet.has(index);
+
+                        if (header) header.classList.toggle('session-open', isOpen);
+                        if (targetBody) targetBody.classList.toggle('open', isOpen);
+                    });
+                });
+
+                updateExpandButtonLabel();
+            }
+
+            // Helper: Update button label based on the active tab's items
+            function updateExpandButtonLabel() {
+                const activeTab = document.querySelector('#sessionList .tab-view:not(.d-none)');
+                if (!activeTab) return;
+
+                const blocks = activeTab.querySelectorAll('.session-block');
+                if (blocks.length === 0) return;
+
+                const allExpanded = Array.from(blocks).every((_, index) => openSeriesSet.has(index));
+                expandBtn.textContent = allExpanded ? 'Close All' : 'Expand All';
+            }
+
+            // 1. Single Item Toggle
+            document.querySelectorAll('#sessionList .session-header').forEach(header => {
+                header.addEventListener('click', () => {
+                    const seriesIndex = getSeriesKey(header);
+
+                    if (openSeriesSet.has(seriesIndex)) {
+                        openSeriesSet.delete(seriesIndex);
+                    } else {
+                        openSeriesSet.add(seriesIndex);
+                    }
+
+                    syncAllTabs();
+                });
             });
 
-            // Apply the target state to headers and bodies within each block
-            blocks.forEach(block => {
-                const header = block.querySelector('.session-header');
-                const body = block.querySelector('.session-body');
+            // 2. Expand All / Close All Button Click
+            expandBtn.addEventListener('click', () => {
+                const activeTab = document.querySelector('#sessionList .tab-view:not(.d-none)');
+                if (!activeTab) return;
 
-                if (header) header.classList.toggle('session-open', shouldExpand);
-                if (body) body.classList.toggle('open', shouldExpand);
+                const blocks = activeTab.querySelectorAll('.session-block');
+                const shouldExpand = Array.from(blocks).some((_, index) => !openSeriesSet.has(index));
+
+                if (shouldExpand) {
+                    blocks.forEach((_, index) => openSeriesSet.add(index));
+                } else {
+                    openSeriesSet.clear();
+                }
+
+                syncAllTabs();
             });
-        }
+
+            // 3. Tab Switching Sync (Watches for tab changes)
+            const sessionList = document.getElementById('sessionList');
+            if (sessionList) {
+                const observer = new MutationObserver((mutations) => {
+                    mutations.forEach(mutation => {
+                        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                            const target = mutation.target;
+                            if (target.classList.contains('tab-view') && !target.classList.contains('d-none')) {
+                                syncAllTabs();
+                            }
+                        }
+                    });
+                });
+
+                observer.observe(sessionList, {
+                    subtree: true,
+                    attributes: true,
+                    attributeFilter: ['class']
+                });
+            }
+        });
     </script>
 @endpush

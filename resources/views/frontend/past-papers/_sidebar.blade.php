@@ -1,6 +1,5 @@
 <div class="pp-sidebar">
     <p class="pp-sidebar-title">Filter by level</p>
-    {{--    @dd($categories)--}}
     @if(!empty($categories))
         @foreach($categories as $k => $category)
             <div class="pp-level-group">
@@ -32,7 +31,7 @@
                     @if($popularSubcategories->isNotEmpty())
                         <p class="pp-most-popular">Most Popular</p>
                         @foreach($popularSubcategories as $subcategory)
-                            <button class="pp-subject-row" data-target="subBio-{{$subcategory->id}}">
+                            <button class="pp-subject-row" data-target="subBio-mp-{{$subcategory->id}}">
                                 <span class="pp-subject-name"
                                       title="{{ $subcategory->subcategory_name }}">
                                     {{ $subcategory->subcategory_name }}
@@ -44,7 +43,7 @@
                                 </svg>
                             </button>
                             @if($subcategory->resubcategories->isNotEmpty())
-                                <ul class="pp-board-list" id="subBio-{{$subcategory->id}}" style="display: none;">
+                                <ul class="pp-board-list" id="subBio-mp-{{$subcategory->id}}" style="display: none;">
                                     @foreach($subcategory->resubcategories as $resubcategory)
                                         <li>
                                             <a href="{{ route('past.papers.details', [$category->slug, $subcategory->slug, $resubcategory->slug]) }}">
@@ -71,7 +70,7 @@
                                           stroke-linejoin="round"/>
                                 </svg>
                             </button>
-                            @if($subcategory->resubcategories->isNotEmpty())
+                            @if(count($subcategory->resubcategories) > 0)
                                 <ul class="pp-board-list" id="subBio-{{$subcategory->id}}" style="display: none;">
                                     @foreach($subcategory->resubcategories as $resubcategory)
                                         <li>
