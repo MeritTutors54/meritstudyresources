@@ -83,7 +83,7 @@
                                 <span>Sub Total</span>
                                 <span class="cs-val" id="csSubtotal">£{{ number_format($subTotalPrice ?? 0, 2) }}</span>
                             </div>
-                            @if(!is_null($siteSettings->delivery_charge))
+                            @if(!empty($settings->delivery_charge))
                                 <div class="cs-row">
                                     <span>Shipping Cost</span>
                                     <span class="cs-val" id="csShipping">£{{ number_format($deliveryCharge ?? 0, 2) }}</span>
@@ -106,7 +106,6 @@
                                     <path d="M19 12H5M5 12L11 6M5 12L11 18" stroke="#16804AFF" stroke-width="2"
                                           stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-
                                 Continue shopping
                             </a>
                         </div>
@@ -159,21 +158,34 @@
         document.addEventListener('click', function (e) {
             const minusBtn = e.target.closest('.cart-minus');
             const plusBtn = e.target.closest('.cart-plus');
+            const deleteBtn = e.target.closest('.cart-quantity-input');
 
-            if (!minusBtn && !plusBtn) return;
+            if (!minusBtn && !plusBtn && !deleteBtn) return;
 
             e.preventDefault();
 
-            const button = minusBtn || plusBtn;
-            const action = minusBtn ? minusCall : plusCall;
+            const button = minusBtn || plusBtn || deleteBtn;
             const cartID = button.dataset.cart;
 
             if (!cartID) return;
+
+            let action;
+            if (minusBtn) {
+                action = minusCall;
+            } else if (plusBtn) {
+                action = plusCall;
+            } else {
+                action = deleteCall;
+            }
 
             // DOM References
             const row = button.closest('.cart-row');
             const input = row?.querySelector('.cart-quantity-input');
             const totalElement = row?.querySelector('.cart-total');
+
+            if (action === minusCall && parseInt(input?.value, 10) <= 1) {
+                return;
+            }
 
             // Safe lookup for global cart summary elements
             const loader = document.querySelector('.loader-selector') || null;
@@ -224,28 +236,6 @@
                 if (loader) loader.classList.add('hidden');
             });
         });
-
-        // $('.cart-plus').on('click', function (e) {
-        //     e.stopPropagation();
-        //     loader.removeClass('hidden');
-        //     let button = $(this);
-        //     let inputGroup = $(this).parent('div');
-        //     let cartID = inputGroup.data('cart');
-        //     let input = $(this).siblings('input');
-        //     let subtotalCell = $(this).closest('tr').find('.pro-subtotal span');
-        //
-        //     button.prop('disabled', true);
-        //
-        //     ajaxCall(2, cartID, function (response) {
-        //         subtotalCell.html('£ ' + response.unitPrice);
-        //         input.val(response.cart?.quantity);
-        //         subTotalDiv.html('£ ' + response.subTotalPrice);
-        //         deliveryDiv.html('£ ' + response.deliveryCharge);
-        //         grandTotalDiv.html('£ ' + response.grandTotalPrice);
-        //         button.prop('disabled', false);
-        //         loader.addClass('hidden');
-        //     });
-        // });
 
         // $('.remove-cart').on('click', function (e) {
         //     e.preventDefault();

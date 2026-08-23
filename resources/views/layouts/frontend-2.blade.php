@@ -17,12 +17,15 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/style-2.css?v=' . $v) }}">
+    <link rel="stylesheet" href="{{ asset('frontend/assets/css/custom.css?v=' . $v) }}">
 
-    <link rel="icon" type="image/png" href="{{ asset('frontend/assets/images/favicon/favicon-96x96.png') }}" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="{{ asset('frontend/assets/images/favicon/favicon.svg') }}" />
-    <link rel="shortcut icon" href="{{ asset('frontend/assets/images/favicon/favicon.ico') }}" />
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('frontend/assets/images/favicon/apple-touch-icon.png') }}" />
-    <link rel="manifest" href="{{ asset('frontend/assets/images/favicon/site.webmanifest') }}" />
+    <link rel="icon" type="image/png" href="{{ asset('frontend/assets/images/favicon/favicon-96x96.png') }}"
+          sizes="96x96"/>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('frontend/assets/images/favicon/favicon.svg') }}"/>
+    <link rel="shortcut icon" href="{{ asset('frontend/assets/images/favicon/favicon.ico') }}"/>
+    <link rel="apple-touch-icon" sizes="180x180"
+          href="{{ asset('frontend/assets/images/favicon/apple-touch-icon.png') }}"/>
+    <link rel="manifest" href="{{ asset('frontend/assets/images/favicon/site.webmanifest') }}"/>
 
     {{-- Standard SEO Meta Tags --}}
     <meta name="description" content="@yield('meta_description', $seo->meta_description ?? '')">
@@ -31,10 +34,10 @@
 
     {{-- Verification Tags --}}
     @if(!empty($seo->google_verification))
-        <meta name="google-site-verification" content="{{ $seo->google_verification }}" />
+        <meta name="google-site-verification" content="{{ $seo->google_verification }}"/>
     @endif
     @if(!empty($seo->bing_verification))
-        <meta name="msvalidate.01" content="{{ $seo->bing_verification }}" />
+        <meta name="msvalidate.01" content="{{ $seo->bing_verification }}"/>
     @endif
 
     {{-- Open Graph / Social Media --}}
@@ -47,7 +50,11 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-YDG4M0JY4F"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
         gtag('js', new Date());
 
         gtag('config', 'G-YDG4M0JY4F');
@@ -55,63 +62,71 @@
 </head>
 
 <body>
-    @include('layouts.frontend.header-2')
+@include('layouts.frontend.header-2')
 
-    @yield('content')
+@if(empty($settings))
+    <p class="blink-warning">
+        Site Settings is not up to date. Please update site settings
+    </p>
+@endif
 
 
-    @unless($hideFooter ?? false)
-        @include('layouts.frontend.footer-2')
-    @endunless
+@yield('content')
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Get Initials
-        function getInitials(name) {
-            const cleanName = name.trim().toUpperCase();
 
-            if (!cleanName) return '';
-            const words = cleanName.split(/\s+/);
+@unless($hideFooter ?? false)
+    @include('layouts.frontend.footer-2')
+@endunless
 
-            if (words.length >= 2) {
-                return words[0].charAt(0) + words[1].charAt(0);
-            } else {
-                return words[0].slice(0, 2);
-            }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Get Initials
+    function getInitials(name) {
+        const cleanName = name.trim().toUpperCase();
+
+        if (!cleanName) return '';
+        const words = cleanName.split(/\s+/);
+
+        if (words.length >= 2) {
+            return words[0].charAt(0) + words[1].charAt(0);
+        } else {
+            return words[0].slice(0, 2);
         }
-        document.addEventListener("DOMContentLoaded", function() {
-            const avatars = document.querySelectorAll('.testi-avatar[data-initial]');
+    }
 
-            avatars.forEach(avatar => {
-                const name = avatar.getAttribute('data-initial');
-                avatar.textContent = getInitials(name);
-            });
-        });
-        // Navbar shadow on scroll
-        const nav = document.getElementById('mainNav');
-        window.addEventListener('scroll', () => {
-            nav.classList.toggle('is-scrolled', window.scrollY > 12);
-        });
+    document.addEventListener("DOMContentLoaded", function () {
+        const avatars = document.querySelectorAll('.testi-avatar[data-initial]');
 
-        // Billing toggle (yearly / monthly)
-        function setBilling(mode) {
-            document.getElementById('yearlyBtn').classList.toggle('active', mode === 'yearly');
-            document.getElementById('monthlyBtn').classList.toggle('active', mode === 'monthly');
-            document.querySelectorAll('.price-display').forEach(el => {
-                el.textContent = mode === 'yearly' ? el.dataset.yearly : el.dataset.monthly;
-            });
-            document.querySelectorAll('.period-label').forEach(el => {
-                el.textContent = mode === 'yearly' ? 'yearly' : 'monthly';
-            });
-            document.querySelectorAll('.price-list .dynamic-value').forEach(el => {
-                el.textContent = mode === 'yearly' ? el.dataset.yearly : el.dataset.monthly;
-            });
-            document.querySelectorAll('.plan-link').forEach(el => {
-                el.href = mode === 'yearly' ? el.dataset.yearly : el.dataset.monthly;
-            });
-        }
-    </script>
-    @stack('js')
+        avatars.forEach(avatar => {
+            const name = avatar.getAttribute('data-initial');
+            avatar.textContent = getInitials(name);
+        });
+    });
+    // Navbar shadow on scroll
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('is-scrolled', window.scrollY > 12);
+    });
+
+    // Billing toggle (yearly / monthly)
+    function setBilling(mode) {
+        document.getElementById('yearlyBtn').classList.toggle('active', mode === 'yearly');
+        document.getElementById('monthlyBtn').classList.toggle('active', mode === 'monthly');
+        document.querySelectorAll('.price-display').forEach(el => {
+            el.textContent = mode === 'yearly' ? el.dataset.yearly : el.dataset.monthly;
+        });
+        document.querySelectorAll('.period-label').forEach(el => {
+            el.textContent = mode === 'yearly' ? 'yearly' : 'monthly';
+        });
+        document.querySelectorAll('.price-list .dynamic-value').forEach(el => {
+            el.textContent = mode === 'yearly' ? el.dataset.yearly : el.dataset.monthly;
+        });
+        document.querySelectorAll('.plan-link').forEach(el => {
+            el.href = mode === 'yearly' ? el.dataset.yearly : el.dataset.monthly;
+        });
+    }
+</script>
+@stack('js')
 </body>
 
 </html>

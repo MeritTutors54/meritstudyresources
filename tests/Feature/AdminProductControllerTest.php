@@ -9,10 +9,10 @@ use App\Models\Product;
 use App\Models\YearGroup;
 use Database\Seeders\AdminSeeder;
 use Database\Seeders\RoleSeeder;
+use Database\Seeders\SiteSettingsSeeder;
 use Database\Seeders\TeamSeeder;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 
 class AdminProductControllerTest extends TestCase
@@ -25,13 +25,13 @@ class AdminProductControllerTest extends TestCase
     {
         parent::setUp();
 
-        // Drops all tables and runs all migrations fresh before the test starts
-//        $this->artisan('migrate:fresh');
+//        Artisan::call('migrate:fresh');
 
         $this->seed([
             RoleSeeder::class,
             TeamSeeder::class,
             AdminSeeder::class,
+            SiteSettingsSeeder::class,
         ]);
 
         $this->admin = Admin::query()->first();
@@ -250,6 +250,8 @@ class AdminProductControllerTest extends TestCase
         \App\Models\ProductImage::truncate();
         Schema::enableForeignKeyConstraints();
 
+        Storage::disk('public')->deleteDirectory('products');
+
         $payload = [
             'title' => 'Advanced Mathematics Book',
             'book_variant_id' => 1,
@@ -286,9 +288,6 @@ class AdminProductControllerTest extends TestCase
 
     public function test_allow_only_authenticated_user_to_update_product()
     {
-        return;
-        Storage::fake('public');
-
         // 1. Seed an existing product
         $product = Product::query()->first();
 

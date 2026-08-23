@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('site_settings', function (Blueprint $table) {
-            $table->bigInteger('delivery_charge')->nullable()->after('google_map');
+            $table->integer('delivery_charge')->nullable()->after('google_map');
+            $table->string('currency', 10)->default('GBP')->after('google_map');
         });
     }
 

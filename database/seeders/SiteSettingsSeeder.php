@@ -12,12 +12,13 @@ class SiteSettingsSeeder extends Seeder
      */
     public function run(): void
     {
-        if (SiteSettings::query()->count() > 0) {
+        if (SiteSettings::query()->exists()) {
             return;
         }
 
         SiteSettings::query()->create([
-            'name' => 'Merit Tutors',
+            'name' => 'Merit Study Resource',
+            'delivery_charge' => 5,
         ]);
     }
 }

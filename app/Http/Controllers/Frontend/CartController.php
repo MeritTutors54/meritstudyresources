@@ -26,8 +26,6 @@ class CartController extends Controller
             $this->authorize('viewProductsSection', Auth::user());
         }
 
-        $siteSettings = SiteSettings::query()->first();
-
         $cartItems = Cart::query()
             ->with('product')
             ->where('user_id', Auth::id())
@@ -39,19 +37,12 @@ class CartController extends Controller
         $grandTotalPrice = MoneyService::convertToReadableMoney($grandTotalPriceObject);
         $deliveryCharge = MoneyService::convertToReadableMoney($deliveryChargeObject);
 
-
         return view('frontend.cart.index-2')
             ->with([
-                'siteSettings' => $siteSettings,
                 'cartItems' => $cartItems,
                 'subTotalPrice' => $subTotalPrice,
                 'grandTotalPrice' => $grandTotalPrice,
                 'deliveryCharge' => $deliveryCharge,
             ]);
-    }
-
-    public function addToCart(Request $request)
-    {
-
     }
 }

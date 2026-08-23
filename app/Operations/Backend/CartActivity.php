@@ -21,11 +21,16 @@ final class CartActivity
 
         $subTotalPriceObject = new Money(0, $currency);
 
+        if (empty($siteSettings)) {
+            return [$subTotalPriceObject, $subTotalPriceObject, $subTotalPriceObject];
+        }
+
         foreach ($cartItems as $item) {
             $subTotalPriceObject = $subTotalPriceObject->add($item->unit_price);
         }
 
         $systemDeliveryCharge = new Money(0, $currency);
+
         if ($siteSettings->delivery_charge != null) {
             $systemDeliveryCharge = $siteSettings->delivery_charge;
         }
