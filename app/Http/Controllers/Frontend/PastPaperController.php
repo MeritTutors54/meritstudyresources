@@ -77,11 +77,6 @@ class PastPaperController extends Controller
             ->where('is_deleted', 0)
             ->get();
 
-        // Group collection by Series (PastPaperYear)
-//        $groupedPapers = $pastPapers->groupBy(function ($paper) {
-//            return $paper->series ? $paper->series->name : 'Other Sessions';
-//        });
-
         $groupedPapers = $pastPapers
             ->groupBy(function ($paper) {
                 return $paper->series ? $paper->series->name : 'Other Sessions';
@@ -95,8 +90,15 @@ class PastPaperController extends Controller
                     $priority = 2;
                 }
 
-                // Sorts by series group priority first, then alphabetically/by year
-                return $priority . '_' . $seriesName;
+                // Extract the 4-digit year from the series name (e.g., 2025)
+                preg_match('/\b\d{4}\b/', $seriesName, $matches);
+                $year = isset($matches[0]) ? (int)$matches[0] : 0;
+
+                // Invert the year so higher years come first (e.g., 9999 - 2025 = 7974)
+                $invertedYear = 9999 - $year;
+
+                // Combines priority (asc) and inverted year (desc)
+                return $priority . '_' . $invertedYear . '_' . $seriesName;
             });
 
         // 3. Stats calculation

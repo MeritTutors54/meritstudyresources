@@ -49,12 +49,17 @@
     <section class="section-pad" style="padding-top:10px;">
         <div class="container">
             <div class="blog-cat-row mb-5" id="blogCats">
-                <button class="blog-cat-btn active" data-cat="all">All Articles</button>
-                <button class="blog-cat-btn" data-cat="exam-tips">Exam Tips</button>
-                <button class="blog-cat-btn" data-cat="revision">Revision</button>
-                <button class="blog-cat-btn" data-cat="subject-guides">Subject Guides</button>
-                <button class="blog-cat-btn" data-cat="study-skills">Study Skills</button>
-                <button class="blog-cat-btn" data-cat="school-news">School News</button>
+                <a href="{{ route('blogs') }}" class="blog-cat-btn {{ request()->routeIs('blogs') && !request()->has('category') ? 'active' : '' }}" >All Articles</a>
+                @if($categories->isNotEmpty())
+                    @foreach($categories as $category)
+                        @php
+                            $categoryActivator = $params['category'] ?? "";
+                        @endphp
+                        <a href="{{ route('blogs', ['category' => $category->slug]) }}"
+                           class="blog-cat-btn {{ request()->routeIs('blogs') && request()->has('category') && $categoryActivator === $category->slug ? 'active' : '' }}"
+                        >{{ $category->name }}</a>
+                    @endforeach
+                @endif
             </div>
 
             <div class="row g-4" id="blogGrid">

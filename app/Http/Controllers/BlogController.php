@@ -27,8 +27,8 @@ class BlogController extends Controller
             $this->authorize('viewBlogsSection', Auth::user());
         }
 
-        $p = $request->query('p');
-        $q = $request->query('q');
+        $p = $request->query('tag');
+        $q = $request->query('category');
 
         $blogs = Blogs::query()
             ->with(['category', 'author']);
@@ -68,6 +68,10 @@ class BlogController extends Controller
             ->take(5)
             ->get();
 
+        $categories = BlogCategory::query()
+            ->where('status', Status::ACTIVE->value)
+            ->get();
+
         $tags = Tag::query()
             ->get()
             ->take(2);
@@ -83,7 +87,12 @@ class BlogController extends Controller
                 'latestBlogs' => $latestBlogs,
                 'tags' => $tags,
                 'popularBlogs' => $popularBlogs,
-                'featured' => $featured
+                'featured' => $featured,
+                'categories' => $categories,
+                'params' => [
+                    'category' => $q,
+                    'tag' => $q,
+                ]
             ]);
     }
 

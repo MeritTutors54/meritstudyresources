@@ -26,7 +26,7 @@
     <!-- End Breadcrumb Area -->
 
 
-    <section class="section-pad" style="padding-top:40px;">
+    <section class="section-pad" style="padding-top:0;">
         <div class="container">
             <div class="d-flex flex-wrap gap-2 justify-content-center mb-5" id="faqCats">
                 <button class="faq-cat-btn active" data-cat="all">All</button>
@@ -38,19 +38,24 @@
             <div class="row justify-content-center">
                 <div class="col-lg-9">
                     <div class="accordion accordion-msr" id="faqAccordion">
-
                         @if(!empty($FAQs))
                             @foreach($FAQs as $k => $faq)
-                                <div class="accordion-item" data-cat="{{ !empty($faq->genre) ? $faq->genre->label() : "" }}">
+                                <div class="accordion-item" data-cat="{{ !empty($faq->genre) ? (is_object($faq->genre) ? $faq->genre->label() : $faq->genre) : '' }}">
                                     <h3 class="accordion-header">
-                                        <button class="accordion-button {{ $k == 0 ? '' : 'collapsed' }}" type="button" data-bs-toggle="collapse"
-                                                data-bs-target="#fq1">
+                                        <button class="accordion-button {{ $loop->first ? '' : 'collapsed' }}"
+                                                type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#fq-{{ $loop->iteration }}"
+                                                aria-expanded="{{ $loop->first ? 'true' : 'false' }}"
+                                                aria-controls="fq-{{ $loop->iteration }}">
                                             {{ $faq->question }}
                                         </button>
                                     </h3>
-                                    <div id="fq1" class="accordion-collapse collapse {{ $k == 0 ? 'show' : '' }}" data-bs-parent="#faqAccordion">
-                                        <div class="accordion-body">We cover AQA, Edexcel, OCR, Cambridge iGCSE and CIE, with
-                                            resources mapped to each board's own specification and grade boundaries.
+                                    <div id="fq-{{ $loop->iteration }}"
+                                         class="accordion-collapse collapse {{ $loop->first ? 'show' : '' }}"
+                                         data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            {!! $faq->answer !!}
                                         </div>
                                     </div>
                                 </div>
@@ -70,38 +75,60 @@
 @endsection
 @push('js')
     <script>
-        document.querySelectorAll('.faq-cat-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.faq-cat-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                const cat = btn.dataset.cat;
-                document.querySelectorAll('#faqAccordion .accordion-item').forEach(item => {
-                    item.style.display = (cat === 'all' || item.dataset.cat === cat) ? '' : 'none';
+        document.addEventListener('DOMContentLoaded', () => {
+            const catButtons = document.querySelectorAll('.faq-cat-btn');
+            const faqInput = document.getElementById('faqSearchInput');
+            const items = document.querySelectorAll('#faqAccordion .accordion-item');
+            const noResults = document.getElementById('faqNoResults');
+
+            let activeCategory = 'all';
+
+            function applyFilters() {
+                const searchTerm = faqInput.value.trim().toLowerCase();
+                let visibleCount = 0;
+
+                items.forEach(item => {
+                    const itemCat = (item.dataset.cat || '').trim();
+                    const itemText = item.textContent.toLowerCase();
+
+                    // Check Category Match
+                    const matchesCategory = (activeCategory === 'all' || itemCat === activeCategory);
+
+                    // Check Search Query Match
+                    const matchesSearch = (searchTerm === '' || itemText.includes(searchTerm));
+
+                    if (matchesCategory && matchesSearch) {
+                        item.style.display = '';
+                        visibleCount++;
+                    } else {
+                        item.style.display = 'none';
+                        // Auto-collapse hidden items so open states don't conflict
+                        const collapseEl = item.querySelector('.accordion-collapse');
+                        if (collapseEl && collapseEl.classList.contains('show')) {
+                            bootstrap.Collapse.getInstance(collapseEl)?.hide();
+                        }
+                    }
                 });
-                filterFaqSearch();
+
+                // Toggle "No Results" notice
+                noResults.classList.toggle('d-none', visibleCount !== 0);
+            }
+
+            // Tab button click listener
+            catButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    catButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    activeCategory = btn.dataset.cat;
+                    applyFilters();
+                });
             });
+
+            // Search input listener
+            faqInput.addEventListener('input', applyFilters);
+
+            // Run initial filter on load
+            applyFilters();
         });
-
-        // FAQ live search
-        const faqInput = document.getElementById('faqSearchInput');
-
-        function filterFaqSearch() {
-            const term = faqInput.value.trim().toLowerCase();
-            let visibleCount = 0;
-
-            document.querySelectorAll('#faqAccordion .accordion-item').forEach(item => {
-                // Removed: if(item.style.display === 'none') return;
-
-                const text = item.textContent.toLowerCase();
-                const match = term === '' || text.includes(term);
-
-                item.style.display = match ? '' : 'none';
-                if (match) visibleCount++;
-            });
-
-            document.getElementById('faqNoResults').classList.toggle('d-none', visibleCount !== 0);
-        }
-
-        faqInput.addEventListener('input', filterFaqSearch);
     </script>
 @endpush

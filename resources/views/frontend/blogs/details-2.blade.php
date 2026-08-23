@@ -13,9 +13,9 @@
                 <a href="{{ route('home') }}">Home</a>
                 &nbsp;/&nbsp;
                 <a href="{{ route('blogs') }}">Blog</a>
-                &nbsp;/&nbsp; Exam Tips
+                &nbsp;/&nbsp; {{ $blog->title }}
             </div>
-            <span class="article-cat-badge">Exam Tips</span>
+            <span class="article-cat-badge">{{ $blog->category->name }}</span>
             <h1>{{ $blog->title }}</h1>
 
             <div class="article-meta-row">
@@ -45,7 +45,14 @@
             </div>
         </div>
     </header>
-
+    <div class="container">
+        <a href="{{ url()->previous() }}" class="back-btn">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            <span>Back</span>
+        </a>
+    </div>
     <!-- ============================= COVER + CONTENT ============================= -->
     <section class="section-pad" style="padding-top:36px;">
         <div class="container">
@@ -54,12 +61,11 @@
                 <img src="{{ asset(Storage::url($blog->cover_image)) }}"
                      alt="{{ $blog->title }}"
                      class="img-fluid blog-img">
-
                 {{-- Positioned badge overlaid on top of the image --}}
                 <span class="fp-badge"
                       style="position: absolute; top: 46px; left: 46px; z-index: 2; background: rgb(52 168 28 / 0.81); backdrop-filter: blur(4px); font-size: .72rem; font-weight: 700; padding: 6px 14px; border-radius: 20px; color: #ececec;">
-        Science Revision
-    </span>
+                        {{ $blog->category->name }}
+                </span>
             </div>
 
             <div class="row mt-5 gy-5">
