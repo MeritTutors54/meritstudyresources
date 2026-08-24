@@ -98,7 +98,7 @@
                                         stroke-width="1.6" stroke-linejoin="round" />
                                 </svg></span>
                             <div>
-                                <div class="fw-bold font-mono" style="font-size:.95rem;">7,689+</div>
+                                <div class="fw-bold font-mono" style="font-size:.95rem;">{{ number_format($pastPaperCount ?? 0) }}+</div>
                                 <div class="small text-muted-c">Past Papers</div>
                             </div>
                         </div>
@@ -163,7 +163,7 @@
                             <path d="M6 4h9l5 5v11H6z" stroke="currentColor" stroke-width="1.6"
                                 stroke-linejoin="round" />
                         </svg></div>
-                    <div class="stat-num font-mono">7,689+</div>
+                    <div class="stat-num font-mono">{{ number_format($pastPaperCount ?? 0) }}+</div>
                     <div class="stat-label">Past Papers</div>
                 </div>
                 <div class="col-6 col-lg-3 stat-col">

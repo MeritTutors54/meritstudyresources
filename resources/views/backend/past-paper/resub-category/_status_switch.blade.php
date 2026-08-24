@@ -2,7 +2,7 @@
     @can('editPastPaper', Auth::user())
         <label class="switch">
             <input type="checkbox" class="statusSwitch" data-id="{{ $data->id }}"
-                id="togProp-{{ $data->id }}" {{ $checked }}>
+                   id="togProp-{{ $data->id }}" {{ $data->is_active == 1 ? "checked" : "" }}>
             <div class="slider round">
                 <span class="on">Active</span>
                 <span class="off">Inactive</span>
