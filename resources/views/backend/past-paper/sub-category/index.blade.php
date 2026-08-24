@@ -30,7 +30,6 @@
                             @include('layouts.backend.notification')
                             <div class="box-header with-border">
                                 <div class="d-flex align-items-center">
-                                    <h3 class="box-title">Data Table</h3>
                                     @can('createPastPaperSubcategory', Auth::user())
                                         <a href="{{ route('admin.sub-categories.create') }}"
                                            class="ms-auto waves-effect waves-light btn btn-primary">
@@ -74,20 +73,25 @@
     <script src="{{ asset('backend/assets/js/pages/data-table.js') }}"></script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#sub-category-table').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: '{{ route('admin.ajax.table.getSubCategory') }}',
 
                 columns: [
-                    // Matches DT_RowIndex from addIndexColumn()
-                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-                    { data: 'subcategory_name', name: 'subcategory_name' },
-                    { data: 'most_popular', name: 'most_popular', orderable: false, searchable: false, className: 'text-center' },
-                    { data: 'category_name', name: 'category.category_name', className: 'text-center' },
-                    { data: 'status', name: 'status', orderable: false, searchable: false, className: 'text-center' },
-                    { data: 'manage', name: 'manage', orderable: false, searchable: false, className: 'text-center' },
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
+                    {data: 'subcategory_name', name: 'subcategory_name', searchable: true},
+                    {
+                        data: 'most_popular',
+                        name: 'most_popular',
+                        orderable: false,
+                        searchable: false,
+                        className: 'text-center'
+                    },
+                    {data: 'category_name', name: 'category.category_name', className: 'text-center'},
+                    {data: 'status', name: 'status', orderable: false, searchable: false, className: 'text-center'},
+                    {data: 'manage', name: 'manage', orderable: false, searchable: false, className: 'text-center'},
                 ],
 
                 dom: 'Blfrtip',
@@ -101,25 +105,16 @@
         });
     </script>
 
-{{--    <script>--}}
-{{--        $('#').DataTable({--}}
-{{--            lengthMenu: [--}}
-{{--                [10, 25, 50, 100, -1],--}}
-{{--                [10, 25, 50, 100, "All"]--}}
-{{--            ],--}}
-{{--            pageLength: 10--}}
-{{--        });--}}
-{{--    </script>--}}
     <script>
-        $('.dltButton').on('click', function () {
+        const dataTable = $('#sub-category-table');
+
+        dataTable.on('click', '.dltButton', function () {
             let name = $(this).data('name');
             let url = $(this).data('route');
             $('#set-action').attr('action', url);
             $('#element-name').html(name);
             $('#dltModal').modal('show');
         });
-
-        const dataTable = $('#sub-category-table');
 
         dataTable.on('change', '.subjectSwitch', function () {
             let checkbox = $(this);

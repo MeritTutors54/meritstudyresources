@@ -363,9 +363,6 @@ class AjaxController extends Controller
 
         return DataTables::eloquent($allData)
             ->addIndexColumn()
-            ->addColumn('subcategory_name', function ($row) {
-                return $row->subcategory_name ?? '';
-            })
             ->addColumn('most_popular', function ($row) {
                 $data = $row;
                 return view('backend.past-paper.sub-category._most_popular_switch', compact('data'))->render();
@@ -381,6 +378,32 @@ class AjaxController extends Controller
                 return view('backend.past-paper.sub-category._manage_section', compact('data'))->render();
             })
             ->rawColumns(['most_popular', 'status', 'manage'])
+            ->toJson();
+    }
+
+    public function resubcategoryData()
+    {
+        $allData = Resubcategory::query()
+            ->with(['category', 'subcategory', 'pastPapers'])
+            ->where('is_deleted', 0)
+            ->orderBy('resubcategory_name', 'asc');
+
+        return DataTables::eloquent($allData)
+            ->addIndexColumn()
+            ->addColumn('category_name', function ($row) {
+                return $row->category->category_name ?? '';
+            })
+            ->addColumn('subcategory_name', function ($row) {
+                return $row->subcategory->subcategory_name ?? '';
+            })
+            ->addColumn('status', function ($row) {
+                $data = $row;
+                return view('backend.past-paper.resub-category._status_switch', compact('data'))->render();
+            })
+            ->addColumn('manage', function ($data) {
+                return view('backend.past-paper.resub-category._manage_section', compact('data'))->render();
+            })
+            ->rawColumns(['status', 'manage'])
             ->toJson();
     }
 

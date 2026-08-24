@@ -71,7 +71,8 @@ class FrontendController extends Controller
             ->where('page_title', SEOPage::HOME->value)
             ->first();
 
-//        dd($defaultSEO);
+        $pastPaperCount = PastPaper::query()
+            ->where('is_active', 1)->count();
 
         return view('frontend.home.index-2')
             ->with([
@@ -81,6 +82,7 @@ class FrontendController extends Controller
                 'counter' => $counter,
                 'testimonials' => $testimonials,
                 'faqs' => $faqs,
+                'pastPaperCount' => $pastPaperCount,
             ]);
     }
 

@@ -29,77 +29,30 @@
                             @include('layouts.backend.notification')
                             <div class="box-header with-border">
                                 <div class="d-flex align-items-center">
-                                    <h3 class="box-title">Data Table</h3>
                                     @can('createPastPaperResubcategory', Auth::user())
                                         <a href="{{ route('admin.resub-categories.create') }}"
                                            class="ms-auto waves-effect waves-light btn btn-primary">
                                             <i class="fa fa-plus-square-o" aria-hidden="true"></i>
-                                            <span class="ms-2">
-                                            Create New
-                                        </span>
+                                            <span class="ms-2">Create New</span>
                                         </a>
                                     @endcan
                                 </div>
                             </div>
                             <div class="box-body">
                                 <div class="table-responsive">
-                                    <table id="example1" class="table table-bordered table-striped">
+                                    <table id="resub-category-table" class="table table-bordered table-striped">
                                         <thead>
                                         <tr>
                                             <th>#</th>
                                             <th>ReSubCategory Name</th>
                                             <th>Category Name</th>
-                                            <th>SubCategory Name - Uint Code</th>
+                                            <th>SubCategory Name</th>
+                                            <th>Unit Code</th>
                                             <th class="text-center">Status</th>
                                             <th class="text-center">Manage</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach($allData as $key => $data)
-                                            <tr>
-                                                <td>{{ ++$key }}</td>
-                                                <td>{{ $data->resubcategory_name }}</td>
-                                                <td>{{ $data->category->category_name ?? '' }}</td>
-                                                <td>{{ $data->subcategory->subcategory_name ?? '' }}
-                                                    - {{ $data->unit_code }}</td>
-                                                <td class="text-center">
-                                                    @can('editPastPaperResubcategory')
-                                                    <label class="switch">
-                                                        <input type="checkbox" class="statusSwitch" id="togProp-{{$data->id}}"
-                                                               data-id="{{ $data->id }}"
-                                                            {{$data->is_active == 1 ? "checked" : ""}}>
-                                                        <div class="slider round"><!--ADDED HTML -->
-                                                            <span class="on">Active</span>
-                                                            <span class="off">Inactive</span><!--END-->
-                                                        </div>
-                                                    </label>
-                                                    @else
-                                                        @if($data->is_active == \App\Enums\Status::ACTIVE->value)
-                                                            <span class="badge badge-success font-weight-bold">Active</span>
-                                                        @else
-                                                            <span
-                                                                class="badge badge-danger text-white">Inactive</span>
-                                                        @endif
-                                                    @endcan
-                                                </td>
-
-                                                <td class="text-center">
-                                                    @can('editPastPaperResubcategory')
-                                                        <a href="{{ route('admin.resub-categories.edit', [$data]) }}">
-                                                            <i class="fa fa-edit" aria-hidden="true"></i>
-                                                        </a>
-                                                    @endcan
-                                                    @can('deletePastPaperResubcategory')
-                                                        <button type="button"
-                                                                data-route="{{ route('admin.resub-categories.destroy', [$data]) }}"
-                                                                data-name="{{ $data->resubcategory_name }}"
-                                                                class="dltButton btn bg-transparent p-0 ms-2">
-                                                            <i class="fa fa-trash-o text-danger" aria-hidden="true"></i>
-                                                        </button>
-                                                    @endcan
-                                                </td>
-                                            </tr>
-                                        @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -111,62 +64,77 @@
             </section>
         </div>
     </div>
-
 @endsection
+
 @section('js')
     <script src="{{ asset('backend/assets/vendor_components/datatable/datatables.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/pages/data-table.js') }}"></script>
+
     <script>
-        $('#example1').DataTable({
-            lengthMenu: [
-                [10, 25, 50, 100, -1],
-                [10, 25, 50, 100, "All"]
-            ],
-            pageLength: 10
-        });
-    </script>
-    <script>
-        $('.dltButton').on('click', function () {
-            let name = $(this).data('name');
-            let url = $(this).data('route');
-            $('#set-action').attr('action', url);
-            $('#element-name').html(name);
-            $('#dltModal').modal('show');
-        });
+        $(document).ready(function() {
+            const table = $('#resub-category-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('admin.ajax.table.getReSubCategory') }}',
+                columns: [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    { data: 'resubcategory_name', name: 'resubcategory_name', searchable: true },
+                    { data: 'category_name', name: 'category.category_name' },
+                    { data: 'subcategory_name', name: 'subcategory.subcategory_name' },
+                    { data: 'unit_code', name: 'unit_code' },
+                    { data: 'status', name: 'status', orderable: false, searchable: false, className: 'text-center' },
+                    { data: 'manage', name: 'manage', orderable: false, searchable: false, className: 'text-center' },
+                ],
+                dom: 'Blfrtip',
+                buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+                lengthMenu: [
+                    [10, 25, 50, 100, -1],
+                    [10, 25, 50, 100, "All"]
+                ],
+                pageLength: 10
+            });
 
-        $('#example1').on('change', '.statusSwitch', function () {
-            let checkbox = $(this);
-            $(".statusSwitch").prop('disabled', true);
-            let categoryID = $(this).data('id');
+            // Delegate delete button click for AJAX-loaded rows
+            $('#resub-category-table').on('click', '.dltButton', function () {
+                let name = $(this).data('name');
+                let url = $(this).data('route');
+                $('#set-action').attr('action', url);
+                $('#element-name').html(name);
+                $('#dltModal').modal('show');
+            });
 
-            // Save previous state BEFORE sending request
-            let previousState = !checkbox.is(':checked');
+            // Status Switch Handler
+            $('#resub-category-table').on('change', '.statusSwitch', function () {
+                let checkbox = $(this);
+                $(".statusSwitch").prop('disabled', true);
+                let categoryID = $(this).data('id');
+                let previousState = !checkbox.is(':checked');
 
-            $.ajax({
-                url: '{{ route('admin.ajax.updateStatus') }}',
-                type: "post",
-                dataType: 'json',
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    category_id: categoryID,
-                    model: "Resubcategory",
-                    column: "is_active"
-                },
-                success: function (response) {
-                    if (response.success) {
-                        // Handle successful login
-                        Swal.fire({
-                            title: 'Success!',
-                            text: response.message,
-                            icon: 'success',
-                            customClass: 'swal-wide',
-                        })
-                    }
-                    $(".statusSwitch").prop('disabled', false);
-                },
-                error: function (error) {
-                    if (error.status === 500) {
-                        let message = error.responseJSON.message;
+                $.ajax({
+                    url: '{{ route('admin.ajax.updateStatus') }}',
+                    type: "post",
+                    dataType: 'json',
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        category_id: categoryID,
+                        model: "Resubcategory",
+                        column: "is_active"
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            Swal.fire({
+                                title: 'Success!',
+                                text: response.message,
+                                icon: 'success',
+                                customClass: 'swal-wide',
+                            });
+                        }
+                        $(".statusSwitch").prop('disabled', false);
+                    },
+                    error: function (error) {
+                        let message = (error.status === 500 && error.responseJSON)
+                            ? error.responseJSON.message
+                            : "An error occurred. Please try again.";
 
                         Swal.fire({
                             title: 'Error!',
@@ -174,33 +142,13 @@
                             icon: 'error',
                             customClass: 'swal-wide',
                             confirmButtonText: 'Close'
-                        })
-                    } else {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: "An error occurred. Please try again.",
-                            icon: 'error',
-                            customClass: 'swal-wide',
-                            confirmButtonText: 'Close'
-                        })
+                        });
+
+                        checkbox.prop('checked', previousState);
+                        $(".statusSwitch").prop('disabled', false);
                     }
-                    checkbox.prop('checked', previousState);
-                    $(".statusSwitch").prop('disabled', false);
-
-                }
+                });
             });
-
-        })
+        });
     </script>
 @endsection
-
-
-
-
-
-
-
-
-
-
-
