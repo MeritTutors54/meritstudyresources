@@ -33,7 +33,6 @@ class CheckoutController extends Controller
 
     public function checkout(Request $request): RedirectResponse|View
     {
-
         $cartItems = Cart::query()
             ->where('user_id', Auth::id())
             ->get();
@@ -48,7 +47,6 @@ class CheckoutController extends Controller
         $subTotalPrice = MoneyService::convertToReadableMoney($subTotalPriceObject);
         $grandTotalPrice = MoneyService::convertToReadableMoney($grandTotalPriceObject);
         $deliveryCharge = MoneyService::convertToReadableMoney($deliveryChargeObject);
-
 
         return view('frontend.checkout.index-2')
             ->with([

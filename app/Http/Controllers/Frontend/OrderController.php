@@ -61,6 +61,7 @@ class OrderController extends Controller
             ]);
         }
 
+        // Processing the DB operation for completing order
         DB::beginTransaction();
         try {
             $order = Order::query()->create($request->all());

@@ -150,15 +150,15 @@ Route::group(['middleware' => 'team.permission'], function () {
        | Cart Section
        |--------------------------------------------------------------------------
        */
-        Route::get('/view-cart', [CartController::class, 'index'])->name('view.cart');
-        Route::get('/order-checkout', [CheckoutController::class, 'checkout'])->name('user.order.checkout');
+        Route::get('/cart', [CartController::class, 'index'])->name('view.cart');
+        Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('user.order.checkout');
 
         /*
         |--------------------------------------------------------------------------
         | Order Section
         |--------------------------------------------------------------------------
         */
-        Route::post('/order-payment', [OrderController::class, 'store'])->name('user.process.to.payment');
+        Route::post('/payment', [OrderController::class, 'store'])->name('user.process.to.payment');
         Route::get('/complete-payment/{invoice}', [OrderController::class, 'payment'])
             ->name('user.complete.payment');
         Route::post('/complete-payment/{invoice}', [OrderController::class, 'complete']);
