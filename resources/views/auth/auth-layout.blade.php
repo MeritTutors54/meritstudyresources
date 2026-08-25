@@ -12,6 +12,12 @@
         rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
 
+    <link rel="icon" type="image/png" href="{{ asset('frontend/assets/images/favicon/favicon-96x96.png') }}" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="{{ asset('frontend/assets/images/favicon/favicon.svg') }}" />
+    <link rel="shortcut icon" href="{{ asset('frontend/assets/images/favicon/favicon.ico') }}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('frontend/assets/images/favicon/apple-touch-icon.png') }}" />
+    <link rel="manifest" href="{{ asset('frontend/assets/images/favicon/site.webmanifest') }}" />
+
     <link href="{{ asset('frontend/assets/css/auth-style-2.css') }}" rel="stylesheet">
     <style>
         .new-logo {
