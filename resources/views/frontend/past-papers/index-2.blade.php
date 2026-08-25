@@ -25,128 +25,8 @@
                     <div id="searchResultsList" class="search-results-list"></div>
                 </div>
             </div>
-
-            {{--            <div class="pp-quickstats">--}}
-            {{--                <div class="pp-quickstat">--}}
-            {{--                    <span class="qs-ico">--}}
-            {{--                        <svg viewBox="0 0 24 24" fill="none">--}}
-            {{--                            <path d="M6 4h9l5 5v11H6z"--}}
-            {{--                                  stroke="currentColor" stroke-width="1.6"--}}
-            {{--                                  stroke-linejoin="round"/>--}}
-            {{--                        </svg>--}}
-            {{--                    </span>--}}
-            {{--                    <div>--}}
-            {{--                        <div class="qs-num">7,689+</div>--}}
-            {{--                        <div class="qs-label">Past Papers</div>--}}
-            {{--                    </div>--}}
-            {{--                </div>--}}
-            {{--                <div class="pp-quickstat">--}}
-            {{--                <span class="qs-ico"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16"--}}
-            {{--                                                                                rx="3" stroke="currentColor"--}}
-            {{--                                                                                stroke-width="1.6"/><path--}}
-            {{--                            d="M8 4v16M4 9h16" stroke="currentColor" stroke-width="1.6"/></svg></span>--}}
-            {{--                    <div>--}}
-            {{--                        <div class="qs-num">80+</div>--}}
-            {{--                        <div class="qs-label">Subjects Covered</div>--}}
-            {{--                    </div>--}}
-            {{--                </div>--}}
-            {{--                <div class="pp-quickstat">--}}
-            {{--                <span class="qs-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor"--}}
-            {{--                                                                                stroke-width="1.8"--}}
-            {{--                                                                                stroke-linecap="round"--}}
-            {{--                                                                                stroke-linejoin="round"/></svg></span>--}}
-            {{--                    <div>--}}
-            {{--                        <div class="qs-num">5</div>--}}
-            {{--                        <div class="qs-label">Exam Boards</div>--}}
-            {{--                    </div>--}}
-            {{--                </div>--}}
-            {{--                <div class="pp-quickstat">--}}
-            {{--                <span class="qs-ico"><svg viewBox="0 0 24 24" fill="none"><path--}}
-            {{--                            d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z" stroke="currentColor"--}}
-            {{--                            stroke-width="1.6" stroke-linejoin="round"/></svg></span>--}}
-            {{--                    <div>--}}
-            {{--                        <div class="qs-num">Every paper</div>--}}
-            {{--                        <div class="qs-label">Includes Mark Scheme</div>--}}
-            {{--                    </div>--}}
-            {{--                </div>--}}
-            {{--            </div>--}}
         </div>
     </header>
-
-    <!-- ============================= POPULAR SUBJECTS ============================= -->
-    {{--    <section class="section-pad" style="padding-top:44px;padding-bottom:20px;">--}}
-    {{--        <div class="container">--}}
-    {{--            <div class="d-flex justify-content-between align-items-end mb-4">--}}
-    {{--                <div>--}}
-    {{--                    <span class="eyebrow"><span class="divider-dot"></span> QUICK PICKS</span>--}}
-    {{--                    <h2 class="mt-3 mb-0" style="font-size:1.5rem;">Most searched subjects</h2>--}}
-    {{--                </div>--}}
-    {{--            </div>--}}
-    {{--            <div class="row g-4">--}}
-    {{--                <div class="col-6 col-lg-3">--}}
-    {{--                    <a href="#" class="pp-quickpick text-decoration-none">--}}
-    {{--                        <div class="pp-quickpick-top thumb-green">--}}
-    {{--                            <svg viewBox="0 0 24 24" fill="none">--}}
-    {{--                                <circle cx="9" cy="8" r="3" stroke="#fff" stroke-width="1.6"/>--}}
-    {{--                                <path d="M3 19c0-3 2.7-5 6-5s6 2 6 5" stroke="#fff" stroke-width="1.6"--}}
-    {{--                                      stroke-linecap="round"/>--}}
-    {{--                                <path d="M15 4c2 0 4 1.7 4 4s-2 4-4 4" stroke="#fff" stroke-width="1.6"--}}
-    {{--                                      stroke-linecap="round"/>--}}
-    {{--                            </svg>--}}
-    {{--                        </div>--}}
-    {{--                        <div class="pp-quickpick-body">--}}
-    {{--                            <h3>Biology</h3>--}}
-    {{--                            <p>AQA · Edexcel · OCR + 2 more</p>--}}
-    {{--                        </div>--}}
-    {{--                    </a>--}}
-    {{--                </div>--}}
-    {{--                <div class="col-6 col-lg-3">--}}
-    {{--                    <a href="#" class="pp-quickpick text-decoration-none">--}}
-    {{--                        <div class="pp-quickpick-top thumb-blue">--}}
-    {{--                            <svg viewBox="0 0 24 24" fill="none">--}}
-    {{--                                <path d="M9 3v6l-5 9a2 2 0 001.8 3h12.4a2 2 0 001.8-3l-5-9V3" stroke="#fff"--}}
-    {{--                                      stroke-width="1.6" stroke-linejoin="round"/>--}}
-    {{--                                <path d="M7 3h10" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>--}}
-    {{--                            </svg>--}}
-    {{--                        </div>--}}
-    {{--                        <div class="pp-quickpick-body">--}}
-    {{--                            <h3>Chemistry</h3>--}}
-    {{--                            <p>AQA · Edexcel · OCR A/B</p>--}}
-    {{--                        </div>--}}
-    {{--                    </a>--}}
-    {{--                </div>--}}
-    {{--                <div class="col-6 col-lg-3">--}}
-    {{--                    <a href="#" class="pp-quickpick text-decoration-none">--}}
-    {{--                        <div class="pp-quickpick-top thumb-amber">--}}
-    {{--                            <svg viewBox="0 0 24 24" fill="none">--}}
-    {{--                                <path d="M4 19h16M7 15V9M12 15V5M17 15v-7" stroke="#fff" stroke-width="1.8"--}}
-    {{--                                      stroke-linecap="round"/>--}}
-    {{--                            </svg>--}}
-    {{--                        </div>--}}
-    {{--                        <div class="pp-quickpick-body">--}}
-    {{--                            <h3>Mathematics</h3>--}}
-    {{--                            <p>AQA · Edexcel · OCR + Stats</p>--}}
-    {{--                        </div>--}}
-    {{--                    </a>--}}
-    {{--                </div>--}}
-    {{--                <div class="col-6 col-lg-3">--}}
-    {{--                    <a href="#" class="pp-quickpick text-decoration-none">--}}
-    {{--                        <div class="pp-quickpick-top thumb-violet">--}}
-    {{--                            <svg viewBox="0 0 24 24" fill="none">--}}
-    {{--                                <circle cx="12" cy="12" r="8" stroke="#fff" stroke-width="1.6"/>--}}
-    {{--                                <path d="M8 12a4 4 0 018 0" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>--}}
-    {{--                                <circle cx="12" cy="9" r="1.4" fill="#fff"/>--}}
-    {{--                            </svg>--}}
-    {{--                        </div>--}}
-    {{--                        <div class="pp-quickpick-body">--}}
-    {{--                            <h3>Physics</h3>--}}
-    {{--                            <p>AQA · Edexcel · OCR A/B</p>--}}
-    {{--                        </div>--}}
-    {{--                    </a>--}}
-    {{--                </div>--}}
-    {{--            </div>--}}
-    {{--        </div>--}}
-    {{--    </section>--}}
 
     <!-- ============================= MAIN CONTENT ============================= -->
     <section class="section-pad" style="padding-top:24px;">
@@ -154,12 +34,12 @@
             <div class="row gy-4">
 
                 <!-- SIDEBAR -->
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                     @include('frontend.past-papers._sidebar')
                 </div>
 
                 <!-- SUBJECT GRID -->
-                <div class="col-lg-9">
+                <div class="col-lg-8">
                     <div id="ppNoResults" class="pp-no-results">
                         <svg viewBox="0 0 24 24" fill="none" width="40" height="40"
                              style="color:var(--muted);margin-bottom:14px;">
@@ -430,6 +310,30 @@
                 // Toggle the clicked pill
                 currentPill.classList.toggle('expanded');
             }
+        });
+    </script>
+    <script>
+        document.querySelectorAll('.title-scope-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                const targetId = button.getAttribute('data-target');
+                const targetElement = document.getElementById(targetId);
+
+                console.log(targetId, targetElement)
+
+                if (!targetElement) return;
+
+                // Check whether it is currently hidden
+                const isHidden = window.getComputedStyle(targetElement).display === 'none';
+                console.log(isHidden);
+
+                // Toggle display: show if hidden, hide if visible
+                targetElement.style.display = isHidden ? 'block' : 'none';
+
+                // Toggle active class on the button
+                button.classList.toggle('active', isHidden);
+            });
         });
     </script>
 @endpush

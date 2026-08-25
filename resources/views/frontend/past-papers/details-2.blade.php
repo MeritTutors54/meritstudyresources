@@ -21,17 +21,32 @@
                         {{ strtoupper($subcategory->subcategory_name) }}
                         ({{ $resubcategory->unit_code }})
                         <span class="text-green">Past Papers</span></h1>
-                    <p class="pl-sub mb-0">Full past papers and mark schemes for
-                        {{ $resubcategory->resubcategory_name }}
-                        {{ $category->category_name }} {{ $subcategory->subcategory_name }}, sorted by exam
-                        session.</p>
+                    <div class="custom-accordion">
+                        <div class="accordion-header">
+                            <span class="header-title">
+                                <svg class="eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                                View Description
+                                 <svg class="accordion-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </span>
+                            <span class="pl-board-chip">
+                                <svg viewBox="0 0 24 24" fill="none">
+                                    <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+                                </svg>
+                                Exam Board: {{ $resubcategory->resubcategory_name ?? "n/a" }}
+                            </span>
+                        </div>
+                        <div class="accordion-content pl-sub mb-0">
+                            {!! $resubcategory->description !!}
+                        </div>
+                    </div>
                 </div>
-                <span class="pl-board-chip">
-                    <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
-                    </svg>
-                    Exam Board: {{ $resubcategory->resubcategory_name ?? "n/a" }}
-                </span>
             </div>
             <nav class="breadcrumb-pill-row">
                 <svg viewBox="0 0 24 24" fill="none">
@@ -478,5 +493,28 @@
                 });
             }
         });
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const accordions = document.querySelectorAll('.custom-accordion');
+
+            accordions.forEach(accordion => {
+                const header = accordion.querySelector('.accordion-header');
+                const content = accordion.querySelector('.accordion-content');
+
+                header.addEventListener('click', () => {
+                    const isOpen = accordion.classList.contains('active');
+
+                    if (isOpen) {
+                        accordion.classList.remove('active');
+                        content.style.maxHeight = null;
+                    } else {
+                        accordion.classList.add('active');
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    }
+                });
+            });
+        });
+
     </script>
 @endpush
