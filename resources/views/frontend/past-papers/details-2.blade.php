@@ -25,20 +25,23 @@
                         <div class="custom-accordion">
                             <div class="accordion-header">
                             <span class="header-title">
-                                <svg class="eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                <svg class="eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                     stroke="currentColor"
                                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                     <circle cx="12" cy="12" r="3"></circle>
                                 </svg>
                                 View Description
                                  <svg class="accordion-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                      stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                      stroke-linejoin="round">
                                     <polyline points="6 9 12 15 18 9"></polyline>
                                 </svg>
                             </span>
                                 <span class="pl-board-chip">
                                 <svg viewBox="0 0 24 24" fill="none">
-                                    <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+                                    <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.2"
+                                          stroke-linecap="round"/>
                                 </svg>
                                 Exam Board: {{ $resubcategory->resubcategory_name ?? "n/a" }}
                             </span>
@@ -207,12 +210,13 @@
                     <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
                         <div class="papers-tab-row mb-0" id="paperTabs">
                             <button class="papers-tab-btn active" data-filter="all-paper">All Papers</button>
-                            @foreach($paperGroups as $key => $paper)
+                            {{-- Dynamic paper names --}}
+                            @foreach($groupedPapersWithNames as $paper_name => $paper_series)
                                 @php
-                                    $anotherPaperSlug =  strtolower(str_replace(' ', '-', $paper));
+                                    $dynamicPaperTitleId =  strtolower(str_replace(' ', '-', $paper_name)) ."-accordion";
                                 @endphp
-                                <button class="papers-tab-btn" data-filter="{{ $anotherPaperSlug }}-{{ $key }}">
-                                    {{ $paper }}
+                                <button class="papers-tab-btn" data-filter="{{ $dynamicPaperTitleId }}">
+                                    {{ $paper_name }}
                                 </button>
                             @endforeach
                         </div>
@@ -293,19 +297,19 @@
                                 @endforeach
                             @endif
                         </div>
-                        @foreach($paperGroups as $key => $paperTitle)
+                        @foreach($groupedPapersWithNames as $paper_name_again => $paper_series_again)
                             @php
-                                $anotherPaperSlugInBottom = strtolower(str_replace(' ', '-', $paperTitle));
+                                $dynamicPaperTitleIdAgain = strtolower(str_replace(' ', '-', $paper_name_again)) ."-accordion";
                             @endphp
-                            <div class="tab-view d-none" id="{{ $anotherPaperSlugInBottom }}-{{ $key }}">
-                                @if($groupedPapers->isNotEmpty())
-                                    @foreach($groupedPapers as $series => $past_papers)
+                            <div class="tab-view d-none" id="{{ $dynamicPaperTitleIdAgain }}">
+                                @if($paper_series_again->isNotEmpty())
+                                    @foreach($paper_series_again as $series => $past_papers)
                                         @if($past_papers->isNotEmpty())
                                             @php
                                                 $anotherSeriesSlug = strtolower(str_replace(' ', '-', $series));
-
-                                                $finalSlug = $anotherPaperSlugInBottom . '-' . $key . '-' . $anotherSeriesSlug;
+                                                $finalSlug = $dynamicPaperTitleIdAgain.'-'.$anotherSeriesSlug;
                                             @endphp
+
                                             <div class="session-block">
                                                 <button class="session-header" data-target="{{ $finalSlug }}">
                                                 <span class="sh-left">
@@ -330,7 +334,7 @@
                                                     @if(!empty($past_papers))
                                                         @foreach($past_papers as $paper)
                                                             @if(!empty($paper))
-                                                                @if($paper->title === $paperTitle)
+                                                                @if($paper->title === $paper_name)
                                                                     <div class="paper-row">
                                                                         <a href="{{ asset('uploads/pastpaper') . '/' . $paper->ques_paper }}"
                                                                            target="_blank" class="paper-link">

@@ -101,11 +101,37 @@ class PastPaperController extends Controller
                 return $priority . '_' . $invertedYear . '_' . $seriesName;
             });
 
+        $groupedPapersWithNames = $pastPapers
+            // 1. Group by Paper Title (e.g., 'Paper 1', 'Paper 2')
+            ->groupBy('title')
+            ->map(function ($papersByTitle) {
+                // 2. Group items within each Paper Title by Series Name
+                return $papersByTitle
+                    ->groupBy(function ($paper) {
+                        return $paper->series ? $paper->series->name : 'Other Sessions';
+                    })
+                    // 3. Sort series by session priority & year (newest first)
+                    ->sortBy(function ($papers, $seriesName) {
+                        // Priority: June = 1, November = 2, Others = 3
+                        $priority = 3;
+                        if (stripos($seriesName, 'june') !== false) {
+                            $priority = 1;
+                        } elseif (stripos($seriesName, 'november') !== false || stripos($seriesName, 'nov') !== false) {
+                            $priority = 2;
+                        }
+
+                        // Extract 4-digit year (e.g., 2023)
+                        preg_match('/\b\d{4}\b/', $seriesName, $matches);
+                        $year = isset($matches[0]) ? (int)$matches[0] : 0;
+                        $invertedYear = 9999 - $year; // Newest year appears first
+
+                        return $priority . '_' . $invertedYear . '_' . $seriesName;
+                    });
+            });
+
         // 3. Stats calculation
         $totalPapers = $pastPapers->count();
         $totalSessions = $groupedPapers->count();
-
-        $paperGroups = $pastPapers->pluck('title', 'id')->unique();
 
         return view('frontend.past-papers.details-2', compact(
             'category',
@@ -114,7 +140,7 @@ class PastPaperController extends Controller
             'groupedPapers',
             'totalPapers',
             'totalSessions',
-            'paperGroups',
+            'groupedPapersWithNames'
         ));
     }
 
