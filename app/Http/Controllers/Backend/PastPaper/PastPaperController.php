@@ -61,7 +61,7 @@ class PastPaperController extends Controller
 
         $categories = Category::query()
             ->where(['is_active' => 1, 'is_deleted' => 0])
-            ->orderBy('id', 'DESC')
+            ->orderBy('category_name')
             ->get();
 
         $old_cat = old('category');
@@ -69,7 +69,7 @@ class PastPaperController extends Controller
             $subcategories = SubCategory::query()
                 ->where('category_id', $old_cat)
                 ->where(['is_active' => 1, 'is_deleted' => 0])
-                ->orderBy('id', 'DESC')
+                ->orderBy('subcategory_name')
                 ->get();
         }
 
@@ -79,7 +79,7 @@ class PastPaperController extends Controller
                 ->where('category_id', $old_cat)
                 ->where('subcategory_id', $old_sub)
                 ->where(['is_active' => 1, 'is_deleted' => 0])
-                ->orderBy('id', 'DESC')
+                ->orderBy('resubcategory_name')
                 ->get();
         }
 
@@ -273,19 +273,19 @@ class PastPaperController extends Controller
 
         $categories = Category::query()
             ->where(['is_active' => 1, 'is_deleted' => 0])
-            ->orderBy('id', 'DESC')
+            ->orderBy('category_name')
             ->get();
 
         $subcategories = SubCategory::query()
             ->where('category_id', $past_paper->category)
             ->where(['is_active' => 1, 'is_deleted' => 0])
-            ->orderBy('subcategory_name', 'ASC')
+            ->orderBy('subcategory_name')
             ->get();
 
         $resubcategories = Resubcategory::query()
             ->where('subcategory_id', $past_paper->subcategory)
             ->where(['is_active' => 1, 'is_deleted' => 0])
-            ->orderBy('id', 'DESC')
+            ->orderBy('resubcategory_name')
             ->get();
 
         return view('backend.past-paper.form')

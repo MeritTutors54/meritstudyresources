@@ -21,8 +21,9 @@
                         {{ strtoupper($subcategory->subcategory_name) }}
                         ({{ $resubcategory->unit_code }})
                         <span class="text-green">Past Papers</span></h1>
-                    <div class="custom-accordion">
-                        <div class="accordion-header">
+                    @if(!empty($resubcategory->description))
+                        <div class="custom-accordion">
+                            <div class="accordion-header">
                             <span class="header-title">
                                 <svg class="eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -35,17 +36,18 @@
                                     <polyline points="6 9 12 15 18 9"></polyline>
                                 </svg>
                             </span>
-                            <span class="pl-board-chip">
+                                <span class="pl-board-chip">
                                 <svg viewBox="0 0 24 24" fill="none">
                                     <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
                                 </svg>
                                 Exam Board: {{ $resubcategory->resubcategory_name ?? "n/a" }}
                             </span>
+                            </div>
+                            <div class="accordion-content pl-sub mb-0">
+                                {!! $resubcategory->description !!}
+                            </div>
                         </div>
-                        <div class="accordion-content pl-sub mb-0">
-                            {!! $resubcategory->description !!}
-                        </div>
-                    </div>
+                    @endif
                 </div>
             </div>
             <nav class="breadcrumb-pill-row">

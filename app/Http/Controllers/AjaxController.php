@@ -32,6 +32,7 @@ class AjaxController extends Controller
         $subjects = Subject::query()
             ->where('education_level_id', $request->education_level_id)
             ->where('status', Status::ACTIVE->value)
+            ->orderBy('name')
             ->get();
 
         return response()->json($subjects);
@@ -251,7 +252,7 @@ class AjaxController extends Controller
             ->where('is_deleted', 0)
             ->where('is_active', 1)
             ->select(['subcategory_name', 'id'])
-            ->orderBy('subcategory_name', 'asc')
+            ->orderBy('subcategory_name')
             ->get();
 
         return response()->json($data);
@@ -263,6 +264,7 @@ class AjaxController extends Controller
             ->where('subcategory_id', $subcategory_id)
             ->where('is_active', 1)
             ->where('is_deleted', 0)
+            ->orderBy('resubcategory_name')
             ->get();
 
         return response()->json($data);
