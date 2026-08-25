@@ -334,7 +334,7 @@
                                                     @if(!empty($past_papers))
                                                         @foreach($past_papers as $paper)
                                                             @if(!empty($paper))
-                                                                @if($paper->title === $paper_name)
+                                                                @if($paper->title === $paper_name_again)
                                                                     <div class="paper-row">
                                                                         <a href="{{ asset('uploads/pastpaper') . '/' . $paper->ques_paper }}"
                                                                            target="_blank" class="paper-link">
