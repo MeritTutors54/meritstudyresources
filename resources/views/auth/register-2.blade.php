@@ -21,7 +21,7 @@
             <form action="{{ route('register') }}" method="POST">
                 @csrf
                 <div class="g-3 mb-1">
-                    <label class="form-label-msr" for="name">First name</label>
+                    <label class="form-label-msr" for="name">Full name</label>
                     <input type="text" id="name" name="name"
                            value="{{ old('name') }}"
                            class="form-control-msr @error('name') is-invalid @enderror" placeholder="Jane">
