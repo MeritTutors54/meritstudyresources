@@ -68,7 +68,7 @@
 
                     @if($category->subcategories->isNotEmpty())
                         <button class="title-scope-btn" data-target="subBio-mp-ww-class-{{ $category->id }}">
-                            <span class="pp-most-popular">Most Popular</span>
+                            <span class="pp-most-popular">All Subject</span>
                             <svg viewBox="0 0 24 24" fill="none">
                                 <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"
                                       stroke-linecap="round"
