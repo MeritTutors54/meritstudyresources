@@ -146,8 +146,7 @@ class ResourceController extends Controller
             ]);
     }
 
-    public
-    function educationalLevelResource(
+    public function educationalLevelResource(
         $educationLevelSlug = null
     ): View
     {

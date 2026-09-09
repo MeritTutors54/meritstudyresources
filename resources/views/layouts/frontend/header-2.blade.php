@@ -95,18 +95,22 @@
                             <polyline points="6 9 12 15 18 9"></polyline>
                         </svg>
                     </a>
-                    @if (!empty($allResource))
+
+
+
+
+                    @if (!empty($subject))
                         <ul class="dropdown-menu">
-                            @foreach ($allResource as $subjectTitle => $resource)
+                            @foreach ($subject as $subjectTitle => $resource)
                                 @if (!empty($resource))
                                     <div class="nav-link-msr father-of-child">
                                         {{ $subjectTitle }}
                                     </div>
-                                    @foreach ($resource as $subject)
+                                    @foreach ($resource as $sub)
                                         <li class="nav-item">
                                             <a class="nav-item nav-link-msr msr-child dropdown-item"
-                                               href="{{ route('resources.topic', [$subject['education_level']['slug'], $subject['slug']]) }}">
-                                                {{ $subject['education_level']['name'] }}
+                                               href="{{ route('resources.topic', [$sub->educationLevel->slug, $sub->slug]) }}">
+                                                {{ $sub->educationLevel->name }}
                                             </a>
                                         </li>
                                     @endforeach
@@ -114,6 +118,26 @@
                             @endforeach
                         </ul>
                     @endif
+
+{{--                    @if (!empty($allResource))--}}
+{{--                        <ul class="dropdown-menu">--}}
+{{--                            @foreach ($allResource as $subjectTitle => $resource)--}}
+{{--                                @if (!empty($resource))--}}
+{{--                                    <div class="nav-link-msr father-of-child">--}}
+{{--                                        {{ $subjectTitle }}--}}
+{{--                                    </div>--}}
+{{--                                    @foreach ($resource as $subject)--}}
+{{--                                        <li class="nav-item">--}}
+{{--                                            <a class="nav-item nav-link-msr msr-child dropdown-item"--}}
+{{--                                               href="{{ route('resources.topic', [$subject['education_level']['slug'], $subject['slug']]) }}">--}}
+{{--                                                {{ $subject['education_level']['name'] }}--}}
+{{--                                            </a>--}}
+{{--                                        </li>--}}
+{{--                                    @endforeach--}}
+{{--                                @endif--}}
+{{--                            @endforeach--}}
+{{--                        </ul>--}}
+{{--                    @endif--}}
                 </li>
 
                 <li class="nav-item">

@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Events\SubscribeEvent;
 use App\Listeners\SendSubscriberEmailListener;
 use App\Models\Cart;
+use App\Models\EducationLevel;
 use App\Models\SiteSettings;
 use App\Models\Subject;
 use App\Models\Subscription;
@@ -65,9 +66,16 @@ class AppServiceProvider extends ServiceProvider
             ->get()
             ->groupBy('name');
 
+        $allResource = Subject::with(['educationLevel'])
+            ->whereNotNull('education_level_id')
+            ->where('status', 1) // optional: filter active records
+            ->get()
+            ->groupBy('name');
+
         View::share([
             'subject' => $subjects,
             'settings' => $settings,
+            'allResource' => $allResource,
             'socials' => $socials,
             'v' => Config::get('app.v'),
             'version' => Config::get('app.version'),

@@ -18,18 +18,18 @@
                                 <div id="merit-menu-id-{{$key}}"
                                      class="merit-menu-dropdown-box">
                                     <div class="merit-menu-body">
-{{--                                        @if(count($level->allSubjects) > 0)--}}
-{{--                                            <ul class="rplc_dropdown mt-1">--}}
-{{--                                                @foreach($level->allSubjects as $subject)--}}
-{{--                                                    <li>--}}
-{{--                                                        <a class="link"--}}
-{{--                                                           href="{{ route('resources.topic', [$level->slug, $subject->slug]) }}">--}}
-{{--                                                            {{ ucfirst($subject->name) }}--}}
-{{--                                                        </a>--}}
-{{--                                                    </li>--}}
-{{--                                                @endforeach--}}
-{{--                                            </ul>--}}
-{{--                                        @endif--}}
+                                        @if(count($level->allSubjects) > 0)
+                                            <ul class="rplc_dropdown mt-1">
+                                                @foreach($level->allSubjects as $subject)
+                                                    <li>
+                                                        <a class="link"
+                                                           href="{{ route('resources.topic', [$level->slug, $subject->slug]) }}">
+                                                            {{ ucfirst($subject->name) }}
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -70,49 +70,49 @@
                                     <ul class="rplc_dropdown mt-1">
                                         @foreach($topicGroups['topics'] as $topics)
                                             <li>
-{{--                                                @if($topics['children_count'] == 0)--}}
-{{--                                                    --}}{{-- This represent "topic" - who does not have any child --}}
-{{--                                                    <a--}}
-{{--                                                        href="{{ route('resources.topic', [$levelModel->slug, $subjectModel->slug, $topicGroups['slug'], $topics['slug']]) }}"--}}
-{{--                                                        class="link {{ !empty($topicModel) && $topics['slug'] == $topicModel->slug ? 'active' : '' }}">--}}
-{{--                                                        {{ $topics['title'] }}--}}
-{{--                                                    </a>--}}
-{{--                                                @else--}}
-{{--                                                    --}}{{-- This represent "topic" - who have child --}}
-{{--                                                    <a class="{{ !empty($topicModel) && $topics['slug'] == $topicModel->slug ? 'active' : '' }}"--}}
-{{--                                                       href="#">--}}
-{{--                                                        {{ $topics['title'] }}--}}
-{{--                                                        <i class="fa-solid fa-angle-down"></i>--}}
-{{--                                                    </a>--}}
-{{--                                                @endif--}}
-{{--                                                @if($topics['children_count'] != 0)--}}
-{{--                                                    <ul class="rplc_dropdown_items">--}}
-{{--                                                        @foreach($topics['children'] as $topic)--}}
-{{--                                                            <li>--}}
-{{--                                                                --}}{{-- This represent "topic" - who have parent --}}
-{{--                                                                <a--}}
-{{--                                                                    href="{{ route('resources.topic', [$levelModel->slug, $subjectModel->slug, $topicGroups['slug'], $topics['slug'], $topic['slug']]) }}"--}}
-{{--                                                                    class="{{ !empty($subTopicModel) && $topic['slug'] == $subTopicModel->slug ? 'active' : '' }}">--}}
-{{--                                                                    {{ $topic['title'] }}--}}
-{{--                                                                </a>--}}
-{{--                                                                @if($topic['children_count'] != 0)--}}
-{{--                                                                    <ul class="{{ !empty($subTopicModel) && $topic['slug'] == $subTopicModel->slug ? '' : 'd-none' }}">--}}
-{{--                                                                        @foreach($topic['children'] as $subTopic)--}}
-{{--                                                                            <li>--}}
-{{--                                                                                --}}{{-- This represent children of "sub topic" - 3rd nested tree --}}
-{{--                                                                                <a class="third-child-button {{ !empty($extraModel) && $extraModel->slug == $subTopic['slug'] ? 'active' : '' }}"--}}
-{{--                                                                                   href="#{{$subTopic['slug']}}"--}}
-{{--                                                                                >--}}
-{{--                                                                                    {{ $subTopic['title'] }}--}}
-{{--                                                                                </a>--}}
-{{--                                                                            </li>--}}
-{{--                                                                        @endforeach--}}
-{{--                                                                    </ul>--}}
-{{--                                                                @endif--}}
-{{--                                                            </li>--}}
-{{--                                                        @endforeach--}}
-{{--                                                    </ul>--}}
-{{--                                                @endif--}}
+                                                @if($topics['children_count'] == 0)
+                                                    {{-- This represent "topic" - who does not have any child--}}
+                                                    <a
+                                                        href="{{ route('resources.topic', [$levelModel->slug, $subjectModel->slug, $topicGroups['slug'], $topics['slug']]) }}"
+                                                        class="link {{ !empty($topicModel) && $topics['slug'] == $topicModel->slug ? 'active' : '' }}">
+                                                        {{ $topics['title'] }}
+                                                    </a>
+                                                @else
+                                                     This represent "topic" - who have child
+                                                    <a class="{{ !empty($topicModel) && $topics['slug'] == $topicModel->slug ? 'active' : '' }}"
+                                                       href="#">
+                                                        {{ $topics['title'] }}
+                                                        <i class="fa-solid fa-angle-down"></i>
+                                                    </a>
+                                                @endif
+                                                @if($topics['children_count'] != 0)
+                                                    <ul class="rplc_dropdown_items">
+                                                        @foreach($topics['children'] as $topic)
+                                                            <li>
+                                                                 This represent "topic" - who have parent
+                                                                <a
+                                                                    href="{{ route('resources.topic', [$levelModel->slug, $subjectModel->slug, $topicGroups['slug'], $topics['slug'], $topic['slug']]) }}"
+                                                                    class="{{ !empty($subTopicModel) && $topic['slug'] == $subTopicModel->slug ? 'active' : '' }}">
+                                                                    {{ $topic['title'] }}
+                                                                </a>
+                                                                @if($topic['children_count'] != 0)
+                                                                    <ul class="{{ !empty($subTopicModel) && $topic['slug'] == $subTopicModel->slug ? '' : 'd-none' }}">
+                                                                        @foreach($topic['children'] as $subTopic)
+                                                                            <li>
+                                                                                 This represent children of "sub topic" - 3rd nested tree
+                                                                                <a class="third-child-button {{ !empty($extraModel) && $extraModel->slug == $subTopic['slug'] ? 'active' : '' }}"
+                                                                                   href="#{{$subTopic['slug']}}"
+                                                                                >
+                                                                                    {{ $subTopic['title'] }}
+                                                                                </a>
+                                                                            </li>
+                                                                        @endforeach
+                                                                    </ul>
+                                                                @endif
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                @endif
                                             </li>
                                         @endforeach
                                     </ul>
