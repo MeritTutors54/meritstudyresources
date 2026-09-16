@@ -18,7 +18,7 @@
             <div class="col-6 col-md-4 col-lg-2">
                 <h2 class="footer-heading">Quick Links</h2>
                 <ul class="footer-list list-unstyled">
-                    <li><a href="#">Past Papers</a></li>
+                    <li><a href="{{ route('past.papers') }}">Past Papers</a></li>
                     <li><a href="#">Revision Notes</a></li>
                     <li><a href="#">Practice &amp; Tests</a></li>
                     <li><a href="#">Workbooks</a></li>
@@ -38,10 +38,10 @@
             <div class="col-6 col-md-4 col-lg-2">
                 <h2 class="footer-heading">Information</h2>
                 <ul class="footer-list list-unstyled">
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">Help &amp; FAQs</a></li>
-                    <li><a href="#">Terms &amp; Privacy</a></li>
+                    <li><a href="{{ route('about-us') }}">About Us</a></li>
+                    <li><a href="{{ route('contact-us') }}">Contact Us</a></li>
+                    <li><a href="{{ route('faq') }}">Help &amp; FAQs</a></li>
+                    <li><a href="{{ route('terms-condition') }}">Terms &amp; Privacy</a></li>
                 </ul>
             </div>
 

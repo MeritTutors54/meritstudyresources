@@ -8,12 +8,14 @@
 
                 <!-- Brand -->
                 <div class="col-lg-4 col-6 order-1">
-                    <a class="brand" href="index.html">
+                    <a class="brand" href="{{ route('home') }}">
                         <img src="{{ asset('frontend/new/assets/images/logo.png')}}" alt="Merit Study Resources logo" width="60" height="60" class="brand-mark">
                         <span class="brand-text">
-              <span class="brand-name">Merit Study<br><span class="brand-name-accent">Resources</span></span>
-              <span class="brand-tagline">Learn &nbsp;Practise &nbsp;Succeed</span>
-            </span>
+                            <span class="brand-name">Merit Study<br>
+                                <span class="brand-name-accent">Resources</span>
+                            </span>
+                            <span class="brand-tagline">Learn &nbsp;Practise &nbsp;Succeed</span>
+                        </span>
                     </a>
                 </div>
 
@@ -39,7 +41,6 @@
                         <span class="strapline-script">for Brighter Futures</span>
                     </p>
                 </div>
-
             </div>
         </div>
     </div>
@@ -56,11 +57,11 @@
             <div class="collapse navbar-collapse" id="primaryNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" href="index.html" aria-current="page">
+                        <a class="nav-link active" href="{{ route('home') }}" aria-current="page">
                             <i class="bi bi-house-door-fill" aria-hidden="true"></i> Home
                         </a>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="#past-papers">Past Papers</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('past.papers') }}">Past Papers</a></li>
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Revision Notes</a>
@@ -123,7 +124,7 @@
                         <ul class="dropdown-menu dropdown-menu-lg-end">
                             <li><a class="dropdown-item" href="#">How to use this site</a></li>
                             <li><a class="dropdown-item" href="#">Choosing an exam board</a></li>
-                            <li><a class="dropdown-item" href="#">Contact us</a></li>
+                            <li><a class="dropdown-item" href="{{ route('contact-us') }}">Contact us</a></li>
                         </ul>
                     </li>
                 </ul>
