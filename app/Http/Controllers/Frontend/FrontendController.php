@@ -74,7 +74,7 @@ class FrontendController extends Controller
         $pastPaperCount = PastPaper::query()
             ->where('is_active', 1)->count();
 
-        return view('frontend.home.index-2')
+        return view('frontend.home.index-3')
             ->with([
                 'defaultSEO' => $defaultSEO,
                 'subscriptionPricing' => $subscriptionPricing,
