@@ -12,6 +12,7 @@ use App\Enums\SubscriptionType;
 use App\Enums\UserType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Frontend\StoreSubscribeEmailRequest;
+use App\Models\Category;
 use App\Models\Contact;
 use App\Models\Faq;
 use App\Models\Product;
@@ -34,57 +35,74 @@ class FrontendController extends Controller
 {
     public function home(): View
     {
-        $subscriptionPricing = SubscriptionPlan::query()
-            ->where('status', Status::ACTIVE->value)
-            ->get()
-            ->groupBy(function ($plan) {
-                return strtolower(SubscriptionLevel::from($plan->level)->name);
-            })
-            ->map(function ($plansByLevel) {
-                // Group each level into 2 types (e.g., School vs. Individual)
-                return $plansByLevel->groupBy(function ($plan) {
-                    return strtolower(SubscriptionType::from($plan->type)->name);
-                })->map(function ($plansByType) {
-                    return $plansByType->groupBy(function ($p) {
-                        return strtolower(SubscriptionDuration::from($p->duration)->name);
-                    });
-                });
-            });
-
-        $products = Product::query()
-            ->where('status', Status::ACTIVE->value)
+        $categories = Category::query()->where('is_active', 1)
+            ->orderBy('category_name')
             ->get();
-
-        $counter['past_papers'] = PastPaper::query()->count();
-        $counter['resources'] = MeritResource::query()->count();
-        $counter['users'] = User::query()->where('type', '!=', UserType::STUDENT->value)->count();
-        $counter['students'] = User::query()->where('type', UserType::STUDENT->value)->count();
-
-
-        $testimonials = Testimonial::query()->latest('created_at')->take(4)->get();
-
-        $faqs = Faq::query()
-            ->where('status', Status::ACTIVE->value)
-            ->take(5)->get();
 
         $defaultSEO = Seo::query()
             ->where('page_title', SEOPage::HOME->value)
             ->first();
 
-        $pastPaperCount = PastPaper::query()
-            ->where('is_active', 1)->count();
-
         return view('frontend.home.index-3')
             ->with([
                 'defaultSEO' => $defaultSEO,
-                'subscriptionPricing' => $subscriptionPricing,
-                'products' => $products,
-                'counter' => $counter,
-                'testimonials' => $testimonials,
-                'faqs' => $faqs,
-                'pastPaperCount' => $pastPaperCount,
+                'qualifications' => $categories,
             ]);
     }
+
+//    public function home(): View
+//    {
+//        $subscriptionPricing = SubscriptionPlan::query()
+//            ->where('status', Status::ACTIVE->value)
+//            ->get()
+//            ->groupBy(function ($plan) {
+//                return strtolower(SubscriptionLevel::from($plan->level)->name);
+//            })
+//            ->map(function ($plansByLevel) {
+//                // Group each level into 2 types (e.g., School vs. Individual)
+//                return $plansByLevel->groupBy(function ($plan) {
+//                    return strtolower(SubscriptionType::from($plan->type)->name);
+//                })->map(function ($plansByType) {
+//                    return $plansByType->groupBy(function ($p) {
+//                        return strtolower(SubscriptionDuration::from($p->duration)->name);
+//                    });
+//                });
+//            });
+//
+//        $products = Product::query()
+//            ->where('status', Status::ACTIVE->value)
+//            ->get();
+//
+//        $counter['past_papers'] = PastPaper::query()->count();
+//        $counter['resources'] = MeritResource::query()->count();
+//        $counter['users'] = User::query()->where('type', '!=', UserType::STUDENT->value)->count();
+//        $counter['students'] = User::query()->where('type', UserType::STUDENT->value)->count();
+//
+//
+//        $testimonials = Testimonial::query()->latest('created_at')->take(4)->get();
+//
+//        $faqs = Faq::query()
+//            ->where('status', Status::ACTIVE->value)
+//            ->take(5)->get();
+//
+//        $defaultSEO = Seo::query()
+//            ->where('page_title', SEOPage::HOME->value)
+//            ->first();
+//
+//        $pastPaperCount = PastPaper::query()
+//            ->where('is_active', 1)->count();
+//
+//        return view('frontend.home.index-3')
+//            ->with([
+//                'defaultSEO' => $defaultSEO,
+//                'subscriptionPricing' => $subscriptionPricing,
+//                'products' => $products,
+//                'counter' => $counter,
+//                'testimonials' => $testimonials,
+//                'faqs' => $faqs,
+//                'pastPaperCount' => $pastPaperCount,
+//            ]);
+//    }
 
     public function aboutUs(): View
     {

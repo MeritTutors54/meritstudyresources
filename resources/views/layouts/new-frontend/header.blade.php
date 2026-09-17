@@ -61,73 +61,75 @@
                             <i class="bi bi-house-door-fill" aria-hidden="true"></i> Home
                         </a>
                     </li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('blogs') }}">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('products') }}">Product</a></li>
+
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Resources
+                        </a>
+
+                        @if(!empty($allResource))
+                            <ul class="dropdown-menu">
+                                @foreach($allResource as $subjectTitle => $resource)
+                                    <li><h6 class="dropdown-header" style="padding-left: 11px; color: var(--merit-dark-green)">{{ $subjectTitle }}</h6></li>
+                                    @if(!empty($resource))
+                                        <div class="">
+                                            @foreach($resource as $sub)
+                                                <li>
+                                                    <a class="dropdown-item" href="{{ route('resources.topic', [$sub->educationLevel->slug, $sub->slug]) }}">
+                                                        {{ $sub->educationLevel->name }}
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        @endif
+                    </li>
+
                     <li class="nav-item"><a class="nav-link" href="{{ route('past.papers') }}">Past Papers</a></li>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Revision Notes</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">GCSE revision notes</a></li>
-                            <li><a class="dropdown-item" href="#">IGCSE revision notes</a></li>
-                            <li><a class="dropdown-item" href="#">AS &amp; A Level revision notes</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Practice &amp; Tests</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Topic questions</a></li>
-                            <li><a class="dropdown-item" href="#">Topic tests</a></li>
-                            <li><a class="dropdown-item" href="#">Worked solutions</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Workbooks</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Homework booklets</a></li>
-                            <li><a class="dropdown-item" href="#">Revision workbooks</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#subjects" role="button" data-bs-toggle="dropdown" aria-expanded="false">Subjects</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#subjects">Mathematics</a></li>
-                            <li><a class="dropdown-item" href="#subjects">Sciences</a></li>
-                            <li><a class="dropdown-item" href="#subjects">Humanities</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#subjects">All subjects</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">A Level</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">AQA</a></li>
-                            <li><a class="dropdown-item" href="#">Edexcel</a></li>
-                            <li><a class="dropdown-item" href="#">OCR</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">GCSE / IGCSE</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">AQA</a></li>
-                            <li><a class="dropdown-item" href="#">Edexcel</a></li>
-                            <li><a class="dropdown-item" href="#">OCR</a></li>
-                            <li><a class="dropdown-item" href="#">Cambridge (CIE)</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Help</a>
-                        <ul class="dropdown-menu dropdown-menu-lg-end">
-                            <li><a class="dropdown-item" href="#">How to use this site</a></li>
-                            <li><a class="dropdown-item" href="#">Choosing an exam board</a></li>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('about-us') }}">About this site</a></li>
                             <li><a class="dropdown-item" href="{{ route('contact-us') }}">Contact us</a></li>
                         </ul>
                     </li>
                 </ul>
+
+                <!-- Login & Register Buttons (Pushed to the right using ms-auto) -->
+                <div class="navbar-nav ms-auto d-flex align-items-center gap-2 mt-2 mt-lg-0">
+                    @auth
+                        <!-- Cart Icon with Incrementable Badge -->
+                        <a href="{{ route('view.cart') }}" class="btn-soft position-relative px-2.5" title="View Cart">
+                            <i class="bi bi-cart3 fs-6"></i>
+                            <!-- Cart count badge (update variable or dynamic count as needed) -->
+                            @if(isset($cartCount) && $cartCount > 0)
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill" style="background: var(--merit-green); font-size: 0.65rem;">
+                                    {{ $cartCount }}
+                                </span>
+                            @endif
+                        </a>
+
+                        <!-- Dashboard Button -->
+                        <a href="{{ route('user.dashboard') }}" class="btn btn-merit btn-sm px-3 py-2 d-inline-flex align-items-center gap-1">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                        </a>
+                    @else
+                        <!-- Login Button -->
+                        <a href="{{ route('login') }}" class="btn-soft">
+                            <i class="bi bi-box-arrow-in-right"></i> Login
+                        </a>
+
+                        <!-- Register Button -->
+                        <a href="{{ route('register') }}" class="btn btn-merit btn-sm px-3 py-2">
+                            Register
+                        </a>
+                    @endauth
+                </div>
             </div>
         </div>
     </nav>

@@ -192,6 +192,11 @@ Route::group(['middleware' => 'team.permission'], function () {
     Route::post('ajax/get-past-paper', [AjaxController::class, 'getPastPaper'])->name('ajax.get.past.paper');
 
     Route::post('ajax/past-papers/search', [AjaxController::class, 'searchPastPaper'])->name('ajax.search.past-papers');
+
+    // New UI Calls
+    Route::post('ajax/get-sub-categories/{category_id}', [AjaxController::class, 'getSubCategory'])->name('ajax.get.sub.categories');
+    Route::post('ajax/get-resub-categories/{subcategory_id}', [AjaxController::class, 'getReSubCategory'])->name('ajax.get.resub.categories');
+//    Route::post('ajax/get-past-paper-details-route/{category_id}/{subcategory_id}/{resub_category_id}', [AjaxController::class, 'getPastPaperDetailsRoute'])->name('ajax.get.resub.categories');
 });
 
 /*

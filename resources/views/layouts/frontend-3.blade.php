@@ -30,8 +30,25 @@
 
 </main>
 
+<!-- ====================
+     8. TOAST AREA
+===================== -->
+<div class="toast" id="toast-area">
+    <div class="ct-ico">
+        <!-- Example: Error/Close SVG Icon -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+    </div>
+    <span id="toast-area-message">Failed to save changes. Please try again.</span>
+</div>
+
+
 @include('layouts.new-frontend.footer')
 
+<script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+@stack('js')
 </body>
 </html>

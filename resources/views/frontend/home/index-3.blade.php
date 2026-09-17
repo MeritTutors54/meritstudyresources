@@ -99,10 +99,11 @@
                         <label class="form-label" for="qualification">Qualification</label>
                         <select class="form-select" id="qualification" name="qualification">
                             <option value="" selected>Select qualification</option>
-                            <option>GCSE</option>
-                            <option>IGCSE</option>
-                            <option>AS Level</option>
-                            <option>A Level</option>
+                            @if(!empty($qualifications))
+                                @foreach($qualifications as $qualification)
+                                    <option value="{{ $qualification->id }} / {{ $qualification->slug }}">{{ $qualification->category_name }}</option>
+                                @endforeach
+                            @endif
                         </select>
                     </div>
 
@@ -110,15 +111,6 @@
                         <label class="form-label" for="subject">Subject</label>
                         <select class="form-select" id="subject" name="subject">
                             <option value="" selected>Select subject</option>
-                            <option>Mathematics</option>
-                            <option>English</option>
-                            <option>Biology</option>
-                            <option>Chemistry</option>
-                            <option>Physics</option>
-                            <option>Economics</option>
-                            <option>Geography</option>
-                            <option>Psychology</option>
-                            <option>Computer Science</option>
                         </select>
                     </div>
 
@@ -137,16 +129,16 @@
                     <div class="col-12 col-md-6 col-xl">
                         <label class="form-label" for="tier">Level / Tier <span class="label-note">(if applicable)</span></label>
                         <select class="form-select" id="tier" name="tier">
-                            <option value="" selected>Select level / tier</option>
-                            <option>Foundation Tier</option>
-                            <option>Higher Tier</option>
-                            <option>AS</option>
-                            <option>A2</option>
+                            <option value="" selected hidden>Select level / tier</option>
+{{--                            <option>Foundation Tier</option>--}}
+{{--                            <option>Higher Tier</option>--}}
+{{--                            <option>AS</option>--}}
+{{--                            <option>A2</option>--}}
                         </select>
                     </div>
 
                     <div class="col-12 col-xl-auto">
-                        <button type="submit" class="btn btn-merit btn-lg w-100 finder-submit">
+                        <button type="button" id="viewResourceBtn" class="btn btn-merit btn-lg w-100 finder-submit">
                             View Resources <i class="bi bi-arrow-right" aria-hidden="true"></i>
                         </button>
                     </div>
@@ -448,3 +440,121 @@
         </div>
     </section>
 @endsection
+@push('js')
+    <script>
+        console.log('hello new UI');
+        if (typeof jQuery === 'function') console.log('jQuery loaded, version ' + jQuery.fn.jquery);
+        else console.log('jQuery is not loaded');
+
+        $(document).ready(function() {
+            $('#qualification').on('change', function() {
+                const qualificationValue = $(this).val();
+
+                const qualificationId = Number(qualificationValue.split(" ")[0]);
+
+                if (!qualificationId) return; // Don't send if empty
+
+                $.ajax({
+                    url: '{{ route('ajax.get.sub.categories', ':id') }}'.replace(':id', qualificationId),
+                    type: 'POST',
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                    },
+                    success: function(response) {
+
+                        console.log('form sub: ', response)
+
+                        // Example: Populate a subcategory dropdown
+                        let subcategorySelect = $('#subject'); // Adjust selector
+                        subcategorySelect.empty().append('<option value="">Select subject</option>');
+
+                        response.forEach(function(item) {
+                            subcategorySelect.append(
+                                `<option value="${item.id} / ${item.slug}">${item.subcategory_name}</option>`
+                            );
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+
+            $('#subject').on('change', function() {
+                const subjectValue = $(this).val();
+
+                const subjectId = Number(subjectValue.split(" ")[0]);
+
+                if (!subjectId) return; // Don't send if empty
+
+                $.ajax({
+                    url: '{{ route('ajax.get.resub.categories', ':id') }}'.replace(':id', subjectId),
+                    type: 'POST',
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                    },
+                    success: function(response) {
+                        // Example: Populate a subcategory dropdown
+                        let reSubcategorySelect = $('#examBoard'); // Adjust selector
+                        reSubcategorySelect.empty().append('<option value="">Select exam board</option>');
+
+                        response.forEach(function(item) {
+                            reSubcategorySelect.append(
+                                `<option value="${item.id} / ${item.slug}">${item.resubcategory_name}</option>`
+                            );
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+
+            $('#viewResourceBtn').on('click', function() {
+                let qualification = $("#qualification");
+                let subject = $("#subject");
+                let examBoard = $("#examBoard");
+
+                const toastArea = $("#toast-area");
+                const toastAreaMessage = $("#toast-area-message");
+
+                let qualificationValue = qualification.val();
+                let subjectValue = subject.val();
+                let examBoardValue = examBoard.val();
+
+                let isValid = true;
+
+                function toggleError($element, isEmpty) {
+                    if (isEmpty) {
+                        $element.css('border', '1px solid red');
+                        isValid = false;
+                    } else {
+                        $element.css('border', ''); // Reset border if valid
+                    }
+                }
+
+                toggleError(qualification, !qualificationValue);
+                toggleError(subject, !subjectValue);
+                toggleError(examBoard, !examBoardValue);
+
+                if (!isValid) {
+                    toastArea.addClass('error show');
+                    toastAreaMessage.html('Please fill in all required fields marked with an error')
+                    // alert("Please fill in all required fields before viewing resources.");
+                    return;
+                }
+
+                const categorySlug = qualificationValue.split(" / ")[1].trim();
+                const subcategorySlug = subjectValue.split(" / ")[1].trim();
+                const reSubcategorySlug = examBoardValue.split(" / ")[1].trim();
+
+                const url = '{{ route('past.papers.details', [':cat_slug', ':sub_slug', ':re_slug']) }}'.replace(':cat_slug', categorySlug).replace(':sub_slug', subcategorySlug).replace(':re_slug', reSubcategorySlug);
+
+                console.log('ur: ', url);
+
+                window.location.href = url;
+
+            })
+        });
+    </script>
+@endpush
