@@ -145,12 +145,22 @@
                     <li class="treeview {{  request()->is('admin/subjects*') || request()->is('admin/educational-levels*') || request()->is('admin/courses*') || request()->is('admin/resources*') ? 'active menu-open' : '' }}">
                         <a href="#">
                             <i class="icon-Chart-pie"><span class="path1"></span><span class="path2"></span></i>
-                            <span>Study Materials</span>
+                            <span>Resources</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-right pull-right"></i>
                             </span>
                         </a>
                         <ul class="treeview-menu">
+
+                            <li class="{{ request()->is('admin/resources*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.board-resources.index') }}">
+                                    <i class="icon-Commit">
+                                        <span class="path1"></span><span class="path2"></span>
+                                    </i>
+                                    Resources Availability
+                                </a>
+                            </li>
+
                             @can('viewStudyMaterialUpload', Auth::user())
                                 <li class="{{ request()->is('admin/resources*') ? 'active' : '' }}">
                                     <a href="{{ route('admin.resources.index') }}">

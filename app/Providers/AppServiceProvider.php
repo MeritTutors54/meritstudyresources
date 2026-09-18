@@ -5,10 +5,13 @@ namespace App\Providers;
 use App\Events\SubscribeEvent;
 use App\Listeners\SendSubscriberEmailListener;
 use App\Models\Cart;
-use App\Models\EducationLevel;
 use App\Models\SiteSettings;
 use App\Models\Subject;
 use App\Models\Subscription;
+use App\Repositories\BoardResourceRepository;
+use App\Repositories\CategoryRepository;
+use App\Repositories\Interfaces\BoardResourceRepositoryInterface;
+use App\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Repositories\Interfaces\PastPaperRepositoryInterface;
 use App\Repositories\PastPaperRepository;
 use Illuminate\Support\Facades\Auth;
@@ -28,9 +31,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
+        $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
         $this->app->bind(PastPaperRepositoryInterface::class, PastPaperRepository::class);
 
         $this->app->bind(SubscriptionPlanRepositoryInterface::class, SubscriptionPlanRepository::class);
+        $this->app->bind(BoardResourceRepositoryInterface::class, BoardResourceRepository::class);
     }
 
     /**

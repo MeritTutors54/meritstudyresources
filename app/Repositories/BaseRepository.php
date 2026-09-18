@@ -44,4 +44,11 @@ class BaseRepository implements BaseRepositoryInterface
     {
         return $this->find($id)->delete();
     }
+
+    public function activeItems($fieldName, $orderByAsc)
+    {
+        return $this->model->where($fieldName, 1)
+            ->orderBy($orderByAsc)
+            ->get();
+    }
 }

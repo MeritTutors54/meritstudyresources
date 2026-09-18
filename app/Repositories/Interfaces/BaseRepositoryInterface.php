@@ -17,4 +17,6 @@ interface BaseRepositoryInterface
     public function update(array $data, int|string $id);
 
     public function delete(int|string $id);
+
+    public function activeItems(string $fieldName, string $orderByAsc);
 }

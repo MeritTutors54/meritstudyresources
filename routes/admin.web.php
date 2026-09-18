@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\Auth\LoginController;
 use App\Http\Controllers\Backend\Blog\BlogCategoryController;
 use App\Http\Controllers\Backend\Blog\BlogsController;
 use App\Http\Controllers\Backend\Blog\BlogTagsController;
+use App\Http\Controllers\Backend\BoardResourceController;
 use App\Http\Controllers\Backend\Coupon\CouponController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\Ecommerce\BookCategoryController;
@@ -124,6 +125,13 @@ Route::prefix('admin')->middleware(['auth:admin', 'team.permission'])->group(fun
 
     /*
     |--------------------------------------------------------------------------
+    | Resource Section
+    |--------------------------------------------------------------------------
+    */
+//    Route::resource('/resources', BoardResourceAvailabilityController::class, ['as' => 'admin']);
+
+    /*
+    |--------------------------------------------------------------------------
     | Subscription Section
     |--------------------------------------------------------------------------
     */
@@ -138,6 +146,9 @@ Route::prefix('admin')->middleware(['auth:admin', 'team.permission'])->group(fun
     Route::resource('/subjects', SubjectController::class, ['as' => 'admin']);
     Route::resource('/topics', TopicController::class, ['as' => 'admin']);
     Route::resource('/resources', MeritResourceController::class, ['as' => 'admin']);
+
+    Route::resource('/board-resources', BoardResourceController::class, ['as' => 'admin']);
+
 
     /*
     |--------------------------------------------------------------------------
@@ -192,4 +203,6 @@ Route::prefix('admin')->middleware(['auth:admin', 'team.permission'])->group(fun
     Route::get('/activity-log', [AjaxController::class, 'getAllActivityLog'])->name('admin.ajax.getAllActivityLog');
 
     Route::post('/update-status', [AjaxController::class, 'updateStatus'])->name('admin.ajax.updateStatus');
+    Route::get('/get-parents/{id}', [AjaxController::class, 'getParents'])->name('admin.ajax.getParents');
+
 });

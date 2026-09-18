@@ -8,6 +8,7 @@ use App\Enums\SubscriptionType;
 use App\Enums\UserType;
 use App\Http\Controllers\Auth\LoginController;
 use App\Models\AdminActivityLog;
+use App\Models\BoardResource;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\PastPaper;
@@ -256,6 +257,15 @@ class AjaxController extends Controller
             ->get();
 
         return response()->json($data);
+    }
+
+    public function getParents($id)
+    {
+        $parents = BoardResource::query()
+            ->where('resubcategory_id', $id)
+            ->where('is_group', 1)->get();
+
+        return response()->json($parents);
     }
 
     public function getReSubCategory($subcategory_id): JsonResponse

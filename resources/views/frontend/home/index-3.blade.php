@@ -442,10 +442,6 @@
 @endsection
 @push('js')
     <script>
-        console.log('hello new UI');
-        if (typeof jQuery === 'function') console.log('jQuery loaded, version ' + jQuery.fn.jquery);
-        else console.log('jQuery is not loaded');
-
         $(document).ready(function() {
             $('#qualification').on('change', function() {
                 const qualificationValue = $(this).val();
@@ -549,8 +545,6 @@
                 const reSubcategorySlug = examBoardValue.split(" / ")[1].trim();
 
                 const url = '{{ route('past.papers.details', [':cat_slug', ':sub_slug', ':re_slug']) }}'.replace(':cat_slug', categorySlug).replace(':sub_slug', subcategorySlug).replace(':re_slug', reSubcategorySlug);
-
-                console.log('ur: ', url);
 
                 window.location.href = url;
 
