@@ -148,8 +148,8 @@ Route::prefix('admin')->middleware(['auth:admin', 'team.permission'])->group(fun
     Route::resource('/resources', MeritResourceController::class, ['as' => 'admin']);
 
     Route::resource('/board-resources', BoardResourceController::class, ['as' => 'admin']);
-    Route::delete('/board-resource-file/delete/{id}', [BoardResourceController::class, 'deleteFile'])
-    ->name('admin.board-resource-file.delete');
+    // Route::delete('/board-resource-file/delete/{id}', [BoardResourceController::class, 'deleteFile'])
+    // ->name('admin.board-resource-file.delete');
 
 
     /*
@@ -205,6 +205,6 @@ Route::prefix('admin')->middleware(['auth:admin', 'team.permission'])->group(fun
     Route::get('/activity-log', [AjaxController::class, 'getAllActivityLog'])->name('admin.ajax.getAllActivityLog');
 
     Route::post('/update-status', [AjaxController::class, 'updateStatus'])->name('admin.ajax.updateStatus');
-    Route::get('/get-parents/{id}', [AjaxController::class, 'getParents'])->name('admin.ajax.getParents');
+    Route::get('/get-parents/{id}/{resource_type}', [AjaxController::class, 'getParents'])->name('admin.ajax.getParents');
 
 });

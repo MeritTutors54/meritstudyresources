@@ -130,7 +130,8 @@
 
             // 2. Handle Cancel action
             $confirmGroup.find('.cancel-delete-btn').on('click', function() {
-                $confirmGroup.remove(); // Remove confirm/cancel buttons$btn.show();            // Show original delete button again
+                $confirmGroup
+            .remove(); // Remove confirm/cancel buttons$btn.show();            // Show original delete button again
                 $btn.show(); // Show original delete button again
             });
 
@@ -165,67 +166,22 @@
             });
         });
 
-        function deleteFileSection(button) {
-
-
-            // // Insert the group right after the delete button
-
-
-            // // 2. Handle Cancel action
-            // $confirmGroup.find('.cancel-delete-btn').on('click', function() {
-            //     $confirmGroup
-            //         .remove(); // Remove confirm/cancel buttons$btn.show();            // Show original delete button again
-            // });
-
-            // // 3. Handle Confirm action (Directly hits the route via a dynamic form)
-            // $confirmGroup.find('.confirm-delete-btn').on('click', function() {
-            //     // Create a dynamic form for Laravel DELETE request
-            //     let $form = $('<form>', {
-            //         'method': 'POST',
-            //         'action': url
-            //     });
-
-            //     // Add CSRF token
-            //     let csrfToken = $('meta[name="csrf-token"]').attr('content');
-            //     if (csrfToken) {
-            //         $form.append($('<input>', {
-            //             'type': 'hidden',
-            //             'name': '_token',
-            //             'value': csrfToken
-            //         }));
-            //     }
-
-            //     // Add method spoofing for DELETE (standard in Laravel)
-            //     $form.append($('<input>', {
-            //         'type': 'hidden',
-            //         'name': '_method',
-            //         'value': 'DELETE'
-            //     }));
-
-            //     // Append to body and submit
-            //     $('body').append($form);
-            //     $form.submit();
-            // });
-        }
-
-        // $(document).ready(function() {
-        //     $('.delete-btn').on('click', function() {
-        //         // 1. Get data from the clicked button
-        //         var deleteUrl = $(this).data('url');
-
-        //         var elementName = $(this).data('name');
-
-        //         // 2. Populate the modal elements
-        //         $('#set-action').attr('action', deleteUrl);
-        //         $('#element-name').text(elementName);
-
-        //         // 3. Show the modal using Bootstrap's JavaScript API
-        //         var dltModal = new bootstrap.Modal(document.getElementById('dltModal'));
-        //         dltModal.show();
-        //     });
-        // });
     </script>
     <script>
+        $('#resource_type').on('change', function() {
+            $('#category').prop('selectedIndex', 0);
+
+            $('#subcategory')
+                .html('<option selected disabled>Select...</option>')
+                .trigger('change');
+            $('#resubcategory')
+                .html('<option selected disabled>Select...</option>')
+                .trigger('change');
+            $('#parent_id')
+                .html('<option selected disabled>Select...</option>')
+                .trigger('change');
+        });
+
         function getSubCategory(el) {
             const category_id = $("#category").val();
             const subCategoryTag = $('#subcategory');
@@ -248,10 +204,7 @@
                         });
                     }
                 });
-            } else {
-                alert('sorry data not found');
             }
-
         }
 
         function getReSubCategory(el) {
@@ -274,19 +227,18 @@
                         });
                     }
                 });
-            } else {
-                alert('sorry data not found');
             }
         }
 
         function getParents() {
             const resubcategoryId = $("#resubcategory").val();
+            const resourceType = $("#resource_type").val();
             const parentTag = $('#parent_id');
 
 
             if (resubcategoryId) {
-                const route = "{{ route('admin.ajax.getParents', [':id']) }}";
-                const url = route.replace(':id', resubcategoryId);
+                const route = "{{ route('admin.ajax.getParents', [':id', ':type']) }}";
+                const url = route.replace(':id', resubcategoryId).replace(':type', resourceType);
                 $.ajax({
                     url: url,
                     type: "GET",
@@ -300,8 +252,6 @@
                         });
                     }
                 });
-            } else {
-                alert('sorry data not found');
             }
         }
     </script>

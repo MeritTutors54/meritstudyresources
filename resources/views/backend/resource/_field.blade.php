@@ -156,8 +156,8 @@
                         <div class="form-group">
                             <label class="form-label" for="allow_files">Allow Files</label>
                             <select name="allow_files" id="allow_files" class="form-select">
-                                <option @selected(old('allow_files', $resource->allow_files ?? '') == '1') value="1">Yes</option>
                                 <option @selected(old('allow_files', $resource->allow_files ?? '') == '0') value="0">No</option>
+                                <option @selected(old('allow_files', $resource->allow_files ?? '') == '1') value="1">Yes</option>
                             </select>
                         </div>
                     </div>
@@ -301,8 +301,6 @@
                 </div>
             </div>
         </div>
-
-        @include('layouts.backend.delete-modal')
 
         <template id="upload-group-template">
             <div class="upload-group-wrapper card shadow-sm mb-4 position-relative" data-index="__INDEX__">

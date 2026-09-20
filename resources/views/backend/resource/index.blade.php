@@ -502,16 +502,22 @@
 
                             @if (!empty($data['syllabus']))
                                 <div class="px-4">
+                                    @php
+                                        $hint = 0;
+                                    @endphp
                                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                                         @foreach ($data['syllabus'] as $groupName => $portion)
                                             <li class="nav-item" role="presentation">
-                                                <button class="nav-link active" id="{{ $groupName }}-tab"
+                                                <button class="nav-link {{ $hint === 0 ? 'active' : '' }}" id="{{ $groupName }}-tab"
                                                     data-bs-toggle="tab" data-bs-target="#{{ $groupName }}-pane"
                                                     type="button" role="tab" aria-controls="{{ $groupName }}-pane"
                                                     aria-selected="true">
                                                     {{ $groupName }}
                                                 </button>
                                             </li>
+                                            @php
+                                                $hint++;
+                                            @endphp
                                         @endforeach
                                     </ul>
                                 </div>
@@ -520,8 +526,12 @@
 
                             @if (!empty($data['syllabus']))
                                 <div class="tab-content border border-top-0 p-4 bg-white rounded-bottom" id="myTabContent">
+                                    @php
+                                        $peHint = 0;
+                                    @endphp
                                     @foreach ($data['syllabus'] as $resource => $syllabus)
-                                        <div class="tab-pane fade show active" id="{{ $resource }}-pane" role="tabpanel"
+                                        <div class="tab-pane fade {{ $peHint === 0 ? 'active show' : '' }}"
+                                        id="{{ $resource }}-pane" role="tabpanel"
                                             aria-labelledby="{{ $resource }}-tab" tabindex="0">
                                             <h4>{{ $resource }} Content</h4>
                                             <div class="resource-tree-container">
@@ -597,6 +607,9 @@
                                                 @endif
                                             </div>
                                         </div>
+                                        @php
+                                            $peHint++;
+                                        @endphp
                                     @endforeach
                                     {{-- <div class="tab-pane fade" id="profile-pane" role="tabpanel"
                                         aria-labelledby="profile-tab" tabindex="0">
