@@ -148,6 +148,8 @@ Route::prefix('admin')->middleware(['auth:admin', 'team.permission'])->group(fun
     Route::resource('/resources', MeritResourceController::class, ['as' => 'admin']);
 
     Route::resource('/board-resources', BoardResourceController::class, ['as' => 'admin']);
+    Route::delete('/board-resource-file/delete/{id}', [BoardResourceController::class, 'deleteFile'])
+    ->name('admin.board-resource-file.delete');
 
 
     /*

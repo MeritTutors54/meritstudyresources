@@ -4,9 +4,9 @@ namespace App\Enums;
 
 enum DifficultyType: int
 {
-    case Easy = 0;
-    case Medium = 1;
-    case Hard = 2;
+    case Easy = 1;
+    case Medium = 2;
+    case Hard = 3;
 
 
     public function label(): string

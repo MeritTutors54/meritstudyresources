@@ -24,6 +24,8 @@ return new class extends Migration
             $table->boolean('is_section_title')->default(false);
             $table->boolean('is_paid')->default(false);
             $table->boolean('is_active')->default(1);
+            $table->boolean('allow_files')->default(false);
+            $table->tinyInteger('file_orientation')->nullable()->comment('1 = straight, 2 = difficulty');
 
             $table->timestamps();
         });
@@ -31,9 +33,8 @@ return new class extends Migration
         Schema::create('board_resource_files', function (Blueprint $table) {
             $table->id();
 
-            $table->tinyInteger('type')->default(1)->comment('1 = straight, 2 = difficulty');
             $table->foreignId('board_resource_id')->constrained('board_resources')->cascadeOnDelete();
-            $table->string('difficulty')->nullable(); // 'Medium', 'Hard'
+            $table->tinyInteger('difficulty')->nullable()->comment('1 = Easy, 2 = Medium, 3 = Hard');
             $table->boolean('is_pro')->default(false);
             $table->string('file_path');
 

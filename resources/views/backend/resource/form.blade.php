@@ -7,14 +7,21 @@
         .select2-container .select2-selection--single {
             height: 35px !important;
         }
+
         .select2-container--default .select2-selection--single .select2-selection__arrow {
             top: 5px;
         }
+
         .select2-container--default .select2-selection--single {
             padding: 6px 0 0 6px;
         }
+
         .select2-container--default .select2-selection--single .select2-selection__clear {
             height: 22px;
+        }
+
+        .select2-container--default .select2-results__option--highlighted[aria-selected] {
+            color: #ffffff !important;
         }
     </style>
 
@@ -22,8 +29,8 @@
         <div class="container-full">
             <!-- Content Header (Page header) -->
             <?php
-            if (isset($past_paper)) {
-                $actionUrl = route('admin.past-papers.update', ['past_paper' => $past_paper]);
+            if (isset($resource)) {
+                $actionUrl = route('admin.board-resources.update', ['board_resource' => $resource]);
                 $method = 'PATCH';
                 $scope = 'Update';
             } else {
@@ -47,7 +54,8 @@
                                     <li class="breadcrumb-item">
                                         <a href="{{ route('admin.board-resources.index') }}">All Board Resources</a>
                                     </li>
-                                    <li class="breadcrumb-item active" aria-current="page">{{ $scope }} Board Resource</li>
+                                    <li class="breadcrumb-item active" aria-current="page">{{ $scope }} Board
+                                        Resource</li>
                                 </ol>
                             </nav>
                         </div>
@@ -58,7 +66,7 @@
 
             <!-- Modal Overlay and Box -->
             <div id="alertOverlay" class="alert-overlay d-none" role="dialog" aria-modal="true"
-                 aria-labelledby="alertTitle">
+                aria-labelledby="alertTitle">
                 <div class="alert-box">
                     <h3 id="alertTitle" class="alert-title">Notice</h3>
                     <p class="alert-message" id="alert-overlay-message"></p>
@@ -80,7 +88,7 @@
 
                             <!-- /.box-header -->
                             <form id="pastPaperForm" action="{{ $actionUrl }}" method="post"
-                                  enctype="multipart/form-data">
+                                enctype="multipart/form-data">
                                 @csrf
                                 @method($method)
                                 @include('backend.resource._field')
@@ -102,6 +110,120 @@
                 width: '100%'
             });
         });
+
+        $(".fileDeleteButton").on("click", function() {
+            const $btn = $(this);
+            const url = $btn.data('url');
+
+            // Hide the original delete button
+            $btn.hide();
+
+            // Create the Confirm and Cancel buttons group
+            const $confirmGroup = $(`
+                <div class="confirm-cancel-group d-inline-block" style="margin-top: ${$btn.css('margin-top')}">
+                    <button type="button" class="btn btn-danger btn-sm confirm-delete-btn">Confirm</button>
+                    <button type="button" class="btn btn-secondary btn-sm cancel-delete-btn">Cancel</button>
+                </div>
+            `);
+
+            $btn.after($confirmGroup);
+
+            // 2. Handle Cancel action
+            $confirmGroup.find('.cancel-delete-btn').on('click', function() {
+                $confirmGroup.remove(); // Remove confirm/cancel buttons$btn.show();            // Show original delete button again
+                $btn.show(); // Show original delete button again
+            });
+
+            // 3. Handle Confirm action (Directly hits the route via a dynamic form)
+            $confirmGroup.find('.confirm-delete-btn').on('click', function() {
+                // Create a dynamic form for Laravel DELETE request
+                let $form = $('<form>', {
+                    'method': 'POST',
+                    'action': url
+                });
+
+                // Add CSRF token
+                let csrfToken = '{{ csrf_token() }}';
+                if (csrfToken) {
+                    $form.append($('<input>', {
+                        'type': 'hidden',
+                        'name': '_token',
+                        'value': csrfToken
+                    }));
+                }
+
+                // Add method spoofing for DELETE (standard in Laravel)
+                $form.append($('<input>', {
+                    'type': 'hidden',
+                    'name': '_method',
+                    'value': 'DELETE'
+                }));
+
+                // Append to body and submit
+                $('body').append($form);
+                $form.submit();
+            });
+        });
+
+        function deleteFileSection(button) {
+
+
+            // // Insert the group right after the delete button
+
+
+            // // 2. Handle Cancel action
+            // $confirmGroup.find('.cancel-delete-btn').on('click', function() {
+            //     $confirmGroup
+            //         .remove(); // Remove confirm/cancel buttons$btn.show();            // Show original delete button again
+            // });
+
+            // // 3. Handle Confirm action (Directly hits the route via a dynamic form)
+            // $confirmGroup.find('.confirm-delete-btn').on('click', function() {
+            //     // Create a dynamic form for Laravel DELETE request
+            //     let $form = $('<form>', {
+            //         'method': 'POST',
+            //         'action': url
+            //     });
+
+            //     // Add CSRF token
+            //     let csrfToken = $('meta[name="csrf-token"]').attr('content');
+            //     if (csrfToken) {
+            //         $form.append($('<input>', {
+            //             'type': 'hidden',
+            //             'name': '_token',
+            //             'value': csrfToken
+            //         }));
+            //     }
+
+            //     // Add method spoofing for DELETE (standard in Laravel)
+            //     $form.append($('<input>', {
+            //         'type': 'hidden',
+            //         'name': '_method',
+            //         'value': 'DELETE'
+            //     }));
+
+            //     // Append to body and submit
+            //     $('body').append($form);
+            //     $form.submit();
+            // });
+        }
+
+        // $(document).ready(function() {
+        //     $('.delete-btn').on('click', function() {
+        //         // 1. Get data from the clicked button
+        //         var deleteUrl = $(this).data('url');
+
+        //         var elementName = $(this).data('name');
+
+        //         // 2. Populate the modal elements
+        //         $('#set-action').attr('action', deleteUrl);
+        //         $('#element-name').text(elementName);
+
+        //         // 3. Show the modal using Bootstrap's JavaScript API
+        //         var dltModal = new bootstrap.Modal(document.getElementById('dltModal'));
+        //         dltModal.show();
+        //     });
+        // });
     </script>
     <script>
         function getSubCategory(el) {
@@ -116,11 +238,11 @@
                     url: url,
                     type: "GET",
                     dataType: "json",
-                    success: function (data) {
+                    success: function(data) {
 
                         subCategoryTag.empty();
                         subCategoryTag.append('<option selected disabled>Select</option>');
-                        $.each(data, function (index, districtObj) {
+                        $.each(data, function(index, districtObj) {
                             subCategoryTag.append('<option value="' + districtObj.id + '">' +
                                 districtObj.subcategory_name + '</option>');
                         });
@@ -143,10 +265,10 @@
                     url: url,
                     type: "GET",
                     dataType: "json",
-                    success: function (data) {
+                    success: function(data) {
                         resubcategoryTag.empty();
                         resubcategoryTag.append('<option selected disabled>Select</option>');
-                        $.each(data, function (index, districtObj) {
+                        $.each(data, function(index, districtObj) {
                             resubcategoryTag.append('<option value="' + districtObj.id + '">' +
                                 districtObj.resubcategory_name + '</option>');
                         });
@@ -169,10 +291,10 @@
                     url: url,
                     type: "GET",
                     dataType: "json",
-                    success: function (data) {
+                    success: function(data) {
                         parentTag.empty();
                         parentTag.append('<option selected disabled>Select</option>');
-                        $.each(data, function (index, districtObj) {
+                        $.each(data, function(index, districtObj) {
                             parentTag.append('<option value="' + districtObj.id + '">' +
                                 districtObj.name + '</option>');
                         });
@@ -185,26 +307,79 @@
     </script>
 
     <script>
-        const fileUploadSection = $("#file-upload-section");
-        const parentId = $("#parent_id");
-        const isGroup = $("#is_group");
-        const presentationType = $("#type");
-        const difficultySection = $("#difficulty-section");
+        $(document).ready(function() {
+            const fileUploadSection = $("#file-upload-section");
+            const parentId = $("#parent_id");
+            const isGroup = $("#is_group");
+            const fileOrientation = $("#file_orientation");
+            const uploadGroupsContainer = $("#upload-groups-container");
+            const allowFiles = $("#allow_files");
+            const allowFilesSection = $("#allow_files_section");
+            const fileOrientationSection = $("#file_orientation_section");
+            const isProSelect = $(".is_pro_select");
+            const difficultySelect = $(".difficulty-select");
 
-        isGroup.on("change", function() {
-            if ($(this).val() === "1") {
-                fileUploadSection.addClass("d-none");
-            } else {
-                fileUploadSection.removeClass("d-none");
+            allowFiles.on("change", function() {
+                if ($(this).val() === "1") {
+                    fileUploadSection.removeClass("d-none");
+                    fileOrientationSection.removeClass("d-none");
+                    isProSelect.prop('disabled', false);
+                    difficultySelect.prop('disabled', false);
+                } else {
+                    fileUploadSection.addClass("d-none");
+                    fileOrientationSection.addClass("d-none");
+                    isProSelect.prop('disabled', true);
+                    difficultySelect.prop('disabled', true);
+                }
+            });
+
+            // Function to toggle difficulty visibility based on file orientation
+            function updateDifficultyVisibility() {
+                if (fileOrientation.val() === "2") {
+                    difficultySelect.prop('disabled', false);
+                    $(".difficulty-section").removeClass('d-none');
+                } else {
+                    difficultySelect.prop('disabled', true);
+                    $(".difficulty-section").addClass('d-none');
+                }
             }
+
+
+            // Handle change on 'file_orientation' dropdown
+            fileOrientation.on("change", function() {
+                updateDifficultyVisibility();
+            });
+
+            // Run immediately on page load to match current state
+            updateDifficultyVisibility();
+
+            let uploadIndex = 1; // 0 already used for the first group
+
+            // Add new file row dynamically
+            $('#addFileBtn').on('click', function() {
+                const templateHtml = $('#upload-group-template').html();
+                const $clone = $(templateHtml);
+
+                // Set data-index and update name attributes
+                $clone.attr('data-index', uploadIndex);
+                $clone.find('[name]').each(function() {
+                    const name = $(this).attr('name').replace('__INDEX__', uploadIndex);
+                    $(this).attr('name', name);
+                });
+
+                // Append the clone to the container
+                uploadGroupsContainer.append($clone);
+
+                // Ensure the newly added row respects the current difficulty visibility rule
+                updateDifficultyVisibility();
+
+                uploadIndex++;
+            });
+
+            // Handle removal of dynamically added groups via event delegation
+            uploadGroupsContainer.on('click', '.remove-upload-group', function() {
+                $(this).closest('.upload-group-wrapper').remove();
+            });
         });
-
-        presentationType.on("change", function () {
-            if($(this).val() === "2") {
-                difficultySection.removeClass('d-none');
-            } else {
-                difficultySection.addClass('d-none');
-            }
-        })
     </script>
 @endsection

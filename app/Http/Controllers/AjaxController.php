@@ -263,7 +263,9 @@ class AjaxController extends Controller
     {
         $parents = BoardResource::query()
             ->where('resubcategory_id', $id)
-            ->where('is_group', 1)->get();
+            ->where('is_group', 1)
+            ->doesntHave('files')
+            ->get();
 
         return response()->json($parents);
     }

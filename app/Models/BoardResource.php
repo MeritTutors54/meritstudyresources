@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class BoardResource extends Model
 {
     protected $fillable = ['resubcategory_id', 'resource_type', 'parent_id', 'name', 'slug',
-        'is_section_title', 'is_group', 'is_paid', 'is_active'];
+        'is_section_title', 'is_group', 'file_orientation', 'allow_files', 'is_paid', 'is_active'];
 
     public function parent(): BelongsTo
     {
@@ -24,5 +24,10 @@ class BoardResource extends Model
     public function files(): HasMany
     {
         return $this->hasMany(BoardResourceFile::class);
+    }
+
+    public function examBoard(): BelongsTo
+    {
+        return $this->belongsTo(Resubcategory::class, 'resubcategory_id');
     }
 }
