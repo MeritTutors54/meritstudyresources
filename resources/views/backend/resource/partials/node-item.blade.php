@@ -147,15 +147,18 @@
                 </div>
 
                 <div class="action-group">
-                    <a href="{{ route('admin.board-resources.edit', $item['id']) }}" class="btn-action btn-edit" title="Edit">
+                    <a href="{{ route('admin.board-resources.edit', $item['id']) }}" class="btn-action btn-edit"
+                        title="Edit">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </a>
-                    <button type="button" class="btn-action btn-delete" title="Delete">
+
+                    <button type="button" class="btn-action btn-delete nodeDeletionBtn" title="Delete"
+                        data-id="{{ $item['id'] }}" data-name="{{ $item['name'] }}"
+                        data-url="{{ route('admin.board-resources.destroy', $item['id']) }}">
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </div>
             </div>
-
         @elseif($fileOrientation == 2)
             {{-- Type 2: Grouped by Difficulty --}}
             <div class="node-group-container">
@@ -172,10 +175,13 @@
                     </div>
 
                     <div class="action-group">
-                        <a href="{{ route('admin.board-resources.edit', $item['id']) }}" class="btn-action btn-edit" title="Edit">
+                        <a href="{{ route('admin.board-resources.edit', $item['id']) }}" class="btn-action btn-edit"
+                            title="Edit">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
-                        <button type="button" class="btn-action btn-delete" title="Delete">
+                        <button type="button" class="btn-action btn-delete nodeDeletionBtn" title="Delete"
+                            data-id="{{ $item['id'] }}" data-name="{{ $item['name'] }}"
+                            data-url="{{ route('admin.board-resources.destroy', $item['id']) }}">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </div>
@@ -189,7 +195,7 @@
                 <div class="difficulty-wrapper">
                     @foreach ($groupedFiles as $difficulty => $difficultyFiles)
                         @php
-                            $difficultyConfig = match ((string)$difficulty) {
+                            $difficultyConfig = match ((string) $difficulty) {
                                 '1' => ['label' => 'Easy', 'class' => 'diff-easy'],
                                 '2' => ['label' => 'Medium', 'class' => 'diff-medium'],
                                 '3' => ['label' => 'Hard', 'class' => 'diff-hard'],
@@ -205,8 +211,8 @@
                             <div class="badge-file-list">
                                 @foreach ($difficultyFiles as $index => $file)
                                     <a href="{{ asset('storage/' . $file['file_path']) }}" target="_blank"
-                                       class="file-chip {{ $file['is_pro'] ? 'is-pro' : '' }}"
-                                       title="Paper {{ $index + 1 }}">
+                                        class="file-chip {{ $file['is_pro'] ? 'is-pro' : '' }}"
+                                        title="Paper {{ $index + 1 }}">
                                         <span>Paper {{ $index + 1 }}</span>
                                         @if ($file['is_pro'])
                                             <span class="chip-pro-tag">PRO</span>
@@ -220,7 +226,7 @@
             </div>
         @endif
 
-    {{-- CASE 2: No Files (Section Titles / Categories) --}}
+        {{-- CASE 2: No Files (Section Titles / Categories) --}}
     @else
         <div class="node-row section-item {{ $item['is_section_title'] ? 'is-section' : '' }}">
             <div class="node-content d-flex align-items-center gap-2">
@@ -231,10 +237,13 @@
             </div>
 
             <div class="action-group">
-                <a href="{{ route('admin.board-resources.edit', $item['id']) }}" class="btn-action btn-edit" title="Edit">
+                <a href="{{ route('admin.board-resources.edit', $item['id']) }}" class="btn-action btn-edit"
+                    title="Edit">
                     <i class="fa-solid fa-pen-to-square"></i>
                 </a>
-                <button type="button" class="btn-action btn-delete" title="Delete">
+                <button type="button" class="btn-action btn-delete nodeDeletionBtn" title="Delete"
+                    data-id="{{ $item['id'] }}" data-name="{{ $item['name'] }}"
+                    data-url="{{ route('admin.board-resources.destroy', $item['id']) }}">
                     <i class="fa-solid fa-trash"></i>
                 </button>
             </div>

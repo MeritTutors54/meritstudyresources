@@ -30,6 +30,7 @@ class AdminBoardResourceRequest extends FormRequest
             'file_orientation' => ['nullable', 'in:1,2',],
             'allow_files' => ['required', 'boolean',],
             'uploads' => ['nullable', 'array',],
+            'uploads.*.file_id' => ['nullable', 'exists:board_resource_files,id'],
             'uploads.*.is_pro' => ['nullable', 'boolean',],
             'uploads.*.difficulty' => ['nullable', Rule::enum(DifficultyType::class),],
             'uploads.*.pdfFile' => ['nullable', 'file', 'mimes:pdf', 'max:10240',],

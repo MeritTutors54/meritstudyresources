@@ -191,7 +191,8 @@
                     $files = $resource->files ?? [];
                 @endphp
 
-                <div class="{{ isset($resource) && $resource->allow_files ? '' : 'd-none' }}" id="file-upload-section">
+                <div class="{{ isset($resource) && $resource->allow_files ? '' : 'd-none' }}"
+                    id="file-upload-section">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h4>File Upload Section</h4>
                         <button class="btn btn-primary btn-sm" type="button" id="addFileBtn">
@@ -204,9 +205,9 @@
 
                         <!-- ==== First (default) Upload Group ==== -->
                         @if (count($files) > 0)
-                            @foreach ($files as $file)
+                            @foreach ($files as $index => $file)
                                 <div class="upload-group-wrapper card shadow-sm mb-4 position-relative"
-                                    data-index="0">
+                                    data-index="{{ $index }}">
                                     <!-- Card Header with Item Number & Remove Button -->
                                     <div
                                         class="card-header bg-light d-flex justify-content-between align-items-center py-2">
@@ -221,37 +222,45 @@
                                             <!-- g-3 adds consistent gutter spacing between fields -->
 
 
+                                            <input type="text" value="{{ $file['id'] ?? '' }}"
+                                                name="uploads[{{ $index }}][file_id]">
+
+
                                             <div class="col-lg-8 col-8">
                                                 <!-- Is this paid? -->
                                                 <div class="col-12">
                                                     <div class="form-group">
-                                                        <label class="form-label">Is this paid?</label>
-                                                        <select name="uploads[0][is_pro]"
-                                                            class="form-select is_pro_select" disabled>
-                                                            <option value="0" selected>No</option>
-                                                            <option value="1">Yes</option>
+                                                        <label class="form-label">Is this pro?</label>
+                                                        <select name="uploads[{{ $index }}][is_pro]"
+                                                            class="form-select is_pro_select"
+                                                            {{ !empty($file) ? '' : 'disabled' }}>
+                                                            <option value="0" @selected(($file['is_pro'] ?? 0) == 0)>
+                                                                No
+                                                            </option>
+                                                            <option value="1" @selected(($file['is_pro'] ?? 0) == 1)>
+                                                                Yes
+                                                            </option>
                                                         </select>
-                                                        <div class="form-control-feedback d-none text-danger mt-1">
-                                                        </div>
                                                     </div>
                                                 </div>
 
                                                 <!-- Difficulty Section -->
-                                                <div class="col-12 d-none difficulty-section">
+                                                <div class="col-12 {{ !empty($file['is_pro']) ? '' : 'd-none' }}"
+                                                    difficulty-section">
                                                     <div class="form-group">
                                                         <label class="form-label">Select Difficulty</label>
                                                         <select name="uploads[0][difficulty]"
-                                                            class="form-select difficulty-select" disabled>
+                                                            class="form-select difficulty-select"
+                                                            {{ !empty($file['is_pro']) ? '' : 'disabled' }}>
                                                             @if (!empty($difficulties))
-                                                                @foreach ($difficulties as $index => $difficulty)
-                                                                    <option value="{{ $index }}">
+                                                                @foreach ($difficulties as $indexKey => $difficulty)
+                                                                    <option @selected(($file['difficulty'] ?? null) == $indexKey)
+                                                                        value="{{ $indexKey }}">
                                                                         {{ $difficulty }}
                                                                     </option>
                                                                 @endforeach
                                                             @endif
                                                         </select>
-                                                        <div class="form-control-feedback d-none text-danger mt-1">
-                                                        </div>
                                                     </div>
                                                 </div>
 
@@ -260,7 +269,7 @@
                                                     <div class="form-group">
                                                         <label class="form-label">PDF File</label>
                                                         <input class="form-control" type="file"
-                                                            name="uploads[0][pdfFile]" accept=".pdf">
+                                                            name="uploads[{{ $index }}][pdfFile]" accept=".pdf">
                                                         <div class="form-control-feedback d-none text-danger mt-1">
                                                         </div>
                                                     </div>

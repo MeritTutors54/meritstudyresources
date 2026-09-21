@@ -341,14 +341,14 @@
             </div>
 
             <!-- Modal Overlay and Box -->
-            <div id="alertOverlay" class="alert-overlay d-none" role="dialog" aria-modal="true"
+            {{-- <div id="alertOverlay" class="alert-overlay d-none" role="dialog" aria-modal="true"
                 aria-labelledby="alertTitle">
                 <div class="alert-box">
                     <h3 id="alertTitle" class="alert-title">Notice</h3>
                     <p class="alert-message" id="alert-overlay-message"></p>
                     <button id="alertCloseBtn" class="alert-btn">Okay</button>
                 </div>
-            </div>
+            </div> --}}
 
             <!-- Main content -->
             <section class="content">
@@ -368,43 +368,6 @@
                                 </div>
                             </div>
                             @include('layouts.backend.notification')
-
-                            {{-- <div class="box-header with-border">
-                                @if (!empty($nodes))
-                                    @foreach ($nodes as $node)
-                                        <div class="card p-3 mb-3">
-                                            <div class="d-flex gap-2">
-                                                <p class="mb-0">✷ {{ $node['name'] }}</p>
-                                                <a href="{{ route('admin.board-resources.edit', $node['id']) }}">
-                                                    <i class="fa-solid fa-pen-to-square"
-                                                        style="font-size: 16px; color: #ffc107;"></i></a>
-                                                <i class="fa-solid fa-trash" style="font-size: 16px; color: #dc3545;"></i>
-                                            </div>
-
-                                            @if (!empty($node['children']))
-                                                @foreach ($node['children'] as $child)
-
-                                                    @include('backend.resource.partials.node-item', [
-                                                        'node' => $node,
-                                                        'item' => $child,
-                                                        'depth' => 1,
-                                                    ])
-
-                                                    @if (!empty($child['children']))
-                                                        @foreach ($child['children'] as $preChild)
-                                                            @include(
-                                                                'backend.resource.partials.node-item',
-                                                                ['item' => $preChild, 'depth' => 2]
-                                                            )
-                                                        @endforeach
-                                                    @endIf
-                                                @endforeach
-                                            @endif
-                                        </div>
-                                    @endforeach
-                                @endif
-                            </div> --}}
-
 
                             <div class="">
                                 <form class="d-flex flex-column flex-lg-row align-items-lg-end gap-3 p-4">
@@ -434,14 +397,14 @@
                                             <label class="form-label" for="subcategory">SubCategory</label>
                                             <select name="subcategory" onchange="getReSubCategory(this)" id="subcategory"
                                                 class="form-select select2">
-                                                @if (!empty($old_cat))
+                                                {{-- @if (!empty($old_cat))
                                                     @foreach ($old_cat as $sub)
                                                         <option {{ old('subcategory') == $sub->id ? 'selected' : '' }}
                                                             value="{{ $sub->id }}">
                                                             {{ $sub->subcategory_name }}
                                                         </option>
                                                     @endforeach
-                                                @endif
+                                                @endif --}}
                                                 @if (!empty($data['subcategories']))
                                                     @foreach ($data['subcategories'] as $subcategory)
                                                         <option
@@ -468,14 +431,14 @@
                                             <select name="resubcategory_id" id="resubcategory" onchange="getParents(this)"
                                                 class="form-select">
                                                 <option selected disabled>Select...</option>
-                                                @if (!empty($old_sub))
+                                                {{-- @if (!empty($old_sub))
                                                     @foreach ($old_sub as $re)
                                                         <option {{ old('resubcategory') == $re->id ? 'selected' : '' }}
                                                             value="{{ $re->id }}">
                                                             {{ $re->resubcategory_name }}
                                                         </option>
                                                     @endforeach
-                                                @endif
+                                                @endif --}}
                                                 @if (!empty($data['resubcategories']))
                                                     @foreach ($data['resubcategories'] as $resubcategory)
                                                         <option @selected(old('resubcategory_id', $data['selectedResubcategory'] ?? '') == $resubcategory->id)
@@ -508,9 +471,10 @@
                                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                                         @foreach ($data['syllabus'] as $groupName => $portion)
                                             <li class="nav-item" role="presentation">
-                                                <button class="nav-link {{ $hint === 0 ? 'active' : '' }}" id="{{ $groupName }}-tab"
-                                                    data-bs-toggle="tab" data-bs-target="#{{ $groupName }}-pane"
-                                                    type="button" role="tab" aria-controls="{{ $groupName }}-pane"
+                                                <button class="nav-link {{ $hint === 0 ? 'active' : '' }}"
+                                                    id="{{ $groupName }}-tab" data-bs-toggle="tab"
+                                                    data-bs-target="#{{ $groupName }}-pane" type="button"
+                                                    role="tab" aria-controls="{{ $groupName }}-pane"
                                                     aria-selected="true">
                                                     {{ $groupName }}
                                                 </button>
@@ -531,7 +495,7 @@
                                     @endphp
                                     @foreach ($data['syllabus'] as $resource => $syllabus)
                                         <div class="tab-pane fade {{ $peHint === 0 ? 'active show' : '' }}"
-                                        id="{{ $resource }}-pane" role="tabpanel"
+                                            id="{{ $resource }}-pane" role="tabpanel"
                                             aria-labelledby="{{ $resource }}-tab" tabindex="0">
                                             <h4>{{ $resource }} Content</h4>
                                             <div class="resource-tree-container">
@@ -561,8 +525,10 @@
                                                                         class="btn-action btn-edit" title="Edit">
                                                                         <i class="fa-solid fa-pen-to-square fa-2x"></i>
                                                                     </a>
-                                                                    <button type="button" class="btn-action btn-delete"
-                                                                        title="Delete">
+                                                                    <button type="button" class="btn-action btn-delete nodeDeletionBtn"
+                                                                        title="Delete" data-id="{{ $node['id'] }}"
+                                                                        data-name="{{ $node['name'] }}"
+                                                                        data-url="{{ route('admin.board-resources.destroy', $node['id']) }}">
                                                                         <i class="fa-solid fa-trash fa-2x"></i>
                                                                     </button>
                                                                 </div>
@@ -698,6 +664,64 @@
                 alert('sorry data not found');
             }
         }
+
+
+        $(".nodeDeletionBtn").on("click", function() {
+            const $btn = $(this);
+            const url = $btn.data('url');
+
+            // Hide the original delete button
+            $btn.hide();
+
+            // Create the Confirm and Cancel buttons group
+            const $confirmGroup = $(`
+                <div class="confirm-cancel-group d-inline-block" style="margin-top: ${$btn.css('margin-top')}">
+                    <button type="button" class="btn btn-danger btn-sm confirm-delete-btn">Confirm</button>
+                    <button type="button" class="btn btn-secondary btn-sm cancel-delete-btn">Cancel</button>
+                </div>
+            `);
+
+            $btn.after($confirmGroup);
+
+            // 2. Handle Cancel action
+            $confirmGroup.find('.cancel-delete-btn').on('click', function() {
+                $confirmGroup
+            .remove(); // Remove confirm/cancel buttons$btn.show();            // Show original delete button again
+                $btn.show(); // Show original delete button again
+            });
+
+            // 3. Handle Confirm action (Directly hits the route via a dynamic form)
+            $confirmGroup.find('.confirm-delete-btn').on('click', function() {
+                // Create a dynamic form for Laravel DELETE request
+                let $form = $('<form>', {
+                    'method': 'POST',
+                    'action': url
+                });
+
+                // Add CSRF token
+                let csrfToken = '{{ csrf_token() }}';
+                if (csrfToken) {
+                    $form.append($('<input>', {
+                        'type': 'hidden',
+                        'name': '_token',
+                        'value': csrfToken
+                    }));
+                }
+
+                // Add method spoofing for DELETE (standard in Laravel)
+                $form.append($('<input>', {
+                    'type': 'hidden',
+                    'name': '_method',
+                    'value': 'DELETE'
+                }));
+
+                // Append to body and submit
+                $('body').append($form);
+                $form.submit();
+            });
+        });
+
+
     </script>
 
 

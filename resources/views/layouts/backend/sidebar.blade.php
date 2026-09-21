@@ -8,7 +8,7 @@
                     <li class="header">Dashboard</li>
                     {{-- Dashboard --}}
                     <li class="{{ request()->is('admin') ? 'active' : '' }}">
-                        <a href="{{ route("admin.dashboard") }}">
+                        <a href="{{ route('admin.dashboard') }}">
                             <i class="icon-Layout-4-blocks">
                                 <span class="path1"></span><span class="path2"></span>
                             </i>
@@ -17,7 +17,7 @@
                     </li>
 
                     <li class="header">Operations</li>
-                    {{--Past Paper--}}
+                    {{-- Past Paper --}}
                     <li class="treeview {{ request()->is('admin/categories*') ? 'active menu-open' : '' }}">
                         <a href="#">
                             <i class="icon-Write">
@@ -30,7 +30,8 @@
                         </a>
                         <ul class="treeview-menu">
                             @can('viewPastPaper', Auth::user())
-                                <li class="{{ request()->routeIs('admin.past-papers.edit') || request()->routeIs('admin.past-papers.index') ? 'active' : '' }}">
+                                <li
+                                    class="{{ request()->routeIs('admin.past-papers.edit') || request()->routeIs('admin.past-papers.index') ? 'active' : '' }}">
                                     <a href="{{ route('admin.past-papers.index') }}">
                                         <i class="icon-Commit">
                                             <span class="path1"></span><span class="path2"></span>
@@ -50,7 +51,7 @@
                                 </li>
                             @endcan
                             <li class="{{ request()->is('admin/missing-pastpapers') ? 'active' : '' }}">
-                                <a href="{{ route("admin.missing.pastpapers") }}">
+                                <a href="{{ route('admin.missing.pastpapers') }}">
                                     <i class="icon-Commit">
                                         <span class="path1"></span><span class="path2"></span>
                                     </i>
@@ -99,16 +100,17 @@
                             @endcan
                         </ul>
                     </li>
-                    {{--Blog--}}
-                    <li class="treeview {{ request()->is('admin/blog-categories*') || request()->is('admin/blogs*') ? 'active menu-open' : '' }}">
+                    {{-- Blog --}}
+                    <li
+                        class="treeview {{ request()->is('admin/blog-categories*') || request()->is('admin/blogs*') ? 'active menu-open' : '' }}">
                         <a href="#">
                             <i class="icon-File">
                                 <span class="path1"></span><span class="path2"></span><span class="path3"></span>
                             </i>
                             <span>Blog</span>
                             <span class="pull-right-container">
-					            <i class="fa fa-angle-right pull-right"></i>
-					        </span>
+                                <i class="fa fa-angle-right pull-right"></i>
+                            </span>
                         </a>
                         <ul class="treeview-menu">
                             @can('viewBlog', Auth::user())
@@ -141,8 +143,21 @@
                             </li>
                         </ul>
                     </li>
+
+
+                    <li class="{{ request()->is('admin/board-resources*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.board-resources.index') }}">
+                            <i class="icon-Chart-pie">
+                                <span class="path1"></span><span class="path2"></span><span class="path3"></span>
+                            </i>
+                            <span>Resources Availability</span>
+                        </a>
+                    </li>
+
+
                     {{-- Study Materials --}}
-                    <li class="treeview {{  request()->is('admin/subjects*') || request()->is('admin/educational-levels*') || request()->is('admin/courses*') || request()->is('admin/resources*') ? 'active menu-open' : '' }}">
+                    <li
+                        class="treeview {{ request()->is('admin/subjects*') || request()->is('admin/educational-levels*') || request()->is('admin/courses*') || request()->is('admin/resources*') ? 'active menu-open' : '' }}">
                         <a href="#">
                             <i class="icon-Chart-pie"><span class="path1"></span><span class="path2"></span></i>
                             <span>Resources</span>
@@ -151,16 +166,6 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-
-                            <li class="{{ request()->is('admin/resources*') ? 'active' : '' }}">
-                                <a href="{{ route('admin.board-resources.index') }}">
-                                    <i class="icon-Commit">
-                                        <span class="path1"></span><span class="path2"></span>
-                                    </i>
-                                    Resources Availability
-                                </a>
-                            </li>
-
                             @can('viewStudyMaterialUpload', Auth::user())
                                 <li class="{{ request()->is('admin/resources*') ? 'active' : '' }}">
                                     <a href="{{ route('admin.resources.index') }}">
@@ -212,8 +217,8 @@
                                 </i>
                                 <span>Subscription</span>
                                 <span class="pull-right-container">
-					            <i class="fa fa-angle-right pull-right"></i>
-					        </span>
+                                    <i class="fa fa-angle-right pull-right"></i>
+                                </span>
                             </a>
                             <ul class="treeview-menu">
                                 <li class="{{ request()->is('admin/subscription-plans*') ? 'active' : '' }}">
@@ -233,8 +238,8 @@
                             <i class="icon-Cart"><span class="path1"></span><span class="path2"></span></i>
                             <span>Shop</span>
                             <span class="pull-right-container">
-                              <i class="fa fa-angle-right pull-right"></i>
-					        </span>
+                                <i class="fa fa-angle-right pull-right"></i>
+                            </span>
                         </a>
                         <ul class="treeview-menu">
                             @can('viewProduct', Auth::user())
@@ -273,13 +278,13 @@
                                     </a>
                                 </li>
                             @endcan
-                                <li class="{{ request()->is('admin/year-groups*') ? 'active' : '' }}">
-                                    <a href="{{ route('admin.year-groups.index') }}">
-                                        <i class="icon-Commit"><span class="path1"></span><span
-                                                class="path2"></span></i>
-                                        Manage Year Group
-                                    </a>
-                                </li>
+                            <li class="{{ request()->is('admin/year-groups*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.year-groups.index') }}">
+                                    <i class="icon-Commit"><span class="path1"></span><span
+                                            class="path2"></span></i>
+                                    Manage Year Group
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="treeview">
@@ -287,8 +292,8 @@
                             <i class="icon-Cart"><span class="path1"></span><span class="path2"></span></i>
                             <span>Orders</span>
                             <span class="pull-right-container">
-                              <i class="fa fa-angle-right pull-right"></i>
-					        </span>
+                                <i class="fa fa-angle-right pull-right"></i>
+                            </span>
                         </a>
                         <ul class="treeview-menu">
                             @can('viewOrderDetails', Auth::user())
@@ -317,8 +322,8 @@
                                 <i class="icon-User"><span class="path1"></span><span class="path2"></span></i>
                                 <span>Coupon</span>
                                 <span class="pull-right-container">
-					                <i class="fa fa-angle-right pull-right"></i>
-					            </span>
+                                    <i class="fa fa-angle-right pull-right"></i>
+                                </span>
                             </a>
                             <ul class="treeview-menu">
                                 <li class="{{ request()->is('admin/coupons*') ? 'active' : '' }}">
@@ -332,15 +337,16 @@
                         </li>
                     @endcan
                     <li class="header">Site & Other</li>
-                    <li class="treeview {{ request()->is('admin/seo-settings') || request()->is('admin/site-settings') ? 'active menu-open' : '' }}">
+                    <li
+                        class="treeview {{ request()->is('admin/seo-settings') || request()->is('admin/site-settings') ? 'active menu-open' : '' }}">
                         <a href="#">
                             <i class="icon-User">
                                 <span class="path1"></span><span class="path2"></span>
                             </i>
                             <span>Manage Site</span>
                             <span class="pull-right-container">
-					            <i class="fa fa-angle-right pull-right"></i>
-					        </span>
+                                <i class="fa fa-angle-right pull-right"></i>
+                            </span>
                         </a>
                         <ul class="treeview-menu">
                             @can('viewSiteSettings', Auth::user())
@@ -431,8 +437,8 @@
                             <i class="icon-Chat-check"><span class="path1"></span><span class="path2"></span></i>
                             <span>Admin Stuff</span>
                             <span class="pull-right-container">
-					  <i class="fa fa-angle-right pull-right"></i>
-					</span>
+                                <i class="fa fa-angle-right pull-right"></i>
+                            </span>
                         </a>
                         <ul class="treeview-menu">
                             <li>

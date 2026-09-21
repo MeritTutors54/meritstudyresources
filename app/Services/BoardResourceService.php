@@ -41,6 +41,30 @@ class BoardResourceService
         });
     }
 
+    // public function update(BoardResource $boardResource, array $data): BoardResource
+    // {
+    //     return DB::transaction(function () use ($boardResource, $data) {
+    //         $uploads = $data['uploads'] ?? [];
+
+    //         unset($data['uploads']);
+
+    //         $this->validateParentResourceType($data);
+
+    //         $this->repository->update(
+    //             $data,
+    //             $boardResource->id
+    //         );
+
+    //         $this->storeFiles(
+    //             boardResource: $boardResource,
+    //             uploads: $uploads,
+    //         );
+
+    //         return $boardResource->refresh();
+    //     });
+    // }
+
+
     public function update(BoardResource $boardResource, array $data): BoardResource
     {
         return DB::transaction(function () use ($boardResource, $data) {
@@ -49,33 +73,98 @@ class BoardResourceService
             unset($data['uploads']);
 
             $this->validateParentResourceType($data);
-
-            // $this->repository->update(
-            //     $boardResource,
-            //     $data
-            // );
-
-            $this->storeFiles(
-                boardResource: $boardResource,
-                uploads: $uploads,
-            );
+            $this->repository->update($data, $boardResource->id);
+            $this->processUploads(boardResource: $boardResource, uploads: $uploads,);
 
             return $boardResource->refresh();
         });
     }
 
+    protected function processUploads(BoardResource $boardResource, array $uploads): void
+    {
+        foreach ($uploads as $upload) {
+            if (empty($upload['pdfFile'])) {
+                continue;
+            }
+
+            /* * Existing file is being replaced. */
+            if (!empty($upload['file_id'])) {
+                $existingFile = $boardResource->files()->whereKey($upload['file_id'])->firstOrFail();
+
+                $this->replaceFile(existingFile: $existingFile, boardResource: $boardResource, upload: $upload,);
+                continue;
+            } /* * No existing file ID means this is a new file. */
+
+            $this->storeFile(boardResource: $boardResource, upload: $upload,);
+        }
+    }
+
+    protected function replaceFile(BoardResourceFile $existingFile, BoardResource $boardResource, array $upload): BoardResourceFile
+    {
+        /** @var \Illuminate\Http\UploadedFile $file */ $file = $upload['pdfFile']; /* * Store the new file FIRST. * * This is safer than deleting the old file first. */
+        $newPath = $this->storeUploadedFile($file); /* * Remember the old physical path. */
+        $oldPath = $existingFile->file_path; /* * Update the existing database record. */
+        $existingFile->update(['file_path' => $newPath, 'difficulty' => $upload['difficulty'] ?? null, 'is_pro' => $upload['is_pro'] ?? false,]); /* * Delete the old physical file only after * the database record has been updated. */
+        $this->deletePhysicalFile($oldPath);
+
+        return $existingFile->refresh();
+    }
+
+    protected function storeUploadedFile(\Illuminate\Http\UploadedFile $file): string
+    {
+        $fileName = $this->generateFileName($file);
+        return $file->storeAs(self::FILE_DIRECTORY, $fileName, self::FILE_DISK);
+    }
+
+    protected function deletePhysicalFile(?string $path): void
+    {
+        if (!$path) {
+            return;
+        }
+        $disk = Storage::disk(self::FILE_DISK);
+        if ($disk->exists($path)) {
+            $disk->delete($path);
+        }
+    }
+
     public function delete(BoardResource $boardResource): bool
     {
         return DB::transaction(function () use ($boardResource) {
-            $files = $boardResource->files()->get();
-
-            foreach ($files as $file) {
-                $this->deleteStoredFile($file);
-            }
-
-            return $this->repository->delete($boardResource);
+            $this->deleteResourceTree($boardResource);
+            return true;
         });
     }
+
+    protected function deleteResourceTree(BoardResource $boardResource): void
+    {
+        /* * First delete all children. * * Each child can have its own children, so this * method calls itself recursively. */
+        $children = $boardResource->children()->get();
+
+        foreach ($children as $child) {
+            $this->deleteResourceTree($child);
+        } /* * Delete all files belonging to this resource. */
+
+        $files = $boardResource->files()->get();
+
+        foreach ($files as $file) {
+            $this->deleteStoredFile($file);
+        } /* * Finally delete the resource itself. */
+
+        $this->repository->delete($boardResource->id);
+    }
+
+    // public function delete(BoardResource $boardResource): bool
+    // {
+    //     return DB::transaction(function () use ($boardResource) {
+    //         $files = $boardResource->files()->get();
+
+    //         foreach ($files as $file) {
+    //             $this->deleteStoredFile($file);
+    //         }
+
+    //         return $this->repository->delete($boardResource->id);
+    //     });
+    // }
 
     public function deleteFile(BoardResourceFile $boardResourceFile): bool
     {

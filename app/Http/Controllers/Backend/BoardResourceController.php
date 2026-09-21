@@ -69,7 +69,7 @@ class BoardResourceController extends Controller
     {
         $this->boardResourceService->create($request->validated());
 
-        return to_route('admin.board-resources.index')
+        return to_route('admin.board-resources.create')
             ->with('success', 'Resource created successfully.');
     }
 
@@ -224,6 +224,7 @@ class BoardResourceController extends Controller
 
     public function update(AdminBoardResourceRequest $request, BoardResource $boardResource): RedirectResponse
     {
+        
         $this->boardResourceService->update($boardResource, $request->validated());
 
         return to_route('admin.board-resources.index')->with('success', 'Resource updated successfully.');
@@ -239,6 +240,7 @@ class BoardResourceController extends Controller
     public function deleteFile(BoardResourceFile $boardResourceFile): RedirectResponse
     {
         $resourceId = $boardResourceFile->board_resource_id;
+
         $this->boardResourceService->deleteFile($boardResourceFile);
 
         return to_route('admin.board-resources.edit', $resourceId)->with('success', 'File deleted successfully.');

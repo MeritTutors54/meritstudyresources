@@ -14,8 +14,10 @@ use Illuminate\Support\Collection;
 
 class BoardResourceRepository extends BaseRepository implements BoardResourceRepositoryInterface
 {
-    public function __construct(BoardResource $resource)
-    {
+    public function __construct(
+        BoardResource $resource,
+        protected CategoryRepositoryInterface $categoryRepo,
+    ) {
         parent::__construct($resource);
     }
 
@@ -84,7 +86,7 @@ class BoardResourceRepository extends BaseRepository implements BoardResourceRep
 
         return [
             'resource' => $boardResource,
-            'categories' => $this->getCategories(),
+            'categories' => $this->categoryRepo->activeCategories(),
             'subCategories' => $subCategories,
             'boards' => $boards,
             'parents' => $this->getParents($examBoard->id),
