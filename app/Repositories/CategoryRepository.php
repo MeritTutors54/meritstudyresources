@@ -10,4 +10,11 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
     {
         parent::__construct($category);
     }
+
+     public function activeCategories()
+    {
+        return Category::where('is_active', 1)
+            ->orderBy("category_name", "asc")
+            ->get();
+    }
 }
