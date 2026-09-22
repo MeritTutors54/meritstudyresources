@@ -4,24 +4,32 @@ namespace App\Providers;
 
 use App\Events\SubscribeEvent;
 use App\Listeners\SendSubscriberEmailListener;
+
 use App\Models\Cart;
 use App\Models\SiteSettings;
 use App\Models\Subject;
 use App\Models\Subscription;
-use App\Repositories\BoardResourceRepository;
-use App\Repositories\CategoryRepository;
-use App\Repositories\Interfaces\BoardResourceRepositoryInterface;
-use App\Repositories\Interfaces\CategoryRepositoryInterface;
-use App\Repositories\Interfaces\PastPaperRepositoryInterface;
-use App\Repositories\PastPaperRepository;
+use App\Models\Social;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use App\Models\Social;
+
+use App\Repositories\Interfaces\ResubcategoryRepositoryInterface;
+use App\Repositories\Interfaces\SubcategoryRepositoryInterface;
+use App\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Repositories\Interfaces\SubscriptionPlanRepositoryInterface;
+use App\Repositories\Interfaces\BoardResourceRepositoryInterface;
+use App\Repositories\Interfaces\PastPaperRepositoryInterface;
+use App\Repositories\ResubcategoryRepository;
+use App\Repositories\SubcategoryRepository;
+use App\Repositories\CategoryRepository;
 use App\Repositories\SubscriptionPlanRepository;
+use App\Repositories\PastPaperRepository;
+use App\Repositories\BoardResourceRepository;
+
 use Laravel\Cashier\Cashier;
 
 class AppServiceProvider extends ServiceProvider
@@ -32,7 +40,8 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
-        $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
+        $this->app->bind(SubcategoryRepositoryInterface::class, SubcategoryRepository::class);
+        $this->app->bind(ResubcategoryRepositoryInterface::class, ResubcategoryRepository::class);
         $this->app->bind(PastPaperRepositoryInterface::class, PastPaperRepository::class);
 
         $this->app->bind(SubscriptionPlanRepositoryInterface::class, SubscriptionPlanRepository::class);

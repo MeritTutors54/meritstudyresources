@@ -3,6 +3,7 @@
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Frontend\BoardResourceController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CheckoutController;
@@ -47,6 +48,8 @@ Route::group(['middleware' => 'team.permission'], function () {
         ->name('single.product');
 
     Route::get('/pricing', [FrontendController::class, 'pricing'])->name('pricing');
+
+    Route::get('/board-resources', [BoardResourceController::class, 'index'])->name('board-resources');
     /*
     |--------------------------------------------------------------------------
     | Resource Section
