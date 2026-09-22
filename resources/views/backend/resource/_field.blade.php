@@ -59,7 +59,7 @@
 
                     <div class="col-lg-4 col-12">
                         <div class="form-group">
-                            <label class="form-label" for="subcategory">SubCategory</label>
+                            <label class="form-label" for="subcategory">Subcategory</label>
                             <select name="subcategory" onchange="getReSubCategory(this)" id="subcategory"
                                 class="form-select select2">
                                 @if (!empty($old_cat))
@@ -88,7 +88,7 @@
 
                     <div class="col-lg-4 col-12">
                         <div class="form-group">
-                            <label class="form-label" for="resubcategory">ReSubCategory</label>
+                            <label class="form-label" for="resubcategory">Exam Board</label>
                             <select name="resubcategory_id" id="resubcategory" onchange="getParents(this)"
                                 class="form-select">
                                 <option selected disabled>Select...</option>
@@ -134,7 +134,7 @@
 
                     <div class="col-lg-3 col-12">
                         <div class="form-group">
-                            <label class="form-label" for="is_paid">Is parent is pro?</label>
+                            <label class="form-label" for="is_paid">Is this paid?</label>
                             <select name="is_paid" id="is_paid" class="form-select">
                                 <option @selected(old('is_paid', $resource->is_paid ?? '') == '0') value="0">No</option>
                                 <option @selected(old('is_paid', $resource->is_paid ?? '') == '1') value="1">Yes</option>
@@ -202,7 +202,6 @@
 
                     <!-- Container where all upload groups will live -->
                     <div id="upload-groups-container">
-
                         <!-- ==== First (default) Upload Group ==== -->
                         @if (count($files) > 0)
                             @foreach ($files as $index => $file)
@@ -225,15 +224,15 @@
                                             <input type="text" value="{{ $file['id'] ?? '' }}"
                                                 name="uploads[{{ $index }}][file_id]">
 
-
                                             <div class="col-lg-8 col-8">
                                                 <!-- Is this paid? -->
-                                                <div class="col-12">
+                                                <div
+                                                    class="col-12 is-pro-wrapper {{ $resource['is_group'] == 1 ? '' : 'd-none' }}">
                                                     <div class="form-group">
                                                         <label class="form-label">Is this pro?</label>
                                                         <select name="uploads[{{ $index }}][is_pro]"
-                                                            class="form-select is_pro_select"
-                                                            {{ !empty($file) ? '' : 'disabled' }}>
+                                                            {{ $resource['is_group'] == 1 ? '' : 'disabled' }}
+                                                            class="form-select is_pro_select">
                                                             <option value="0" @selected(($file['is_pro'] ?? 0) == 0)>
                                                                 No
                                                             </option>
@@ -245,13 +244,13 @@
                                                 </div>
 
                                                 <!-- Difficulty Section -->
-                                                <div class="col-12 {{ !empty($file['is_pro']) ? '' : 'd-none' }}"
+                                                <div class="col-12 {{ $resource->file_orientation == 2 ? '' : 'd-none' }}"
                                                     difficulty-section">
                                                     <div class="form-group">
                                                         <label class="form-label">Select Difficulty</label>
-                                                        <select name="uploads[0][difficulty]"
+                                                        <select name="uploads[{{ $index }}][difficulty]"
                                                             class="form-select difficulty-select"
-                                                            {{ !empty($file['is_pro']) ? '' : 'disabled' }}>
+                                                            {{ $resource->file_orientation == 2 ? '' : 'disabled' }}>
                                                             @if (!empty($difficulties))
                                                                 @foreach ($difficulties as $indexKey => $difficulty)
                                                                     <option @selected(($file['difficulty'] ?? null) == $indexKey)
@@ -269,7 +268,8 @@
                                                     <div class="form-group">
                                                         <label class="form-label">PDF File</label>
                                                         <input class="form-control" type="file"
-                                                            name="uploads[{{ $index }}][pdfFile]" accept=".pdf">
+                                                            name="uploads[{{ $index }}][pdfFile]"
+                                                            accept=".pdf">
                                                         <div class="form-control-feedback d-none text-danger mt-1">
                                                         </div>
                                                     </div>
@@ -327,7 +327,7 @@
                     <div class="row g-3">
 
                         <!-- Is this paid? -->
-                        <div class="col-lg-4 col-12">
+                        <div class="col-lg-4 col-12 is-pro-wrapper">
                             <div class="form-group">
                                 <label class="form-label">Is this paid?</label>
                                 <select name="uploads[__INDEX__][is_pro]" class="form-select is_pro_select">

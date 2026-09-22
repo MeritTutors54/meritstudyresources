@@ -224,17 +224,24 @@ class BoardResourceController extends Controller
 
     public function update(AdminBoardResourceRequest $request, BoardResource $boardResource): RedirectResponse
     {
-        
         $this->boardResourceService->update($boardResource, $request->validated());
 
-        return to_route('admin.board-resources.index')->with('success', 'Resource updated successfully.');
+        return to_route('admin.board-resources.index', [
+            'category' => $boardResource->examBoard->category_id,
+            'subcategory' => $boardResource->examBoard->subcategory_id,
+            'resubcategory_id' => $boardResource->resubcategory_id,
+        ])->with('success', 'Resource updated successfully.');
     }
 
     public function destroy(BoardResource $boardResource): RedirectResponse
     {
         $this->boardResourceService->delete($boardResource);
 
-        return to_route('admin.board-resources.index')->with('success', 'Resource deleted successfully.');
+        return to_route('admin.board-resources.index', [
+            'category' => $boardResource->examBoard->category_id,
+            'subcategory' => $boardResource->examBoard->subcategory_id,
+            'resubcategory_id' => $boardResource->resubcategory_id,
+        ])->with('success', 'Resource deleted successfully.');
     }
 
     public function deleteFile(BoardResourceFile $boardResourceFile): RedirectResponse

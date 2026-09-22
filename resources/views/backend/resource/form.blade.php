@@ -82,6 +82,9 @@
                             <div class="box-header with-border">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h4 class="box-title m-0">{{ $scope }} board resource</h4>
+                                    <button id="submit-from-top" class="btn btn-success">
+                                        Submit
+                                    </button>
                                 </div>
                             </div>
                             @include('layouts.backend.notification')
@@ -109,6 +112,10 @@
                 allowClear: true,
                 width: '100%'
             });
+
+            $("#submit-from-top").on('click', function() {
+                $("#pastPaperForm").submit();
+            });
         });
 
         $(".fileDeleteButton").on("click", function() {
@@ -131,7 +138,7 @@
             // 2. Handle Cancel action
             $confirmGroup.find('.cancel-delete-btn').on('click', function() {
                 $confirmGroup
-            .remove(); // Remove confirm/cancel buttons$btn.show();            // Show original delete button again
+                    .remove(); // Remove confirm/cancel buttons$btn.show();            // Show original delete button again
                 $btn.show(); // Show original delete button again
             });
 
@@ -165,7 +172,6 @@
                 $form.submit();
             });
         });
-
     </script>
     <script>
         $('#resource_type').on('change', function() {
@@ -294,6 +300,22 @@
                 }
             }
 
+            function toggleIsProVisibility() {
+                const isGroupVal = $("#is_group").val();
+                const $isProWrappers = $(".is-pro-wrapper");
+                const $isProSelects = $(".is_pro_select");
+
+                if (isGroupVal === "0") {
+                    // Hide the wrapper and disable the select so it isn't submitted
+                    $isProWrappers.addClass("d-none");
+                    $isProSelects.prop("disabled", true);
+                } else {
+                    // Show the wrapper and enable the select
+                    $isProWrappers.removeClass("d-none");
+                    $isProSelects.prop("disabled", false);
+                }
+            }
+
 
             // Handle change on 'file_orientation' dropdown
             fileOrientation.on("change", function() {
@@ -303,15 +325,19 @@
             // Run immediately on page load to match current state
             updateDifficultyVisibility();
 
-            let uploadIndex = 1; // 0 already used for the first group
+            let uploadIndex = 200; // 0 already used for the first group
 
             // Add new file row dynamically
             $('#addFileBtn').on('click', function() {
                 const templateHtml = $('#upload-group-template').html();
                 const $clone = $(templateHtml);
 
+                const isGroup = $("#is_group");
+                const isProSelect = $(".is_pro_select");
                 // Set data-index and update name attributes
                 $clone.attr('data-index', uploadIndex);
+
+
                 $clone.find('[name]').each(function() {
                     const name = $(this).attr('name').replace('__INDEX__', uploadIndex);
                     $(this).attr('name', name);
@@ -322,6 +348,8 @@
 
                 // Ensure the newly added row respects the current difficulty visibility rule
                 updateDifficultyVisibility();
+
+                toggleIsProVisibility();
 
                 uploadIndex++;
             });

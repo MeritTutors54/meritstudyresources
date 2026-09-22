@@ -41,29 +41,6 @@ class BoardResourceService
         });
     }
 
-    // public function update(BoardResource $boardResource, array $data): BoardResource
-    // {
-    //     return DB::transaction(function () use ($boardResource, $data) {
-    //         $uploads = $data['uploads'] ?? [];
-
-    //         unset($data['uploads']);
-
-    //         $this->validateParentResourceType($data);
-
-    //         $this->repository->update(
-    //             $data,
-    //             $boardResource->id
-    //         );
-
-    //         $this->storeFiles(
-    //             boardResource: $boardResource,
-    //             uploads: $uploads,
-    //         );
-
-    //         return $boardResource->refresh();
-    //     });
-    // }
-
 
     public function update(BoardResource $boardResource, array $data): BoardResource
     {
@@ -73,7 +50,9 @@ class BoardResourceService
             unset($data['uploads']);
 
             $this->validateParentResourceType($data);
+
             $this->repository->update($data, $boardResource->id);
+
             $this->processUploads(boardResource: $boardResource, uploads: $uploads,);
 
             return $boardResource->refresh();
@@ -83,32 +62,67 @@ class BoardResourceService
     protected function processUploads(BoardResource $boardResource, array $uploads): void
     {
         foreach ($uploads as $upload) {
-            if (empty($upload['pdfFile'])) {
-                continue;
-            }
+            // if (!empty($upload['file_id']) && !empty($upload['pdfFile'])) {
+            //     dd('jjjj');
+            //     $existingFile = $boardResource->files()->whereKey($upload['file_id'])->firstOrFail();
 
-            /* * Existing file is being replaced. */
-            if (!empty($upload['file_id'])) {
-                $existingFile = $boardResource->files()->whereKey($upload['file_id'])->firstOrFail();
+            //     $this->replaceFile(existingFile: $existingFile, boardResource: $boardResource, upload: $upload,);
+            // }
 
-                $this->replaceFile(existingFile: $existingFile, boardResource: $boardResource, upload: $upload,);
-                continue;
-            } /* * No existing file ID means this is a new file. */
+            // dd($upload);
 
             $this->storeFile(boardResource: $boardResource, upload: $upload,);
         }
     }
 
-    protected function replaceFile(BoardResourceFile $existingFile, BoardResource $boardResource, array $upload): BoardResourceFile
+     protected function storeFile(BoardResource $boardResource, array $upload): BoardResourceFile
     {
-        /** @var \Illuminate\Http\UploadedFile $file */ $file = $upload['pdfFile']; /* * Store the new file FIRST. * * This is safer than deleting the old file first. */
-        $newPath = $this->storeUploadedFile($file); /* * Remember the old physical path. */
-        $oldPath = $existingFile->file_path; /* * Update the existing database record. */
-        $existingFile->update(['file_path' => $newPath, 'difficulty' => $upload['difficulty'] ?? null, 'is_pro' => $upload['is_pro'] ?? false,]); /* * Delete the old physical file only after * the database record has been updated. */
-        $this->deletePhysicalFile($oldPath);
+        /** @var UploadedFile $file */
+        $file = $upload['pdfFile'] ?? null;
 
-        return $existingFile->refresh();
+        if (!empty($upload["file_id"])) {
+            $existingFile = $boardResource->files()->whereKey($upload['file_id'])->firstOrFail();
+
+            // If a new file is uploaded, remove the old physical file
+            if ($file instanceof UploadedFile) {
+                if (!empty($existingFile->file_path)) {
+                    Storage::disk(self::FILE_DISK)->delete($existingFile->file_path);
+                }
+
+                $fileName = $this->generateFileName($file);
+
+                $upload['file_path'] = $file->storeAs(self::FILE_DIRECTORY, $fileName, self::FILE_DISK);
+            }
+
+            unset($upload['pdfFile'], $upload['file_id']);
+
+            $existingFile->update($upload);
+
+            return $existingFile->fresh();
+        }
+
+        if ($file instanceof UploadedFile) {
+            $fileName = $this->generateFileName($file);
+            $upload['file_path'] = $file->storeAs(self::FILE_DIRECTORY, $fileName, self::FILE_DISK);
+        }
+
+        unset($upload['pdfFile']);
+
+        return $boardResource->files()->create($upload);
     }
+
+
+    // protected function replaceFile(BoardResourceFile $existingFile, BoardResource $boardResource, array $upload): BoardResourceFile
+    // {
+    //     /** @var \Illuminate\Http\UploadedFile $file */
+    //     $file = $upload['pdfFile'];
+    //     $newPath = $this->storeUploadedFile($file); /* * Remember the old physical path. */
+    //     $oldPath = $existingFile->file_path; /* * Update the existing database record. */
+    //     $existingFile->update(['file_path' => $newPath, 'difficulty' => $upload['difficulty'] ?? null, 'is_pro' => $upload['is_pro'] ?? false,]); /* * Delete the old physical file only after * the database record has been updated. */
+    //     $this->deletePhysicalFile($oldPath);
+
+    //     return $existingFile->refresh();
+    // }
 
     protected function storeUploadedFile(\Illuminate\Http\UploadedFile $file): string
     {
@@ -207,26 +221,6 @@ class BoardResourceService
                 $upload
             );
         }
-    }
-
-    protected function storeFile(BoardResource $boardResource, array $upload): BoardResourceFile
-    {
-        /** @var UploadedFile $file */
-        $file = $upload['pdfFile'];
-
-        $fileName = $this->generateFileName($file);
-
-        $path = $file->storeAs(
-            self::FILE_DIRECTORY,
-            $fileName,
-            self::FILE_DISK
-        );
-
-        return $boardResource->files()->create([
-            'difficulty' => $upload['difficulty'] ?? null,
-            'is_pro' => $upload['is_pro'] ?? false,
-            'file_path' => $path,
-        ]);
     }
 
     protected function generateFileName(UploadedFile $file): string
