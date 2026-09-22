@@ -13,6 +13,8 @@ interface BoardResourceRepositoryInterface extends BaseRepositoryInterface
 
     public function getResubcategories(int $categoryId, int $subcategoryId): Collection;
 
+    public function getSyllabus(int $resubcategoryId, int $isActiveCheck = 0) : array;
+
     public function getParents(int $resubcategoryId): Collection;
 
     public function getEditData(BoardResource $boardResource): array;

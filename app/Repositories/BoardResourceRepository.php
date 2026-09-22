@@ -43,7 +43,7 @@ class BoardResourceRepository extends BaseRepository implements BoardResourceRep
         return Resubcategory::query()->where('category_id', $categoryId)->where('subcategory_id', $subcategoryId)->get();
     }
 
-    public function getSyllabus(int $resubcategoryId): array
+    public function getSyllabus(int $resubcategoryId, int $isActiveCheck = 0): array
     {
         $resourceTypes = ResourceType::options();
 
@@ -53,7 +53,11 @@ class BoardResourceRepository extends BaseRepository implements BoardResourceRep
             'files',
         ])->where('resubcategory_id', $resubcategoryId)
             ->whereNull('parent_id')
-            ->get()->groupBy('resource_type')
+            ->when($isActiveCheck === 1, function ($query) {
+                $query->where('is_active', 1);
+            })
+            ->get()
+            ->groupBy('resource_type')
             ->mapWithKeys(function ($resources, $type) use ($resourceTypes) {
                 return [$resourceTypes[$type] ?? $type => $resources,];
             })

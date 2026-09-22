@@ -142,7 +142,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-3 col-12">
+                    {{-- <div class="col-lg-3 col-12">
                         <div class="form-group">
                             <label class="form-label" for="is_section_title">Use as section title? </label>
                             <select name="is_section_title" id="is_section_title" class="form-select">
@@ -150,7 +150,7 @@
                                 <option @selected(old('is_section_title', $resource->is_section_title ?? '') == '1') value="1">Yes</option>
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="col-lg-3 col-12" id="allow_files_section">
                         <div class="form-group">
