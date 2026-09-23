@@ -1,22 +1,69 @@
 @extends('layouts.frontend-3')
+@push('css')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        .finder-panel .select2-container--default .select2-selection--single {
+            border: 1px solid var(--merit-border);
+            border-radius: var(--radius-sm);
+            background-color: #fff;
+            height: 48px;
+            /* Matches the min-height of your form-select */
+            display: flex;
+            align-items: center;
+            transition: border-color var(--ease), box-shadow var(--ease);
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            top: 12px;
+            right: 8px;
+        }
+
+        .select2-container .select2-selection--single .select2-selection__rendered {
+            padding-left: 12px;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__clear {
+            display: none;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow b {
+            display: none !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 100% !important;
+            top: 0 !important;
+            right: 0.75rem !important;
+            width: 1rem !important;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") !important;
+            background-repeat: no-repeat !important;
+            background-position: center !important;
+            background-size: 16px 12px !important;
+        }
+    </style>
+@endpush
+@section('body_class', 'page-resources')
 @section('content')
-    <!-- ============================================================
+    {{-- <!-- ============================================================
     1. COURSE HEADER — breadcrumb, title, course chips, spec code
     Values are filled from the URL query string by js/resources.js
     (e.g. resources.html?qualification=GCSE&subject=Mathematics).
-    ============================================================ -->
-    <section class="course-header" aria-labelledby="courseTitle">
+    ============================================================ --> --}}
+    <section class="course-header" style="border-bottom: none" aria-labelledby="courseTitle">
         <div class="container">
 
             <div class="course-header-top">
                 <nav aria-label="Breadcrumb">
                     <ol class="breadcrumb course-crumbs">
                         <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#" data-course="qualification-link">{{ $examBoard->category->category_name }}</a>
+                        <li class="breadcrumb-item"><a href="#"
+                                data-course="qualification-link">{{ $examBoard->category->category_name }}</a>
                         </li>
-                        <li class="breadcrumb-item"><a href="#" data-course="subject-link">{{ $examBoard->subcategory->subcategory_name }}</a>
+                        <li class="breadcrumb-item"><a href="#"
+                                data-course="subject-link">{{ $examBoard->subcategory->subcategory_name }}</a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page" data-course="board">{{ $examBoard->resubcategory_name }}</li>
+                        <li class="breadcrumb-item active" aria-current="page" data-course="board">
+                            {{ $examBoard->resubcategory_name }}</li>
                     </ol>
                 </nav>
                 <p class="spec-code">Unit Code <span data-course="spec">{{ $examBoard->unit_code }}</span></p>
@@ -31,7 +78,8 @@
                     <h1 class="course-title" id="courseTitle">
                         <span data-course="qualification">{{ $examBoard->category->category_name }}</span>
                         <span data-course="subject">{{ $examBoard->subcategory->subcategory_name }}</span>
-                        <span class="course-title-board">(<span data-course="board-name">{{ $examBoard->resubcategory_name }}</span>)</span>
+                        <span class="course-title-board">(<span
+                                data-course="board-name">{{ $examBoard->resubcategory_name }}</span>)</span>
                     </h1>
                     {{-- <p class="course-intro">
 
@@ -61,7 +109,7 @@
         </div>
     </section>
 
-    <section class="finder-section pt-0" style="padding-bottom: 20px" aria-labelledby="finderHeading">
+    <section class="finder-section pt-0" style="padding-bottom: 20px; background: #fff" aria-labelledby="finderHeading">
         <div class="container">
             <div class="finder-panel" data-reveal>
 
@@ -84,16 +132,15 @@
                     </div>
                 </div>
 
-                <form class="row g-3 align-items-end" action="{{ route('board-resources') }}"  id="resourceFinder">
+                <form class="row g-3 align-items-end" action="{{ route('board-resources') }}" id="resourceFinder">
                     <div class="col-12 col-md-6 col-xl">
                         <label class="form-label" for="qualification">Qualification</label>
                         <select class="form-select" id="qualification" name="qualification">
                             <option value="" selected>Select qualification</option>
                             @if (!empty($data['categories']))
                                 @foreach ($data['categories'] as $qualification)
-                                    <option
-                                    @selected(old('qualification',  $data['selectedCategory']) == $qualification->id)
-                                    value="{{ $qualification->id }} / {{ $qualification->slug }}">
+                                    <option @selected(old('qualification', $data['selectedCategory']) == $qualification->id)
+                                        value="{{ $qualification->id }} / {{ $qualification->slug }}">
                                         {{ $qualification->category_name }}</option>
                                 @endforeach
                             @endif
@@ -107,8 +154,7 @@
                             <!-- add your other <option>s here -->
                             @if (!empty($data['subcategories']))
                                 @foreach ($data['subcategories'] as $subject)
-                                    <option 
-                                    @selected(old('subject',  $data['selectedSubcategory']) == $subject->id)
+                                    <option @selected(old('subject', $data['selectedSubcategory']) == $subject->id)
                                         value="{{ $subject->id }} / {{ $subject->slug }}">
                                         {{ $subject->subcategory_name }}</option>
                                 @endforeach
@@ -122,9 +168,8 @@
                             <option value="" selected>Select exam board</option>
                             @if (!empty($data['resubcategories']))
                                 @foreach ($data['resubcategories'] as $board)
-                                    <option 
-                                     @selected(old('examBoard',  $data['selectedResubcategory']) == $board->id)
-                                    value="{{ $board->id }} / {{ $board->slug }}">
+                                    <option @selected(old('examBoard', $data['selectedResubcategory']) == $board->id)
+                                        value="{{ $board->id }} / {{ $board->slug }}">
                                         {{ $board->resubcategory_name }}</option>
                                 @endforeach
                             @endif
@@ -155,62 +200,45 @@
         </div>
     </section>
 
-    <!-- ============================================================
+    {{-- <!-- ============================================================
     2. RESOURCE TYPE TABS
-    ============================================================ -->
+    ============================================================ --> --}}
     <div class="resource-tabs-bar">
         <div class="container">
             <ul class="nav resource-tabs" id="resourceTabs" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="tab-all" data-bs-toggle="tab" data-bs-target="#pane-all"
+                    <button class="nav-link" id="tab-all" data-bs-toggle="tab" data-bs-target="#pane-all"
                         type="button" role="tab" aria-controls="pane-all" aria-selected="true">
                         <i class="bi bi-grid" aria-hidden="true"></i> All resources
                     </button>
                 </li>
-                <li class="nav-item" role="presentation">
+                {{-- <li class="nav-item" role="presentation">
                     <button class="nav-link" id="tab-papers" data-bs-toggle="tab" data-bs-target="#pane-papers"
                         type="button" role="tab" aria-controls="pane-papers" aria-selected="false">
                         <i class="bi bi-file-earmark-text" aria-hidden="true"></i> Past papers
                     </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="tab-notes" data-bs-toggle="tab" data-bs-target="#pane-notes" type="button"
-                        role="tab" aria-controls="pane-notes" aria-selected="false">
-                        <i class="bi bi-journal-text" aria-hidden="true"></i> Revision notes
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="tab-questions" data-bs-toggle="tab" data-bs-target="#pane-questions"
-                        type="button" role="tab" aria-controls="pane-questions" aria-selected="false">
-                        <i class="bi bi-check2-square" aria-hidden="true"></i> Topic questions
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="tab-tests" data-bs-toggle="tab" data-bs-target="#pane-tests"
-                        type="button" role="tab" aria-controls="pane-tests" aria-selected="false">
-                        <i class="bi bi-stopwatch" aria-hidden="true"></i> Tests
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="tab-workbooks" data-bs-toggle="tab" data-bs-target="#pane-workbooks"
-                        type="button" role="tab" aria-controls="pane-workbooks" aria-selected="false">
-                        <i class="bi bi-book-half" aria-hidden="true"></i> Workbooks
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="tab-solutions" data-bs-toggle="tab" data-bs-target="#pane-solutions"
-                        type="button" role="tab" aria-controls="pane-solutions" aria-selected="false">
-                        <i class="bi bi-lightbulb" aria-hidden="true"></i> Worked solutions
-                    </button>
-                </li>
+                </li> --}}
+
+                @if (!empty($syllabus))
+                    @foreach ($syllabus as $tabName => $node)
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="tab-{{ $tabName }}" data-bs-toggle="tab"
+                                data-bs-target="#pane-{{ $tabName }}" type="button" role="tab"
+                                aria-controls="pane-{{ $tabName }}" aria-selected="false">
+                                {!! $icons[$tabName] !!} {{ $tabName }}
+                            </button>
+                        </li>
+                    @endforeach
+                @endif
+
             </ul>
         </div>
     </div>
 
-    <!-- ============================================================
+    {{-- <!-- ============================================================
     3. RESOURCE BODY — filter rail + tab panes
     All rows below are SAMPLE ENTRIES showing the layout.
-    ============================================================ -->
+    ============================================================ --> --}}
     <section class="resource-body">
         <div class="container">
             <div class="row g-4">
@@ -327,7 +355,7 @@
                     <div class="tab-content" id="resourceTabContent">
 
                         <!-- ---------- All resources ---------- -->
-                        <div class="tab-pane fade show active" id="pane-all" role="tabpanel" aria-labelledby="tab-all"
+                        <div class="tab-pane fade" id="pane-all" role="tabpanel" aria-labelledby="tab-all"
                             tabindex="0">
                             <div class="pane-head">
                                 <h2 class="pane-title">Everything for this course</h2>
@@ -674,448 +702,245 @@
                                 the paper.</p>
                         </div>
 
-                        <!-- ---------- Revision notes ---------- -->
-                        <div class="tab-pane fade" id="pane-notes" role="tabpanel" aria-labelledby="tab-notes"
-                            tabindex="0">
-                            <div class="pane-head">
-                                <h2 class="pane-title">Revision notes by topic</h2>
-                                <p class="pane-sub">Follows the Edexcel specification order. Open a unit to see its
-                                    topics.</p>
-                            </div>
+                        @if (!empty($syllabus))
+                            @foreach ($syllabus as $tabName => $nodes)
+                                <div class="tab-pane fade show active" id="pane-{{ Str::slug($tabName) }}"
+                                    role="tabpanel" aria-labelledby="tab-{{ Str::slug($tabName) }}" tabindex="0">
+                                    <div class="pane-head">
+                                        <h2 class="pane-title">{{ $tabName }}</h2>
+                                        <p class="pane-sub">Follows the Edexcel specification order. Open a unit to see its
+                                            topics.</p>
+                                    </div>
 
-                            <div class="accordion topic-accordion" id="noteTopics">
+                                    @if (!empty($nodes))
+                                        <div class="accordion topic-accordion" id="noteTopics-">
+                                            @foreach ($nodes as $loopIndex => $node)
+                                                <div class="accordion-item">
+                                                    <h3 class="accordion-header">
+                                                        <button class="accordion-button" type="button"
+                                                            data-bs-toggle="collapse"
+                                                            data-bs-target="#collapse-{{ $node['id'] }}"
+                                                            aria-expanded="{{ $loopIndex === 0 ? 'true' : 'false' }}"
+                                                            aria-controls="collapse-{{ $node['id'] }}">
+                                                            <span class="fw-bold text-dark">{{ $node['name'] }}</span>
+                                                            @php
+                                                                $count = count($node['children'] ?? []);
+                                                            @endphp
 
-                                <div class="accordion-item">
-                                    <h3 class="accordion-header">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#unit-number" aria-expanded="true"
-                                            aria-controls="unit-number">
-                                            1. Number <span class="topic-count">8 topics</span>
-                                        </button>
-                                    </h3>
-                                    <div id="unit-number" class="accordion-collapse collapse show"
-                                        data-bs-parent="#noteTopics">
-                                        <div class="accordion-body">
-                                            <ul class="topic-list list-unstyled" data-list>
-                                                <li class="topic-item" data-keywords="integers place value number"><a
-                                                        href="#"><span class="topic-dot" aria-hidden="true"></span>
-                                                        1.1 Integers and place value
-                                                        <span class="topic-tag">Notes · Questions</span></a></li>
-                                                <li class="topic-item" data-keywords="decimals rounding estimation"><a
-                                                        href="#"><span class="topic-dot" aria-hidden="true"></span>
-                                                        1.2 Decimals, rounding and
-                                                        estimation <span class="topic-tag">Notes ·
-                                                            Questions</span></a></li>
-                                                <li class="topic-item" data-keywords="indices powers roots surds">
-                                                    <a href="#"><span class="topic-dot" aria-hidden="true"></span>
-                                                        1.3 Indices, powers and
-                                                        roots <span class="topic-tag">Notes · Questions ·
-                                                            Test</span></a>
-                                                </li>
-                                                <li class="topic-item" data-keywords="factors multiples primes hcf lcm"><a
-                                                        href="#"><span class="topic-dot" aria-hidden="true"></span>
-                                                        1.4 Factors, multiples and
-                                                        primes <span class="topic-tag">Notes · Questions</span></a>
-                                                </li>
-                                                <li class="topic-item" data-keywords="standard form"><a
-                                                        href="#"><span class="topic-dot" aria-hidden="true"></span>
-                                                        1.5 Standard form <span class="topic-tag">Notes ·
-                                                            Questions</span></a></li>
-                                                <li class="topic-item" data-keywords="surds simplifying rationalising"><a
-                                                        href="#"><span class="topic-dot" aria-hidden="true"></span>
-                                                        1.6 Surds <span class="topic-tag higher-only">Higher
-                                                            only</span></a>
-                                                </li>
-                                            </ul>
+                                                            <span class="topic-count ms-2 badge rounded-pill">
+                                                                @if ($count === 1)
+                                                                    ({{ $count }} topic)
+                                                                @else
+                                                                    ({{ $count }} topics)
+                                                                @endif
+                                                            </span>
+                                                        </button>
+                                                    </h3>
+
+                                                    {{-- Children Tree View --}}
+                                                    <div id="collapse-{{ $node['id'] }}"
+                                                        class="accordion-collapse collapse {{ $loopIndex === 0 ? 'show' : '' }}"
+                                                        data-bs-parent="#accordion-{{ Str::slug($tabName) }}">
+                                                        <div class="accordion-body">
+                                                            @if (!empty($node['children']))
+                                                                <ul class="topic-list list-unstyled" data-list>
+                                                                    @foreach ($node['children'] as $child)
+                                                                        @include(
+                                                                            'frontend.board-resource.child-tree',
+                                                                            [
+                                                                                'node' => $node,
+                                                                                'item' => $child,
+                                                                                'depth' => 1,
+                                                                            ]
+                                                                        )
+
+                                                                        {{-- @if (!empty($child['children']))
+                                                                            @foreach ($child['children'] as $preChild)
+                                                                                @include(
+                                                                                    'frontend.board-resource.child-tree',
+                                                                                    [
+                                                                                        'node' => $node,
+                                                                                        'item' => $preChild,
+                                                                                        'depth' => 2,
+                                                                                    ]
+                                                                                )
+                                                                            @endforeach
+                                                                        @endif --}}
+                                                                    @endforeach
+                                                                </ul>
+                                                            @else
+                                                                <p class="text-muted p-3 mb-0 text-center">
+                                                                    No sub-items available.
+                                                                </p>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div class="accordion-item">
-                                    <h3 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#unit-algebra"
-                                            aria-expanded="false" aria-controls="unit-algebra">
-                                            2. Algebra <span class="topic-count">11 topics</span>
-                                        </button>
-                                    </h3>
-                                    <div id="unit-algebra" class="accordion-collapse collapse"
-                                        data-bs-parent="#noteTopics">
-                                        <div class="accordion-body">
-                                            <ul class="topic-list list-unstyled" data-list>
-                                                <li class="topic-item"
-                                                    data-keywords="algebraic expressions simplifying expanding"><a
-                                                        href="#"><span class="topic-dot" aria-hidden="true"></span>
-                                                        2.1 Algebraic expressions
-                                                        <span class="topic-tag">Notes · Questions</span></a></li>
-                                                <li class="topic-item" data-keywords="quadratics factorising"><a
-                                                        href="#"><span class="topic-dot" aria-hidden="true"></span>
-                                                        2.2 Quadratics: factorising
-                                                        <span class="topic-tag">Notes · Questions · Test</span></a>
-                                                </li>
-                                                <li class="topic-item" data-keywords="completing the square quadratics"><a
-                                                        href="#"><span class="topic-dot" aria-hidden="true"></span>
-                                                        2.3 Completing the square
-                                                        <span class="topic-tag higher-only">Higher only</span></a>
-                                                </li>
-                                                <li class="topic-item" data-keywords="quadratic formula discriminant"><a
-                                                        href="#"><span class="topic-dot" aria-hidden="true"></span>
-                                                        2.4 The quadratic formula
-                                                        <span class="topic-tag">Notes · Questions</span></a></li>
-                                                <li class="topic-item" data-keywords="simultaneous equations"><a
-                                                        href="#"><span class="topic-dot" aria-hidden="true"></span>
-                                                        2.5 Simultaneous equations
-                                                        <span class="topic-tag">Notes · Questions · Test</span></a>
-                                                </li>
-                                                <li class="topic-item" data-keywords="inequalities regions"><a
-                                                        href="#"><span class="topic-dot" aria-hidden="true"></span>
-                                                        2.6 Inequalities <span class="topic-tag">Notes ·
-                                                            Questions</span></a></li>
-                                                <li class="topic-item" data-keywords="sequences nth term"><a
-                                                        href="#"><span class="topic-dot" aria-hidden="true"></span>
-                                                        2.7 Sequences and the nth
-                                                        term <span class="topic-tag">Notes · Questions</span></a>
-                                                </li>
-                                            </ul>
+                                    @else
+                                        <div class="text-center py-5 text-muted">
+                                            <i
+                                                class="fa-solid fa-folder-open display-4 mb-3 text-secondary opacity-50"></i>
+                                            <p class="mb-0">No resources found.</p>
                                         </div>
-                                    </div>
-                                </div>
 
-                                <div class="accordion-item">
-                                    <h3 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#unit-ratio" aria-expanded="false"
-                                            aria-controls="unit-ratio">
-                                            3. Ratio, proportion and rates of change <span class="topic-count">6
-                                                topics</span>
-                                        </button>
-                                    </h3>
-                                    <div id="unit-ratio" class="accordion-collapse collapse"
-                                        data-bs-parent="#noteTopics">
-                                        <div class="accordion-body">
-                                            <ul class="topic-list list-unstyled" data-list>
-                                                <li class="topic-item" data-keywords="ratio sharing"><a
-                                                        href="#"><span class="topic-dot" aria-hidden="true"></span>
-                                                        3.1 Ratio <span class="topic-tag">Notes · Questions</span></a></li>
-                                                <li class="topic-item" data-keywords="percentages increase decrease"><a
-                                                        href="#"><span class="topic-dot" aria-hidden="true"></span>
-                                                        3.2 Percentages <span class="topic-tag">Notes · Questions ·
-                                                            Test</span></a>
-                                                </li>
-                                                <li class="topic-item" data-keywords="compound interest growth decay"><a
-                                                        href="#"><span class="topic-dot" aria-hidden="true"></span>
-                                                        3.3 Growth and decay <span class="topic-tag">Notes ·
-                                                            Questions</span></a></li>
-                                                <li class="topic-item" data-keywords="direct inverse proportion">
-                                                    <a href="#"><span class="topic-dot" aria-hidden="true"></span>
-                                                        3.4 Direct and inverse
-                                                        proportion <span class="topic-tag">Notes ·
-                                                            Questions</span></a>
-                                                </li>
-                                                <li class="topic-item"
-                                                    data-keywords="speed density pressure compound measures"><a
-                                                        href="#"><span class="topic-dot" aria-hidden="true"></span>
-                                                        3.5 Compound measures <span class="topic-tag">Notes ·
-                                                            Questions</span></a></li>
-                                            </ul>
+
+                                        <div class="text-center py-5 text-muted border rounded bg-light">
+                                            <i
+                                                class="fa-solid fa-folder-open display-4 mb-3 text-secondary opacity-50"></i>
+                                            <p class="mb-0">No resources found.</p>
                                         </div>
-                                    </div>
+                                    @endif
                                 </div>
-
-                                <div class="accordion-item">
-                                    <h3 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#unit-geometry"
-                                            aria-expanded="false" aria-controls="unit-geometry">
-                                            4. Geometry and measures <span class="topic-count">10 topics</span>
-                                        </button>
-                                    </h3>
-                                    <div id="unit-geometry" class="accordion-collapse collapse"
-                                        data-bs-parent="#noteTopics">
-                                        <div class="accordion-body">
-                                            <ul class="topic-list list-unstyled" data-list>
-                                                <li class="topic-item" data-keywords="angles parallel lines polygons"><a
-                                                        href="#"><span class="topic-dot" aria-hidden="true"></span>
-                                                        4.1 Angles and polygons
-                                                        <span class="topic-tag">Notes · Questions</span></a></li>
-                                                <li class="topic-item" data-keywords="pythagoras"><a href="#"><span
-                                                            class="topic-dot" aria-hidden="true"></span> 4.2 Pythagoras'
-                                                        theorem
-                                                        <span class="topic-tag">Notes · Questions ·
-                                                            Test</span></a></li>
-                                                <li class="topic-item"
-                                                    data-keywords="trigonometry sohcahtoa sine cosine rule"><a
-                                                        href="#"><span class="topic-dot" aria-hidden="true"></span>
-                                                        4.3 Trigonometry <span class="topic-tag">Notes · Questions ·
-                                                            Test</span></a>
-                                                </li>
-                                                <li class="topic-item" data-keywords="circle theorems"><a
-                                                        href="#"><span class="topic-dot" aria-hidden="true"></span>
-                                                        4.4 Circle theorems <span class="topic-tag higher-only">Higher
-                                                            only</span></a>
-                                                </li>
-                                                <li class="topic-item" data-keywords="transformations vectors">
-                                                    <a href="#"><span class="topic-dot" aria-hidden="true"></span>
-                                                        4.5 Transformations and
-                                                        vectors <span class="topic-tag">Notes ·
-                                                            Questions</span></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="accordion-item">
-                                    <h3 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#unit-stats" aria-expanded="false"
-                                            aria-controls="unit-stats">
-                                            5. Probability and statistics <span class="topic-count">7
-                                                topics</span>
-                                        </button>
-                                    </h3>
-                                    <div id="unit-stats" class="accordion-collapse collapse"
-                                        data-bs-parent="#noteTopics">
-                                        <div class="accordion-body">
-                                            <ul class="topic-list list-unstyled" data-list>
-                                                <li class="topic-item" data-keywords="probability trees venn"><a
-                                                        href="#"><span class="topic-dot" aria-hidden="true"></span>
-                                                        5.1 Probability, trees and
-                                                        Venn diagrams <span class="topic-tag">Notes ·
-                                                            Questions</span></a></li>
-                                                <li class="topic-item" data-keywords="averages mean median mode range"><a
-                                                        href="#"><span class="topic-dot" aria-hidden="true"></span>
-                                                        5.2 Averages and spread
-                                                        <span class="topic-tag">Notes · Questions</span></a></li>
-                                                <li class="topic-item" data-keywords="cumulative frequency box plots"><a
-                                                        href="#"><span class="topic-dot" aria-hidden="true"></span>
-                                                        5.3 Cumulative frequency
-                                                        and box plots <span class="topic-tag higher-only">Higher
-                                                            only</span></a></li>
-                                                <li class="topic-item" data-keywords="histograms"><a href="#"><span
-                                                            class="topic-dot" aria-hidden="true"></span> 5.4 Histograms
-                                                        <span class="topic-tag higher-only">Higher only</span></a>
-                                                </li>
-                                                <li class="topic-item" data-keywords="scatter graphs correlation"><a
-                                                        href="#"><span class="topic-dot" aria-hidden="true"></span>
-                                                        5.5 Scatter graphs and
-                                                        correlation <span class="topic-tag">Notes ·
-                                                            Questions</span></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <p class="pane-note">Topic list follows the published specification; file availability
-                                is being confirmed.</p>
-                        </div>
-
-                        <!-- ---------- Topic questions ---------- -->
-                        <div class="tab-pane fade" id="pane-questions" role="tabpanel" aria-labelledby="tab-questions"
-                            tabindex="0">
-                            <div class="pane-head">
-                                <h2 class="pane-title">Topic questions</h2>
-                                <p class="pane-sub">Exam-style questions grouped by topic, each with a mark
-                                    scheme.</p>
-                            </div>
-
-                            <ul class="resource-list list-unstyled" data-list>
-                                <li class="resource-row" data-tier="Higher" data-source="merit"
-                                    data-keywords="quadratics algebra questions">
-                                    <span class="row-icon row-icon-green"><i class="bi bi-check2-square"
-                                            aria-hidden="true"></i></span>
-                                    <div class="row-body">
-                                        <h3 class="row-title">Algebra · Quadratics</h3>
-                                        <p class="row-meta">Higher · 18 questions · 42 marks</p>
-                                    </div>
-                                    <div class="row-actions">
-                                        <a class="btn btn-merit btn-sm" href="#">Questions</a>
-                                        <a class="btn btn-soft" href="#">Mark Scheme</a>
-                                    </div>
-                                </li>
-                                <li class="resource-row" data-tier="Higher" data-source="merit"
-                                    data-keywords="trigonometry geometry questions">
-                                    <span class="row-icon row-icon-green"><i class="bi bi-check2-square"
-                                            aria-hidden="true"></i></span>
-                                    <div class="row-body">
-                                        <h3 class="row-title">Geometry · Trigonometry</h3>
-                                        <p class="row-meta">Higher · 15 questions · 38 marks</p>
-                                    </div>
-                                    <div class="row-actions">
-                                        <a class="btn btn-merit btn-sm" href="#">Questions</a>
-                                        <a class="btn btn-soft" href="#">Mark Scheme</a>
-                                    </div>
-                                </li>
-                                <li class="resource-row" data-tier="Foundation" data-source="merit"
-                                    data-keywords="percentages ratio questions foundation">
-                                    <span class="row-icon row-icon-green"><i class="bi bi-check2-square"
-                                            aria-hidden="true"></i></span>
-                                    <div class="row-body">
-                                        <h3 class="row-title">Ratio &amp; Proportion · Percentages</h3>
-                                        <p class="row-meta">Foundation · 20 questions · 40 marks</p>
-                                    </div>
-                                    <div class="row-actions">
-                                        <a class="btn btn-merit btn-sm" href="#">Questions</a>
-                                        <a class="btn btn-soft" href="#">Mark Scheme</a>
-                                    </div>
-                                </li>
-                            </ul>
-                            <p class="pane-note">Sample entries showing the row layout.</p>
-                        </div>
-
-                        <!-- ---------- Tests ---------- -->
-                        <div class="tab-pane fade" id="pane-tests" role="tabpanel" aria-labelledby="tab-tests"
-                            tabindex="0">
-                            <div class="pane-head">
-                                <h2 class="pane-title">Topic tests</h2>
-                                <p class="pane-sub">Short timed assessments. Print them or work through on paper,
-                                    then mark with the scheme.</p>
-                            </div>
-
-                            <ul class="resource-list list-unstyled" data-list>
-                                <li class="resource-row" data-tier="Higher" data-source="merit"
-                                    data-keywords="algebra test 30 minutes">
-                                    <span class="row-icon row-icon-purple"><i class="bi bi-stopwatch"
-                                            aria-hidden="true"></i></span>
-                                    <div class="row-body">
-                                        <h3 class="row-title">Algebra · End of unit test</h3>
-                                        <p class="row-meta">Higher · 30 minutes · 30 marks</p>
-                                    </div>
-                                    <div class="row-actions">
-                                        <a class="btn btn-merit btn-sm" href="#">Start test</a>
-                                        <a class="btn btn-soft" href="#">Mark Scheme</a>
-                                    </div>
-                                </li>
-                                <li class="resource-row" data-tier="Higher" data-source="merit"
-                                    data-keywords="number test">
-                                    <span class="row-icon row-icon-purple"><i class="bi bi-stopwatch"
-                                            aria-hidden="true"></i></span>
-                                    <div class="row-body">
-                                        <h3 class="row-title">Number · End of unit test</h3>
-                                        <p class="row-meta">Higher · 25 minutes · 25 marks</p>
-                                    </div>
-                                    <div class="row-actions">
-                                        <a class="btn btn-merit btn-sm" href="#">Start test</a>
-                                        <a class="btn btn-soft" href="#">Mark Scheme</a>
-                                    </div>
-                                </li>
-                            </ul>
-                            <p class="pane-note">Sample entries showing the row layout.</p>
-                        </div>
-
-                        <!-- ---------- Workbooks ---------- -->
-                        <div class="tab-pane fade" id="pane-workbooks" role="tabpanel" aria-labelledby="tab-workbooks"
-                            tabindex="0">
-                            <div class="pane-head">
-                                <h2 class="pane-title">Workbooks &amp; booklets</h2>
-                                <p class="pane-sub">Printable booklets covering a whole unit, with space to write.
-                                </p>
-                            </div>
-
-                            <ul class="resource-list list-unstyled" data-list>
-                                <li class="resource-row" data-tier="Higher" data-source="merit"
-                                    data-keywords="algebra workbook booklet">
-                                    <span class="row-icon row-icon-teal"><i class="bi bi-book-half"
-                                            aria-hidden="true"></i></span>
-                                    <div class="row-body">
-                                        <h3 class="row-title">Algebra workbook</h3>
-                                        <p class="row-meta">Higher · 24 pages · Answers included</p>
-                                    </div>
-                                    <div class="row-actions">
-                                        <a class="btn btn-merit btn-sm" href="#">Download PDF</a>
-                                        <a class="btn btn-soft" href="#">Answers</a>
-                                    </div>
-                                </li>
-                                <li class="resource-row" data-tier="Foundation" data-source="merit"
-                                    data-keywords="number workbook foundation homework">
-                                    <span class="row-icon row-icon-teal"><i class="bi bi-book-half"
-                                            aria-hidden="true"></i></span>
-                                    <div class="row-body">
-                                        <h3 class="row-title">Number homework booklet</h3>
-                                        <p class="row-meta">Foundation · 16 pages · Answers included</p>
-                                    </div>
-                                    <div class="row-actions">
-                                        <a class="btn btn-merit btn-sm" href="#">Download PDF</a>
-                                        <a class="btn btn-soft" href="#">Answers</a>
-                                    </div>
-                                </li>
-                            </ul>
-                            <p class="pane-note">Sample entries showing the row layout.</p>
-                        </div>
-
-                        <!-- ---------- Worked solutions ---------- -->
-                        <div class="tab-pane fade" id="pane-solutions" role="tabpanel"
-                            aria-labelledby="tab-solutions" tabindex="0">
-                            <div class="pane-head">
-                                <h2 class="pane-title">Worked solutions</h2>
-                                <p class="pane-sub">Full methods for past papers, written out question by
-                                    question.</p>
-                            </div>
-
-                            <ul class="resource-list list-unstyled" data-list>
-                                <li class="resource-row" data-series="2024" data-paper="Paper 1" data-tier="Higher"
-                                    data-source="merit" data-keywords="june 2024 paper 1 solutions">
-                                    <span class="row-icon row-icon-amber"><i class="bi bi-lightbulb"
-                                            aria-hidden="true"></i></span>
-                                    <div class="row-body">
-                                        <h3 class="row-title">June 2024 · Paper 1 solutions</h3>
-                                        <p class="row-meta">Higher · Full written method · PDF</p>
-                                    </div>
-                                    <div class="row-actions">
-                                        <a class="btn btn-merit btn-sm" href="#">Open solutions</a>
-                                        <a class="btn btn-soft" href="#">Question Paper</a>
-                                    </div>
-                                </li>
-                                <li class="resource-row" data-series="2023" data-paper="Paper 2" data-tier="Higher"
-                                    data-source="merit" data-keywords="june 2023 paper 2 solutions">
-                                    <span class="row-icon row-icon-amber"><i class="bi bi-lightbulb"
-                                            aria-hidden="true"></i></span>
-                                    <div class="row-body">
-                                        <h3 class="row-title">June 2023 · Paper 2 solutions</h3>
-                                        <p class="row-meta">Higher · Full written method · PDF</p>
-                                    </div>
-                                    <div class="row-actions">
-                                        <a class="btn btn-merit btn-sm" href="#">Open solutions</a>
-                                        <a class="btn btn-soft" href="#">Question Paper</a>
-                                    </div>
-                                </li>
-                            </ul>
-                            <p class="pane-note">Sample entries showing the row layout.</p>
-                        </div>
-
+                            @endforeach
+                        @endif
                     </div>
 
-                    <!-- Shared empty state for search/filter results -->
-                    <p class="empty-state" id="emptyState" role="status" aria-live="polite" hidden>
-                        <i class="bi bi-search" aria-hidden="true"></i>
-                        Nothing matches those filters. Try widening the tier or clearing the search.
-                    </p>
-
-                    <!-- Study route -->
-                    <div class="study-route" id="studyRoute">
-                        <p class="study-route-lead"><strong>Make each topic click.</strong> Follow a simple study
-                            route.</p>
-                        <ol class="study-steps list-unstyled">
-                            <li><span class="step-num">1</span> Revise</li>
-                            <li aria-hidden="true" class="step-arrow"><i class="bi bi-arrow-right"></i></li>
-                            <li><span class="step-num">2</span> Practise</li>
-                            <li aria-hidden="true" class="step-arrow"><i class="bi bi-arrow-right"></i></li>
-                            <li><span class="step-num">3</span> Check</li>
-                            <li aria-hidden="true" class="step-arrow"><i class="bi bi-arrow-right"></i></li>
-                            <li><span class="step-num">4</span> Understand</li>
-                        </ol>
-                    </div>
-
-                    <p class="free-note">
+                    {{-- <p class="free-note">
                         <strong>Free to learn.</strong> Find a resource, open it and get started.
                         <a href="#">Need a hand? Visit Help <i class="bi bi-arrow-right"
                                 aria-hidden="true"></i></a>
-                    </p>
+                    </p> --}}
 
                 </div>
             </div>
         </div>
     </section>
+
     </body>
 @endsection
+@push('js')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(document).ready(function() {
+                $('#subject').select2({
+                    placeholder: 'Select subject',
+                    allowClear: true,
+                    width: '100%'
+                });
+            });
+        });
+
+        $('#qualification').on('change', function() {
+            const qualificationValue = $(this).val();
+
+            const qualificationId = Number(qualificationValue.split(" ")[0]);
+
+            if (!qualificationId) return; // Don't send if empty
+
+            $.ajax({
+                url: '{{ route('ajax.get.sub.categories', ':id') }}'.replace(':id',
+                    qualificationId),
+                type: 'POST',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                },
+                success: function(response) {
+
+                    console.log('form sub: ', response)
+
+                    // Example: Populate a subcategory dropdown
+                    let subcategorySelect = $('#subject'); // Adjust selector
+                    subcategorySelect.empty().append(
+                        '<option value="">Select subject</option>');
+
+                    response.forEach(function(item) {
+                        subcategorySelect.append(
+                            `<option value="${item.id} / ${item.slug}">${item.subcategory_name}</option>`
+                        );
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+
+        $('#subject').on('change', function() {
+            const subjectValue = $(this).val();
+
+            const subjectId = Number(subjectValue.split(" ")[0]);
+
+            if (!subjectId) return; // Don't send if empty
+
+            $.ajax({
+                url: '{{ route('ajax.get.resub.categories', ':id') }}'.replace(':id',
+                    subjectId),
+                type: 'POST',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                },
+                success: function(response) {
+                    // Example: Populate a subcategory dropdown
+                    let reSubcategorySelect = $('#examBoard'); // Adjust selector
+                    reSubcategorySelect.empty().append(
+                        '<option value="">Select exam board</option>');
+
+                    response.forEach(function(item) {
+                        reSubcategorySelect.append(
+                            `<option value="${item.id} / ${item.slug}">${item.resubcategory_name}</option>`
+                        );
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+
+
+        $('#viewResourceBtn').on('click', function() {
+
+            let qualification = $("#qualification");
+            let subject = $("#subject");
+            let examBoard = $("#examBoard");
+
+            const toastArea = $("#toast-area");
+            const toastAreaMessage = $("#toast-area-message");
+
+            let qualificationValue = qualification.val();
+            let subjectValue = subject.val();
+            let examBoardValue = examBoard.val();
+
+            let isValid = true;
+
+            function toggleError($element, isEmpty) {
+                if (isEmpty) {
+                    $element.css('border', '1px solid red');
+                    isValid = false;
+                } else {
+                    $element.css('border', ''); // Reset border if valid
+                }
+            }
+
+            toggleError(qualification, !qualificationValue);
+            toggleError(subject, !subjectValue);
+            toggleError(examBoard, !examBoardValue);
+
+            if (!isValid) {
+                toastArea.addClass('error show');
+                toastAreaMessage.html('Please fill in all required fields marked with an error')
+                // alert("Please fill in all required fields before viewing resources.");
+                return;
+            }
+
+            const categorySlug = qualificationValue.split(" / ")[0].trim();
+            const subcategorySlug = subjectValue.split(" / ")[0].trim();
+            const reSubcategorySlug = examBoardValue.split(" / ")[0].trim();
+
+            const baseUrl = '{{ route('board-resources') }}';
+
+            // 2. Construct the URL and append the query parameters
+            const url = new URL(baseUrl, window.location.origin);
+            url.searchParams.append('cat_id', categorySlug);
+            url.searchParams.append('sub_id', subcategorySlug);
+            url.searchParams.append('re_id', reSubcategorySlug);
+
+            // 3. Redirect the browser
+            window.location.href = url.toString();
+
+        })
+    </script>
+@endpush

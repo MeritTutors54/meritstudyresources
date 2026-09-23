@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Enums\IconByuddy;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Resubcategory;
@@ -40,6 +41,8 @@ class BoardResourceController extends Controller
 
         $syllabus = $this->boardRepository->getSyllabus($resubcategoryId, 1);
 
+        $icons = IconByuddy::options();
+
         return view('frontend.board-resource.index')->with([
             'examBoard' =>  $resubcategory,
             'data' => [
@@ -50,6 +53,8 @@ class BoardResourceController extends Controller
                 'selectedSubcategory' => $subcategoryId, 
                 'selectedResubcategory' => $resubcategoryId
             ],
+            'syllabus' => $syllabus,
+            'icons' => $icons,
         ]);
     }
 }

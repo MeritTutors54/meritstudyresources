@@ -1,0 +1,774 @@
+/* ==========================================================================
+   Merit Study Resources — resource page
+   Loaded after style.css; reuses its tokens. Sections:
+   1. Page shell  2. Course header  3. Tabs  4. Filter rail
+   5. Panes & rows  6. Topic accordion  7. Study route  8. Responsive
+   ========================================================================== */
+
+/* 1. Page shell --------------------------------------------------------- */
+.page-resources {
+    --page-bg: #f8faf8;
+    --card-border: #e5ebe7;
+    background: var(--page-bg);
+}
+
+.page-resources main {
+    padding-bottom: 3rem;
+}
+
+.eyebrow {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin: 0 0 .6rem;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--merit-dark-green);
+}
+
+.eyebrow-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--merit-green);
+}
+
+.eyebrow-sep {
+    color: #b6c6bd;
+}
+
+/* 2. Course header ------------------------------------------------------ */
+.course-header {
+    background: #fff;
+    border-bottom: 1px solid var(--card-border);
+    padding: 1.25rem 0 2rem;
+}
+
+.course-header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.course-crumbs {
+    margin: 0;
+    --bs-breadcrumb-divider: '›';
+    font-size: .85rem;
+}
+
+.course-crumbs .breadcrumb-item+.breadcrumb-item::before {
+    color: #b6c6bd;
+}
+
+.course-crumbs a {
+    color: var(--merit-muted);
+    font-weight: 500;
+}
+
+.course-crumbs a:hover {
+    color: var(--merit-dark-green);
+    text-decoration: none;
+}
+
+.course-crumbs .breadcrumb-item.active {
+    color: var(--merit-navy);
+    font-weight: 600;
+}
+
+.spec-code {
+    margin: 0;
+    font-size: .85rem;
+    color: var(--merit-muted);
+}
+
+.spec-code span {
+    font-weight: 600;
+    color: var(--merit-navy);
+}
+
+.course-header-main {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.course-title {
+    font-size: clamp(1.75rem, 1.1rem + 2vw, 2.5rem);
+    font-weight: 800;
+    letter-spacing: -.03em;
+    margin: 0 0 .75rem;
+}
+
+.course-title-board {
+    color: var(--merit-green);
+}
+
+.course-intro {
+    max-width: 44rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #4a5f70;
+    margin-bottom: 1.1rem;
+}
+
+.course-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .45rem;
+    margin: 0;
+}
+
+.course-chip {
+    padding: .3rem .75rem;
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-pill);
+    background: #fff;
+    font-size: .82rem;
+    font-weight: 600;
+    color: var(--merit-navy);
+}
+
+.course-chip-tier {
+    background: var(--merit-light-green);
+    border-color: #cfe5d8;
+    color: var(--merit-dark-green);
+}
+
+.course-actions {
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+}
+
+.btn-outline-merit {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    border: 1px solid #cfe5d8;
+    background: var(--merit-light-green);
+    color: var(--merit-dark-green);
+    font-weight: 600;
+    font-size: .87rem;
+    border-radius: var(--radius-sm);
+    padding: .55rem 1rem;
+    min-height: 40px;
+    transition: background var(--ease), border-color var(--ease);
+}
+
+.btn-outline-merit:hover {
+    background: #e2f1e8;
+    border-color: var(--merit-green);
+    color: var(--merit-dark-green);
+    text-decoration: none;
+}
+
+/* 3. Resource type tabs ------------------------------------------------- */
+.resource-tabs-bar {
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+    background: rgba(255, 255, 255, .96);
+    backdrop-filter: saturate(140%) blur(6px);
+    border-bottom: 1px solid var(--card-border);
+}
+
+.resource-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: .25rem;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.resource-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.resource-tabs .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+    padding: .95rem .9rem;
+    color: var(--merit-muted);
+    font-size: .9rem;
+    font-weight: 600;
+    letter-spacing: -.01em;
+    white-space: nowrap;
+    background: none;
+    transition: color var(--ease), border-color var(--ease);
+}
+
+.resource-tabs .nav-link i {
+    font-size: 1rem;
+    opacity: .85;
+}
+
+.resource-tabs .nav-link:hover {
+    color: var(--merit-navy);
+}
+
+.resource-tabs .nav-link.active {
+    color: var(--merit-dark-green);
+    border-bottom-color: var(--merit-green);
+    background: none;
+}
+
+/* 4. Filter rail -------------------------------------------------------- */
+.resource-body {
+    padding-top: 1.75rem;
+}
+
+.filter-rail {
+    position: sticky;
+    top: 4.5rem;
+    background: #fff;
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 1.1rem;
+}
+
+.filter-search {
+    margin-bottom: 1.1rem;
+}
+
+.search-shell-sm {
+    padding: .2rem .2rem .2rem .75rem;
+}
+
+.search-shell-sm .search-input {
+    font-size: .88rem;
+    padding: .4rem 0;
+}
+
+.filter-block {
+    padding: 1rem 0;
+    border-top: 1px solid var(--merit-line);
+}
+
+.filter-heading {
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .11em;
+    text-transform: uppercase;
+    color: var(--merit-muted);
+    margin-bottom: .7rem;
+}
+
+.filter-options {
+    display: grid;
+    gap: .45rem;
+}
+
+.filter-rail .form-check {
+    margin: 0;
+    min-height: 26px;
+}
+
+.filter-rail .form-check-input {
+    margin-top: .22rem;
+    border-color: #c8d5cd;
+}
+
+.filter-rail .form-check-input:checked {
+    background-color: var(--merit-green);
+    border-color: var(--merit-green);
+}
+
+.filter-rail .form-check-input:focus {
+    border-color: var(--merit-green);
+    box-shadow: 0 0 0 3px rgba(22, 138, 69, .12);
+}
+
+.filter-rail .form-check-label {
+    font-size: .875rem;
+    color: var(--merit-text);
+    cursor: pointer;
+}
+
+.filter-count {
+    float: right;
+    font-size: .78rem;
+    color: var(--merit-muted);
+}
+
+.filter-rail .btn-soft {
+    margin-top: 1rem;
+    justify-content: center;
+}
+
+.filter-note {
+    margin: .85rem 0 0;
+    font-size: .76rem;
+    line-height: 1.45;
+    color: var(--merit-muted);
+}
+
+/* 5. Panes & resource rows ---------------------------------------------- */
+.pane-head {
+    margin-bottom: 1.1rem;
+}
+
+.pane-head-spaced {
+    margin-top: 2.25rem;
+}
+
+.pane-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0 0 .2rem;
+}
+
+.pane-sub {
+    margin: 0;
+    font-size: .9rem;
+    color: var(--merit-muted);
+}
+
+.pane-note {
+    margin: 1rem 0 0;
+    font-size: .8rem;
+    color: var(--merit-muted);
+}
+
+/* summary cards on the "All resources" pane */
+.type-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    background: #fff;
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 1.1rem 1.05rem;
+    transition: transform var(--ease), box-shadow var(--ease), border-color var(--ease);
+}
+
+.type-card:hover {
+    transform: translateY(-2px);
+    border-color: #cfdcd4;
+    box-shadow: var(--shadow-sm);
+}
+
+.type-name {
+    font-weight: 700;
+    color: var(--merit-navy);
+    font-size: .98rem;
+    margin-bottom: .2rem;
+}
+
+.type-meta {
+    font-size: .82rem;
+    color: var(--merit-muted);
+    line-height: 1.45;
+    padding-right: 1.5rem;
+}
+
+.type-go {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    color: var(--merit-green);
+    font-size: .85rem;
+    transition: transform var(--ease);
+}
+
+.type-card:hover .type-go {
+    transform: translateX(3px);
+}
+
+/* resource rows */
+.resource-list {
+    display: grid;
+    gap: .6rem;
+    margin: 0;
+}
+
+.resource-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: #fff;
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: .9rem 1rem;
+    transition: border-color var(--ease), box-shadow var(--ease);
+}
+
+.resource-row:hover {
+    border-color: #cfdcd4;
+    box-shadow: var(--shadow-sm);
+}
+
+.resource-row[hidden] {
+    display: none;
+}
+
+.row-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    flex: none;
+    border-radius: 10px;
+    background: var(--tint-sky);
+    color: var(--ink-blue);
+    font-size: 1.15rem;
+}
+
+.row-icon-merit {
+    background: #f6f1e8;
+    color: #a07423;
+}
+
+.row-icon-note {
+    background: var(--tint-periwinkle);
+    color: var(--merit-navy);
+}
+
+.row-icon-green {
+    background: var(--tint-mint);
+    color: var(--merit-green);
+}
+
+.row-icon-purple {
+    background: var(--tint-lilac);
+    color: var(--ink-purple);
+}
+
+.row-icon-teal {
+    background: var(--tint-sage);
+    color: var(--ink-teal);
+}
+
+.row-icon-amber {
+    background: var(--tint-cream);
+    color: var(--ink-amber);
+}
+
+.row-body {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.row-eyebrow {
+    margin: 0 0 .15rem;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--merit-muted);
+}
+
+.row-eyebrow-merit {
+    color: #a07423;
+}
+
+.row-title {
+    font-size: .98rem;
+    font-weight: 700;
+    margin: 0 0 .15rem;
+    letter-spacing: -.015em;
+}
+
+.row-meta {
+    margin: 0;
+    font-size: .82rem;
+    color: var(--merit-muted);
+}
+
+.row-actions {
+    display: flex;
+    gap: .4rem;
+    flex: none;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.row-actions .btn-sm {
+    min-height: 38px;
+    padding: .45rem 1rem;
+    font-size: .85rem;
+}
+
+/* 6. Topic accordion ---------------------------------------------------- */
+.topic-accordion {
+    --bs-accordion-border-color: var(--card-border);
+    --bs-accordion-border-radius: var(--radius);
+    --bs-accordion-inner-border-radius: var(--radius);
+    --bs-accordion-btn-focus-box-shadow: 0 0 0 3px rgba(22, 138, 69, .12);
+    --bs-accordion-active-bg: #fff;
+    --bs-accordion-active-color: var(--merit-navy);
+    display: grid;
+    gap: .6rem;
+}
+
+.topic-accordion .accordion-item {
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: #fff;
+}
+
+.topic-accordion .accordion-button {
+    font-weight: 700;
+    font-size: .98rem;
+    color: var(--merit-navy);
+    padding: 1rem 1.1rem;
+    background: #fff;
+}
+
+.topic-accordion .accordion-button:not(.collapsed) {
+    box-shadow: none;
+    border-bottom: 1px solid var(--merit-line);
+}
+
+.topic-accordion .accordion-button::after {
+    width: .95rem;
+    height: .95rem;
+    background-size: .95rem;
+}
+
+.topic-count {
+    margin-left: auto;
+    margin-right: .85rem;
+    font-size: .78rem;
+    font-weight: 500;
+    color: var(--merit-muted);
+}
+
+.topic-accordion .accordion-body {
+    padding: .6rem .75rem 1rem;
+}
+
+.topic-list {
+    display: grid;
+    gap: .1rem;
+    margin: 0;
+}
+
+.topic-item[hidden] {
+    display: none;
+}
+
+.topic-item a {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    padding: .6rem .65rem;
+    border-radius: var(--radius-sm);
+    color: var(--merit-text);
+    font-size: .9rem;
+    transition: background var(--ease), color var(--ease);
+}
+
+.topic-item a:hover {
+    background: var(--merit-light-green);
+    color: var(--merit-dark-green);
+    text-decoration: none;
+}
+
+.topic-dot {
+    width: 14px;
+    height: 14px;
+    flex: none;
+    border: 2px solid #ccd9d1;
+    border-radius: 50%;
+    transition: border-color var(--ease), background var(--ease);
+}
+
+.topic-item a:hover .topic-dot {
+    border-color: var(--merit-green);
+    background: rgba(22, 138, 69, .15);
+}
+
+.topic-tag {
+    margin-left: auto;
+    font-size: .76rem;
+    color: var(--merit-muted);
+    white-space: nowrap;
+}
+
+.topic-tag.higher-only {
+    padding: .1rem .5rem;
+    border-radius: var(--radius-pill);
+    background: var(--tint-lilac);
+    color: var(--ink-purple);
+    font-weight: 600;
+}
+
+/* 7. Study route & notes ------------------------------------------------ */
+.empty-state {
+    margin: 1.25rem 0 0;
+    padding: 2rem 1rem;
+    text-align: center;
+    background: #fff;
+    border: 1px dashed #cfdcd4;
+    border-radius: var(--radius);
+    color: var(--merit-muted);
+    font-size: .92rem;
+}
+
+.empty-state i {
+    display: block;
+    font-size: 1.4rem;
+    margin-bottom: .5rem;
+    color: #b6c6bd;
+}
+
+.study-route {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    flex-wrap: wrap;
+    margin-top: 1.75rem;
+    padding: 1.1rem 1.25rem;
+    background: #fff;
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+}
+
+.study-route-lead {
+    margin: 0;
+    font-size: .92rem;
+    color: var(--merit-muted);
+}
+
+.study-route-lead strong {
+    color: var(--merit-navy);
+}
+
+.study-steps {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    margin: 0;
+    font-size: .9rem;
+    font-weight: 600;
+    color: var(--merit-navy);
+}
+
+.study-steps li {
+    display: flex;
+    align-items: center;
+    gap: .45rem;
+}
+
+.step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--merit-light-green);
+    color: var(--merit-dark-green);
+    font-size: .78rem;
+}
+
+.step-arrow {
+    color: #b6c6bd;
+    font-size: .8rem;
+}
+
+.free-note {
+    margin: 1.25rem 0 0;
+    font-size: .92rem;
+    color: var(--merit-muted);
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.free-note strong {
+    color: var(--merit-navy);
+}
+
+.free-note a {
+    font-weight: 600;
+}
+
+/* 8. Responsive --------------------------------------------------------- */
+@media (max-width: 991.98px) {
+    .filter-rail {
+        position: static;
+    }
+
+    .resource-tabs-bar {
+        position: static;
+    }
+
+    .course-header-main {
+        align-items: flex-start;
+    }
+
+    .course-actions {
+        width: 100%;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .course-header {
+        padding-bottom: 1.5rem;
+    }
+
+    .resource-row {
+        flex-wrap: wrap;
+    }
+
+    .row-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .row-actions .btn {
+        flex: 1 1 auto;
+        justify-content: center;
+    }
+
+    .study-route {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .study-steps {
+        flex-wrap: wrap;
+        row-gap: .5rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .topic-tag {
+        display: none;
+    }
+
+    .topic-tag.higher-only {
+        display: inline-block;
+    }
+
+    .row-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 1rem;
+    }
+
+    .free-note {
+        flex-direction: column;
+        gap: .4rem;
+    }
+}

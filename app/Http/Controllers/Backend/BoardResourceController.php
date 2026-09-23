@@ -67,10 +67,13 @@ class BoardResourceController extends Controller
 
     public function store(AdminBoardResourceRequest $request): RedirectResponse
     {
-        $this->boardResourceService->create($request->validated());
+       $boardResource = $this->boardResourceService->create($request->validated());
 
-        return to_route('admin.board-resources.create')
-            ->with('success', 'Resource created successfully.');
+        return to_route('admin.board-resources.index', [
+            'category' => $boardResource->examBoard->category_id,
+            'subcategory' => $boardResource->examBoard->subcategory_id,
+            'resubcategory_id' => $boardResource->resubcategory_id,
+        ])->with('success', 'Resource created successfully.');
     }
 
 

@@ -26,7 +26,7 @@ class AdminBoardResourceRequest extends FormRequest
             'is_group' => ['required', 'boolean',],
             'is_paid' => ['required', 'boolean',],
             'is_active' => ['required', Rule::enum(Status::class),],
-            'is_section_title' => ['required', 'boolean',],
+            'is_section_title' => ['nullable', 'boolean',],
             'file_orientation' => ['nullable', 'in:1,2',],
             'allow_files' => ['required', 'boolean',],
             'uploads' => ['nullable', 'array',],
