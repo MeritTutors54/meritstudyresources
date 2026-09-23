@@ -207,7 +207,7 @@
         <div class="container">
             <ul class="nav resource-tabs" id="resourceTabs" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="tab-all" data-bs-toggle="tab" data-bs-target="#pane-all"
+                    <button class="nav-link active" id="tab-all" data-bs-toggle="tab" data-bs-target="#pane-all"
                         type="button" role="tab" aria-controls="pane-all" aria-selected="true">
                         <i class="bi bi-grid" aria-hidden="true"></i> All resources
                     </button>
@@ -222,8 +222,8 @@
                 @if (!empty($syllabus))
                     @foreach ($syllabus as $tabName => $node)
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="tab-{{ $tabName }}" data-bs-toggle="tab"
-                                data-bs-target="#pane-{{ $tabName }}" type="button" role="tab"
+                            <button class="nav-link" id="tab-{{ $tabName }}" data-bs-toggle="tab"
+                                data-bs-target="#pane-{{ Str::slug($tabName) }}" type="button" role="tab"
                                 aria-controls="pane-{{ $tabName }}" aria-selected="false">
                                 {!! $icons[$tabName] !!} {{ $tabName }}
                             </button>
@@ -242,120 +242,12 @@
     <section class="resource-body">
         <div class="container">
             <div class="row g-4">
-
-                {{-- <!-- Filter rail -->
-                <div class="col-lg-3">
-                    <aside class="filter-rail" aria-label="Filter resources">
-
-                        <form class="filter-search" role="search" id="resourceSearchForm" novalidate>
-                            <label class="visually-hidden" for="resourceSearch">Search within this course</label>
-                            <div class="search-shell search-shell-sm">
-                                <i class="bi bi-search search-icon" aria-hidden="true"></i>
-                                <input type="search" class="form-control search-input" id="resourceSearch"
-                                    placeholder="Search this course..." autocomplete="off">
-                            </div>
-                        </form>
-
-                        <div class="filter-block">
-                            <h2 class="filter-heading">Tier</h2>
-                            <div class="filter-options">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="tier" id="tier-higher"
-                                        value="Higher" checked data-filter="tier">
-                                    <label class="form-check-label" for="tier-higher">Higher</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="tier" id="tier-foundation"
-                                        value="Foundation" data-filter="tier">
-                                    <label class="form-check-label" for="tier-foundation">Foundation</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="tier" id="tier-both"
-                                        value="" data-filter="tier">
-                                    <label class="form-check-label" for="tier-both">Show both</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="filter-block">
-                            <h2 class="filter-heading">Exam series</h2>
-                            <div class="filter-options">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="series-2024" value="2024"
-                                        checked data-filter="series">
-                                    <label class="form-check-label" for="series-2024">2024 <span
-                                            class="filter-count">3</span></label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="series-2023" value="2023"
-                                        checked data-filter="series">
-                                    <label class="form-check-label" for="series-2023">2023 <span
-                                            class="filter-count">3</span></label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="series-2022" value="2022"
-                                        checked data-filter="series">
-                                    <label class="form-check-label" for="series-2022">2022 <span
-                                            class="filter-count">3</span></label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="filter-block">
-                            <h2 class="filter-heading">Paper</h2>
-                            <div class="filter-options">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="paper-1" value="Paper 1"
-                                        checked data-filter="paper">
-                                    <label class="form-check-label" for="paper-1">Paper 1
-                                        (non-calculator)</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="paper-2" value="Paper 2"
-                                        checked data-filter="paper">
-                                    <label class="form-check-label" for="paper-2">Paper 2 (calculator)</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="paper-3" value="Paper 3"
-                                        checked data-filter="paper">
-                                    <label class="form-check-label" for="paper-3">Paper 3 (calculator)</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="filter-block">
-                            <h2 class="filter-heading">Source</h2>
-                            <div class="filter-options">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="source-board" value="board"
-                                        checked data-filter="source">
-                                    <label class="form-check-label" for="source-board">Exam board papers</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="source-merit" value="merit"
-                                        checked data-filter="source">
-                                    <label class="form-check-label" for="source-merit">Merit practice
-                                        material</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button type="button" class="btn btn-soft w-100" id="clearFilters">
-                            <i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i> Reset filters
-                        </button>
-
-                        <p class="filter-note">
-                            Counts and entries on this page are illustrative while the library is being loaded.
-                        </p>
-                    </aside>
-                </div> --}}
-
                 <!-- Panes -->
                 <div class="col-lg-12">
                     <div class="tab-content" id="resourceTabContent">
 
                         <!-- ---------- All resources ---------- -->
-                        <div class="tab-pane fade" id="pane-all" role="tabpanel" aria-labelledby="tab-all"
+                        <div class="tab-pane fade show active" id="pane-all" role="tabpanel" aria-labelledby="tab-all"
                             tabindex="0">
                             <div class="pane-head">
                                 <h2 class="pane-title">Everything for this course</h2>
@@ -373,111 +265,34 @@
                                         <span class="type-go" aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
                                     </button>
                                 </div>
-                                <div class="col">
-                                    <button type="button" class="type-card res-blue" data-goto="tab-notes">
-                                        <span class="resource-icon"><i class="bi bi-journal-text"
-                                                aria-hidden="true"></i></span>
-                                        <span class="type-name">Revision notes</span>
-                                        <span class="type-meta">6 units · concise notes with examples</span>
-                                        <span class="type-go" aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
-                                    </button>
-                                </div>
-                                <div class="col">
-                                    <button type="button" class="type-card res-green" data-goto="tab-questions">
-                                        <span class="resource-icon"><i class="bi bi-check2-square"
-                                                aria-hidden="true"></i></span>
-                                        <span class="type-name">Topic questions</span>
-                                        <span class="type-meta">Exam-style questions with answers</span>
-                                        <span class="type-go" aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
-                                    </button>
-                                </div>
-                                <div class="col">
-                                    <button type="button" class="type-card res-purple" data-goto="tab-tests">
-                                        <span class="resource-icon"><i class="bi bi-stopwatch"
-                                                aria-hidden="true"></i></span>
-                                        <span class="type-name">Topic tests</span>
-                                        <span class="type-meta">Timed mini-assessments with mark schemes</span>
-                                        <span class="type-go" aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
-                                    </button>
-                                </div>
-                                <div class="col">
-                                    <button type="button" class="type-card res-teal" data-goto="tab-workbooks">
-                                        <span class="resource-icon"><i class="bi bi-book-half"
-                                                aria-hidden="true"></i></span>
-                                        <span class="type-name">Workbooks</span>
-                                        <span class="type-meta">Printable booklets for homework and revision</span>
-                                        <span class="type-go" aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
-                                    </button>
-                                </div>
-                                <div class="col">
-                                    <button type="button" class="type-card res-amber" data-goto="tab-solutions">
-                                        <span class="resource-icon"><i class="bi bi-lightbulb-fill"
-                                                aria-hidden="true"></i></span>
-                                        <span class="type-name">Worked solutions</span>
-                                        <span class="type-meta">Step-by-step methods, written and on video</span>
-                                        <span class="type-go" aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
-                                    </button>
-                                </div>
-                            </div>
 
-                            <div class="pane-head pane-head-spaced">
-                                <h2 class="pane-title">Recently added</h2>
-                                <p class="pane-sub">Sample entries showing the row layout.</p>
+                                @if (!empty($syllabus))
+                                    @foreach ($syllabus as $tabName => $nodes)
+                                        @php
+                                            if (!empty($nodes)) {
+                                                $allChildCount = 0;
+                                                foreach ($nodes as $counterKey => $value) {
+                                                    $allChildCount += count($value['children']);
+                                                }
+                                            }
+                                        @endphp
+                                        <div class="col">
+                                            <button type="button" class="type-card res-blue" data-goto="tab-notes">
+                                                <span class="resource-icon">
+                                                    {!! $icons[$tabName] !!}
+                                                </span>
+                                                <span class="type-name">{{ $tabName }}</span>
+                                                <span class="type-meta">
+                                                    All over {{ $allChildCount ?? 0 }} topics and files conbination
+                                                </span>
+                                                <span class="type-go" aria-hidden="true">
+                                                    <i class="bi bi-arrow-right"></i>
+                                                </span>
+                                            </button>
+                                        </div>
+                                    @endforeach
+                                @endif
                             </div>
-
-                            <ul class="resource-list list-unstyled" data-list>
-                                <li class="resource-row" data-series="2024" data-paper="Paper 1" data-tier="Higher"
-                                    data-source="board"
-                                    data-keywords="june 2024 paper 1 non-calculator higher past paper">
-                                    <span class="row-icon"><i class="bi bi-file-earmark-text"
-                                            aria-hidden="true"></i></span>
-                                    <div class="row-body">
-                                        <p class="row-eyebrow">Exam-board past paper · Sample entry</p>
-                                        <h3 class="row-title">Mathematics · Paper 1</h3>
-                                        <p class="row-meta">Higher · June 2024 · Non-calculator · PDF</p>
-                                    </div>
-                                    <div class="row-actions">
-                                        <a class="btn btn-merit btn-sm" href="#">Question Paper <i
-                                                class="bi bi-arrow-right" aria-hidden="true"></i></a>
-                                        <a class="btn btn-soft" href="#">Mark Scheme</a>
-                                        <a class="btn btn-soft" href="#">Worked Solution</a>
-                                    </div>
-                                </li>
-                                <li class="resource-row" data-series="2024" data-paper="Paper 2" data-tier="Higher"
-                                    data-source="merit" data-keywords="merit practice paper higher calculator">
-                                    <span class="row-icon row-icon-merit"><i class="bi bi-file-earmark-text"
-                                            aria-hidden="true"></i></span>
-                                    <div class="row-body">
-                                        <p class="row-eyebrow row-eyebrow-merit">Merit practice material · Sample
-                                            entry</p>
-                                        <h3 class="row-title">Mathematics · Practice paper 1</h3>
-                                        <p class="row-meta">Higher · Calculator · PDF</p>
-                                    </div>
-                                    <div class="row-actions">
-                                        <a class="btn btn-merit btn-sm" href="#">Question Paper <i
-                                                class="bi bi-arrow-right" aria-hidden="true"></i></a>
-                                        <a class="btn btn-soft" href="#">Mark Scheme</a>
-                                        <a class="btn btn-soft" href="#">Worked Solution</a>
-                                    </div>
-                                </li>
-                                <li class="resource-row" data-series="2024" data-tier="Higher" data-source="merit"
-                                    data-keywords="quadratics revision notes algebra">
-                                    <span class="row-icon row-icon-note"><i class="bi bi-journal-text"
-                                            aria-hidden="true"></i></span>
-                                    <div class="row-body">
-                                        <p class="row-eyebrow">Revision notes · Sample entry</p>
-                                        <h3 class="row-title">Algebra · Quadratics</h3>
-                                        <p class="row-meta">Higher · 6 pages · Notes with worked examples</p>
-                                    </div>
-                                    <div class="row-actions">
-                                        <a class="btn btn-merit btn-sm" href="#">Open notes <i
-                                                class="bi bi-arrow-right" aria-hidden="true"></i></a>
-                                        <a class="btn btn-soft" href="#">Topic questions</a>
-                                    </div>
-                                </li>
-                            </ul>
-                            <p class="pane-note">Example layout only. Show file buttons only when the matching
-                                resources are available.</p>
                         </div>
 
                         <!-- ---------- Past papers ---------- -->
@@ -704,7 +519,7 @@
 
                         @if (!empty($syllabus))
                             @foreach ($syllabus as $tabName => $nodes)
-                                <div class="tab-pane fade show active" id="pane-{{ Str::slug($tabName) }}"
+                                <div class="tab-pane fade" id="pane-{{ Str::slug($tabName) }}"
                                     role="tabpanel" aria-labelledby="tab-{{ Str::slug($tabName) }}" tabindex="0">
                                     <div class="pane-head">
                                         <h2 class="pane-title">{{ $tabName }}</h2>

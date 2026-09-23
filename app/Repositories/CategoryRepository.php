@@ -13,7 +13,8 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
 
      public function activeCategories()
     {
-        return Category::where('is_active', 1)
+        return Category::with(['subCategories.resubcategories.pastPapers'])
+            ->where('is_active', 1)
             ->orderBy("category_name", "asc")
             ->get();
     }

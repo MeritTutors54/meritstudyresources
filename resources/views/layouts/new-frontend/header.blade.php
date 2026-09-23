@@ -57,12 +57,17 @@
             <div class="collapse navbar-collapse" id="primaryNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ route('home') }}" aria-current="page">
+                        <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" 
+                            href="{{ route('home') }}" aria-current="page">
                             <i class="bi bi-house-door-fill" aria-hidden="true"></i> Home
                         </a>
                     </li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('blogs') }}">Blog</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('products') }}">Product</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('all-subjects') ? 'active' : '' }}" 
+                            href="{{ route('all-subjects') }}">Subjects</a>
+                    </li>
 
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">

@@ -1,0 +1,325 @@
+/* ==========================================================================
+   Merit Study Resources — subjects page
+   Loaded after style.css and resources.css; reuses their tokens and shell.
+   ========================================================================== */
+
+/* 1. Page header controls ----------------------------------------------- */
+.subjects-header {
+    padding-bottom: 1.5rem;
+}
+
+.subject-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+.subject-search {
+    flex: 1 1 22rem;
+    max-width: 26rem;
+}
+
+.qual-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .35rem;
+    padding: .3rem;
+    background: #f4f7f5;
+    border: 1px solid var(--merit-line);
+    border-radius: var(--radius-pill);
+}
+
+.result-count {
+    margin: 1rem 0 0;
+    font-size: .87rem;
+    color: var(--merit-muted);
+}
+
+/* 2. Category jump bar --------------------------------------------------- */
+.jump-bar {
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+    background: rgba(255, 255, 255, .96);
+    backdrop-filter: saturate(140%) blur(6px);
+    border-bottom: 1px solid var(--card-border);
+}
+
+.jump-list {
+    display: flex;
+    gap: .4rem;
+    margin: 0;
+    padding: .65rem 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.jump-list::-webkit-scrollbar {
+    display: none;
+}
+
+.jump-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .4rem .85rem;
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-pill);
+    background: #fff;
+    color: var(--merit-text);
+    font-size: .85rem;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: border-color var(--ease), color var(--ease), background var(--ease);
+}
+
+.jump-chip:hover {
+    background: var(--merit-light-green);
+    border-color: #cfe5d8;
+    color: var(--merit-dark-green);
+    text-decoration: none;
+}
+
+.jump-count {
+    font-size: .75rem;
+    font-weight: 500;
+    color: var(--merit-muted);
+}
+
+/* 3. Subject groups ------------------------------------------------------ */
+.subject-body {
+    padding: 2rem 0 3rem;
+}
+
+.subject-group {
+    scroll-margin-top: 4.5rem;
+}
+
+.subject-group+.subject-group {
+    margin-top: 2.5rem;
+}
+
+.subject-group[hidden] {
+    display: none;
+}
+
+.group-head {
+    display: flex;
+    align-items: baseline;
+    gap: .85rem;
+    padding-bottom: .75rem;
+    margin-bottom: 1.1rem;
+    border-bottom: 1px solid var(--card-border);
+}
+
+.group-heading {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -.02em;
+    margin: 0;
+}
+
+.group-count {
+    font-size: .82rem;
+    color: var(--merit-muted);
+}
+
+/* 4. Subject tiles ------------------------------------------------------- */
+.subject-tile {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: .9rem;
+    height: 100%;
+    padding: 1.05rem 2.4rem 1.05rem 1.05rem;
+    background: #fff;
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    color: var(--merit-navy);
+    transition: transform var(--ease), box-shadow var(--ease), border-color var(--ease);
+}
+
+.subject-tile:hover,
+.subject-tile:focus-visible {
+    transform: translateY(-2px);
+    border-color: #cfdcd4;
+    box-shadow: var(--shadow-sm);
+    color: var(--merit-navy);
+    text-decoration: none;
+}
+
+.subject-tile[hidden] {
+    display: none;
+}
+
+.tile-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    flex: none;
+    border-radius: 11px;
+    font-size: 1.25rem;
+    transition: transform var(--ease);
+}
+
+.subject-tile:hover .tile-icon {
+    transform: scale(1.06);
+}
+
+.tile-icon.tint-mint {
+    color: var(--ink-teal);
+}
+
+.tile-icon.tint-blush {
+    color: var(--ink-rose);
+}
+
+.tile-icon.tint-sage {
+    color: var(--merit-green);
+}
+
+.tile-icon.tint-cream {
+    color: var(--ink-amber);
+}
+
+.tile-icon.tint-sky {
+    color: var(--ink-blue);
+}
+
+.tile-icon.tint-lilac {
+    color: var(--ink-purple);
+}
+
+.tile-icon.tint-periwinkle {
+    color: var(--merit-navy);
+}
+
+.tile-body {
+    display: block;
+    min-width: 0;
+}
+
+.tile-name {
+    display: block;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: -.015em;
+    margin-bottom: .15rem;
+}
+
+.tile-meta {
+    display: block;
+    font-size: .8rem;
+    color: var(--merit-muted);
+    margin-bottom: .55rem;
+}
+
+.tile-quals {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .3rem;
+}
+
+.qual-chip {
+    display: inline-block;
+    padding: .12rem .5rem;
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-pill);
+    background: #fbfdfb;
+    font-size: .72rem;
+    font-weight: 600;
+    color: var(--merit-muted);
+}
+
+.tile-go {
+    position: absolute;
+    right: 1rem;
+    top: 1.15rem;
+    color: var(--merit-green);
+    font-size: .85rem;
+    transition: transform var(--ease);
+}
+
+/* 5. Request panel ------------------------------------------------------- */
+.request-panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 2.5rem;
+    padding: 1.5rem;
+    background: var(--merit-light-green);
+    border: 1px solid #d9e9df;
+    border-radius: var(--radius-lg);
+}
+
+.request-heading {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 .3rem;
+}
+
+.request-text {
+    margin: 0;
+    font-size: .92rem;
+    color: #4a5f70;
+    max-width: 40rem;
+}
+
+.request-panel .btn-merit {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    min-height: 46px;
+    padding-inline: 1.4rem;
+}
+
+/* 6. Responsive ---------------------------------------------------------- */
+@media (max-width: 991.98px) {
+    .jump-bar {
+        position: static;
+    }
+
+    .subject-group {
+        scroll-margin-top: 1rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .subject-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .subject-search {
+        max-width: none;
+    }
+
+    .qual-filter {
+        justify-content: space-between;
+    }
+
+    .qual-filter .filter-pill {
+        flex: 1 1 auto;
+    }
+
+    .request-panel {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .tile-meta {
+        display: none;
+    }
+
+    .subject-tile {
+        padding-right: 2.2rem;
+    }
+}

@@ -26,6 +26,7 @@ use Illuminate\Http\Request;
 use App\Models\PolicySettings;
 use App\Models\MeritResource;
 use App\Models\PastPaper;
+use App\Repositories\Interfaces\CategoryRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Carbon\Carbon;
@@ -33,6 +34,11 @@ use Illuminate\Support\Facades\DB;
 
 class FrontendController extends Controller
 {
+    public function __construct(
+        protected CategoryRepositoryInterface $categoryRepo,
+    )
+    {}
+
     public function home(): View
     {
         $categories = Category::query()->where('is_active', 1)
@@ -48,6 +54,15 @@ class FrontendController extends Controller
                 'defaultSEO' => $defaultSEO,
                 'qualifications' => $categories,
             ]);
+    }
+
+    public function subjectView(Request $request)
+    {
+        $categories = $this->categoryRepo->activeCategories();
+
+        return view('frontend.home.all-subject')->with([
+            'categories' => $categories,
+        ]);
     }
 
 //    public function home(): View

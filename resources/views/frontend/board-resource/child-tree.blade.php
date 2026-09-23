@@ -11,7 +11,7 @@
     <div class="accordion-item mb-2 border rounded shadow-sm" style="margin-left: {{ $depthPadding }}px;">
         <div class="accordion-header d-flex align-items-center m-0 bg-light rounded-top">
 
-            <button class="accordion-button flex-grow-1" type="button" data-bs-toggle="collapse"
+            <button class="accordion-button collapsed flex-grow-1" type="button" data-bs-toggle="collapse"
                 data-bs-target="#collapse-section-{{ $item['id'] }}" aria-expanded="false"
                 aria-controls="collapse-section-{{ $item['id'] }}">
                 <i class="fa-regular fa-folder me-2 text-primary"></i>
@@ -23,20 +23,20 @@
                 <span class="topic-count ms-2 badge rounded-pill">
                     @if ($count > 1)
                         ({{ $count }} topics)
-                    @elseif ($count == 1 )
+                    @elseif ($count == 1)
                         ({{ $count }} topic)
                     @else
                         @php
                             $count = count($item['files']);
                         @endphp
-                         ({{ $count }} files)
+                        ({{ $count }} files)
                     @endif
                 </span>
             </button>
         </div>
 
         {{-- Section Body (Recursive Children) --}}
-        <div id="collapse-section-{{ $item['id'] }}" class="accordion-collapse collapse show">
+        <div id="collapse-section-{{ $item['id'] }}" class="accordion-collapse collapse">
             <div class="accordion-body p-0">
                 <ul class="topic-list list-unstyled m-0 px-3 py-1" data-list="">
                     @if (!empty($item['children']))
@@ -72,11 +72,15 @@
 
                                         <div class="badge-file-list d-flex flex-wrap gap-2">
                                             @foreach ($difficultyFiles as $index => $file)
-                                                <a href="{{ asset('storage/' . $file['file_path']) }}" target="_blank"
+                                                <a href="{{ !$file['is_pro'] ? asset('storage/' . $file['file_path']) : 'javascript:void(0)' }}"
+                                                    {{ !$file['is_pro'] ? 'target="_blank"' : '' }}
                                                     class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1 {{ $file['is_pro'] ? 'border-warning' : '' }}"
-                                                    title="Paper {{ $index + 1 }}">
+                                                    title="Paper {{ $index + 1 }}"
+                                                    {{ $file['is_pro'] ? 'style=cursor:not-allowed;' : '' }}>
+
                                                     <i class="fa-regular fa-file-pdf"></i>
                                                     <span>Paper {{ $index + 1 }}</span>
+
                                                     @if ($file['is_pro'])
                                                         <span class="badge bg-warning text-dark ms-1 p-1"
                                                             style="font-size: 0.6em;">PRO</span>
@@ -98,9 +102,11 @@
         <div class="d-flex justify-content-between align-items-center w-100">
             @if ($fileOrientation == 1)
                 {{-- Item Identity Link --}}
-                <a href="{{ $fileOrientation == 1 ? asset('storage/' . $files[0]['file_path']) : 'javascript:void(0)' }}"
-                    {{ $fileOrientation == 1 ? 'target="_blank"' : '' }}
-                    class="d-flex align-items-center text-decoration-none text-dark flex-grow-1">
+                <a href="{{ $fileOrientation == 1 && !($item['is_paid'] ?? false) ? asset('storage/' . $files[0]['file_path']) : 'javascript:void(0)' }}"
+                    {{ $fileOrientation == 1 && !($item['is_paid'] ?? false) ? 'target="_blank"' : '' }}
+                    class="d-flex align-items-center text-decoration-none text-dark flex-grow-1"
+                    {{ $item['is_paid'] ?? false ? 'style=cursor:not-allowed;' : '' }}>
+
                     <span class="topic-dot text-primary me-2" aria-hidden="true"></span>
                     <span class="fw-medium">{{ $item['name'] }}</span>
 
