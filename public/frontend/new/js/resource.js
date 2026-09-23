@@ -129,7 +129,7 @@
         }
 
         function applyFilters() {
-            var query = (searchInput.value || '').trim().toLowerCase();
+            var query = (searchInput && searchInput.value ? searchInput.value : '').trim().toLowerCase();
             var tier = checkedValues('tier')[0] || '';
             var series = checkedValues('series');
             var papers = checkedValues('paper');

@@ -32,7 +32,7 @@
 
         @yield('content')
 
-    </main>
+    </main>a
 
     <!-- ====================
      8. TOAST AREA
