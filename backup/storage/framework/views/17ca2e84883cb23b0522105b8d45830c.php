@@ -1,1 +1,0 @@
-<?php echo e($code); ?><?php /**PATH F:\xampp\htdocs\ResourceProject\resources\views/mail/user_registermail.blade.php ENDPATH**/ ?>

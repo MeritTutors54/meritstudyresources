@@ -36,7 +36,6 @@ Route::group(['middleware' => 'team.permission'], function () {
 
     Route::get('/', [FrontendController::class, 'home'])->name('home');
     // Route::get('/home2', [FrontendController::class, 'anotherHome'])->name('home');
-
     Route::get('/blogs', [BlogController::class, 'index'])->name('blogs');
     Route::get('/blogs/{slug}', [BlogController::class, 'details'])->name('blogs.details');
     Route::post('/blogs/post-a-comment/{blog}', [BlogController::class, 'comment'])->name('blogs.comment.post');
@@ -74,17 +73,14 @@ Route::group(['middleware' => 'team.permission'], function () {
 //        '/past-papers/{categorySlug?}/{subcategorySlug?}/{resubSlug?}/{title?}',
 //        [PastPaperController::class, 'index']
 //    )->name('past.papers');
-//
+
 
     Route::get('/past-papers', [PastPaperController::class, 'index'])->name('past.papers');
-    Route::get('/past-papers/{category_slug}/{subcategory_slug}/{resubcategory_slug}',
-        [PastPaperController::class, 'details'])->name('past.papers.details');
+    Route::get('/past-papers/{category_slug}/{subcategory_slug}/{resubcategory_slug}',[PastPaperController::class, 'details'])->name('past.papers.details');
     Route::get('/pdf/view/{id}/{type}', [PastPaperController::class, 'viewPDF'])->name('pdf.view');
     Route::get('/pdf/{secret}', [PastPaperController::class, 'secretView'])->name('pdf.secret.view');
-
     Route::get('/contact', [FrontendController::class, 'contactUs'])->name('contact-us');
     Route::post('/contact', [App\Http\Controllers\Frontend\FrontendController::class, 'contactUsStore']);
-
     Route::get('/terms-and-conditions', [FrontendController::class, 'termsCondition'])->name('terms-condition');
     Route::get('/privacy-policy', [FrontendController::class, 'privacyPolicy'])->name('privacy.policy');
     Route::get('/refund-policy', [FrontendController::class, 'refundPolicy'])->name('refund.policy');

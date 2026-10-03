@@ -1,60 +1,93 @@
-@extends('layouts.frontend-2')
-
+@extends('layouts.frontend-3')
 @section('title', $defaultSEO->meta_title ?? $global_seo['seo_title'])
 @section('meta_description', $defaultSEO->meta_description ?? $global_seo['seo_description'])
 @section('meta_keywords', $defaultSEO->meta_keywords ?? $global_seo['seo_keywords'])
 @section('meta_author', $defaultSEO->meta_author ?? $global_seo['seo_author'])
-
 @section('content')
 
-    <header class="page-banner">
-        <div class="container">
-            <div class="breadcrumb-msr mb-3"><a href="{{ route('home') }}">Home</a> &nbsp;/&nbsp; Privacy Policy</div>
-            <span class="eyebrow"><span class="divider-dot"></span> LEGAL</span>
-            <h1 class="mt-4 mb-3">Privacy <span class="text-green">Policy.</span></h1>
-            <p class="lead-muted mb-3" style="max-width:600px;">How Merit Study Resources collects, uses and protects
-                your personal information.</p>
-            <span class="update-chip">
-                <svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M12 7v5l3.5 2" stroke="#fff"
-                                                                                  stroke-width="1.8"
-                                                                                  stroke-linecap="round"/><circle
-                        cx="12" cy="12" r="9" stroke="#fff" stroke-width="1.8"/></svg>
-                Last updated: 1 July 2026
-            </span>
-        </div>
-    </header>
+  <section class="course-header" aria-labelledby="pageTitle">
+    <div class="container">
+      <div class="course-header-top">
+        <nav aria-label="Breadcrumb"><ol class="breadcrumb course-crumbs"><li class="breadcrumb-item"><a href="index.html">Home</a></li><li class="breadcrumb-item active" aria-current="page">Cookie policy</li></ol></nav>
+        <p class="spec-code">Last updated <span>1 September 2026</span></p>
+      </div>
+      <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> Free resources<span class="eyebrow-sep" aria-hidden="true">/</span> No account needed</p>
+      <h1 class="course-title" id="pageTitle">Cookie policy</h1>
+      <p class="course-intro">Cookies are small files a site stores on your device. Here is what we use and how to turn the optional ones off.</p>
+    </div>
+  </section>
 
-    <!-- ============================= LEGAL CONTENT ============================= -->
-    <section class="section-pad">
-        <div class="container">
-            <div class="row gy-5">
-                <div class="col-lg-4">
-                    <div class="legal-sidebar">
-                        <p class="fw-semibold text-uppercase small text-muted-c mb-3" style="letter-spacing:.08em;">On
-                            this page</p>
-                        @if(!empty($privacyPolicy))
-                            @foreach($privacyPolicy as $k => $policy)
-                                <a class="side-link" href="#{{ $k}}">{{ $k + 1 }}. {{ $policy->title }}</a>
-                            @endforeach
-                        @endif
-                    </div>
-                </div>
-                <div class="col-lg-8">
-                    <div class="legal-content">
-                        <p>Merit Study Resources ("we", "us", "our") provides past papers, worksheets and revision
-                            resources to students, parents, tutors and schools across the UK. This Privacy Policy
-                            explains what personal data we collect through meritstudyresource.co.uk, why we collect it,
-                            and the choices you have.</p>
+  <div class="policy-body">
+    <div class="container">
+      <div class="row g-4 g-xl-5">
 
-                        @if(!empty($privacyPolicy))
-                            @foreach($privacyPolicy as $k => $policy)
-                                <h2 id="{{ $k }}"><span class="num-badge">{{ sprintf('%02d', $k + 1) }}</span> {{ $policy->title }}</h2>
-                                <p>{{ $policy->description }}</p>
-                            @endforeach
-                        @endif
-                    </div>
-                </div>
+        <div class="col-lg-4 order-lg-2">
+          <aside class="post-aside">
+            <nav class="toc" aria-label="On this page">
+              <h2 class="toc-heading">On this page</h2>
+              <ul class="toc-list list-unstyled">
+                <li><a href="#why-we-use-cookies">Why we use cookies</a></li>
+                <li><a href="#what-we-set">What we set</a></li>
+                <li><a href="#managing-your-choice">Managing your choice</a></li>
+                <li><a href="#browser-controls">Browser controls</a></li>
+                <li><a href="#third-parties">Third parties</a></li>
+                <li><a href="#changes">Changes</a></li>
+              </ul>
+            </nav>
+            <div class="aside-card">
+              <h2 class="aside-title">Other policies</h2>
+              <ul class="aside-links list-unstyled"><li><a href="privacy.html">Privacy policy</a></li><li><a href="terms.html">Terms and conditions</a></li><li><a href="refund.html">Refund policy</a></li></ul>
             </div>
+          </aside>
         </div>
-    </section>
+
+        <div class="col-lg-8 order-lg-1">
+          <div class="prose policy-prose">
+          <section class="policy-section" id="why-we-use-cookies" aria-labelledby="why-we-use-cookies-h">
+            <h2 id="why-we-use-cookies-h">Why we use cookies</h2>
+            <p>We keep cookies to a minimum: enough to remember your course selection and to understand which resources are being used. We do not use advertising cookies and we do not sell data to advertisers.</p>
+          </section>
+          <section class="policy-section" id="what-we-set" aria-labelledby="what-we-set-h">
+            <h2 id="what-we-set-h">What we set</h2>
+            <div class="table-wrap">
+              <table class="policy-table">
+                <thead><tr><th scope="col">Cookie</th><th scope="col">Type</th><th scope="col">Purpose</th><th scope="col">Expires</th></tr></thead>
+                <tbody>
+                <tr><td>msr_consent</td><td>Essential</td><td>Remembers your cookie choice</td><td>12 months</td></tr>
+                <tr><td>msr_course</td><td>Preferences</td><td>Remembers your qualification, subject and exam board</td><td>6 months</td></tr>
+                <tr><td>msr_session</td><td>Essential</td><td>Keeps you signed in during a visit</td><td>When you close the browser</td></tr>
+                <tr><td>_ga / _ga_*</td><td>Analytics</td><td>Counts visits and pages viewed (Google Analytics)</td><td>Up to 24 months</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Analytics cookies are only set if you accept them.</p>
+          </section>
+          <section class="policy-section" id="managing-your-choice" aria-labelledby="managing-your-choice-h">
+            <h2 id="managing-your-choice-h">Managing your choice</h2>
+            <p>Use the cookie banner to accept or reject optional cookies. You can change your mind at any time by clearing this site's data in your browser, which brings the banner back.</p>
+          </section>
+          <section class="policy-section" id="browser-controls" aria-labelledby="browser-controls-h">
+            <h2 id="browser-controls-h">Browser controls</h2>
+            <p>Every major browser lets you block or delete cookies in its settings — usually under Privacy or Site settings. Blocking essential cookies may stop parts of the site working, such as staying signed in.</p>
+          </section>
+          <section class="policy-section" id="third-parties" aria-labelledby="third-parties-h">
+            <h2 id="third-parties-h">Third parties</h2>
+            <p>Embedded content — for example a video — may set its own cookies. Those are controlled by the provider, and their own policies apply.</p>
+          </section>
+          <section class="policy-section" id="changes" aria-labelledby="changes-h">
+            <h2 id="changes-h">Changes</h2>
+            <p>This policy was last updated on 1 September 2026. We will update it if the cookies we use change. See also our <a href="privacy.html">privacy policy</a>.</p>
+          </section>
+          </div>
+
+          <div class="policy-contact">
+            <p><strong>Questions about this page?</strong> Email
+              <a href="mailto:hello@meritstudyresources.co.uk">hello@meritstudyresources.co.uk</a> or use the
+              <a href="contact.html">contact form</a>.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
 @endsection
+
