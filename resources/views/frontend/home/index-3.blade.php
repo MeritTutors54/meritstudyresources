@@ -43,9 +43,9 @@
     </style>
 @endpush
 @section('content')
-    <!-- ============================================================
-                    2. HERO
-                ============================================================ -->
+{{--    <!-- ============================================================--}}
+{{--    2. HERO--}}
+{{--    ============================================================ -->--}}
     <section class="hero" aria-labelledby="heroHeading">
         <div class="container">
             <div class="row align-items-center g-4 g-lg-5">
@@ -117,9 +117,9 @@
         </div>
     </section>
 
-    <!-- ============================================================
-                    3. FIND YOUR RESOURCES — resource finder
-                ============================================================ -->
+{{--    <!-- ============================================================--}}
+{{--    3. FIND YOUR RESOURCES — resource finder--}}
+{{--    ============================================================ -->--}}
     <section class="finder-section" aria-labelledby="finderHeading">
         <div class="container">
             <div class="finder-panel" data-reveal>
@@ -137,8 +137,10 @@
                     <div class="col-lg-5">
                         <p class="finder-help">
                             Not sure which exam board?
-                            <span class="help-badge" aria-hidden="true"><i class="bi bi-question-lg"></i></span>
-                            <a href="#">Get help here</a>
+                            <span class="help-badge" aria-hidden="true">
+                                <i class="bi bi-question-lg"></i>
+                            </span>
+                            <a href="{{ route('contact-us') }}">Get help here</a>
                         </p>
                     </div>
                 </div>
@@ -172,17 +174,17 @@
                         </select>
                     </div>
 
-                    <div class="col-12 col-md-6 col-xl">
-                        <label class="form-label" for="tier">Level / Tier <span class="label-note">(if
-                                applicable)</span></label>
-                        <select class="form-select" id="tier" name="tier">
-                            <option value="" selected hidden>Select level / tier</option>
-                            {{--                            <option>Foundation Tier</option> --}}
-                            {{--                            <option>Higher Tier</option> --}}
-                            {{--                            <option>AS</option> --}}
-                            {{--                            <option>A2</option> --}}
-                        </select>
-                    </div>
+{{--                    <div class="col-12 col-md-6 col-xl">--}}
+{{--                        <label class="form-label" for="tier">Level / Tier <span class="label-note">(if--}}
+{{--                                applicable)</span></label>--}}
+{{--                        <select class="form-select" id="tier" name="tier">--}}
+{{--                            <option value="" selected hidden>Select level / tier</option>--}}
+{{--                            --}}{{--                            <option>Foundation Tier</option> --}}
+{{--                            --}}{{--                            <option>Higher Tier</option> --}}
+{{--                            --}}{{--                            <option>AS</option> --}}
+{{--                            --}}{{--                            <option>A2</option> --}}
+{{--                        </select>--}}
+{{--                    </div>--}}
 
                     <div class="col-12 col-xl-auto">
                         <button type="button" id="viewResourceBtn" class="btn btn-merit btn-lg w-100 finder-submit">
@@ -197,10 +199,10 @@
     </section>
 
 
-    <!-- ============================================================
-                                                         3b. EXAM BOARD STRIP — continuous marquee, pauses on hover/focus
-                                                         Board list is illustrative; edit to match the boards you cover.
-                                                         ============================================================ -->
+{{--    <!-- ============================================================--}}
+{{--     3b. EXAM BOARD STRIP — continuous marquee, pauses on hover/focus--}}
+{{--     Board list is illustrative; edit to match the boards you cover.--}}
+{{--     ============================================================ -->--}}
     <section class="boards" aria-labelledby="boardsHeading">
         <div class="container">
             <div class="boards-inner">
@@ -229,72 +231,45 @@
         </div>
     </section>
 
-    <!-- ============================================================
-                                                         4. BROWSE BY SUBJECT
-                                                         ============================================================ -->
+{{--    <!-- ============================================================--}}
+{{--     4. BROWSE BY SUBJECT--}}
+{{--     ============================================================ -->--}}
+@php
+    $subjectStyles = [
+        'mathematics'      => ['icon' => 'bi-calculator',        'tint' => 'tint-mint'],
+        'english'          => ['icon' => 'bi-book',              'tint' => 'tint-blush'],
+        'biology'          => ['icon' => 'bi-tree',              'tint' => 'tint-sage'],
+        'chemistry'        => ['icon' => 'bi-thermometer-half',  'tint' => 'tint-cream'],
+        'physics'          => ['icon' => 'bi-asterisk',          'tint' => 'tint-sky'],
+        'economics'        => ['icon' => 'bi-bar-chart-fill',    'tint' => 'tint-lilac'],
+        'geography'        => ['icon' => 'bi-globe-americas',    'tint' => 'tint-mint'],
+        'psychology'       => ['icon' => 'bi-lightbulb',         'tint' => 'tint-blush'],
+        'computer science' => ['icon' => 'bi-display',           'tint' => 'tint-periwinkle'],
+    ];
+    $defaultStyle = ['icon' => 'bi-journal-text', 'tint' => 'tint-grey'];
+@endphp
     <section class="section" id="subjects" aria-labelledby="subjectsHeading">
         <div class="container">
             <div class="section-head" data-reveal>
                 <h2 class="section-heading" id="subjectsHeading">Browse by Subject</h2>
-                <a class="section-link" href="#">View all subjects <i class="bi bi-arrow-right"
-                        aria-hidden="true"></i></a>
+                <a class="section-link" href="{{ route('all-subjects') }}">View all subjects
+                    <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                </a>
             </div>
 
             <div class="row g-3 row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5" data-reveal-group>
-                <div class="col">
-                    <a class="subject-card tint-mint" href="#">
-                        <span class="subject-icon"><i class="bi bi-calculator" aria-hidden="true"></i></span>
-                        <span class="subject-name">Mathematics</span>
-                    </a>
-                </div>
-                <div class="col">
-                    <a class="subject-card tint-blush" href="#">
-                        <span class="subject-icon"><i class="bi bi-book" aria-hidden="true"></i></span>
-                        <span class="subject-name">English</span>
-                    </a>
-                </div>
-                <div class="col">
-                    <a class="subject-card tint-sage" href="#">
-                        <span class="subject-icon"><i class="bi bi-tree" aria-hidden="true"></i></span>
-                        <span class="subject-name">Biology</span>
-                    </a>
-                </div>
-                <div class="col">
-                    <a class="subject-card tint-cream" href="#">
-                        <span class="subject-icon"><i class="bi bi-thermometer-half" aria-hidden="true"></i></span>
-                        <span class="subject-name">Chemistry</span>
-                    </a>
-                </div>
-                <div class="col">
-                    <a class="subject-card tint-sky" href="#">
-                        <span class="subject-icon"><i class="bi bi-asterisk" aria-hidden="true"></i></span>
-                        <span class="subject-name">Physics</span>
-                    </a>
-                </div>
-                <div class="col">
-                    <a class="subject-card tint-lilac" href="#">
-                        <span class="subject-icon"><i class="bi bi-bar-chart-fill" aria-hidden="true"></i></span>
-                        <span class="subject-name">Economics</span>
-                    </a>
-                </div>
-                <div class="col">
-                    <a class="subject-card tint-mint" href="#">
-                        <span class="subject-icon"><i class="bi bi-globe-americas" aria-hidden="true"></i></span>
-                        <span class="subject-name">Geography</span>
-                    </a>
-                </div>
-                <div class="col">
-                    <a class="subject-card tint-blush" href="#">
-                        <span class="subject-icon"><i class="bi bi-lightbulb" aria-hidden="true"></i></span>
-                        <span class="subject-name">Psychology</span>
-                    </a>
-                </div>
-                <div class="col">
-                    <a class="subject-card tint-periwinkle" href="#">
-                        <span class="subject-icon"><i class="bi bi-display" aria-hidden="true"></i></span>
-                        <span class="subject-name">Computer Science</span>
-                    </a>
-                </div>
+                @foreach($featuredSubjects as $sub)
+                    @php
+                        $style = $subjectStyles[strtolower(trim($sub->subcategory_name))] ?? $defaultStyle;
+                    @endphp
+                    <div class="col">
+                        <a class="subject-card {{ $style['tint'] }}" href="#">
+                            <span class="subject-icon"><i class="bi {{ $style['icon'] }}" aria-hidden="true"></i></span>
+                            <span class="subject-name">{{ $sub->subcategory_name }}</span>
+                        </a>
+                    </div>
+                @endforeach
+
                 <div class="col">
                     <a class="subject-card tint-grey" href="#">
                         <span class="subject-icon"><i class="bi bi-grid" aria-hidden="true"></i></span>
@@ -305,9 +280,9 @@
         </div>
     </section>
 
-    <!-- ============================================================
-                                                         5. EXPLORE RESOURCES
-                                                    ============================================================ -->
+{{--    <!-- ============================================================--}}
+{{--      5. EXPLORE RESOURCES--}}
+{{--    ============================================================ -->--}}
     <section class="section" id="past-papers" aria-labelledby="resourcesHeading">
         <div class="container">
             <div class="section-head" data-reveal>
@@ -374,10 +349,10 @@
         </div>
     </section>
 
-    <!-- ============================================================
-                                                         6. POPULAR THIS WEEK
-                                                         Sample/illustrative content only — replace with real data.
-                                                    ============================================================ -->
+{{--    <!-- ============================================================--}}
+{{--       6. POPULAR THIS WEEK--}}
+{{--       Sample/illustrative content only — replace with real data.--}}
+{{--    ============================================================ -->--}}
     <section class="section" aria-labelledby="popularHeading">
         <div class="container">
             <div class="section-head" data-reveal>
@@ -467,9 +442,9 @@
         </div>
     </section>
 
-    <!-- ============================================================
-                                                         7. WHY USE MERIT STUDY RESOURCES
-                                                    ============================================================ -->
+{{--    <!-- ============================================================--}}
+{{--     7. WHY USE MERIT STUDY RESOURCES--}}
+{{--    ============================================================ -->--}}
     <section class="why-section" aria-labelledby="whyHeading">
         <div class="container">
             <h2 class="section-heading text-center mb-4 mb-lg-5" id="whyHeading" data-reveal>Why Use Merit Study

@@ -18,6 +18,7 @@ use App\Models\Faq;
 use App\Models\Product;
 use App\Models\Seo;
 use App\Models\SiteSettings;
+use App\Models\SubCategory;
 use App\Models\SubscribeEmail;
 use App\Models\SubscriptionPlan;
 use App\Models\Testimonial;
@@ -45,6 +46,21 @@ class FrontendController extends Controller
             ->orderBy('category_name')
             ->get();
 
+        $featured = [
+            'Mathematics', 'English', 'Biology', 'Chemistry', 'Physics',
+            'Economics', 'Geography', 'Psychology', 'Computer Science',
+        ];
+
+        $featuredSubjects = SubCategory::query()
+            ->where('is_active', 1)
+            ->whereIn('subcategory_name', $featured)
+            ->whereHas('category', fn ($q) => $q
+                ->where('category_name', 'A Level')
+                ->where('is_active', 1))
+            ->get()
+            ->sortBy(fn ($s) => array_search($s->sub_category_name, $featured))
+            ->values();
+
         $defaultSEO = Seo::query()
             ->where('page_title', SEOPage::HOME->value)
             ->first();
@@ -53,6 +69,7 @@ class FrontendController extends Controller
             ->with([
                 'defaultSEO' => $defaultSEO,
                 'qualifications' => $categories,
+                'featuredSubjects' => $featuredSubjects,
             ]);
     }
 
