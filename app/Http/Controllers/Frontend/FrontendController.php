@@ -38,7 +38,8 @@ class FrontendController extends Controller
     public function __construct(
         protected CategoryRepositoryInterface $categoryRepo,
     )
-    {}
+    {
+    }
 
     public function home(): View
     {
@@ -54,11 +55,11 @@ class FrontendController extends Controller
         $featuredSubjects = SubCategory::query()
             ->where('is_active', 1)
             ->whereIn('subcategory_name', $featured)
-            ->whereHas('category', fn ($q) => $q
+            ->whereHas('category', fn($q) => $q
                 ->where('category_name', 'A Level')
                 ->where('is_active', 1))
             ->get()
-            ->sortBy(fn ($s) => array_search($s->sub_category_name, $featured))
+            ->sortBy(fn($s) => array_search($s->sub_category_name, $featured))
             ->values();
 
         $defaultSEO = Seo::query()
@@ -75,7 +76,11 @@ class FrontendController extends Controller
 
     public function subjectView(Request $request)
     {
-        $categories = $this->categoryRepo->activeCategories();
+        $sub = $request->input('sub');
+
+        $categories = $this->categoryRepo->activeCategories($sub);
+
+//        dd($categories);
 
         return view('frontend.home.all-subject')->with([
             'categories' => $categories,

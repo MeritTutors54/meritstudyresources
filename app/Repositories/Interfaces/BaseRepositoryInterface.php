@@ -12,6 +12,8 @@ interface BaseRepositoryInterface
 
     public function find(int|string $id);
 
+    public function findByColumns(array $conditions);
+
     public function create(array $data);
 
     public function update(array $data, int|string $id);

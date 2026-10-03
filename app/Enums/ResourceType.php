@@ -2,6 +2,8 @@
 
 namespace App\Enums;
 
+use Illuminate\Support\Str;
+
 enum ResourceType: int
 {
     case RESOURCE = 0;
@@ -14,6 +16,11 @@ enum ResourceType: int
     case EXAM_BUILDER = 7;
     case REVISION_GUIDE = 8;
     case TEST = 9;
+    case REVISION_NOTES = 10;
+    case TOPIC_QUESTION = 11;
+    case TOPIC_TEST = 12;
+    case WORKBOOKS = 13;
+    case WORK_SOLUTIONS = 14;
 
 
     public function label(): string
@@ -29,6 +36,11 @@ enum ResourceType: int
             self::EXAM_BUILDER => 'Exam Builder',
             self::REVISION_GUIDE => 'Revision Guide',
             self::TEST => 'Test',
+            self::REVISION_NOTES => 'Revision Notes',
+            self::TOPIC_QUESTION => 'Topic Question',
+            self::TOPIC_TEST => 'Topic Test',
+            self::WORKBOOKS => 'Workbooks',
+            self::WORK_SOLUTIONS => 'Work Solutions',
         };
     }
 
@@ -40,6 +52,20 @@ enum ResourceType: int
             }
             return $carry;
         }, []);
+    }
+
+    public static function fromSlug(string $slug): ?self
+    {
+        // "revision-guides" -> "revision_guide" -> "REVISION_GUIDE"
+        $name = Str::upper(Str::singular(Str::snake(Str::camel($slug))));
+
+        foreach (self::cases() as $case) {
+            if ($case->name === $name) {
+                return $case;
+            }
+        }
+
+        return null;
     }
 }
 

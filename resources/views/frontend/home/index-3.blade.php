@@ -1,6 +1,6 @@
 @extends('layouts.frontend-3')
 @push('css')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
     <style>
         .finder-panel .select2-container--default .select2-selection--single {
             border: 1px solid var(--merit-border);
@@ -26,7 +26,7 @@
             display: none;
         }
 
-         .select2-container--default .select2-selection--single .select2-selection__arrow b {
+        .select2-container--default .select2-selection--single .select2-selection__arrow b {
             display: none !important;
         }
 
@@ -43,9 +43,9 @@
     </style>
 @endpush
 @section('content')
-{{--    <!-- ============================================================--}}
-{{--    2. HERO--}}
-{{--    ============================================================ -->--}}
+    {{--    <!-- ============================================================--}}
+    {{--    2. HERO--}}
+    {{--    ============================================================ -->--}}
     <section class="hero" aria-labelledby="heroHeading">
         <div class="container">
             <div class="row align-items-center g-4 g-lg-5">
@@ -63,22 +63,22 @@
                     <ul class="hero-benefits list-unstyled">
                         <li class="hero-benefit">
                             <span class="benefit-icon benefit-icon-green"><i class="bi bi-check-circle-fill"
-                                    aria-hidden="true"></i></span>
+                                                                             aria-hidden="true"></i></span>
                             <span><strong>100% Free</strong><br>for All Students</span>
                         </li>
                         <li class="hero-benefit">
                             <span class="benefit-icon benefit-icon-blue"><i class="bi bi-mortarboard-fill"
-                                    aria-hidden="true"></i></span>
+                                                                            aria-hidden="true"></i></span>
                             <span><strong>Exam-Specific</strong><br>Resources</span>
                         </li>
                         <li class="hero-benefit">
                             <span class="benefit-icon benefit-icon-navy"><i class="bi bi-book-half"
-                                    aria-hidden="true"></i></span>
+                                                                            aria-hidden="true"></i></span>
                             <span><strong>Organised by</strong><br>Topic</span>
                         </li>
                         <li class="hero-benefit">
                             <span class="benefit-icon benefit-icon-teal"><i class="bi bi-people-fill"
-                                    aria-hidden="true"></i></span>
+                                                                            aria-hidden="true"></i></span>
                             <span><strong>Trusted by</strong><br>Students &amp; Teachers</span>
                         </li>
                     </ul>
@@ -87,7 +87,7 @@
                 <!-- Decorative study-desk illustration, built with CSS (no third-party artwork) -->
                 <div class="col-lg-6">
                     <div class="hero-art" role="img"
-                        aria-label="Illustration of a stack of study books labelled past papers, revision notes, practice questions, worksheets, mark schemes and worked solutions.">
+                         aria-label="Illustration of a stack of study books labelled past papers, revision notes, practice questions, worksheets, mark schemes and worked solutions.">
                         <p class="script-note script-note-left" aria-hidden="true">Your Course<br>All in One Place</p>
                         <p class="script-note script-note-right" aria-hidden="true">Same<br>Students<br>Brighter<br>Futures
                             <span class="script-smiley">☺</span>
@@ -117,9 +117,9 @@
         </div>
     </section>
 
-{{--    <!-- ============================================================--}}
-{{--    3. FIND YOUR RESOURCES — resource finder--}}
-{{--    ============================================================ -->--}}
+    {{--    <!-- ============================================================--}}
+    {{--    3. FIND YOUR RESOURCES — resource finder--}}
+    {{--    ============================================================ -->--}}
     <section class="finder-section" aria-labelledby="finderHeading">
         <div class="container">
             <div class="finder-panel" data-reveal>
@@ -174,17 +174,17 @@
                         </select>
                     </div>
 
-{{--                    <div class="col-12 col-md-6 col-xl">--}}
-{{--                        <label class="form-label" for="tier">Level / Tier <span class="label-note">(if--}}
-{{--                                applicable)</span></label>--}}
-{{--                        <select class="form-select" id="tier" name="tier">--}}
-{{--                            <option value="" selected hidden>Select level / tier</option>--}}
-{{--                            --}}{{--                            <option>Foundation Tier</option> --}}
-{{--                            --}}{{--                            <option>Higher Tier</option> --}}
-{{--                            --}}{{--                            <option>AS</option> --}}
-{{--                            --}}{{--                            <option>A2</option> --}}
-{{--                        </select>--}}
-{{--                    </div>--}}
+                    {{--                    <div class="col-12 col-md-6 col-xl">--}}
+                    {{--                        <label class="form-label" for="tier">Level / Tier <span class="label-note">(if--}}
+                    {{--                                applicable)</span></label>--}}
+                    {{--                        <select class="form-select" id="tier" name="tier">--}}
+                    {{--                            <option value="" selected hidden>Select level / tier</option>--}}
+                    {{--                            --}}{{--                            <option>Foundation Tier</option> --}}
+                    {{--                            --}}{{--                            <option>Higher Tier</option> --}}
+                    {{--                            --}}{{--                            <option>AS</option> --}}
+                    {{--                            --}}{{--                            <option>A2</option> --}}
+                    {{--                        </select>--}}
+                    {{--                    </div>--}}
 
                     <div class="col-12 col-xl-auto">
                         <button type="button" id="viewResourceBtn" class="btn btn-merit btn-lg w-100 finder-submit">
@@ -199,10 +199,10 @@
     </section>
 
 
-{{--    <!-- ============================================================--}}
-{{--     3b. EXAM BOARD STRIP — continuous marquee, pauses on hover/focus--}}
-{{--     Board list is illustrative; edit to match the boards you cover.--}}
-{{--     ============================================================ -->--}}
+    {{--    <!-- ============================================================--}}
+    {{--     3b. EXAM BOARD STRIP — continuous marquee, pauses on hover/focus--}}
+    {{--     Board list is illustrative; edit to match the boards you cover.--}}
+    {{--     ============================================================ -->--}}
     <section class="boards" aria-labelledby="boardsHeading">
         <div class="container">
             <div class="boards-inner">
@@ -231,23 +231,23 @@
         </div>
     </section>
 
-{{--    <!-- ============================================================--}}
-{{--     4. BROWSE BY SUBJECT--}}
-{{--     ============================================================ -->--}}
-@php
-    $subjectStyles = [
-        'mathematics'      => ['icon' => 'bi-calculator',        'tint' => 'tint-mint'],
-        'english'          => ['icon' => 'bi-book',              'tint' => 'tint-blush'],
-        'biology'          => ['icon' => 'bi-tree',              'tint' => 'tint-sage'],
-        'chemistry'        => ['icon' => 'bi-thermometer-half',  'tint' => 'tint-cream'],
-        'physics'          => ['icon' => 'bi-asterisk',          'tint' => 'tint-sky'],
-        'economics'        => ['icon' => 'bi-bar-chart-fill',    'tint' => 'tint-lilac'],
-        'geography'        => ['icon' => 'bi-globe-americas',    'tint' => 'tint-mint'],
-        'psychology'       => ['icon' => 'bi-lightbulb',         'tint' => 'tint-blush'],
-        'computer science' => ['icon' => 'bi-display',           'tint' => 'tint-periwinkle'],
-    ];
-    $defaultStyle = ['icon' => 'bi-journal-text', 'tint' => 'tint-grey'];
-@endphp
+    {{--    <!-- ============================================================--}}
+    {{--     4. BROWSE BY SUBJECT--}}
+    {{--     ============================================================ -->--}}
+    @php
+        $subjectStyles = [
+            'mathematics'      => ['icon' => 'bi-calculator',        'tint' => 'tint-mint'],
+            'english'          => ['icon' => 'bi-book',              'tint' => 'tint-blush'],
+            'biology'          => ['icon' => 'bi-tree',              'tint' => 'tint-sage'],
+            'chemistry'        => ['icon' => 'bi-thermometer-half',  'tint' => 'tint-cream'],
+            'physics'          => ['icon' => 'bi-asterisk',          'tint' => 'tint-sky'],
+            'economics'        => ['icon' => 'bi-bar-chart-fill',    'tint' => 'tint-lilac'],
+            'geography'        => ['icon' => 'bi-globe-americas',    'tint' => 'tint-mint'],
+            'psychology'       => ['icon' => 'bi-lightbulb',         'tint' => 'tint-blush'],
+            'computer science' => ['icon' => 'bi-display',           'tint' => 'tint-periwinkle'],
+        ];
+        $defaultStyle = ['icon' => 'bi-journal-text', 'tint' => 'tint-grey'];
+    @endphp
     <section class="section" id="subjects" aria-labelledby="subjectsHeading">
         <div class="container">
             <div class="section-head" data-reveal>
@@ -263,7 +263,8 @@
                         $style = $subjectStyles[strtolower(trim($sub->subcategory_name))] ?? $defaultStyle;
                     @endphp
                     <div class="col">
-                        <a class="subject-card {{ $style['tint'] }}" href="#">
+                        <a class="subject-card {{ $style['tint'] }}"
+                           href="{{ route('all-subjects', ['sub' => $sub->slug]) }}">
                             <span class="subject-icon"><i class="bi {{ $style['icon'] }}" aria-hidden="true"></i></span>
                             <span class="subject-name">{{ $sub->subcategory_name }}</span>
                         </a>
@@ -271,8 +272,10 @@
                 @endforeach
 
                 <div class="col">
-                    <a class="subject-card tint-grey" href="#">
-                        <span class="subject-icon"><i class="bi bi-grid" aria-hidden="true"></i></span>
+                    <a class="subject-card tint-grey" href="{{ route('all-subjects') }}">
+                        <span class="subject-icon">
+                            <i class="bi bi-grid" aria-hidden="true"></i>
+                        </span>
                         <span class="subject-name">View All Subjects</span>
                     </a>
                 </div>
@@ -280,9 +283,9 @@
         </div>
     </section>
 
-{{--    <!-- ============================================================--}}
-{{--      5. EXPLORE RESOURCES--}}
-{{--    ============================================================ -->--}}
+    {{--    <!-- ============================================================--}}
+    {{--      5. EXPLORE RESOURCES--}}
+    {{--    ============================================================ -->--}}
     <section class="section" id="past-papers" aria-labelledby="resourcesHeading">
         <div class="container">
             <div class="section-head" data-reveal>
@@ -293,11 +296,13 @@
                 <div class="col">
                     <article class="resource-card res-rose">
                         <span class="resource-icon"><i class="bi bi-file-earmark-text-fill"
-                                aria-hidden="true"></i></span>
+                                                       aria-hidden="true"></i></span>
                         <h3 class="resource-title">Past Papers</h3>
                         <p class="resource-text">Official past papers organised by year and paper.</p>
-                        <a class="btn btn-soft" href="#">Browse Past Papers <i class="bi bi-arrow-right"
-                                aria-hidden="true"></i></a>
+                        <a class="btn btn-soft" href="{{ route('past.papers') }}">
+                            Browse Past Papers
+                            <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                        </a>
                     </article>
                 </div>
                 <div class="col">
@@ -305,8 +310,10 @@
                         <span class="resource-icon"><i class="bi bi-journal-text" aria-hidden="true"></i></span>
                         <h3 class="resource-title">Revision Notes</h3>
                         <p class="resource-text">Clear and concise notes by topic.</p>
-                        <a class="btn btn-soft" href="#">Browse Revision Notes <i class="bi bi-arrow-right"
-                                aria-hidden="true"></i></a>
+                        <a class="btn btn-soft" href="{{ route('board-resources.type', ['revision-notes']) }}">
+                            Browse Revision Notes
+                            <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                        </a>
                     </article>
                 </div>
                 <div class="col">
@@ -314,8 +321,10 @@
                         <span class="resource-icon"><i class="bi bi-check2-square" aria-hidden="true"></i></span>
                         <h3 class="resource-title">Topic Questions</h3>
                         <p class="resource-text">Practice questions organised by topic.</p>
-                        <a class="btn btn-soft" href="#">Browse Questions <i class="bi bi-arrow-right"
-                                aria-hidden="true"></i></a>
+                        <a class="btn btn-soft"  href="{{ route('board-resources.type', ['topic-questions']) }}">
+                            Browse Questions
+                            <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                        </a>
                     </article>
                 </div>
                 <div class="col">
@@ -323,8 +332,8 @@
                         <span class="resource-icon"><i class="bi bi-stopwatch" aria-hidden="true"></i></span>
                         <h3 class="resource-title">Topic Tests</h3>
                         <p class="resource-text">Timed tests to check your progress.</p>
-                        <a class="btn btn-soft" href="#">Browse Topic Tests <i class="bi bi-arrow-right"
-                                aria-hidden="true"></i></a>
+                        <a class="btn btn-soft" href="{{ route('board-resources.type', ['topic-tests']) }}">
+                            Browse Topic Tests <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
                     </article>
                 </div>
                 <div class="col">
@@ -332,8 +341,9 @@
                         <span class="resource-icon"><i class="bi bi-book-half" aria-hidden="true"></i></span>
                         <h3 class="resource-title">Workbooks</h3>
                         <p class="resource-text">Structured workbooks and homework booklets.</p>
-                        <a class="btn btn-soft" href="#">Browse Workbooks <i class="bi bi-arrow-right"
-                                aria-hidden="true"></i></a>
+                        <a class="btn btn-soft" href="{{ route('board-resources.type', ['workbooks']) }}">
+                            Browse Workbooks <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                        </a>
                     </article>
                 </div>
                 <div class="col">
@@ -341,110 +351,470 @@
                         <span class="resource-icon"><i class="bi bi-lightbulb-fill" aria-hidden="true"></i></span>
                         <h3 class="resource-title">Worked Solutions</h3>
                         <p class="resource-text">Step-by-step solutions to help you learn.</p>
-                        <a class="btn btn-soft" href="#">Browse Solutions <i class="bi bi-arrow-right"
-                                aria-hidden="true"></i></a>
+                        <a class="btn btn-soft" href="{{ route('board-resources.type', ['worked-solutions']) }}">
+                            Browse Solutions <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                        </a>
                     </article>
                 </div>
             </div>
         </div>
     </section>
 
-{{--    <!-- ============================================================--}}
-{{--       6. POPULAR THIS WEEK--}}
-{{--       Sample/illustrative content only — replace with real data.--}}
-{{--    ============================================================ -->--}}
+    {{--    <!-- ============================================================--}}
+    {{--       6. POPULAR THIS WEEK--}}
+    {{--       Sample/illustrative content only — replace with real data.--}}
+    {{--    ============================================================ -->--}}
     <section class="section" aria-labelledby="popularHeading">
+{{--        <div class="container">--}}
+{{--            <div class="section-head" data-reveal>--}}
+{{--                <h2 class="section-heading" id="popularHeading">Popular This Week</h2>--}}
+
+{{--                <div class="filter-pills" role="group" aria-label="Filter popular resources by type">--}}
+{{--                    <button type="button" class="filter-pill is-active" data-filter="past-papers"--}}
+{{--                            aria-pressed="true">--}}
+{{--                        Past Papers--}}
+{{--                    </button>--}}
+{{--                    <button type="button" class="filter-pill" data-filter="revision-notes"--}}
+{{--                            aria-pressed="false">--}}
+{{--                        Revision Notes--}}
+{{--                    </button>--}}
+{{--                    <button type="button" class="filter-pill" data-filter="topic-questions" aria-pressed="false">--}}
+{{--                        Topic Questions--}}
+{{--                    </button>--}}
+{{--                    <button type="button" class="filter-pill" data-filter="topic-tests" aria-pressed="false">--}}
+{{--                        Topic Tests--}}
+{{--                    </button>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+
+{{--            <!-- Sample rows: titles and metadata below are illustrative placeholders -->--}}
+{{--            <div class="row g-3 row-cols-1 row-cols-md-2 row-cols-xl-3" id="popularList" data-reveal-group>--}}
+{{--                <div class="col">--}}
+{{--                    <div class="popular-card">--}}
+{{--                        <span class="popular-icon"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>--}}
+{{--                        <div class="popular-body">--}}
+{{--                            <h3 class="popular-title">GCSE Maths <span class="popular-board">(Edexcel)</span></h3>--}}
+{{--                            <p class="popular-meta">Higher Tier · Paper 1 · June 2024</p>--}}
+{{--                        </div>--}}
+{{--                        <a class="btn btn-merit btn-sm popular-btn"--}}
+{{--                           href="{{ route('past.papers.details', ['gcse','mathematics','edexcel']) }}"--}}
+{{--                           aria-label="View GCSE Maths Edexcel Higher Tier Paper 1 June 2024">View</a>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="col">--}}
+{{--                    <div class="popular-card">--}}
+{{--                        <span class="popular-icon"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>--}}
+{{--                        <div class="popular-body">--}}
+{{--                            <h3 class="popular-title">A Level Maths <span class="popular-board">(Edexcel)</span></h3>--}}
+{{--                            <p class="popular-meta">Paper 1 · June 2024</p>--}}
+{{--                        </div>--}}
+{{--                        <a class="btn btn-merit btn-sm popular-btn"--}}
+{{--                           href="{{ route('past.papers.details', ['a-levels', 'mathematics', 'edexcel']) }}"--}}
+{{--                           aria-label="View A Level Maths Edexcel Paper 1 June 2024">View</a>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="col">--}}
+{{--                    <div class="popular-card">--}}
+{{--                        <span class="popular-icon"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>--}}
+{{--                        <div class="popular-body">--}}
+{{--                            <h3 class="popular-title">GCSE Chemistry <span class="popular-board">(AQA)</span></h3>--}}
+{{--                            <p class="popular-meta">Higher Tier · Paper 1 · June 2024</p>--}}
+{{--                        </div>--}}
+{{--                        <a class="btn btn-merit btn-sm popular-btn"--}}
+{{--                           href="{{ route('past.papers.details', ['gcse','chemistry','aqa']) }}"--}}
+{{--                           aria-label="View GCSE Chemistry OCR Higher Tier Paper 1 June 2024">View</a>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="col">--}}
+{{--                    <div class="popular-card">--}}
+{{--                        <span class="popular-icon"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>--}}
+{{--                        <div class="popular-body">--}}
+{{--                            <h3 class="popular-title">GCSE Biology <span class="popular-board">(AQA)</span></h3>--}}
+{{--                            <p class="popular-meta">Higher Tier · Paper 2 · June 2024</p>--}}
+{{--                        </div>--}}
+{{--                        <a class="btn btn-merit btn-sm popular-btn"--}}
+{{--                           href="{{ route('past.papers.details', ['gcse', 'biology', 'aqa']) }}"--}}
+{{--                           aria-label="View GCSE Biology AQA Higher Tier Paper 2 June 2024">View</a>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="col">--}}
+{{--                    <div class="popular-card">--}}
+{{--                        <span class="popular-icon"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>--}}
+{{--                        <div class="popular-body">--}}
+{{--                            <h3 class="popular-title">GCSE English Language <span class="popular-board">(AQA)</span>--}}
+{{--                            </h3>--}}
+{{--                            <p class="popular-meta">Paper 1 · June 2024</p>--}}
+{{--                        </div>--}}
+{{--                        <a class="btn btn-merit btn-sm popular-btn"--}}
+{{--                           href="{{ route('past.papers.details', ['gcse', 'english-language', 'aqa']) }}"--}}
+{{--                           aria-label="View GCSE English Language AQA Paper 1 June 2024">View</a>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="col">--}}
+{{--                    <div class="popular-card">--}}
+{{--                        <span class="popular-icon"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>--}}
+{{--                        <div class="popular-body">--}}
+{{--                            <h3 class="popular-title">A Level Physics <span class="popular-board">(AQA)</span></h3>--}}
+{{--                            <p class="popular-meta">Paper 2 · June 2024</p>--}}
+{{--                        </div>--}}
+{{--                        <a class="btn btn-merit btn-sm popular-btn"--}}
+{{--                           href="{{ route('past.papers.details', ['a-levels', 'physics', 'aqa']) }}"--}}
+{{--                           aria-label="View A Level Physics AQA Paper 2 June 2024">View</a>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
         <div class="container">
             <div class="section-head" data-reveal>
                 <h2 class="section-heading" id="popularHeading">Popular This Week</h2>
 
                 <div class="filter-pills" role="group" aria-label="Filter popular resources by type">
                     <button type="button" class="filter-pill is-active" data-filter="past-papers"
-                        aria-pressed="true">Past Papers</button>
+                            aria-pressed="true" aria-controls="popular-past-papers">
+                        Past Papers
+                    </button>
                     <button type="button" class="filter-pill" data-filter="revision-notes"
-                        aria-pressed="false">Revision Notes</button>
-                    <button type="button" class="filter-pill" data-filter="topic-questions" aria-pressed="false">Topic
-                        Questions</button>
-                    <button type="button" class="filter-pill" data-filter="topic-tests" aria-pressed="false">Topic
-                        Tests</button>
+                            aria-pressed="false" aria-controls="popular-revision-notes">
+                        Revision Notes
+                    </button>
+                    <button type="button" class="filter-pill" data-filter="topic-questions"
+                            aria-pressed="false" aria-controls="popular-topic-questions">
+                        Topic Questions
+                    </button>
+                    <button type="button" class="filter-pill" data-filter="topic-tests"
+                            aria-pressed="false" aria-controls="popular-topic-tests">
+                        Topic Tests
+                    </button>
                 </div>
             </div>
 
             <!-- Sample rows: titles and metadata below are illustrative placeholders -->
-            <div class="row g-3 row-cols-1 row-cols-md-2 row-cols-xl-3" id="popularList" data-reveal-group>
-                <div class="col">
-                    <div class="popular-card">
-                        <span class="popular-icon"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>
-                        <div class="popular-body">
-                            <h3 class="popular-title">GCSE Maths <span class="popular-board">(Edexcel)</span></h3>
-                            <p class="popular-meta">Higher Tier · Paper 1 · June 2024</p>
+            <div id="popularList" aria-labelledby="popularHeading">
+
+                {{-- ===================== PAST PAPERS ===================== --}}
+                <div class="row g-3 row-cols-1 row-cols-md-2 row-cols-xl-3 popular-panel"
+                     id="popular-past-papers" data-panel="past-papers" data-reveal-group>
+                    <div class="col">
+                        <div class="popular-card">
+                            <span class="popular-icon"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>
+                            <div class="popular-body">
+                                <h3 class="popular-title">GCSE Maths <span class="popular-board">(Edexcel)</span></h3>
+                                <p class="popular-meta">Higher Tier · Paper 1 · June 2024</p>
+                            </div>
+                            <a class="btn btn-merit btn-sm popular-btn"
+                               href="{{ route('past.papers.details', ['gcse', 'mathematics', 'edexcel']) }}"
+                               aria-label="View GCSE Maths Edexcel Higher Tier Paper 1 June 2024">View</a>
                         </div>
-                        <a class="btn btn-merit btn-sm popular-btn" href="#"
-                            aria-label="View GCSE Maths Edexcel Higher Tier Paper 1 June 2024">View</a>
+                    </div>
+                    <div class="col">
+                        <div class="popular-card">
+                            <span class="popular-icon"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>
+                            <div class="popular-body">
+                                <h3 class="popular-title">A Level Maths <span class="popular-board">(Edexcel)</span>
+                                </h3>
+                                <p class="popular-meta">Paper 1 · June 2024</p>
+                            </div>
+                            <a class="btn btn-merit btn-sm popular-btn"
+                               href="{{ route('past.papers.details', ['a-levels', 'mathematics', 'edexcel']) }}"
+                               aria-label="View A Level Maths Edexcel Paper 1 June 2024">View</a>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="popular-card">
+                            <span class="popular-icon"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>
+                            <div class="popular-body">
+                                <h3 class="popular-title">GCSE Chemistry <span class="popular-board">(AQA)</span></h3>
+                                <p class="popular-meta">Higher Tier · Paper 1 · June 2024</p>
+                            </div>
+                            <a class="btn btn-merit btn-sm popular-btn"
+                               href="{{ route('past.papers.details', ['gcse', 'chemistry', 'aqa']) }}"
+                               aria-label="View GCSE Chemistry AQA Higher Tier Paper 1 June 2024">View</a>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="popular-card">
+                            <span class="popular-icon"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>
+                            <div class="popular-body">
+                                <h3 class="popular-title">GCSE Biology <span class="popular-board">(AQA)</span></h3>
+                                <p class="popular-meta">Higher Tier · Paper 2 · June 2024</p>
+                            </div>
+                            <a class="btn btn-merit btn-sm popular-btn"
+                               href="{{ route('past.papers.details', ['gcse', 'biology', 'aqa']) }}"
+                               aria-label="View GCSE Biology AQA Higher Tier Paper 2 June 2024">View</a>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="popular-card">
+                            <span class="popular-icon"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>
+                            <div class="popular-body">
+                                <h3 class="popular-title">GCSE English Language <span class="popular-board">(AQA)</span>
+                                </h3>
+                                <p class="popular-meta">Paper 1 · June 2024</p>
+                            </div>
+                            <a class="btn btn-merit btn-sm popular-btn"
+                               href="{{ route('past.papers.details', ['gcse', 'english-language', 'aqa']) }}"
+                               aria-label="View GCSE English Language AQA Paper 1 June 2024">View</a>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="popular-card">
+                            <span class="popular-icon"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>
+                            <div class="popular-body">
+                                <h3 class="popular-title">A Level Physics <span class="popular-board">(AQA)</span></h3>
+                                <p class="popular-meta">Paper 2 · June 2024</p>
+                            </div>
+                            <a class="btn btn-merit btn-sm popular-btn"
+                               href="{{ route('past.papers.details', ['a-levels', 'physics', 'aqa']) }}"
+                               aria-label="View A Level Physics AQA Paper 2 June 2024">View</a>
+                        </div>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="popular-card">
-                        <span class="popular-icon"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>
-                        <div class="popular-body">
-                            <h3 class="popular-title">A Level Maths <span class="popular-board">(Edexcel)</span></h3>
-                            <p class="popular-meta">Paper 1 · June 2024</p>
+
+                {{-- ===================== REVISION NOTES ===================== --}}
+                {{-- TODO: replace 'revision.notes.details' with your real route name --}}
+                <div class="row g-3 row-cols-1 row-cols-md-2 row-cols-xl-3 popular-panel"
+                     id="popular-revision-notes" data-panel="revision-notes" data-reveal-group hidden>
+                    <div class="col">
+                        <div class="popular-card">
+                            <span class="popular-icon"><i class="bi bi-journal-text" aria-hidden="true"></i></span>
+                            <div class="popular-body">
+                                <h3 class="popular-title">GCSE Biology <span class="popular-board">(AQA)</span></h3>
+                                <p class="popular-meta">Cell Biology · Topic 1</p>
+                            </div>
+                            <a class="btn btn-merit btn-sm popular-btn"
+                               href="#"
+                               aria-label="View GCSE Biology AQA revision notes: Cell Biology">View</a>
                         </div>
-                        <a class="btn btn-merit btn-sm popular-btn" href="#"
-                            aria-label="View A Level Maths Edexcel Paper 1 June 2024">View</a>
+                    </div>
+                    <div class="col">
+                        <div class="popular-card">
+                            <span class="popular-icon"><i class="bi bi-journal-text" aria-hidden="true"></i></span>
+                            <div class="popular-body">
+                                <h3 class="popular-title">GCSE Chemistry <span class="popular-board">(AQA)</span></h3>
+                                <p class="popular-meta">Bonding, Structure &amp; Properties · Topic 2</p>
+                            </div>
+                            <a class="btn btn-merit btn-sm popular-btn"
+                               href="#"
+                               aria-label="View GCSE Chemistry AQA revision notes: Bonding, Structure and Properties">View</a>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="popular-card">
+                            <span class="popular-icon"><i class="bi bi-journal-text" aria-hidden="true"></i></span>
+                            <div class="popular-body">
+                                <h3 class="popular-title">GCSE Physics <span class="popular-board">(AQA)</span></h3>
+                                <p class="popular-meta">Electricity · Topic 2</p>
+                            </div>
+                            <a class="btn btn-merit btn-sm popular-btn"
+                               href="#"
+                               aria-label="View GCSE Physics AQA revision notes: Electricity">View</a>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="popular-card">
+                            <span class="popular-icon"><i class="bi bi-journal-text" aria-hidden="true"></i></span>
+                            <div class="popular-body">
+                                <h3 class="popular-title">GCSE Maths <span class="popular-board">(Edexcel)</span></h3>
+                                <p class="popular-meta">Algebra · Higher Tier</p>
+                            </div>
+                            <a class="btn btn-merit btn-sm popular-btn"
+                               href="#"
+                               aria-label="View GCSE Maths Edexcel Higher Tier revision notes: Algebra">View</a>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="popular-card">
+                            <span class="popular-icon"><i class="bi bi-journal-text" aria-hidden="true"></i></span>
+                            <div class="popular-body">
+                                <h3 class="popular-title">A Level Chemistry <span class="popular-board">(AQA)</span>
+                                </h3>
+                                <p class="popular-meta">Physical Chemistry · Energetics</p>
+                            </div>
+                            <a class="btn btn-merit btn-sm popular-btn"
+                               href="#"
+                               aria-label="View A Level Chemistry AQA revision notes: Energetics">View</a>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="popular-card">
+                            <span class="popular-icon"><i class="bi bi-journal-text" aria-hidden="true"></i></span>
+                            <div class="popular-body">
+                                <h3 class="popular-title">A Level Biology <span class="popular-board">(OCR)</span></h3>
+                                <p class="popular-meta">Biological Molecules · Module 2</p>
+                            </div>
+                            <a class="btn btn-merit btn-sm popular-btn"
+                               href="#"
+                               aria-label="View A Level Biology OCR revision notes: Biological Molecules">View</a>
+                        </div>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="popular-card">
-                        <span class="popular-icon"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>
-                        <div class="popular-body">
-                            <h3 class="popular-title">GCSE Chemistry <span class="popular-board">(OCR)</span></h3>
-                            <p class="popular-meta">Higher Tier · Paper 1 · June 2024</p>
+
+                {{-- ===================== TOPIC QUESTIONS ===================== --}}
+                {{-- TODO: replace 'topic.questions.details' with your real route name --}}
+                <div class="row g-3 row-cols-1 row-cols-md-2 row-cols-xl-3 popular-panel"
+                     id="popular-topic-questions" data-panel="topic-questions" data-reveal-group hidden>
+                    <div class="col">
+                        <div class="popular-card">
+                            <span class="popular-icon"><i class="bi bi-question-circle" aria-hidden="true"></i></span>
+                            <div class="popular-body">
+                                <h3 class="popular-title">GCSE Maths <span class="popular-board">(Edexcel)</span></h3>
+                                <p class="popular-meta">Quadratic Equations · Higher Tier</p>
+                            </div>
+                            <a class="btn btn-merit btn-sm popular-btn"
+                               href="#"
+                               aria-label="View GCSE Maths Edexcel topic questions: Quadratic Equations">View</a>
                         </div>
-                        <a class="btn btn-merit btn-sm popular-btn" href="#"
-                            aria-label="View GCSE Chemistry OCR Higher Tier Paper 1 June 2024">View</a>
+                    </div>
+                    <div class="col">
+                        <div class="popular-card">
+                            <span class="popular-icon"><i class="bi bi-question-circle" aria-hidden="true"></i></span>
+                            <div class="popular-body">
+                                <h3 class="popular-title">GCSE Physics <span class="popular-board">(AQA)</span></h3>
+                                <p class="popular-meta">Forces &amp; Motion · Higher Tier</p>
+                            </div>
+                            <a class="btn btn-merit btn-sm popular-btn"
+                               href="#"
+                               aria-label="View GCSE Physics AQA topic questions: Forces and Motion">View</a>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="popular-card">
+                            <span class="popular-icon"><i class="bi bi-question-circle" aria-hidden="true"></i></span>
+                            <div class="popular-body">
+                                <h3 class="popular-title">GCSE Chemistry <span class="popular-board">(AQA)</span></h3>
+                                <p class="popular-meta">Quantitative Chemistry · Higher Tier</p>
+                            </div>
+                            <a class="btn btn-merit btn-sm popular-btn"
+                               href="#"
+                               aria-label="View GCSE Chemistry AQA topic questions: Quantitative Chemistry">View</a>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="popular-card">
+                            <span class="popular-icon"><i class="bi bi-question-circle" aria-hidden="true"></i></span>
+                            <div class="popular-body">
+                                <h3 class="popular-title">GCSE Biology <span class="popular-board">(AQA)</span></h3>
+                                <p class="popular-meta">Infection &amp; Response · Higher Tier</p>
+                            </div>
+                            <a class="btn btn-merit btn-sm popular-btn"
+                               href="#"
+                               aria-label="View GCSE Biology AQA topic questions: Infection and Response">View</a>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="popular-card">
+                            <span class="popular-icon"><i class="bi bi-question-circle" aria-hidden="true"></i></span>
+                            <div class="popular-body">
+                                <h3 class="popular-title">A Level Maths <span class="popular-board">(Edexcel)</span>
+                                </h3>
+                                <p class="popular-meta">Differentiation · Pure</p>
+                            </div>
+                            <a class="btn btn-merit btn-sm popular-btn"
+                               href="#"
+                               aria-label="View A Level Maths Edexcel topic questions: Differentiation">View</a>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="popular-card">
+                            <span class="popular-icon"><i class="bi bi-question-circle" aria-hidden="true"></i></span>
+                            <div class="popular-body">
+                                <h3 class="popular-title">A Level Physics <span class="popular-board">(AQA)</span></h3>
+                                <p class="popular-meta">Electricity · Section 5</p>
+                            </div>
+                            <a class="btn btn-merit btn-sm popular-btn"
+                               href="#"
+                               aria-label="View A Level Physics AQA topic questions: Electricity">View</a>
+                        </div>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="popular-card">
-                        <span class="popular-icon"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>
-                        <div class="popular-body">
-                            <h3 class="popular-title">GCSE Biology <span class="popular-board">(AQA)</span></h3>
-                            <p class="popular-meta">Higher Tier · Paper 2 · June 2024</p>
+
+                {{-- ===================== TOPIC TESTS ===================== --}}
+                {{-- TODO: replace 'topic.tests.details' with your real route name --}}
+                <div class="row g-3 row-cols-1 row-cols-md-2 row-cols-xl-3 popular-panel"
+                     id="popular-topic-tests" data-panel="topic-tests" data-reveal-group hidden>
+                    <div class="col">
+                        <div class="popular-card">
+                            <span class="popular-icon"><i class="bi bi-clipboard-check" aria-hidden="true"></i></span>
+                            <div class="popular-body">
+                                <h3 class="popular-title">GCSE Maths <span class="popular-board">(Edexcel)</span></h3>
+                                <p class="popular-meta">Ratio &amp; Proportion · 20 marks</p>
+                            </div>
+                            <a class="btn btn-merit btn-sm popular-btn"
+                               href="#"
+                               aria-label="Start GCSE Maths Edexcel topic test: Ratio and Proportion">Start</a>
                         </div>
-                        <a class="btn btn-merit btn-sm popular-btn" href="#"
-                            aria-label="View GCSE Biology AQA Higher Tier Paper 2 June 2024">View</a>
+                    </div>
+                    <div class="col">
+                        <div class="popular-card">
+                            <span class="popular-icon"><i class="bi bi-clipboard-check" aria-hidden="true"></i></span>
+                            <div class="popular-body">
+                                <h3 class="popular-title">GCSE Biology <span class="popular-board">(AQA)</span></h3>
+                                <p class="popular-meta">Bioenergetics · 25 marks</p>
+                            </div>
+                            <a class="btn btn-merit btn-sm popular-btn"
+                               href="#"
+                               aria-label="Start GCSE Biology AQA topic test: Bioenergetics">Start</a>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="popular-card">
+                            <span class="popular-icon"><i class="bi bi-clipboard-check" aria-hidden="true"></i></span>
+                            <div class="popular-body">
+                                <h3 class="popular-title">GCSE Chemistry <span class="popular-board">(AQA)</span></h3>
+                                <p class="popular-meta">Chemical Changes · 25 marks</p>
+                            </div>
+                            <a class="btn btn-merit btn-sm popular-btn"
+                               href="#"
+                               aria-label="Start GCSE Chemistry AQA topic test: Chemical Changes">Start</a>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="popular-card">
+                            <span class="popular-icon"><i class="bi bi-clipboard-check" aria-hidden="true"></i></span>
+                            <div class="popular-body">
+                                <h3 class="popular-title">GCSE Physics <span class="popular-board">(AQA)</span></h3>
+                                <p class="popular-meta">Energy · 20 marks</p>
+                            </div>
+                            <a class="btn btn-merit btn-sm popular-btn"
+                               href="#"
+                               aria-label="Start GCSE Physics AQA topic test: Energy">Start</a>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="popular-card">
+                            <span class="popular-icon"><i class="bi bi-clipboard-check" aria-hidden="true"></i></span>
+                            <div class="popular-body">
+                                <h3 class="popular-title">A Level Chemistry <span class="popular-board">(AQA)</span>
+                                </h3>
+                                <p class="popular-meta">Organic Chemistry · 30 marks</p>
+                            </div>
+                            <a class="btn btn-merit btn-sm popular-btn"
+                               href="#"
+                               aria-label="Start A Level Chemistry AQA topic test: Organic Chemistry">Start</a>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="popular-card">
+                            <span class="popular-icon"><i class="bi bi-clipboard-check" aria-hidden="true"></i></span>
+                            <div class="popular-body">
+                                <h3 class="popular-title">A Level Maths <span class="popular-board">(Edexcel)</span>
+                                </h3>
+                                <p class="popular-meta">Integration · 30 marks</p>
+                            </div>
+                            <a class="btn btn-merit btn-sm popular-btn"
+                               href="#"
+                               aria-label="Start A Level Maths Edexcel topic test: Integration">Start</a>
+                        </div>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="popular-card">
-                        <span class="popular-icon"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>
-                        <div class="popular-body">
-                            <h3 class="popular-title">GCSE English Language <span class="popular-board">(AQA)</span></h3>
-                            <p class="popular-meta">Paper 1 · June 2024</p>
-                        </div>
-                        <a class="btn btn-merit btn-sm popular-btn" href="#"
-                            aria-label="View GCSE English Language AQA Paper 1 June 2024">View</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="popular-card">
-                        <span class="popular-icon"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>
-                        <div class="popular-body">
-                            <h3 class="popular-title">A Level Physics <span class="popular-board">(AQA)</span></h3>
-                            <p class="popular-meta">Paper 2 · June 2024</p>
-                        </div>
-                        <a class="btn btn-merit btn-sm popular-btn" href="#"
-                            aria-label="View A Level Physics AQA Paper 2 June 2024">View</a>
-                    </div>
-                </div>
+
             </div>
         </div>
     </section>
 
-{{--    <!-- ============================================================--}}
-{{--     7. WHY USE MERIT STUDY RESOURCES--}}
-{{--    ============================================================ -->--}}
+    {{--    <!-- ============================================================--}}
+    {{--     7. WHY USE MERIT STUDY RESOURCES--}}
+    {{--    ============================================================ -->--}}
     <section class="why-section" aria-labelledby="whyHeading">
         <div class="container">
             <h2 class="section-heading text-center mb-4 mb-lg-5" id="whyHeading" data-reveal>Why Use Merit Study
@@ -472,7 +842,7 @@
                 <div class="col">
                     <div class="why-item">
                         <span class="why-icon why-icon-purple"><i class="bi bi-people-fill"
-                                aria-hidden="true"></i></span>
+                                                                  aria-hidden="true"></i></span>
                         <div>
                             <h3 class="why-title">Student Friendly</h3>
                             <p class="why-text">Easy to find and use</p>
@@ -482,7 +852,7 @@
                 <div class="col">
                     <div class="why-item">
                         <span class="why-icon why-icon-amber"><i class="bi bi-bar-chart-fill"
-                                aria-hidden="true"></i></span>
+                                                                 aria-hidden="true"></i></span>
                         <div>
                             <h3 class="why-title">Supporting Your Success</h3>
                             <p class="why-text">Helping you study with confidence</p>
@@ -496,8 +866,8 @@
 @push('js')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $(document).ready(function() {
+        $(document).ready(function () {
+            $(document).ready(function () {
                 $('#subject').select2({
                     placeholder: 'Select subject',
                     allowClear: true,
@@ -506,8 +876,7 @@
             });
 
 
-
-            $('#qualification').on('change', function() {
+            $('#qualification').on('change', function () {
                 const qualificationValue = $(this).val();
 
                 const qualificationId = Number(qualificationValue.split(" ")[0]);
@@ -521,7 +890,7 @@
                     data: {
                         _token: "{{ csrf_token() }}",
                     },
-                    success: function(response) {
+                    success: function (response) {
 
                         console.log('form sub: ', response)
 
@@ -530,19 +899,19 @@
                         subcategorySelect.empty().append(
                             '<option value="">Select subject</option>');
 
-                        response.forEach(function(item) {
+                        response.forEach(function (item) {
                             subcategorySelect.append(
                                 `<option value="${item.id} / ${item.slug}">${item.subcategory_name}</option>`
                             );
                         });
                     },
-                    error: function(xhr, status, error) {
+                    error: function (xhr, status, error) {
                         console.error('Error:', error);
                     }
                 });
             });
 
-            $('#subject').on('change', function() {
+            $('#subject').on('change', function () {
                 const subjectValue = $(this).val();
 
                 const subjectId = Number(subjectValue.split(" ")[0]);
@@ -556,26 +925,26 @@
                     data: {
                         _token: "{{ csrf_token() }}",
                     },
-                    success: function(response) {
+                    success: function (response) {
                         // Example: Populate a subcategory dropdown
                         let reSubcategorySelect = $('#examBoard'); // Adjust selector
                         reSubcategorySelect.empty().append(
                             '<option value="">Select exam board</option>');
 
-                        response.forEach(function(item) {
+                        response.forEach(function (item) {
                             reSubcategorySelect.append(
                                 `<option value="${item.id} / ${item.slug}">${item.resubcategory_name}</option>`
                             );
                         });
                     },
-                    error: function(xhr, status, error) {
+                    error: function (xhr, status, error) {
                         console.error('Error:', error);
                     }
                 });
             });
 
 
-            $('#viewResourceBtn').on('click', function() {
+            $('#viewResourceBtn').on('click', function () {
 
                 let qualification = $("#qualification");
                 let subject = $("#subject");
@@ -610,22 +979,45 @@
                     return;
                 }
 
-                const categorySlug = qualificationValue.split(" / ")[0].trim();
-                const subcategorySlug = subjectValue.split(" / ")[0].trim();
-                const reSubcategorySlug = examBoardValue.split(" / ")[0].trim();
+                const categorySlug = qualificationValue.split(" / ")[1].trim();
+                const subcategorySlug = subjectValue.split(" / ")[1].trim();
+                const reSubcategorySlug = examBoardValue.split(" / ")[1].trim();
 
                 const baseUrl = '{{ route('board-resources') }}';
 
                 // 2. Construct the URL and append the query parameters
                 const url = new URL(baseUrl, window.location.origin);
-                url.searchParams.append('cat_id', categorySlug);
-                url.searchParams.append('sub_id', subcategorySlug);
-                url.searchParams.append('re_id', reSubcategorySlug);
+                url.searchParams.append('cat_s', categorySlug);
+                url.searchParams.append('sub_s', subcategorySlug);
+                url.searchParams.append('re_s', reSubcategorySlug);
 
                 // 3. Redirect the browser
                 window.location.href = url.toString();
 
             })
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const pills  = document.querySelectorAll('.filter-pills .filter-pill');
+            const panels = document.querySelectorAll('#popularList .popular-panel');
+
+            pills.forEach(function (pill) {
+                pill.addEventListener('click', function () {
+                    const target = pill.dataset.filter;
+
+                    pills.forEach(function (p) {
+                        const active = p === pill;
+                        p.classList.toggle('is-active', active);
+                        p.setAttribute('aria-pressed', active ? 'true' : 'false');
+                    });
+
+                    panels.forEach(function (panel) {
+                        panel.hidden = panel.dataset.panel !== target;
+                    });
+                });
+            });
         });
     </script>
 @endpush

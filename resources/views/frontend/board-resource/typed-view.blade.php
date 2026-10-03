@@ -207,7 +207,7 @@
                     <div class="search-shell">
                         <i class="bi bi-search search-icon" aria-hidden="true"></i>
                         <input type="search" class="form-control search-input" id="subjectSearch"
-                            placeholder="Search subjects — try &quot;chem&quot; or &quot;maths&quot;" autocomplete="off">
+                               placeholder="Search subjects — try &quot;chem&quot; or &quot;maths&quot;" autocomplete="off">
                     </div>
                 </form>
 
@@ -216,7 +216,7 @@
                     @if (!empty($categories))
                         @foreach ($categories as $category)
                             <button type="button" class="filter-pill" data-qual="{{ $category->slug }}"
-                                aria-pressed="false">
+                                    aria-pressed="false">
                                 {{ $category->category_name }}
                             </button>
                         @endforeach
@@ -233,10 +233,10 @@
     <div class="subject-body">
         <div class="container">
             @if (!empty($categories))
-{{--                @dd($categories)--}}
+                {{--                @dd($categories)--}}
                 @foreach ($categories as $category)
                     <section class="subject-group" id="group-{{ $category->id }}" data-category="{{ $category->slug }}"
-                        aria-labelledby="heading-{{ $category->id }}" data-group>
+                             aria-labelledby="heading-{{ $category->id }}" data-group>
                         <div class="group-head">
                             <h2 class="group-heading" id="heading-{{ $category->id }}">
                                 {{ $category->category_name }}
@@ -254,10 +254,10 @@
                                     @endphp
                                     <div class="col">
                                         <div class="subject-tile" data-quals="{{ $category->slug }}"
-                                            data-keywords="{{ $keywords }}">
+                                             data-keywords="{{ $keywords }}">
 
                                             <button type="button" class="tile-header" aria-expanded="false"
-                                                aria-controls="subcat-{{ $subcategory->id }}">
+                                                    aria-controls="subcat-{{ $subcategory->id }}">
                                                 <span class="tile-icon tint-sage">
                                                     <i class="bi bi-tree" aria-hidden="true"></i>
                                                 </span>
@@ -275,7 +275,7 @@
                                                     <div class="resub-list">
                                                         @foreach ($subcategory->resubcategories as $resubcategory)
                                                             <a href="{{ route('board-resources', ['cat_s' => $category->slug, 'sub_s' => $subcategory->slug, 're_s' => $resubcategory->slug]) }}"
-                                                                class="resub-link">
+                                                               class="resub-link">
                                                                 <span>{{ $resubcategory->resubcategory_name }}</span>
                                                                 <i class="bi bi-arrow-right" aria-hidden="true"></i>
                                                             </a>
@@ -306,7 +306,7 @@
                     </p>
                 </div>
                 <a class="btn btn-merit" href="#">Request a subject <i class="bi bi-arrow-right"
-                        aria-hidden="true"></i></a>
+                                                                       aria-hidden="true"></i></a>
             </section>
         </div>
     </div>
