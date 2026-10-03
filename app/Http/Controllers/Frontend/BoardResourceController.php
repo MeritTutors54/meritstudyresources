@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Enums\IconByuddy;
+use App\Enums\ResourceType;
 use App\Http\Controllers\Controller;
+use App\Models\BoardResource;
 use App\Models\Cart;
 use App\Models\Resubcategory;
 use App\Models\SiteSettings;
@@ -28,33 +30,54 @@ class BoardResourceController extends Controller
 
     public function index(Request $request)
     {
-        $resubcategoryId = $request->input('re_id');
-        $subcategoryId = $request->input('sub_id');
-        $categoryId = $request->input('cat_id');
+        $resubcategorySlug = $request->input('re_s');
+        $subcategorySlug = $request->input('sub_s');
+        $categorySlug = $request->input('cat_s');
 
-        $categoires = $this->categoryRepo->activeCategories();
-        $subcategories = $this->subcategoryRepo->activeSubcategories($categoryId);
-        $resubcategories = $this->resubcategoryRepo->activeResubcategories($categoryId, $subcategoryId);
+        $categories = $this->categoryRepo->activeCategories("");
+        $category = $this->categoryRepo->findByColumns(['slug' => $categorySlug]);
+        $subcategories = $this->subcategoryRepo->activeSubcategories($category->id);
+        $subcategory = $this->subcategoryRepo->findByColumns(['slug' => $subcategorySlug]);
+        $resubcategories = $this->resubcategoryRepo->activeResubcategories($category->id, $subcategory->id);
 
         $resubcategory = Resubcategory::with(['category', 'subcategory'])
-            ->where('id', $resubcategoryId)->first();
+            ->where('category_id', $category->id)
+            ->where('subcategory_id', $subcategory->id)
+            ->where('slug', $resubcategorySlug)->first();
 
-        $syllabus = $this->boardRepository->getSyllabus($resubcategoryId, 1);
+        $syllabus = $this->boardRepository->getSyllabus($resubcategory->id, 1);
 
         $icons = IconByuddy::options();
 
         return view('frontend.board-resource.index')->with([
             'examBoard' =>  $resubcategory,
             'data' => [
-                'categories' => $categoires,
+                'categories' => $categories,
                 'subcategories' => $subcategories,
                 'resubcategories' => $resubcategories,
-                'selectedCategory' => $categoryId,
-                'selectedSubcategory' => $subcategoryId, 
-                'selectedResubcategory' => $resubcategoryId
+                'selectedCategory' => $category->id,
+                'selectedSubcategory' => $subcategory->id,
+                'selectedResubcategory' => $resubcategory->id
             ],
             'syllabus' => $syllabus,
             'icons' => $icons,
+        ]);
+    }
+
+    public function getType(string $type)
+    {
+        $typeCase = ResourceType::fromSlug('revision-guides');
+
+        $resources = BoardResource::query()->with([
+            'children.children.files',
+            'children.files',
+            'files',
+        ])->where('resource_type', $typeCase)->get();
+
+//        dd($resources);
+
+        return view('frontend.board-resource.typed-view')->with([
+            ''
         ]);
     }
 }

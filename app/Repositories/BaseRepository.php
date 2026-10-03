@@ -27,6 +27,19 @@ class BaseRepository implements BaseRepositoryInterface
         return $this->model->findOrFail($id);
     }
 
+    public function findByColumns(array $conditions)
+    {
+        $query = $this->model->query();
+
+        if (!empty($conditions)) {
+            foreach ($conditions as $key => $value) {
+                $query->where($key, $value);
+            }
+        }
+
+        return $query->first();
+    }
+
     public function create(array $data)
     {
         return $this->model->create($data);

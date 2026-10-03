@@ -176,17 +176,17 @@
                         </select>
                     </div>
 
-                    <div class="col-12 col-md-6 col-xl">
-                        <label class="form-label" for="tier">Level / Tier <span class="label-note">(if
-                                applicable)</span></label>
-                        <select class="form-select" id="tier" name="tier">
-                            <option value="" selected hidden>Select level / tier</option>
-                            {{--                            <option>Foundation Tier</option> --}}
-                            {{--                            <option>Higher Tier</option> --}}
-                            {{--                            <option>AS</option> --}}
-                            {{--                            <option>A2</option> --}}
-                        </select>
-                    </div>
+{{--                    <div class="col-12 col-md-6 col-xl">--}}
+{{--                        <label class="form-label" for="tier">Level / Tier <span class="label-note">(if--}}
+{{--                                applicable)</span></label>--}}
+{{--                        <select class="form-select" id="tier" name="tier">--}}
+{{--                            <option value="" selected hidden>Select level / tier</option>--}}
+{{--                            --}}{{--                            <option>Foundation Tier</option> --}}
+{{--                            --}}{{--                            <option>Higher Tier</option> --}}
+{{--                            --}}{{--                            <option>AS</option> --}}
+{{--                            --}}{{--                            <option>A2</option> --}}
+{{--                        </select>--}}
+{{--                    </div>--}}
 
                     <div class="col-12 col-xl-auto">
                         <button type="button" id="viewResourceBtn" class="btn btn-merit btn-lg w-100 finder-submit">
@@ -622,11 +622,10 @@
             </div>
         </div>
     </section>
-
-    </body>
 @endsection
 @push('js')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+{{--    <script src="{{ asset('frontend/new/js/resources.js') }}"></script>--}}
     <script>
         $(document).ready(function() {
             $(document).ready(function() {
@@ -741,17 +740,17 @@
                 return;
             }
 
-            const categorySlug = qualificationValue.split(" / ")[0].trim();
-            const subcategorySlug = subjectValue.split(" / ")[0].trim();
-            const reSubcategorySlug = examBoardValue.split(" / ")[0].trim();
+            const categorySlug = qualificationValue.split(" / ")[1].trim();
+            const subcategorySlug = subjectValue.split(" / ")[1].trim();
+            const reSubcategorySlug = examBoardValue.split(" / ")[1].trim();
 
             const baseUrl = '{{ route('board-resources') }}';
 
             // 2. Construct the URL and append the query parameters
             const url = new URL(baseUrl, window.location.origin);
-            url.searchParams.append('cat_id', categorySlug);
-            url.searchParams.append('sub_id', subcategorySlug);
-            url.searchParams.append('re_id', reSubcategorySlug);
+            url.searchParams.append('cat_s', categorySlug);
+            url.searchParams.append('sub_s', subcategorySlug);
+            url.searchParams.append('re_s', reSubcategorySlug);
 
             // 3. Redirect the browser
             window.location.href = url.toString();

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Repositories;
+
 use App\Models\Category;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
 
@@ -11,11 +12,23 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
         parent::__construct($category);
     }
 
-     public function activeCategories()
+    public function activeCategories(?string $sub)
     {
-        return Category::with(['subCategories.resubcategories.pastPapers'])
+
+        // Always active subs; filter by name only when a sub was passed
+        $subFilter = function ($q) use ($sub) {
+            $q->where('is_active', 1)
+                ->when($sub, fn ($q) => $q->where('slug', $sub));
+        };
+
+        return Category::query()
             ->where('is_active', 1)
-            ->orderBy("category_name", "asc")
+            ->when($sub, fn ($q) => $q->whereHas('subCategories', $subFilter))
+            ->with([
+                'subCategories' => $subFilter,
+                'subCategories.resubcategories.pastPapers',
+            ])
+            ->orderBy('category_name')
             ->get();
     }
 }

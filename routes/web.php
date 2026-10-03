@@ -42,7 +42,7 @@ Route::group(['middleware' => 'team.permission'], function () {
 
     Route::get('/about-us', [FrontendController::class, 'aboutUs'])->name('about-us');
 
-    Route::get('/board-resource/all-subjects', [FrontendController::class, 'subjectView'])->name('all-subjects');
+
 
     Route::get('/all-products', [ProductController::class, 'allProducts'])->name('products');
     Route::get('/get-product/{product_slug}', [ProductController::class, 'details'])
@@ -51,6 +51,8 @@ Route::group(['middleware' => 'team.permission'], function () {
     Route::get('/pricing', [FrontendController::class, 'pricing'])->name('pricing');
 
     Route::get('/board-resources',[BoardResourceController::class, 'index'])->name('board-resources');
+    Route::get('/board-resources/{type}',[BoardResourceController::class, 'getType'])->name('board-resources.type');
+    Route::get('/subjects', [FrontendController::class, 'subjectView'])->name('all-subjects');
     /*
     |--------------------------------------------------------------------------
     | Resource Section
