@@ -1,61 +1,94 @@
-@extends('layouts.frontend-2')
+@extends('layouts.frontend-3')
 
 @section('title', $defaultSEO->meta_title ?? $global_seo['seo_title'])
 @section('meta_description', $defaultSEO->meta_description ?? $global_seo['seo_description'])
 @section('meta_keywords', $defaultSEO->meta_keywords ?? $global_seo['seo_keywords'])
 @section('meta_author', $defaultSEO->meta_author ?? $global_seo['seo_author'])
-
-
 @section('content')
-    <div class="page-banner">
-        <div class="container">
-            <div class="breadcrumb-msr mb-3"><a href="{{ route('home') }}">Home</a> &nbsp;/&nbsp; Refund Policy
-            </div>
-            <span class="eyebrow"><span class="divider-dot"></span> LEGAL</span>
-            <h1 class="mt-4 mb-3">Refund <span class="text-green">Policy.</span></h1>
-            <p class="lead-muted mb-3" style="max-width:600px;">Please read these refund policies carefully before using Merit
-                Study Resources or subscribing to a plan.</p>
-            <span class="update-chip">
-                <svg viewBox="0 0 24 24" fill="none" width="14" height="14">
-                    <path d="M12 7v5l3.5 2" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
-                    <circle cx="12" cy="12" r="9" stroke="#fff" stroke-width="1.8"/>
-                </svg>
-                Last updated: 1 July 2026
-            </span>
-        </div>
+  <main id="main">
+  <section class="course-header" aria-labelledby="pageTitle">
+    <div class="container">
+      <div class="course-header-top">
+        <nav aria-label="Breadcrumb"><ol class="breadcrumb course-crumbs"><li class="breadcrumb-item"><a href="index.html">Home</a></li><li class="breadcrumb-item active" aria-current="page">Refund policy</li></ol></nav>
+        <p class="spec-code">Last updated <span>1 September 2026</span></p>
+      </div>
+      <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> Free resources<span class="eyebrow-sep" aria-hidden="true">/</span> No account needed</p>
+      <h1 class="course-title" id="pageTitle">Refund policy</h1>
+      <p class="course-intro">Almost everything here is free. This policy covers the few things that are paid — printed workbooks and any paid digital download.</p>
     </div>
+  </section>
 
-    <section class="section-pad">
-        <div class="container">
-            <div class="row gy-5">
-                <div class="col-lg-4">
-                    <div class="legal-sidebar">
-                        <p class="fw-semibold text-uppercase small text-muted-c mb-3" style="letter-spacing:.08em;">On
-                            this page</p>
-                        @if(!empty($refunds))
-                            @foreach($refunds as $k => $refund)
-                                <a class="side-link" href="#{{ $k }}-trem">{{ $k + 1 }}. {{ $refund->title }}</a>
-                            @endforeach
-                        @endif
-                    </div>
-                </div>
-                <div class="col-lg-8">
-                    <div class="legal-content">
-                        <p>These refund policy govern your use of meritstudyresource.co.uk and any
-                            subscription, download or service purchased from Merit Study Resources ("we", "us", "our").
-                            By creating an account or using the site, you agree to these terms.</p>
+  <div class="policy-body">
+    <div class="container">
+      <div class="row g-4 g-xl-5">
 
-                        @if(!empty($refunds))
-                            @foreach($refunds as $k => $refund)
-                                <h2 id="{{ $k }}-term"><span
-                                        class="num-badge">{{ sprintf('%02d', $k + 1) }}</span> {{ $refund->title }}</h2>
-                                <p>{!! $refund->description !!}</p>
-                            @endforeach
-                        @endif
-
-                    </div>
-                </div>
+        <div class="col-lg-4 order-lg-2">
+          <aside class="post-aside">
+            <nav class="toc" aria-label="On this page">
+              <h2 class="toc-heading">On this page</h2>
+              <ul class="toc-list list-unstyled">
+                <li><a href="#free-resources">Free resources</a></li>
+                <li><a href="#printed-workbooks">Printed workbooks</a></li>
+                <li><a href="#faulty-damaged-or-wrong-items">Faulty, damaged or wrong items</a></li>
+                <li><a href="#paid-digital-downloads">Paid digital downloads</a></li>
+                <li><a href="#books-bought-on-amazon">Books bought on Amazon</a></li>
+                <li><a href="#how-to-request-a-refund">How to request a refund</a></li>
+                <li><a href="#questions">Questions</a></li>
+              </ul>
+            </nav>
+            <div class="aside-card">
+              <h2 class="aside-title">Other policies</h2>
+              <ul class="aside-links list-unstyled"><li><a href="privacy.html">Privacy policy</a></li><li><a href="terms.html">Terms and conditions</a></li><li><a href="cookies.html">Cookie policy</a></li></ul>
             </div>
+          </aside>
         </div>
-    </section>
+
+        <div class="col-lg-8 order-lg-1">
+          <div class="prose policy-prose">
+          <section class="policy-section" id="free-resources" aria-labelledby="free-resources-h">
+            <h2 id="free-resources-h">Free resources</h2>
+            <p>Past papers, revision notes, topic questions, tests and worked solutions on this site are free. There is nothing to refund, and we will never ask for card details to open them.</p>
+          </section>
+          <section class="policy-section" id="printed-workbooks" aria-labelledby="printed-workbooks-h">
+            <h2 id="printed-workbooks-h">Printed workbooks</h2>
+            <p>Where you buy a printed workbook directly from us, you have 14 days from delivery to change your mind, and a further 14 days to return the item. It should be unused and in resaleable condition. We refund the purchase price and standard outbound delivery within 14 days of receiving the return.</p>
+            <p>Return postage is yours to pay unless the item is faulty, damaged or not what you ordered.</p>
+          </section>
+          <section class="policy-section" id="faulty-damaged-or-wrong-items" aria-labelledby="faulty-damaged-or-wrong-items-h">
+            <h2 id="faulty-damaged-or-wrong-items-h">Faulty, damaged or wrong items</h2>
+            <p>Email hello@meritstudyresources.co.uk within 30 days with your order number and a photo. We will replace the item or refund it in full, including postage both ways. This does not affect your statutory rights under the Consumer Rights Act 2015.</p>
+          </section>
+          <section class="policy-section" id="paid-digital-downloads" aria-labelledby="paid-digital-downloads-h">
+            <h2 id="paid-digital-downloads-h">Paid digital downloads</h2>
+            <p>For a paid download, you agree that access begins immediately and the 14-day cancellation right ends once the file is downloaded. If a file is corrupt, will not open, or is not what was described, we will fix it or refund it.</p>
+          </section>
+          <section class="policy-section" id="books-bought-on-amazon" aria-labelledby="books-bought-on-amazon-h">
+            <h2 id="books-bought-on-amazon-h">Books bought on Amazon</h2>
+            <p>Workbooks bought through Amazon are sold by Amazon, so their returns process applies — start a return in <em>Your Orders</em>. We cannot refund an Amazon purchase directly, but tell us if something is wrong with the book itself so we can correct it.</p>
+          </section>
+          <section class="policy-section" id="how-to-request-a-refund" aria-labelledby="how-to-request-a-refund-h">
+            <h2 id="how-to-request-a-refund-h">How to request a refund</h2>
+            <ul>
+              <li>Email hello@meritstudyresources.co.uk with your order number and what went wrong.</li>
+              <li>We reply within 2 working days.</li>
+              <li>Approved refunds go back to the original payment method within 14 days.</li>
+            </ul>
+          </section>
+          <section class="policy-section" id="questions" aria-labelledby="questions-h">
+            <h2 id="questions-h">Questions</h2>
+            <p>Anything not covered here, ask us at hello@meritstudyresources.co.uk and we will sort it out.</p>
+          </section>
+          </div>
+
+          <div class="policy-contact">
+            <p><strong>Questions about this page?</strong> Email
+              <a href="mailto:hello@meritstudyresources.co.uk">hello@meritstudyresources.co.uk</a> or use the
+              <a href="contact.html">contact form</a>.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</main> 
 @endsection

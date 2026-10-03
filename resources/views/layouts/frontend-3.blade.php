@@ -18,6 +18,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="{{ asset('frontend/new/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('frontend/new/css/subjects.css') }}" rel="stylesheet">
+    <link href="{{ asset('frontend/new/css/pages.css') }}" rel="stylesheet">
     <script src="{{ asset('frontend/new/js/main.js') }}" defer></script>
     <script src="{{ asset('frontend/new/js/resource.js') }}" defer></script>
     @stack('css')
