@@ -277,7 +277,7 @@
                                             }
                                         @endphp
                                         <div class="col">
-                                            <button type="button" class="type-card res-blue" data-goto="tab-notes">
+                                            <button type="button" class="type-card res-blue" data-goto="tab-{{ $tabName }}">
                                                 <span class="resource-icon">
                                                     {!! $icons[$tabName] !!}
                                                 </span>
@@ -756,6 +756,20 @@
             // 3. Redirect the browser
             window.location.href = url.toString();
 
-        })
+        });
+
+        $(document).on('click', '.type-card[data-goto]', function () {
+            const targetId = $(this).data('goto');
+            const $targetTab = $('#' + targetId);
+
+            if ($targetTab.length) {
+                $targetTab.tab('show'); // Activates the tab
+
+                // Optional: Smooth scroll
+                $('html, body').animate({
+                    scrollTop: $targetTab.offset().top - 20
+                }, 300);
+            }
+        });
     </script>
 @endpush
