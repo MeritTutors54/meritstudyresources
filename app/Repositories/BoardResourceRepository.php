@@ -90,7 +90,7 @@ class BoardResourceRepository extends BaseRepository implements BoardResourceRep
 
         return [
             'resource' => $boardResource,
-            'categories' => $this->categoryRepo->activeCategories(),
+            'categories' => $this->categoryRepo->activeCategories(""),
             'subCategories' => $subCategories,
             'boards' => $boards,
             'parents' => $this->getParents($examBoard->id),

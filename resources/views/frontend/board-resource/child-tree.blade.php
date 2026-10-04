@@ -28,8 +28,8 @@
                     @else
                         @php
                             $count = count($item['files']);
+                            echo "(" . $count . "files)";
                         @endphp
-                        ({{ $count }} files)
                     @endif
                 </span>
             </button>
@@ -51,6 +51,7 @@
                         @if ($fileOrientation == 2)
                             @php
                                 $groupedFiles = collect($files)->groupBy('difficulty');
+
                             @endphp
 
                             <div class="difficulty-wrapper ps-2 pt-3 pb-2">
