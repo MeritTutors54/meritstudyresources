@@ -185,7 +185,7 @@
                         <li class="breadcrumb-item active" aria-current="page">Subjects</li>
                     </ol>
                 </nav>
-                <p class="spec-code"><span>{{ $totalSubjects }}</span> subjects · GCSE to A&nbsp;Level</p>
+                <p class="spec-code"><span>{{ $totalSubjects }}</span> subjects</p>
             </div>
 
             <p class="eyebrow">
