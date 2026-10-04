@@ -7,7 +7,7 @@
                         <div class="form-group">
                             <label for="name" class="form-label">Name</label>
                             <input type="text" name="name" id="name" class="form-control"
-                                value="{{ old('title', $resource->name ?? '') }}"
+                                value="{{ old('name', $resource->name ?? '') }}"
                                 placeholder="E.G. Year 1 Pure Mathematics">
 
                             <div class="form-control-feedback d-none text-danger mt-1" id="error-title"></div>
@@ -221,7 +221,7 @@
                                             <!-- g-3 adds consistent gutter spacing between fields -->
 
 
-                                            <input type="text" value="{{ $file['id'] ?? '' }}"
+                                            <input type="hidden" value="{{ $file['id'] ?? '' }}"
                                                 name="uploads[{{ $index }}][file_id]">
 
                                             <div class="col-lg-8 col-8">
@@ -244,8 +244,7 @@
                                                 </div>
 
                                                 <!-- Difficulty Section -->
-                                                <div class="col-12 {{ $resource->file_orientation == 2 ? '' : 'd-none' }}"
-                                                    difficulty-section">
+                                                <div class="col-12 {{ $resource->file_orientation == 2 ? '' : 'd-none' }}">
                                                     <div class="form-group">
                                                         <label class="form-label">Select Difficulty</label>
                                                         <select name="uploads[{{ $index }}][difficulty]"

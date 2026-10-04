@@ -18,22 +18,37 @@ class AdminBoardResourceRequest extends FormRequest
 
     public function rules(): array
     {
+        $uploadCount = count($this->input('uploads', []));
+        $isStraight  = $this->input('file_orientation') == 1;
+
         return [
             'resubcategory_id' => ['required', 'exists:resubcategories,id',],
             'name' => ['nullable', 'string', 'max:255',],
             'resource_type' => ['required', Rule::enum(ResourceType::class),],
             'parent_id' => ['nullable', 'exists:board_resources,id',],
-            'is_group' => ['required', 'boolean',],
+            'is_group' => ['required', 'boolean',
+                Rule::when($isStraight, ['declined']),
+                Rule::when(! $isStraight && $uploadCount > 1, ['accepted']),
+            ],
             'is_paid' => ['required', 'boolean',],
             'is_active' => ['required', Rule::enum(Status::class),],
             'is_section_title' => ['nullable', 'boolean',],
             'file_orientation' => ['nullable', 'in:1,2',],
             'allow_files' => ['required', 'boolean',],
-            'uploads' => ['nullable', 'array',],
+            'uploads' => ['nullable', 'array', Rule::when($isStraight, ['max:1']),],
             'uploads.*.file_id' => ['nullable', 'exists:board_resource_files,id'],
             'uploads.*.is_pro' => ['nullable', 'boolean',],
             'uploads.*.difficulty' => ['nullable', Rule::enum(DifficultyType::class),],
             'uploads.*.pdfFile' => ['nullable', 'file', 'mimes:pdf', 'max:10240',],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'is_group.declined' => 'A straight orientation cannot be a group.',
+            'is_group.accepted' => 'Group must be enabled when uploading more than one file.',
+            'uploads.max'       => 'Only one file is allowed for straight orientation.',
         ];
     }
 }
