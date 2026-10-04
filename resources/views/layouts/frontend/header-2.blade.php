@@ -65,10 +65,10 @@
                         <a class="nav-link nav-link-msr {{ request()->routeIs('products') ? 'active' : '' }}"
                            href="{{ route('products') }}">Products</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-msr {{ request()->routeIs('pricing') ? 'active' : '' }}"
-                           href="{{ route('pricing') }}">Pricing</a>
-                    </li>
+{{--                    <li class="nav-item">--}}
+{{--                        <a class="nav-link nav-link-msr {{ request()->routeIs('pricing') ? 'active' : '' }}"--}}
+{{--                           href="{{ route('pricing') }}">Pricing</a>--}}
+{{--                    </li>--}}
                 @else
                     @can('viewProductsSection', Auth::user())
                         <li class="nav-item">
@@ -78,10 +78,10 @@
                     @endcan
 
                     @if (Auth::user()->type !== \App\Enums\UserType::TEACHER->value)
-                        <li class="nav-item">
-                            <a class="nav-link nav-link-msr {{ request()->routeIs('pricing') ? 'active' : '' }}"
-                               href="{{ route('pricing') }}">Pricing</a>
-                        </li>
+{{--                        <li class="nav-item">--}}
+{{--                            <a class="nav-link nav-link-msr {{ request()->routeIs('pricing') ? 'active' : '' }}"--}}
+{{--                               href="{{ route('pricing') }}">Pricing</a>--}}
+{{--                        </li>--}}
                     @endif
                 @endguest
 

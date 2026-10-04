@@ -50,7 +50,7 @@ class BoardResourceController extends Controller
         }
 
         return view('backend.resource.index', [
-            'categories' => $this->categoryRepository->activeCategories(),
+            'categories' => $this->categoryRepository->activeCategories(""),
             'data' => $data,
         ]);
     }
@@ -59,7 +59,7 @@ class BoardResourceController extends Controller
     public function create(): View
     {
         return view('backend.resource.form', [
-            'categories' => $this->categoryRepository->activeCategories(),
+            'categories' => $this->categoryRepository->activeCategories(""),
             'resourceTypes' => $this->boardResourceRepository->resourceTypes(),
             'difficulties' => $this->boardResourceRepository->difficulties(),
         ]);

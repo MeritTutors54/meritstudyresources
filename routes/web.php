@@ -43,7 +43,6 @@ Route::group(['middleware' => 'team.permission'], function () {
     Route::get('/about-us', [FrontendController::class, 'aboutUs'])->name('about-us');
 
 
-
     Route::get('/all-products', [ProductController::class, 'allProducts'])->name('products');
     Route::get('/get-product/{product_slug}', [ProductController::class, 'details'])
         ->name('single.product');
