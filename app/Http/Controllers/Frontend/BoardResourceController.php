@@ -37,7 +37,7 @@ class BoardResourceController extends Controller
         $categories = $this->categoryRepo->activeCategories("");
         $category = $this->categoryRepo->findByColumns(['slug' => $categorySlug]);
         $subcategories = $this->subcategoryRepo->activeSubcategories($category->id);
-        $subcategory = $this->subcategoryRepo->findByColumns(['slug' => $subcategorySlug]);
+        $subcategory = $this->subcategoryRepo->findByColumns(['category_id' => $category->id, 'slug' => $subcategorySlug]);
         $resubcategories = $this->resubcategoryRepo->activeResubcategories($category->id, $subcategory->id);
 
         $resubcategory = Resubcategory::with(['category', 'subcategory'])
@@ -66,7 +66,9 @@ class BoardResourceController extends Controller
 
     public function getType(string $type)
     {
-        $typeCase = ResourceType::fromSlug('revision-guides');
+        $typeCase = ResourceType::fromSlug($type);
+
+        dd($typeCase);
 
         $resources = BoardResource::query()->with([
             'children.children.files',
@@ -74,7 +76,7 @@ class BoardResourceController extends Controller
             'files',
         ])->where('resource_type', $typeCase)->get();
 
-//        dd($resources);
+        dd($resources);
 
         return view('frontend.board-resource.typed-view')->with([
             ''

@@ -16,7 +16,7 @@ enum ResourceType: int
     case EXAM_BUILDER = 7;
     case REVISION_GUIDE = 8;
     case TEST = 9;
-    case REVISION_NOTES = 10;
+    case REVISION_NOTE = 10;
     case TOPIC_QUESTION = 11;
     case TOPIC_TEST = 12;
     case WORKBOOKS = 13;
@@ -36,7 +36,7 @@ enum ResourceType: int
             self::EXAM_BUILDER => 'Exam Builder',
             self::REVISION_GUIDE => 'Revision Guide',
             self::TEST => 'Test',
-            self::REVISION_NOTES => 'Revision Notes',
+            self::REVISION_NOTE => 'Revision Notes',
             self::TOPIC_QUESTION => 'Topic Question',
             self::TOPIC_TEST => 'Topic Test',
             self::WORKBOOKS => 'Workbooks',

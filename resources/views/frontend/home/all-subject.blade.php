@@ -1,7 +1,6 @@
 @extends('layouts.frontend-3')
-
+@section('title', "All Subjects — Merit Study Resources")
 @section('body_class', 'page-resources page-subjects')
-
 @push('css')
     <style>
         /* Expandable card container */

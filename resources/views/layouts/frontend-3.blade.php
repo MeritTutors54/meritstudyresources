@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Merit Study Resources — Free past papers, revision notes and practice resources</title>
+    <title>@yield('title', 'Merit Study Resources — Free past papers, revision notes and practice resources')</title>
+{{--    <title>Merit Study Resources — Free past papers, revision notes and practice resources</title>--}}
     <meta name="description"
         content="Free GCSE, IGCSE, AS and A Level past papers, revision notes, topic questions, topic tests, workbooks and worked solutions, organised by subject and exam board.">
 
@@ -31,7 +32,7 @@
 
         @yield('content')
 
-    </main>a
+    </main>
 
     <!-- ====================
      8. TOAST AREA
