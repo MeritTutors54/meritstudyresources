@@ -21,17 +21,17 @@
 
                 <!-- Site search -->
                 <div class="col-lg-5 col-12 order-3 order-lg-2">
-                    <form class="site-search" role="search" id="siteSearchForm" novalidate>
-                        <label for="siteSearch" class="visually-hidden">Search Merit Study Resources</label>
-                        <div class="search-shell">
-                            <i class="bi bi-search search-icon" aria-hidden="true"></i>
-                            <input type="search" class="form-control search-input" id="siteSearch"
-                                   name="q" placeholder="Search for topics, past papers, or resources..."
-                                   autocomplete="off">
-                            <button class="btn btn-merit search-btn" type="submit">Search</button>
-                        </div>
-                        <p class="search-feedback" id="searchFeedback" role="status" aria-live="polite"></p>
-                    </form>
+{{--                    <form class="site-search" role="search" id="siteSearchForm" novalidate>--}}
+{{--                        <label for="siteSearch" class="visually-hidden">Search Merit Study Resources</label>--}}
+{{--                        <div class="search-shell">--}}
+{{--                            <i class="bi bi-search search-icon" aria-hidden="true"></i>--}}
+{{--                            <input type="search" class="form-control search-input" id="siteSearch"--}}
+{{--                                   name="q" placeholder="Search for topics, past papers, or resources..."--}}
+{{--                                   autocomplete="off">--}}
+{{--                            <button class="btn btn-merit search-btn" type="submit">Search</button>--}}
+{{--                        </div>--}}
+{{--                        <p class="search-feedback" id="searchFeedback" role="status" aria-live="polite"></p>--}}
+{{--                    </form>--}}
                 </div>
 
                 <!-- Strapline -->
@@ -57,7 +57,7 @@
             <div class="collapse navbar-collapse" id="primaryNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" 
+                        <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}"
                             href="{{ route('home') }}" aria-current="page">
                             <i class="bi bi-house-door-fill" aria-hidden="true"></i> Home
                         </a>
@@ -65,7 +65,7 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('blogs') }}">Blog</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('products') }}">Product</a></li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('all-subjects') ? 'active' : '' }}" 
+                        <a class="nav-link {{ request()->routeIs('all-subjects') ? 'active' : '' }}"
                             href="{{ route('all-subjects') }}">Subjects</a>
                     </li>
 
