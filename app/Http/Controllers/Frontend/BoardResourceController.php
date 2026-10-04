@@ -68,7 +68,7 @@ class BoardResourceController extends Controller
     {
         $typeCase = ResourceType::fromSlug($type);
 
-        dd($typeCase);
+//        dd($typeCase);
 
         $resources = BoardResource::query()->with([
             'children.children.files',
@@ -76,7 +76,7 @@ class BoardResourceController extends Controller
             'files',
         ])->where('resource_type', $typeCase)->get();
 
-        dd($resources);
+//        dd($resources);
 
         return view('frontend.board-resource.typed-view')->with([
             ''
