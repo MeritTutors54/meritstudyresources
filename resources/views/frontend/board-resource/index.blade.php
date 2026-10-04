@@ -225,7 +225,8 @@
                             <button class="nav-link" id="tab-{{ $tabName }}" data-bs-toggle="tab"
                                 data-bs-target="#pane-{{ Str::slug($tabName) }}" type="button" role="tab"
                                 aria-controls="pane-{{ $tabName }}" aria-selected="false">
-                                {!! $icons[$tabName] !!} {{ $tabName }}
+                                {!! $icons[$tabName] ?? '<i class="bi bi-file-earmark-text" aria-hidden="true"></i>' !!}
+                                {{ $tabName }}
                             </button>
                         </li>
                     @endforeach
@@ -279,7 +280,7 @@
                                         <div class="col">
                                             <button type="button" class="type-card res-blue" data-goto="tab-{{ $tabName }}">
                                                 <span class="resource-icon">
-                                                    {!! $icons[$tabName] !!}
+                                                    {!! $icons[$tabName] ?? '<i class="bi bi-file-earmark-text" aria-hidden="true"></i>' !!}
                                                 </span>
                                                 <span class="type-name">{{ $tabName }}</span>
                                                 <span class="type-meta">

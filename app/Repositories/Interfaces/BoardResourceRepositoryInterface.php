@@ -15,7 +15,7 @@ interface BoardResourceRepositoryInterface extends BaseRepositoryInterface
 
     public function getSyllabus(int $resubcategoryId, int $isActiveCheck = 0) : array;
 
-    public function getParents(int $resubcategoryId): Collection;
+    public function getParents(int $resubcategoryId, BoardResource $resource): Collection;
 
     public function getEditData(BoardResource $boardResource): array;
 

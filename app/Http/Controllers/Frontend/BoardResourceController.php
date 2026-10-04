@@ -5,19 +5,12 @@ namespace App\Http\Controllers\Frontend;
 use App\Enums\IconByuddy;
 use App\Enums\ResourceType;
 use App\Http\Controllers\Controller;
-use App\Models\BoardResource;
-use App\Models\Cart;
 use App\Models\Resubcategory;
-use App\Models\SiteSettings;
-use App\Operations\Backend\CartActivity;
 use App\Repositories\Interfaces\BoardResourceRepositoryInterface;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Repositories\Interfaces\ResubcategoryRepositoryInterface;
 use App\Repositories\Interfaces\SubcategoryRepositoryInterface;
-use App\Services\MoneyService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\View\View;
 
 class BoardResourceController extends Controller
 {
@@ -68,18 +61,35 @@ class BoardResourceController extends Controller
     {
         $typeCase = ResourceType::fromSlug($type);
 
-//        dd($typeCase);
+//        $resources = BoardResource::query()->with([
+//            'children.children.files',
+//            'children.files',
+//            'files',
+//        ])->where('resource_type', $typeCase->value)->get();
 
-        $resources = BoardResource::query()->with([
-            'children.children.files',
-            'children.files',
-            'files',
-        ])->where('resource_type', $typeCase)->get();
+        $resourceFilter = fn ($q) => $q
+            ->where('resource_type', $typeCase->value);
 
-//        dd($resources);
+        $tree = Resubcategory::query()
+            ->where('is_active', true)
+            ->whereHas('boardResources', $resourceFilter) // skip boards with no resources
+            ->with([
+                'category',
+                'subcategory',
+                'boardResources' => fn ($q) => $resourceFilter($q)->with([
+                    'children.children.files',
+                    'children.files',
+                    'files',
+                ]),
+            ])
+            ->get()
+            ->groupBy([
+                fn ($board) => $board->category->category_name,    // e.g. "A Level"
+                fn ($board) => $board->subcategory->subcategory_name, // e.g. "Maths"
+            ]);
 
         return view('frontend.board-resource.typed-view')->with([
-            ''
+            'resources' => $tree,
         ]);
     }
 }

@@ -64,10 +64,12 @@ class BoardResourceRepository extends BaseRepository implements BoardResourceRep
             ->toArray();
     }
 
-    public function getParents(int $resubcategoryId): Collection
+    public function getParents(int $resubcategoryId, BoardResource $resource): Collection
     {
         return BoardResource::query()
             ->where('resubcategory_id', $resubcategoryId)
+            ->where('resource_type', $resource->resource_type)
+            ->whereKeyNot($resource->id)
             ->where('is_group', true)
             ->get();
     }
@@ -93,7 +95,7 @@ class BoardResourceRepository extends BaseRepository implements BoardResourceRep
             'categories' => $this->categoryRepo->activeCategories(""),
             'subCategories' => $subCategories,
             'boards' => $boards,
-            'parents' => $this->getParents($examBoard->id),
+            'parents' => $this->getParents($examBoard->id, $boardResource),
             'examBoard' => $examBoard,
             'resourceTypes' => $this->resourceTypes(),
             'difficulties' => $this->difficulties(),

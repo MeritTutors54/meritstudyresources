@@ -39,4 +39,9 @@ class Resubcategory extends Model
     {
         return $this->hasMany(PastPaper::class, 'resubcategory');
     }
+
+    public function boardResources(): HasMany
+    {
+        return $this->hasMany(BoardResource::class, 'resubcategory_id');
+    }
 }
