@@ -261,7 +261,6 @@
             }
         }
     </script>
-
     <script>
         $(document).ready(function() {
             const fileUploadSection = $("#file-upload-section");

@@ -213,16 +213,17 @@
 
                 <div class="qual-filter" role="group" aria-label="Filter subjects by qualification">
                     <button type="button" class="filter-pill is-active" data-qual="" aria-pressed="true">All</button>
-                    @if (!empty($categories))
-                        @foreach ($categories as $category)
-                            <button type="button" class="filter-pill" data-qual="{{ $category->slug }}"
+                    @if (!empty($resources))
+                        @foreach ($resources as $category => $group)
+                            <button type="button" class="filter-pill" data-qual="{{ Str::slug($category) }}"
                                     aria-pressed="false">
-                                {{ $category->category_name }}
+                                {{ $category }}
                             </button>
                         @endforeach
                     @endif
                 </div>
             </div>
+
 
             <p class="result-count" id="subjectCount" role="status" aria-live="polite">
                 Showing all {{ $totalSubjects }} subjects
@@ -232,66 +233,125 @@
 
     <div class="subject-body">
         <div class="container">
-            @if (!empty($categories))
-                {{--                @dd($categories)--}}
-                @foreach ($categories as $category)
-                    <section class="subject-group" id="group-{{ $category->id }}" data-category="{{ $category->slug }}"
-                             aria-labelledby="heading-{{ $category->id }}" data-group>
-                        <div class="group-head">
-                            <h2 class="group-heading" id="heading-{{ $category->id }}">
-                                {{ $category->category_name }}
-                            </h2>
-                            <span class="group-count">{{ $category->subCategories->count() }} subjects</span>
-                        </div>
-                        <div class="row g-3 row-cols-1 row-cols-md-2 row-cols-xl-3">
-                            @if ($category->subCategories->isNotEmpty())
-                                @foreach ($category->subCategories as $subcategory)
-                                    @php
-                                        $resubNames = $subcategory->resubcategories
-                                            ->pluck('resubcategory_name')
-                                            ->implode(' ');
-                                        $keywords = strtolower($subcategory->subcategory_name . ' ' . $resubNames);
-                                    @endphp
-                                    <div class="col">
-                                        <div class="subject-tile" data-quals="{{ $category->slug }}"
-                                             data-keywords="{{ $keywords }}">
+            <div>
+{{--            @if (!empty($categories))--}}
+{{--                --}}{{--                @dd($categories)--}}
+{{--                @foreach ($categories as $category)--}}
+{{--                    <section class="subject-group" id="group-{{ $category->id }}" data-category="{{ $category->slug }}"--}}
+{{--                             aria-labelledby="heading-{{ $category->id }}" data-group>--}}
+{{--                        <div class="group-head">--}}
+{{--                            <h2 class="group-heading" id="heading-{{ $category->id }}">--}}
+{{--                                {{ $category->category_name }}--}}
+{{--                            </h2>--}}
+{{--                            <span class="group-count">{{ $category->subCategories->count() }} subjects</span>--}}
+{{--                        </div>--}}
+{{--                        <div class="row g-3 row-cols-1 row-cols-md-2 row-cols-xl-3">--}}
+{{--                            @if ($category->subCategories->isNotEmpty())--}}
+{{--                                @foreach ($category->subCategories as $subcategory)--}}
+{{--                                    @php--}}
+{{--                                        $resubNames = $subcategory->resubcategories--}}
+{{--                                            ->pluck('resubcategory_name')--}}
+{{--                                            ->implode(' ');--}}
+{{--                                        $keywords = strtolower($subcategory->subcategory_name . ' ' . $resubNames);--}}
+{{--                                    @endphp--}}
+{{--                                    <div class="col">--}}
+{{--                                        <div class="subject-tile" data-quals="{{ $category->slug }}"--}}
+{{--                                             data-keywords="{{ $keywords }}">--}}
 
-                                            <button type="button" class="tile-header" aria-expanded="false"
-                                                    aria-controls="subcat-{{ $subcategory->id }}">
-                                                <span class="tile-icon tint-sage">
-                                                    <i class="bi bi-tree" aria-hidden="true"></i>
-                                                </span>
-                                                <span class="tile-body">
-                                                    <span class="tile-name">{{ $subcategory->subcategory_name }}</span>
-                                                    <span class="tile-meta">Past papers · Notes · Questions · Tests</span>
-                                                </span>
-                                                <span class="tile-go" aria-hidden="true">
-                                                    <i class="bi bi-chevron-down"></i>
-                                                </span>
-                                            </button>
+{{--                                            <button type="button" class="tile-header" aria-expanded="false"--}}
+{{--                                                    aria-controls="subcat-{{ $subcategory->id }}">--}}
+{{--                                                <span class="tile-icon tint-sage">--}}
+{{--                                                    <i class="bi bi-tree" aria-hidden="true"></i>--}}
+{{--                                                </span>--}}
+{{--                                                <span class="tile-body">--}}
+{{--                                                    <span class="tile-name">{{ $subcategory->subcategory_name }}</span>--}}
+{{--                                                    <span class="tile-meta">Past papers · Notes · Questions · Tests</span>--}}
+{{--                                                </span>--}}
+{{--                                                <span class="tile-go" aria-hidden="true">--}}
+{{--                                                    <i class="bi bi-chevron-down"></i>--}}
+{{--                                                </span>--}}
+{{--                                            </button>--}}
 
-                                            @if ($subcategory->resubcategories->isNotEmpty())
-                                                <div class="tile-dropdown" id="subcat-{{ $subcategory->id }}">
-                                                    <div class="resub-list">
-                                                        @foreach ($subcategory->resubcategories as $resubcategory)
-                                                            <a href="{{ route('board-resources', ['cat_s' => $category->slug, 'sub_s' => $subcategory->slug, 're_s' => $resubcategory->slug]) }}"
-                                                               class="resub-link">
-                                                                <span>{{ $resubcategory->resubcategory_name }}</span>
-                                                                <i class="bi bi-arrow-right" aria-hidden="true"></i>
-                                                            </a>
-                                                        @endforeach
+{{--                                            @if ($subcategory->resubcategories->isNotEmpty())--}}
+{{--                                                <div class="tile-dropdown" id="subcat-{{ $subcategory->id }}">--}}
+{{--                                                    <div class="resub-list">--}}
+{{--                                                        @foreach ($subcategory->resubcategories as $resubcategory)--}}
+{{--                                                            <a href="{{ route('board-resources', ['cat_s' => $category->slug, 'sub_s' => $subcategory->slug, 're_s' => $resubcategory->slug]) }}"--}}
+{{--                                                               class="resub-link">--}}
+{{--                                                                <span>{{ $resubcategory->resubcategory_name }}</span>--}}
+{{--                                                                <i class="bi bi-arrow-right" aria-hidden="true"></i>--}}
+{{--                                                            </a>--}}
+{{--                                                        @endforeach--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            @endif--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                @endforeach--}}
+{{--                            @endif--}}
+{{--                        </div>--}}
+{{--                    </section>--}}
+{{--                @endforeach--}}
+{{--            @endif--}}
+            </div>
+
+                @if (!empty($resources))
+                    {{--                @dd($categories)--}}
+                    @foreach($resources as $category => $resourceGroup)
+                        <section class="subject-group" id="group-{{ $category }}" data-category="{{ Str::slug($category) }}"
+                                 aria-labelledby="heading-{{ $category }}" data-group>
+                            <div class="group-head">
+                                <h2 class="group-heading" id="heading-{{ $category }}">
+                                    {{ $category }}
+                                </h2>
+                                <span class="group-count">{{ $category }} subjects</span>
+                            </div>
+                            <div class="row g-3 row-cols-1 row-cols-md-2 row-cols-xl-3">
+                                @if ($resourceGroup->isNotEmpty())
+                                    @foreach ($resourceGroup as $subject => $resubCollection)
+                                        @php
+                                            $keywords = "";
+                                        @endphp
+                                        <div class="col">
+                                            <div class="subject-tile" data-quals="{{ Str::slug($category) }}"
+                                                 data-keywords="{{ $keywords }}">
+
+                                                <button type="button" class="tile-header" aria-expanded="false"
+                                                        aria-controls="subcat-{{ $subject }}">
+                                                    <span class="tile-icon tint-sage">
+                                                        <i class="bi bi-tree" aria-hidden="true"></i>
+                                                    </span>
+                                                    <span class="tile-body">
+                                                        <span class="tile-name">{{ $subject }}</span>
+                                                        <span class="tile-meta">Past papers · Notes · Questions · Tests</span>
+                                                    </span>
+                                                        <span class="tile-go" aria-hidden="true">
+                                                        <i class="bi bi-chevron-down"></i>
+                                                    </span>
+                                                </button>
+
+                                                @if ($resubCollection->isNotEmpty())
+                                                    <div class="tile-dropdown" id="subcat-{{ $subject }}">
+                                                        <div class="resub-list">
+                                                            @foreach ($resubCollection as $resubcategory)
+                                                                <a
+                                                                    href="{{ route('board-resources', ['cat_s' => $resubcategory->category->slug, 'sub_s' => $resubcategory->subcategory->slug, 're_s' => $resubcategory->slug]) }}"
+                                                                   class="resub-link">
+                                                                    <span>{{ $resubcategory->resubcategory_name }}</span>
+                                                                    <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                                                                </a>
+                                                            @endforeach
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            @endif
+                                                @endif
+                                            </div>
                                         </div>
-                                    </div>
-                                @endforeach
-                            @endif
-                        </div>
-                    </section>
-                @endforeach
-            @endif
-
+                                    @endforeach
+                                @endif
+                            </div>
+                        </section>
+                    @endforeach
+                @endif
             <p class="empty-state" id="subjectEmpty" role="status" aria-live="polite" hidden>
                 <i class="bi bi-search" aria-hidden="true"></i>
                 No subject matches that. Try a shorter word, or clear the qualification filter.
