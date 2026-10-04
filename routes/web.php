@@ -22,6 +22,7 @@ use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\StripeWebhookController;
 use App\Jobs\SendWelcomeEmail;
 use App\Models\User;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -52,6 +53,8 @@ Route::group(['middleware' => 'team.permission'], function () {
     Route::get('/board-resources',[BoardResourceController::class, 'index'])->name('board-resources');
     Route::get('/board-resources/{type}',[BoardResourceController::class, 'getType'])->name('board-resources.type');
     Route::get('/subjects', [FrontendController::class, 'subjectView'])->name('all-subjects');
+    Route::get('/route-redirect/{info}', [\App\Http\Controllers\RedirectController::class, 'getRedirectRoute'])
+        ->name('route-redirect.info');
     /*
     |--------------------------------------------------------------------------
     | Resource Section

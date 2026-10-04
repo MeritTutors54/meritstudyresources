@@ -1,6 +1,6 @@
 @extends('layouts.frontend-3')
 @push('css')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
     <style>
         .finder-panel .select2-container--default .select2-selection--single {
             border: 1px solid var(--merit-border);
@@ -57,10 +57,10 @@
                     <ol class="breadcrumb course-crumbs">
                         <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
                         <li class="breadcrumb-item"><a href="#"
-                                data-course="qualification-link">{{ $examBoard->category->category_name }}</a>
+                                                       data-course="qualification-link">{{ $examBoard->category->category_name }}</a>
                         </li>
                         <li class="breadcrumb-item"><a href="#"
-                                data-course="subject-link">{{ $examBoard->subcategory->subcategory_name }}</a>
+                                                       data-course="subject-link">{{ $examBoard->subcategory->subcategory_name }}</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page" data-course="board">
                             {{ $examBoard->resubcategory_name }}</li>
@@ -90,8 +90,10 @@
                     </p> --}}
 
                     <ul class="course-chips list-unstyled">
-                        <li class="course-chip" data-course="qualification">{{ $examBoard->category->category_name }}</li>
-                        <li class="course-chip" data-course="subject">{{ $examBoard->subcategory->subcategory_name }}</li>
+                        <li class="course-chip"
+                            data-course="qualification">{{ $examBoard->category->category_name }}</li>
+                        <li class="course-chip"
+                            data-course="subject">{{ $examBoard->subcategory->subcategory_name }}</li>
                         <li class="course-chip" data-course="board">{{ $examBoard->resubcategory_name }}</li>
                         <li class="course-chip course-chip-tier" data-course="tier">Higher Tier</li>
                     </ul>
@@ -139,7 +141,8 @@
                             <option value="" selected>Select qualification</option>
                             @if (!empty($data['categories']))
                                 @foreach ($data['categories'] as $qualification)
-                                    <option @selected(old('qualification', $data['selectedCategory']) == $qualification->id)
+                                    <option
+                                        @selected(old('qualification', $data['selectedCategory']) == $qualification->id)
                                         value="{{ $qualification->id }} / {{ $qualification->slug }}">
                                         {{ $qualification->category_name }}</option>
                                 @endforeach
@@ -155,7 +158,7 @@
                             @if (!empty($data['subcategories']))
                                 @foreach ($data['subcategories'] as $subject)
                                     <option @selected(old('subject', $data['selectedSubcategory']) == $subject->id)
-                                        value="{{ $subject->id }} / {{ $subject->slug }}">
+                                            value="{{ $subject->id }} / {{ $subject->slug }}">
                                         {{ $subject->subcategory_name }}</option>
                                 @endforeach
                             @endif
@@ -169,24 +172,24 @@
                             @if (!empty($data['resubcategories']))
                                 @foreach ($data['resubcategories'] as $board)
                                     <option @selected(old('examBoard', $data['selectedResubcategory']) == $board->id)
-                                        value="{{ $board->id }} / {{ $board->slug }}">
+                                            value="{{ $board->id }} / {{ $board->slug }}">
                                         {{ $board->resubcategory_name }}</option>
                                 @endforeach
                             @endif
                         </select>
                     </div>
 
-{{--                    <div class="col-12 col-md-6 col-xl">--}}
-{{--                        <label class="form-label" for="tier">Level / Tier <span class="label-note">(if--}}
-{{--                                applicable)</span></label>--}}
-{{--                        <select class="form-select" id="tier" name="tier">--}}
-{{--                            <option value="" selected hidden>Select level / tier</option>--}}
-{{--                            --}}{{--                            <option>Foundation Tier</option> --}}
-{{--                            --}}{{--                            <option>Higher Tier</option> --}}
-{{--                            --}}{{--                            <option>AS</option> --}}
-{{--                            --}}{{--                            <option>A2</option> --}}
-{{--                        </select>--}}
-{{--                    </div>--}}
+                    {{--                    <div class="col-12 col-md-6 col-xl">--}}
+                    {{--                        <label class="form-label" for="tier">Level / Tier <span class="label-note">(if--}}
+                    {{--                                applicable)</span></label>--}}
+                    {{--                        <select class="form-select" id="tier" name="tier">--}}
+                    {{--                            <option value="" selected hidden>Select level / tier</option>--}}
+                    {{--                            --}}{{--                            <option>Foundation Tier</option> --}}
+                    {{--                            --}}{{--                            <option>Higher Tier</option> --}}
+                    {{--                            --}}{{--                            <option>AS</option> --}}
+                    {{--                            --}}{{--                            <option>A2</option> --}}
+                    {{--                        </select>--}}
+                    {{--                    </div>--}}
 
                     <div class="col-12 col-xl-auto">
                         <button type="button" id="viewResourceBtn" class="btn btn-merit btn-lg w-100 finder-submit">
@@ -208,23 +211,23 @@
             <ul class="nav resource-tabs" id="resourceTabs" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="tab-all" data-bs-toggle="tab" data-bs-target="#pane-all"
-                        type="button" role="tab" aria-controls="pane-all" aria-selected="true">
+                            type="button" role="tab" aria-controls="pane-all" aria-selected="true">
                         <i class="bi bi-grid" aria-hidden="true"></i> All resources
                     </button>
                 </li>
-                {{-- <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="tab-papers" data-bs-toggle="tab" data-bs-target="#pane-papers"
-                        type="button" role="tab" aria-controls="pane-papers" aria-selected="false">
-                        <i class="bi bi-file-earmark-text" aria-hidden="true"></i> Past papers
-                    </button>
-                </li> --}}
+                {{--                <li class="nav-item" role="presentation">--}}
+                {{--                    <button class="nav-link" id="tab-papers" data-bs-toggle="tab" data-bs-target="#pane-papers"--}}
+                {{--                        type="button" role="tab" aria-controls="pane-papers" aria-selected="false">--}}
+                {{--                        <i class="bi bi-file-earmark-text" aria-hidden="true"></i> Past papers--}}
+                {{--                    </button>--}}
+                {{--                </li>--}}
 
                 @if (!empty($syllabus))
                     @foreach ($syllabus as $tabName => $node)
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="tab-{{ $tabName }}" data-bs-toggle="tab"
-                                data-bs-target="#pane-{{ Str::slug($tabName) }}" type="button" role="tab"
-                                aria-controls="pane-{{ $tabName }}" aria-selected="false">
+                                    data-bs-target="#pane-{{ Str::slug($tabName) }}" type="button" role="tab"
+                                    aria-controls="pane-{{ $tabName }}" aria-selected="false">
                                 {!! $icons[$tabName] ?? '<i class="bi bi-file-earmark-text" aria-hidden="true"></i>' !!}
                                 {{ $tabName }}
                             </button>
@@ -249,7 +252,7 @@
 
                         <!-- ---------- All resources ---------- -->
                         <div class="tab-pane fade show active" id="pane-all" role="tabpanel" aria-labelledby="tab-all"
-                            tabindex="0">
+                             tabindex="0">
                             <div class="pane-head">
                                 <h2 class="pane-title">Everything for this course</h2>
                                 <p class="pane-sub">Six resource types, all free to open.</p>
@@ -257,13 +260,16 @@
 
                             <div class="row g-3 row-cols-1 row-cols-sm-2 row-cols-xl-3">
                                 <div class="col">
-                                    <button type="button" class="type-card res-rose" data-goto="tab-papers">
+                                    <button type="button"
+                                            data-action="{{ $data['selectedCategory'] }}-{{ $data['selectedSubcategory'] }}-{{ $data['selectedResubcategory'] }}"
+                                            class="type-card res-rose clickToPastPaper " data-goto="tab-papers">
                                         <span class="resource-icon"><i class="bi bi-file-earmark-text-fill"
-                                                aria-hidden="true"></i></span>
+                                                                       aria-hidden="true"></i></span>
                                         <span class="type-name">Past papers</span>
                                         <span class="type-meta">9 papers · question paper, mark scheme,
                                             solutions</span>
-                                        <span class="type-go" aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
+                                        <span class="type-go" aria-hidden="true"><i
+                                                class="bi bi-arrow-right"></i></span>
                                     </button>
                                 </div>
 
@@ -278,7 +284,8 @@
                                             }
                                         @endphp
                                         <div class="col">
-                                            <button type="button" class="type-card res-blue" data-goto="tab-{{ $tabName }}">
+                                            <button type="button" class="type-card res-blue"
+                                                    data-goto="tab-{{ $tabName }}">
                                                 <span class="resource-icon">
                                                     {!! $icons[$tabName] ?? '<i class="bi bi-file-earmark-text" aria-hidden="true"></i>' !!}
                                                 </span>
@@ -298,7 +305,7 @@
 
                         <!-- ---------- Past papers ---------- -->
                         <div class="tab-pane fade" id="pane-papers" role="tabpanel" aria-labelledby="tab-papers"
-                            tabindex="0">
+                             tabindex="0">
                             <div class="pane-head">
                                 <h2 class="pane-title">Question papers &amp; answers</h2>
                                 <p class="pane-sub">Grouped by exam series. Each row links to the paper, its mark
@@ -310,20 +317,20 @@
                                 <div class="accordion-item">
                                     <h3 class="accordion-header">
                                         <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#series-june-2024" aria-expanded="true"
-                                            aria-controls="series-june-2024">
+                                                data-bs-target="#series-june-2024" aria-expanded="true"
+                                                aria-controls="series-june-2024">
                                             June 2024 <span class="topic-count">3 papers</span>
                                         </button>
                                     </h3>
                                     <div id="series-june-2024" class="accordion-collapse collapse show"
-                                        data-bs-parent="#paperSeries">
+                                         data-bs-parent="#paperSeries">
                                         <div class="accordion-body">
                                             <ul class="resource-list list-unstyled" data-list>
                                                 <li class="resource-row" data-series="2024" data-paper="Paper 1"
                                                     data-tier="Higher" data-source="board"
                                                     data-keywords="june 2024 paper 1 non calculator">
                                                     <span class="row-icon"><i class="bi bi-file-earmark-text"
-                                                            aria-hidden="true"></i></span>
+                                                                              aria-hidden="true"></i></span>
                                                     <div class="row-body">
                                                         <h3 class="row-title">Paper 1 · Non-calculator</h3>
                                                         <p class="row-meta">Higher · June 2024 · 1h 30m · 80 marks
@@ -340,7 +347,7 @@
                                                     data-tier="Higher" data-source="board"
                                                     data-keywords="june 2024 paper 2 calculator">
                                                     <span class="row-icon"><i class="bi bi-file-earmark-text"
-                                                            aria-hidden="true"></i></span>
+                                                                              aria-hidden="true"></i></span>
                                                     <div class="row-body">
                                                         <h3 class="row-title">Paper 2 · Calculator</h3>
                                                         <p class="row-meta">Higher · June 2024 · 1h 30m · 80 marks
@@ -357,7 +364,7 @@
                                                     data-tier="Higher" data-source="board"
                                                     data-keywords="june 2024 paper 3 calculator">
                                                     <span class="row-icon"><i class="bi bi-file-earmark-text"
-                                                            aria-hidden="true"></i></span>
+                                                                              aria-hidden="true"></i></span>
                                                     <div class="row-body">
                                                         <h3 class="row-title">Paper 3 · Calculator</h3>
                                                         <p class="row-meta">Higher · June 2024 · 1h 30m · 80 marks
@@ -378,20 +385,20 @@
                                 <div class="accordion-item">
                                     <h3 class="accordion-header">
                                         <button class="accordion-button collapsed" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#series-june-2023"
-                                            aria-expanded="false" aria-controls="series-june-2023">
+                                                data-bs-toggle="collapse" data-bs-target="#series-june-2023"
+                                                aria-expanded="false" aria-controls="series-june-2023">
                                             June 2023 <span class="topic-count">3 papers</span>
                                         </button>
                                     </h3>
                                     <div id="series-june-2023" class="accordion-collapse collapse"
-                                        data-bs-parent="#paperSeries">
+                                         data-bs-parent="#paperSeries">
                                         <div class="accordion-body">
                                             <ul class="resource-list list-unstyled" data-list>
                                                 <li class="resource-row" data-series="2023" data-paper="Paper 1"
                                                     data-tier="Higher" data-source="board"
                                                     data-keywords="june 2023 paper 1">
                                                     <span class="row-icon"><i class="bi bi-file-earmark-text"
-                                                            aria-hidden="true"></i></span>
+                                                                              aria-hidden="true"></i></span>
                                                     <div class="row-body">
                                                         <h3 class="row-title">Paper 1 · Non-calculator</h3>
                                                         <p class="row-meta">Higher · June 2023 · 1h 30m · 80 marks
@@ -408,7 +415,7 @@
                                                     data-tier="Higher" data-source="board"
                                                     data-keywords="june 2023 paper 2">
                                                     <span class="row-icon"><i class="bi bi-file-earmark-text"
-                                                            aria-hidden="true"></i></span>
+                                                                              aria-hidden="true"></i></span>
                                                     <div class="row-body">
                                                         <h3 class="row-title">Paper 2 · Calculator</h3>
                                                         <p class="row-meta">Higher · June 2023 · 1h 30m · 80 marks
@@ -425,7 +432,7 @@
                                                     data-tier="Foundation" data-source="board"
                                                     data-keywords="june 2023 paper 3 foundation">
                                                     <span class="row-icon"><i class="bi bi-file-earmark-text"
-                                                            aria-hidden="true"></i></span>
+                                                                              aria-hidden="true"></i></span>
                                                     <div class="row-body">
                                                         <h3 class="row-title">Paper 3 · Calculator</h3>
                                                         <p class="row-meta">Foundation · June 2023 · 1h 30m · 80
@@ -446,20 +453,20 @@
                                 <div class="accordion-item">
                                     <h3 class="accordion-header">
                                         <button class="accordion-button collapsed" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#series-june-2022"
-                                            aria-expanded="false" aria-controls="series-june-2022">
+                                                data-bs-toggle="collapse" data-bs-target="#series-june-2022"
+                                                aria-expanded="false" aria-controls="series-june-2022">
                                             June 2022 <span class="topic-count">3 papers</span>
                                         </button>
                                     </h3>
                                     <div id="series-june-2022" class="accordion-collapse collapse"
-                                        data-bs-parent="#paperSeries">
+                                         data-bs-parent="#paperSeries">
                                         <div class="accordion-body">
                                             <ul class="resource-list list-unstyled" data-list>
                                                 <li class="resource-row" data-series="2022" data-paper="Paper 1"
                                                     data-tier="Higher" data-source="board"
                                                     data-keywords="june 2022 paper 1">
                                                     <span class="row-icon"><i class="bi bi-file-earmark-text"
-                                                            aria-hidden="true"></i></span>
+                                                                              aria-hidden="true"></i></span>
                                                     <div class="row-body">
                                                         <h3 class="row-title">Paper 1 · Non-calculator</h3>
                                                         <p class="row-meta">Higher · June 2022 · 1h 30m · 80 marks
@@ -476,7 +483,7 @@
                                                     data-tier="Higher" data-source="board"
                                                     data-keywords="june 2022 paper 2">
                                                     <span class="row-icon"><i class="bi bi-file-earmark-text"
-                                                            aria-hidden="true"></i></span>
+                                                                              aria-hidden="true"></i></span>
                                                     <div class="row-body">
                                                         <h3 class="row-title">Paper 2 · Calculator</h3>
                                                         <p class="row-meta">Higher · June 2022 · 1h 30m · 80 marks
@@ -493,7 +500,8 @@
                                                     data-tier="Higher" data-source="merit"
                                                     data-keywords="practice paper 3 merit">
                                                     <span class="row-icon row-icon-merit"><i
-                                                            class="bi bi-file-earmark-text" aria-hidden="true"></i></span>
+                                                            class="bi bi-file-earmark-text"
+                                                            aria-hidden="true"></i></span>
                                                     <div class="row-body">
                                                         <p class="row-eyebrow row-eyebrow-merit">Merit practice
                                                             material</p>
@@ -521,10 +529,11 @@
                         @if (!empty($syllabus))
                             @foreach ($syllabus as $tabName => $nodes)
                                 <div class="tab-pane fade" id="pane-{{ Str::slug($tabName) }}"
-                                    role="tabpanel" aria-labelledby="tab-{{ Str::slug($tabName) }}" tabindex="0">
+                                     role="tabpanel" aria-labelledby="tab-{{ Str::slug($tabName) }}" tabindex="0">
                                     <div class="pane-head">
                                         <h2 class="pane-title">{{ $tabName }}</h2>
-                                        <p class="pane-sub">Follows the Edexcel specification order. Open a unit to see its
+                                        <p class="pane-sub">Follows the Edexcel specification order. Open a unit to see
+                                            its
                                             topics.</p>
                                     </div>
 
@@ -534,10 +543,10 @@
                                                 <div class="accordion-item">
                                                     <h3 class="accordion-header">
                                                         <button class="accordion-button" type="button"
-                                                            data-bs-toggle="collapse"
-                                                            data-bs-target="#collapse-{{ $node['id'] }}"
-                                                            aria-expanded="{{ $loopIndex === 0 ? 'true' : 'false' }}"
-                                                            aria-controls="collapse-{{ $node['id'] }}">
+                                                                data-bs-toggle="collapse"
+                                                                data-bs-target="#collapse-{{ $node['id'] }}"
+                                                                aria-expanded="{{ $loopIndex === 0 ? 'true' : 'false' }}"
+                                                                aria-controls="collapse-{{ $node['id'] }}">
                                                             <span class="fw-bold text-dark">{{ $node['name'] }}</span>
                                                             @php
                                                                 $count = count($node['children'] ?? []);
@@ -555,8 +564,8 @@
 
                                                     {{-- Children Tree View --}}
                                                     <div id="collapse-{{ $node['id'] }}"
-                                                        class="accordion-collapse collapse {{ $loopIndex === 0 ? 'show' : '' }}"
-                                                        data-bs-parent="#accordion-{{ Str::slug($tabName) }}">
+                                                         class="accordion-collapse collapse {{ $loopIndex === 0 ? 'show' : '' }}"
+                                                         data-bs-parent="#accordion-{{ Str::slug($tabName) }}">
                                                         <div class="accordion-body">
                                                             @if (!empty($node['children']))
                                                                 <ul class="topic-list list-unstyled" data-list>
@@ -626,10 +635,10 @@
 @endsection
 @push('js')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-{{--    <script src="{{ asset('frontend/new/js/resources.js') }}"></script>--}}
+    {{--    <script src="{{ asset('frontend/new/js/resources.js') }}"></script>--}}
     <script>
-        $(document).ready(function() {
-            $(document).ready(function() {
+        $(document).ready(function () {
+            $(document).ready(function () {
                 $('#subject').select2({
                     placeholder: 'Select subject',
                     allowClear: true,
@@ -638,7 +647,21 @@
             });
         });
 
-        $('#qualification').on('change', function() {
+        $(".clickToPastPaper").on('click', function () {
+
+            const actions = $(this).data('action');
+
+            console.log(actions);
+
+            console.log('this is click:  ',);
+            const url = '{{ route('route-redirect.info', [":info"]) }}'
+
+            console.log(url.replace(':info', actions));
+
+            window.location.href = url.replace(':info', actions).toString();
+        })
+
+        $('#qualification').on('change', function () {
             const qualificationValue = $(this).val();
 
             const qualificationId = Number(qualificationValue.split(" ")[0]);
@@ -652,7 +675,7 @@
                 data: {
                     _token: "{{ csrf_token() }}",
                 },
-                success: function(response) {
+                success: function (response) {
 
                     console.log('form sub: ', response)
 
@@ -661,19 +684,19 @@
                     subcategorySelect.empty().append(
                         '<option value="">Select subject</option>');
 
-                    response.forEach(function(item) {
+                    response.forEach(function (item) {
                         subcategorySelect.append(
                             `<option value="${item.id} / ${item.slug}">${item.subcategory_name}</option>`
                         );
                     });
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error('Error:', error);
                 }
             });
         });
 
-        $('#subject').on('change', function() {
+        $('#subject').on('change', function () {
             const subjectValue = $(this).val();
 
             const subjectId = Number(subjectValue.split(" ")[0]);
@@ -687,26 +710,25 @@
                 data: {
                     _token: "{{ csrf_token() }}",
                 },
-                success: function(response) {
+                success: function (response) {
                     // Example: Populate a subcategory dropdown
                     let reSubcategorySelect = $('#examBoard'); // Adjust selector
                     reSubcategorySelect.empty().append(
                         '<option value="">Select exam board</option>');
 
-                    response.forEach(function(item) {
+                    response.forEach(function (item) {
                         reSubcategorySelect.append(
                             `<option value="${item.id} / ${item.slug}">${item.resubcategory_name}</option>`
                         );
                     });
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error('Error:', error);
                 }
             });
         });
 
-
-        $('#viewResourceBtn').on('click', function() {
+        $('#viewResourceBtn').on('click', function () {
 
             let qualification = $("#qualification");
             let subject = $("#subject");
