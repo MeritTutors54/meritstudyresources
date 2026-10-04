@@ -473,18 +473,18 @@
                             aria-pressed="true" aria-controls="popular-past-papers">
                         Past Papers
                     </button>
-                    <button type="button" class="filter-pill" data-filter="revision-notes"
-                            aria-pressed="false" aria-controls="popular-revision-notes">
-                        Revision Notes
-                    </button>
-                    <button type="button" class="filter-pill" data-filter="topic-questions"
-                            aria-pressed="false" aria-controls="popular-topic-questions">
-                        Topic Questions
-                    </button>
-                    <button type="button" class="filter-pill" data-filter="topic-tests"
-                            aria-pressed="false" aria-controls="popular-topic-tests">
-                        Topic Tests
-                    </button>
+{{--                    <button type="button" class="filter-pill" data-filter="revision-notes"--}}
+{{--                            aria-pressed="false" aria-controls="popular-revision-notes">--}}
+{{--                        Revision Notes--}}
+{{--                    </button>--}}
+{{--                    <button type="button" class="filter-pill" data-filter="topic-questions"--}}
+{{--                            aria-pressed="false" aria-controls="popular-topic-questions">--}}
+{{--                        Topic Questions--}}
+{{--                    </button>--}}
+{{--                    <button type="button" class="filter-pill" data-filter="topic-tests"--}}
+{{--                            aria-pressed="false" aria-controls="popular-topic-tests">--}}
+{{--                        Topic Tests--}}
+{{--                    </button>--}}
                 </div>
             </div>
 
