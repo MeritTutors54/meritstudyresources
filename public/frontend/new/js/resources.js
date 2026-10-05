@@ -49,14 +49,14 @@
             );
         }
 
-        setCourseField('qualification', course.qualification);
-        setCourseField('qualification-link', course.qualification);
-        setCourseField('subject', course.subject);
-        setCourseField('subject-link', course.subject);
-        setCourseField('board', course.board);
-        setCourseField('board-name', course.board);
-        setCourseField('tier', course.tier);
-        setCourseField('spec', specCodes[course.qualification + '|' + course.subject] || '—');
+        // setCourseField('qualification', course.qualification);
+        // setCourseField('qualification-link', course.qualification);
+        // setCourseField('subject', course.subject);
+        // setCourseField('subject-link', course.subject);
+        // setCourseField('board', course.board);
+        // setCourseField('board-name', course.board);
+        // setCourseField('tier', course.tier);
+        // setCourseField('spec', specCodes[course.qualification + '|' + course.subject] || '—');
 
         // document.title = course.qualification + ' ' + course.subject + ' (' + course.board + ') resources — Merit Study Resources';
 

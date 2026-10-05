@@ -56,14 +56,15 @@
                 <nav aria-label="Breadcrumb">
                     <ol class="breadcrumb course-crumbs">
                         <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#"
-                                                       data-course="qualification-link">{{ $examBoard->category->category_name }}</a>
+                        <li class="breadcrumb-item">
+                            <a href="#" data-course="qualification-link">{{ $examBoard->category->category_name }}</a>
                         </li>
-                        <li class="breadcrumb-item"><a href="#"
-                                                       data-course="subject-link">{{ $examBoard->subcategory->subcategory_name }}</a>
+                        <li class="breadcrumb-item">
+                            <a href="#" data-course="subject-link">{{ $examBoard->subcategory->subcategory_name }}</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page" data-course="board">
-                            {{ $examBoard->resubcategory_name }}</li>
+                            {{ $examBoard->resubcategory_name }}
+                        </li>
                     </ol>
                 </nav>
                 <p class="spec-code">Unit Code <span data-course="spec">{{ $examBoard->unit_code }}</span></p>
@@ -94,8 +95,8 @@
                             data-course="qualification">{{ $examBoard->category->category_name }}</li>
                         <li class="course-chip"
                             data-course="subject">{{ $examBoard->subcategory->subcategory_name }}</li>
-                        <li class="course-chip" data-course="board">{{ $examBoard->resubcategory_name }}</li>
-                        <li class="course-chip course-chip-tier" data-course="tier">Higher Tier</li>
+                        <li class="course-chip course-chip-tier " data-course="board">{{ $examBoard->resubcategory_name }}</li>
+{{--                        <li class="course-chip course-chip-tier" data-course="tier">Higher Tier</li>--}}
                     </ul>
                 </div>
 
