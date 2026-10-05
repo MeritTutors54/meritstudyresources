@@ -1,0 +1,499 @@
+/* ==========================================================================
+   Merit Study Resources — bookshop page
+   Loaded after style.css, resources.css and pages.css; reuses their tokens.
+   1. Compact header  2. Hero  3. QR lookup card  4. Selector bar
+   5. Book grid  6. Book cover  7. Book card  8. How it works
+   9. FAQ  10. Responsive
+   ========================================================================== */
+
+/* 1. Compact single-row header (bookshop + future pages) ---------------- */
+.header-compact {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  background: #fff;
+  border-bottom: 1px solid var(--merit-line);
+}
+.header-compact .navbar { padding: .75rem 0; }
+.header-compact .brand-mark { width: 40px; height: 40px; }
+.header-compact .brand-name {
+  font-size: .98rem;
+  text-transform: none;
+  letter-spacing: -.01em;
+}
+.header-compact .brand-tagline { margin-top: .15rem; font-size: .52rem; letter-spacing: .12em; }
+.header-compact .nav-link {
+  color: var(--merit-text);
+  font-size: .87rem;
+  font-weight: 500;
+  padding: .5rem .7rem !important;
+  border-radius: var(--radius-sm);
+  line-height: 1.2;
+  transition: color var(--ease), background var(--ease);
+}
+.header-compact .nav-link:hover { color: var(--merit-green); }
+.header-compact .nav-link.active {
+  color: var(--merit-dark-green);
+  font-weight: 600;
+  background: var(--merit-light-green);
+}
+.nav-two-line { text-align: center; }
+
+.basket-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--merit-border);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  color: var(--merit-navy);
+  font-size: 1.05rem;
+  transition: border-color var(--ease), background var(--ease);
+}
+.basket-btn:hover { background: var(--merit-light-green); border-color: #cfe5d8; color: var(--merit-dark-green); }
+.basket-count {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  min-width: 19px;
+  height: 19px;
+  padding: 0 5px;
+  border-radius: var(--radius-pill);
+  background: var(--merit-navy);
+  color: #fff;
+  font-size: .68rem;
+  font-weight: 700;
+  line-height: 19px;
+  text-align: center;
+  box-shadow: 0 0 0 2px #fff;
+}
+
+/* 2. Hero --------------------------------------------------------------- */
+.shop-hero {
+  position: relative;
+  padding: 1.75rem 0 2.75rem;
+  background-color: #f6faf7;
+  background-image: radial-gradient(rgba(22, 138, 69, .13) 1px, transparent 1.2px);
+  background-size: 22px 22px;
+  border-bottom: 1px solid var(--card-border, #e5ebe7);
+}
+.shop-hero .course-crumbs { margin-bottom: 1.25rem; }
+
+.script-eyebrow {
+  margin: 0 0 .35rem;
+  font-family: "Caveat", cursive;
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--merit-green);
+  transform: rotate(-1deg);
+  transform-origin: left center;
+}
+
+.shop-title {
+  font-size: clamp(2rem, 1.2rem + 2.6vw, 3rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -.035em;
+  margin: 0 0 1rem;
+}
+.shop-title-accent { color: var(--merit-green); }
+
+.shop-lead {
+  max-width: 36rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #4a5f70;
+  margin-bottom: 1.25rem;
+}
+
+.shop-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem 1.25rem;
+  margin: 0;
+  max-width: 36rem;
+}
+.shop-checks li {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: .86rem;
+  font-weight: 500;
+  color: var(--merit-navy);
+}
+.check-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--merit-green);
+  color: #fff;
+  font-size: .7rem;
+}
+
+/* 3. QR lookup card ----------------------------------------------------- */
+.qr-card {
+  background: #fff;
+  border: 1px solid var(--card-border, #e5ebe7);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 1.35rem;
+}
+.qr-card-head { display: flex; gap: .85rem; margin-bottom: 1.1rem; }
+.qr-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  flex: none;
+  border-radius: 10px;
+  background: var(--tint-mint);
+  color: var(--merit-green);
+  font-size: 1.25rem;
+}
+.qr-title { font-size: 1rem; font-weight: 700; margin: 0 0 .2rem; }
+.qr-text { margin: 0; font-size: .84rem; line-height: 1.45; color: var(--merit-muted); }
+.qr-card .search-shell { padding: .2rem .4rem .2rem .85rem; margin-bottom: .85rem; }
+.qr-card .search-input { padding: .55rem 0; }
+.qr-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  min-height: 42px;
+  padding-inline: 1.15rem;
+  font-size: .88rem;
+}
+.qr-note {
+  margin: .9rem 0 0;
+  font-size: .78rem;
+  color: var(--merit-muted);
+}
+
+/* 4. Subject / year selector -------------------------------------------- */
+.shop-selector {
+  background: #fff;
+  border-bottom: 1px solid var(--card-border, #e5ebe7);
+  padding: 1.1rem 0;
+}
+.selector-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.selector-row + .selector-row { margin-top: .75rem; }
+.selector-label {
+  flex: 0 0 3.75rem;
+  margin: 0;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--merit-muted);
+}
+.selector-pills {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  margin: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 2px;
+}
+.selector-pills::-webkit-scrollbar { display: none; }
+.select-pill {
+  flex: none;
+  padding: .45rem 1rem;
+  min-height: 38px;
+  border: 1px solid var(--merit-border);
+  border-radius: var(--radius-pill);
+  background: #fff;
+  color: var(--merit-navy);
+  font-size: .85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background var(--ease), border-color var(--ease), color var(--ease);
+}
+.select-pill:hover { background: var(--merit-light-green); border-color: #cfe5d8; color: var(--merit-dark-green); }
+.select-pill.is-active,
+.select-pill[aria-pressed="true"] {
+  background: var(--merit-green);
+  border-color: var(--merit-green);
+  color: #fff;
+  box-shadow: var(--shadow-xs);
+}
+.selector-hint { flex: none; font-size: .8rem; color: var(--merit-muted); white-space: nowrap; }
+
+/* 5. Book grid section -------------------------------------------------- */
+.shop-books { padding: 2.25rem 0 3rem; background: var(--page-bg, #f8faf8); }
+.books-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: .75rem 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.4rem;
+}
+.books-title { font-size: clamp(1.35rem, 1.05rem + .9vw, 1.7rem); font-weight: 800; letter-spacing: -.025em; margin: 0 0 .2rem; }
+.books-sub { margin: 0; font-size: .88rem; color: var(--merit-muted); }
+.books-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .35rem .8rem;
+  border: 1px solid var(--merit-border);
+  border-radius: var(--radius-pill);
+  background: #fff;
+  font-size: .78rem;
+  color: var(--merit-muted);
+}
+.books-badge i { color: var(--merit-green); }
+
+/* 6. CSS book cover ------------------------------------------------------ */
+.book-cover-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 1.25rem 1rem 1.1rem;
+  background: linear-gradient(180deg, #f7faf8 0%, #fff 100%);
+  border-bottom: 1px solid var(--merit-line);
+}
+.book-cover {
+  --cover: var(--merit-green);
+  --cover-dark: var(--merit-dark-green);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 128px;
+  aspect-ratio: 3 / 4;
+  padding: .7rem .75rem .65rem 1rem;
+  border-radius: 3px 8px 8px 3px;
+  background: linear-gradient(135deg, var(--cover) 0%, var(--cover-dark) 100%);
+  color: #fff;
+  box-shadow:
+    inset 5px 0 0 rgba(0, 0, 0, .14),
+    inset 7px 0 0 rgba(255, 255, 255, .08),
+    6px 10px 18px rgba(16, 44, 70, .18);
+  transition: transform var(--ease), box-shadow var(--ease);
+}
+/* page block on the fore-edge */
+.book-cover::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  right: -5px;
+  width: 5px;
+  border-radius: 0 3px 3px 0;
+  background: repeating-linear-gradient(180deg, #fff 0 2px, #e4e9ec 2px 3px);
+}
+.book-card:hover .book-cover { transform: translateY(-3px) rotate(-1deg); box-shadow: inset 5px 0 0 rgba(0,0,0,.14), inset 7px 0 0 rgba(255,255,255,.08), 8px 14px 22px rgba(16, 44, 70, .22); }
+
+.cover-brand { font-size: .44rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; opacity: .9; }
+.cover-series { font-size: .48rem; font-weight: 600; opacity: .85; margin-top: .15rem; }
+.cover-title {
+  margin: auto 0;
+  font-size: .86rem;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -.01em;
+  hyphens: manual;
+}
+.cover-num { font-size: .48rem; font-weight: 700; opacity: .9; }
+
+.book-cover.cover-green { --cover: #1f9a50; --cover-dark: #137a3c; }
+.book-cover.cover-blue { --cover: #2f72d6; --cover-dark: #1d55b0; }
+.book-cover.cover-orange { --cover: #e05a1f; --cover-dark: #bf4310; }
+.book-cover.cover-purple { --cover: #7a3fc4; --cover-dark: #5b2a9f; }
+
+/* 7. Book card ---------------------------------------------------------- */
+.book-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #fff;
+  border: 1px solid var(--card-border, #e5ebe7);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color var(--ease), box-shadow var(--ease);
+}
+.book-card:hover { border-color: #cfdcd4; box-shadow: var(--shadow-sm); }
+
+.book-body { display: flex; flex-direction: column; flex: 1 1 auto; padding: 1rem 1rem 1.1rem; }
+.book-eyebrow {
+  margin: 0 0 .2rem;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--book-ink, var(--merit-green));
+}
+.book-card.ink-green { --book-ink: #168a45; }
+.book-card.ink-blue { --book-ink: #1d5fc4; }
+.book-card.ink-orange { --book-ink: #c84b14; }
+.book-card.ink-purple { --book-ink: #6a35b4; }
+
+.book-title { font-size: 1.08rem; font-weight: 800; letter-spacing: -.02em; margin: 0 0 .25rem; }
+.book-meta { margin: 0 0 .75rem; font-size: .76rem; color: var(--merit-muted); }
+.book-desc { font-size: .84rem; line-height: 1.5; color: #4a5f70; margin-bottom: .85rem; }
+
+.book-includes { display: flex; flex-wrap: wrap; gap: .35rem; margin: 0 0 1rem; }
+.include-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  padding: .18rem .55rem;
+  border: 1px solid #d9e9df;
+  border-radius: var(--radius-pill);
+  background: var(--merit-light-green);
+  font-size: .72rem;
+  font-weight: 600;
+  color: var(--merit-dark-green);
+}
+.include-chip i { font-size: .7rem; }
+
+.book-actions { display: grid; gap: .5rem; margin-top: auto; }
+.book-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .45rem;
+  min-height: 42px;
+  font-size: .86rem;
+}
+.btn-downloads {
+  background: var(--merit-light-green);
+  border: 1px solid #d9e9df;
+  color: var(--merit-dark-green);
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+}
+.btn-downloads:hover,
+.btn-downloads[aria-expanded="true"] { background: #e2f1e8; border-color: #cfe5d8; color: var(--merit-dark-green); }
+.btn-downloads .bi-chevron-down { font-size: .75rem; transition: transform var(--ease); }
+.btn-downloads[aria-expanded="true"] .bi-chevron-down { transform: rotate(180deg); }
+
+.download-list {
+  display: grid;
+  gap: .1rem;
+  margin: 0;
+  padding: .35rem;
+  border: 1px solid var(--merit-line);
+  border-radius: var(--radius-sm);
+  background: #fbfdfb;
+}
+.download-list a {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .45rem .55rem;
+  border-radius: 6px;
+  font-size: .82rem;
+  color: var(--merit-text);
+}
+.download-list a:hover { background: var(--merit-light-green); color: var(--merit-dark-green); text-decoration: none; }
+.download-list .bi-file-earmark-pdf { color: var(--ink-rose); }
+.download-list .dl-size { margin-left: auto; font-size: .72rem; color: var(--merit-muted); }
+.download-locked {
+  margin: 0;
+  padding: .5rem .55rem;
+  font-size: .76rem;
+  line-height: 1.45;
+  color: var(--merit-muted);
+}
+
+.btn-basket {
+  position: relative;
+  background: #fff;
+  border: 1px solid var(--merit-border);
+  color: var(--merit-navy);
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+}
+.btn-basket:disabled,
+.btn-basket.disabled { opacity: 1; color: var(--merit-navy); background: #fff; cursor: not-allowed; }
+.soon-badge {
+  position: absolute;
+  top: -9px;
+  right: 10px;
+  padding: .1rem .45rem;
+  border-radius: var(--radius-pill);
+  background: var(--ink-amber);
+  color: #fff;
+  font-size: .6rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  box-shadow: 0 0 0 2px #fff;
+}
+
+/* 8. How the downloads work -------------------------------------------- */
+.shop-steps { padding: 3rem 0; background: #fff; border-top: 1px solid var(--merit-line); }
+.shop-steps .section-heading { margin-bottom: 1.5rem; }
+.step-card {
+  height: 100%;
+  padding: 1.35rem 1.25rem;
+  background: #fbfcfb;
+  border: 1px solid var(--card-border, #e5ebe7);
+  border-radius: var(--radius);
+}
+.step-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-bottom: .9rem;
+  border-radius: 50%;
+  background: var(--merit-green);
+  color: #fff;
+  font-weight: 700;
+  font-size: .88rem;
+}
+.step-title { font-size: 1rem; font-weight: 700; margin: 0 0 .35rem; }
+.step-text { margin: 0; font-size: .85rem; line-height: 1.55; color: var(--merit-muted); }
+
+/* footer logo: keep the green mark (style.css inverts .footer-mark to white) */
+.footer-mark-colour { flex: none; border-radius: 9px; }
+
+/* 9. FAQ ---------------------------------------------------------------- */
+.shop-faq { padding: 3rem 0 3.5rem; background: var(--page-bg, #f8faf8); border-top: 1px solid var(--merit-line); }
+.shop-faq .section-heading { margin-bottom: 1.25rem; }
+.shop-faq .topic-accordion .accordion-button { font-size: .93rem; }
+.shop-faq .accordion-button:not(.collapsed) { color: var(--merit-dark-green); }
+.shop-faq .accordion-body p { margin: 0; font-size: .9rem; line-height: 1.6; color: #41576a; }
+
+/* 10. Responsive -------------------------------------------------------- */
+@media (max-width: 1199.98px) {
+  .header-compact .nav-link { padding-inline: .5rem !important; font-size: .84rem; }
+}
+
+@media (max-width: 991.98px) {
+  .header-compact { position: static; }
+  .header-compact .navbar-collapse { padding: .75rem 0 .25rem; }
+  .nav-two-line { text-align: left; }
+  .nav-two-line br { display: none; }
+  .qr-card { margin-top: 1.75rem; }
+}
+
+@media (max-width: 767.98px) {
+  .shop-hero { padding-bottom: 2rem; }
+  .selector-row { flex-direction: column; align-items: flex-start; gap: .45rem; }
+  .selector-label { flex: none; }
+  .selector-pills { width: 100%; }
+  .books-head { align-items: flex-start; }
+}
+
+@media (max-width: 575.98px) {
+  .shop-checks { flex-direction: column; }
+  .selector-hint { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .book-card:hover .book-cover { transform: none; }
+}

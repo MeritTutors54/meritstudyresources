@@ -1,222 +1,234 @@
-@extends('layouts.frontend-2')
+@extends('layouts.frontend-3')
 
 @section('title', $defaultSEO->meta_title ?? $global_seo['seo_title'])
 @section('meta_description', $defaultSEO->meta_description ?? $global_seo['seo_description'])
 @section('meta_keywords', $defaultSEO->meta_keywords ?? $global_seo['seo_keywords'])
 @section('meta_author', $defaultSEO->meta_author ?? $global_seo['seo_author'])
 
+@php
+    use Illuminate\Support\Str;
+    use Illuminate\Support\Facades\Route;
+
+    $categoryName = $blog->category->name ?? null;
+    $categorySlug = $blog->category->slug ?? null;
+
+    // Read time: ~200 words per minute
+    $readTime = function ($post) {
+        $words = str_word_count(strip_tags($post->details ?? $post->description ?? ''));
+        return max(1, (int) ceil($words / 200));
+    };
+
+    // Build "On this page" from the <h2> headings in the post body,
+    // giving each heading an id so the links can jump to it.
+    $toc = [];
+    $usedIds = [];
+    $body = preg_replace_callback('/<h2([^>]*)>(.*?)<\/h2>/is', function ($m) use (&$toc, &$usedIds) {
+        $attrs = $m[1];
+        $text  = trim(html_entity_decode(strip_tags($m[2])));
+        if ($text === '') return $m[0];
+
+        if (preg_match('/\sid=["\']([^"\']+)["\']/i', $attrs, $idMatch)) {
+            $id = $idMatch[1];
+        } else {
+            $base = Str::slug($text) ?: 'section';
+            $id = $base;
+            $n = 2;
+            while (in_array($id, $usedIds)) $id = $base . '-' . $n++;
+            $attrs .= ' id="' . $id . '"';
+        }
+
+        $usedIds[] = $id;
+        $toc[] = ['id' => $id, 'text' => $text];
+
+        return '<h2' . $attrs . '>' . $m[2] . '</h2>';
+    }, $blog->details ?? '');
+
+    $authorName     = $blog->author->name ?? 'Merit Study Resources team';
+    $authorInitials = $blog->author->initials ?? 'MS';
+
+    $shareUrl   = urlencode(url()->current());
+    $shareTitle = urlencode($blog->title);
+
+    $resourcesUrl = Route::has('resources') ? route('resources') : url('/resources');
+
+    $tints = ['sky', 'cream', 'lilac', 'mint', 'sage', 'blush'];
+@endphp
+
 @section('content')
-    <!-- ============================= ARTICLE HEADER ============================= -->
-    <header class="article-hero">
-        <div class="container">
-            <div class="breadcrumb-msr mb-3">
-                <a href="{{ route('home') }}">Home</a>
-                &nbsp;/&nbsp;
-                <a href="{{ route('blogs') }}">Blog</a>
-                &nbsp;/&nbsp; {{ $blog->title }}
-            </div>
-            <span class="article-cat-badge">{{ $blog->category->name }}</span>
-            <h1>{{ $blog->title }}</h1>
+<main id="main">
+    <article class="post-page">
 
-            <div class="article-meta-row">
-                <div class="d-flex align-items-center gap-3">
-                    <span class="am-avatar" style="background:#3D6BFF;">{{ $blog->author->initials }}</span>
-                    <div>
-                        <div class="am-name">{{ $blog->author->name }}</div>
-                        {{--                        <div class="am-sub">Head of Sciences</div>--}}
-                    </div>
-                </div>
-                {{--                <div class="article-meta-item">--}}
-                {{--                    <svg viewBox="0 0 24 24" fill="none">--}}
-                {{--                        <path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>--}}
-                {{--                        <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/>--}}
-                {{--                    </svg>--}}
-                {{--                    7 min read--}}
-                {{--                </div>--}}
-                <div class="article-meta-item">
-                    <svg viewBox="0 0 24 24" fill="none">
-                        <rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.8"/>
-                        <path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.8"
-                              stroke-linecap="round"/>
-                    </svg>
-                    {{ $blog->created_at?->format('j M Y') }}
+        {{-- ===================== HEADER ===================== --}}
+        <header class="course-header post-header">
+            <div class="container">
+                <div class="course-header-top">
+                    <nav aria-label="Breadcrumb">
+                        <ol class="breadcrumb course-crumbs">
+                            <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('blogs') }}">Blog</a></li>
+                            @if($categoryName)
+                                <li class="breadcrumb-item active" aria-current="page">{{ $categoryName }}</li>
+                            @else
+                                <li class="breadcrumb-item active" aria-current="page">{{ Str::limit($blog->title, 40) }}</li>
+                            @endif
+                        </ol>
+                    </nav>
+                    <p class="spec-code">{{ $readTime($blog) }} min read</p>
                 </div>
 
-            </div>
-        </div>
-    </header>
-    <div class="container">
-        <a href="{{ url()->previous() }}" class="back-btn">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-            <span>Back</span>
-        </a>
-    </div>
-    <!-- ============================= COVER + CONTENT ============================= -->
-    <section class="section-pad" style="padding-top:36px;">
-        <div class="container">
-            <div class="article-cover" style="position: relative;">
-                {{-- Display image if present, otherwise show a default fallback --}}
-                <img src="{{ asset(Storage::url($blog->cover_image)) }}"
-                     alt="{{ $blog->title }}"
-                     class="img-fluid blog-img">
-                {{-- Positioned badge overlaid on top of the image --}}
-                <span class="fp-badge"
-                      style="position: absolute; top: 46px; left: 46px; z-index: 2; background: rgb(52 168 28 / 0.81); backdrop-filter: blur(4px); font-size: .72rem; font-weight: 700; padding: 6px 14px; border-radius: 20px; color: #ececec;">
-                        {{ $blog->category->name }}
-                </span>
-            </div>
-
-            <div class="row mt-5 gy-5">
-                <!-- TOC SIDEBAR -->
-{{--                <div class="col-lg-3 d-none d-lg-block">--}}
-{{--                    <div class="toc-box">--}}
-{{--                        <p class="toc-title">In this article</p>--}}
-{{--                        <a href="#why-plans-fail">Why most revision plans fail</a>--}}
-{{--                        <a href="#eight-week">The 8-week framework</a>--}}
-{{--                        <a href="#active-recall">Using active recall properly</a>--}}
-{{--                        <a href="#past-papers-role">Where past papers fit in</a>--}}
-{{--                        <a href="#final-week">The final week</a>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-
-                <!-- ARTICLE BODY -->
-                <div class="col-lg-12">
-                    <div class="article-body">
-                        {!! $blog->details !!}
-                    </div>
-
-                    <!-- TAGS -->
-                    <div class="d-flex flex-wrap gap-2 mt-5 pt-4" style="border-top:1px solid var(--line);">
-                        @if(!empty($blog->tags))
-                            @foreach($blog->tags as $tag)
-                                <a href="{{ route('blogs', ['p' => $tag->slug]) }}"
-                                   class="tag-pill-lg">{{ $tag->name }}</a>
-                            @endforeach
-                        @endif
-                    </div>
-
-                    <!-- AUTHOR BOX -->
-                    {{--                    <div class="author-box mt-5">--}}
-                    {{--                        <span class="ab-avatar" style="background:#3D6BFF;">SK</span>--}}
-                    {{--                        <div>--}}
-                    {{--                            <h4>Sam Khatri</h4>--}}
-                    {{--                            <p>Head of Sciences at Merit Study Resources. Sam has taught GCSE and A Level Biology,--}}
-                    {{--                                Chemistry and Physics for over a decade and leads the science content team.</p>--}}
-                    {{--                            <div class="d-flex gap-2">--}}
-                    {{--                                <a href="#" class="share-btn">--}}
-                    {{--                                    <svg viewBox="0 0 24 24" fill="none">--}}
-                    {{--                                        <path--}}
-                    {{--                                            d="M13.5 9H15V6.5h-1.5C12 6.5 11 7.6 11 9.5V11H9.5v2.3H11V18h2.3v-4.7h1.7l.3-2.3h-2V9.6c0-.4.2-.6.6-.6z"--}}
-                    {{--                                            fill="currentColor"/>--}}
-                    {{--                                    </svg>--}}
-                    {{--                                </a>--}}
-                    {{--                                <a href="#" class="share-btn">--}}
-                    {{--                                    <svg viewBox="0 0 24 24" fill="none">--}}
-                    {{--                                        <path--}}
-                    {{--                                            d="M21 5.9c-.7.3-1.5.5-2.3.6.8-.5 1.4-1.3 1.7-2.3-.8.5-1.7.8-2.6 1A3.7 3.7 0 0012 7.6c0 .3 0 .6.1.9C8.9 8.4 6 6.8 4 4.4c-.4.6-.6 1.3-.6 2.1 0 1.4.7 2.6 1.8 3.4-.7 0-1.3-.2-1.9-.5 0 2 1.4 3.6 3.2 4-.4.1-.7.1-1.1.1-.3 0-.5 0-.8-.1.5 1.6 2 2.8 3.8 2.8a7.5 7.5 0 01-4.6 1.6c-.3 0-.6 0-.9-.1A10.5 10.5 0 0010 19.5c6.4 0 9.9-5.3 9.9-9.9v-.5c.7-.5 1.3-1.2 1.8-1.9-.6.3-1.3.5-2 .6z"--}}
-                    {{--                                            fill="currentColor"/>--}}
-                    {{--                                    </svg>--}}
-                    {{--                                </a>--}}
-                    {{--                            </div>--}}
-                    {{--                        </div>--}}
-                    {{--                    </div>--}}
-
-                    <!-- COMMENTS -->
-                    {{--                    <div class="mt-5 pt-4" style="border-top:1px solid var(--line);">--}}
-                    {{--                        <h2 class="h5 mb-4">Comments (3)</h2>--}}
-
-                    {{--                        <div class="comment-item">--}}
-                    {{--                            <span class="cm-avatar" style="background:#F3A93C;">JM</span>--}}
-                    {{--                            <div>--}}
-                    {{--                                <span class="cm-name">Jamie M.<span class="cm-date">3 days ago</span></span>--}}
-                    {{--                                <p>The 8-week breakdown is exactly what I needed — was about to start cramming a week--}}
-                    {{--                                    before my exams.</p>--}}
-                    {{--                            </div>--}}
-                    {{--                        </div>--}}
-                    {{--                        <div class="comment-item">--}}
-                    {{--                            <span class="cm-avatar" style="background:#E45B7A;">AR</span>--}}
-                    {{--                            <div>--}}
-                    {{--                                <span class="cm-name">Aisha R.<span class="cm-date">6 days ago</span></span>--}}
-                    {{--                                <p>Really helpful breakdown of command words too — I always lose marks on "evaluate"--}}
-                    {{--                                    questions.</p>--}}
-                    {{--                            </div>--}}
-                    {{--                        </div>--}}
-                    {{--                        <div class="comment-item">--}}
-                    {{--                            <span class="cm-avatar" style="background:var(--green);">TB</span>--}}
-                    {{--                            <div>--}}
-                    {{--                                <span class="cm-name">Tom B.<span class="cm-date">1 week ago</span></span>--}}
-                    {{--                                <p>Used this for my son's chemistry revision — the phased approach made a big difference--}}
-                    {{--                                    to how organised he felt.</p>--}}
-                    {{--                            </div>--}}
-                    {{--                        </div>--}}
-
-                    {{--                        <form class="comment-form mt-4">--}}
-                    {{--                            <label class="form-label-msr" for="commentBox">Leave a comment</label>--}}
-                    {{--                            <textarea id="commentBox" class="form-control-msr mb-3"--}}
-                    {{--                                      placeholder="Share your thoughts..."></textarea>--}}
-                    {{--                            <button type="submit" class="btn-brand">Post Comment</button>--}}
-                    {{--                        </form>--}}
-                    {{--                    </div>--}}
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================= RELATED POSTS ============================= -->
-    <section class="section-pad bg-mint" style="padding-top:50px;">
-        <div class="container">
-            <div class="d-flex justify-content-between align-items-end mb-4">
-                <div>
-                    <span class="eyebrow"><span class="divider-dot"></span> KEEP READING</span>
-                    <h2 class="mt-3 mb-0" style="font-size:1.5rem;">Related articles</h2>
-                </div>
-                <a href="{{ route('blogs') }}" class="fw-semibold d-none d-sm-block" style="color:var(--green-dark);">View
-                    all
-                    articles</a>
-            </div>
-            <div class="row g-4">
-
-                @if(!empty($latestBlogs))
-                    @foreach($latestBlogs as $blog)
-                        <div class="col-md-4">
-                            <div class="blog-card">
-                                <div class="blog-media">
-                                    <a href="{{ route('blogs.details', $blog->slug) }}">
-                                        <img src="{{ asset(Storage::url($blog->cover_image)) }}"
-                                             alt="{{ $blog->title }}" class="img-fluid blog-img">
-                                    </a>
-                                </div>
-                                <div class="blog-body">
-                                    <h3>
-                                        <a href="{{ route('blogs.details', $blog->slug) }}">
-                                            {{ $blog->title }}
-                                        </a>
-                                    </h3>
-                                    <p>
-                                        {{ $blog->description }}
-                                    </p>
-                                    <div class="blog-meta">
-                                    <span class="bm-avatar" style="background:#393939;">
-                                        {{ $blog->author->initials ?? 'N/A' }}
-                                    </span>
-                                        <div class="bm-info">
-                                            <strong>{{ $blog->author->name ?? 'Unknown' }}</strong>
-                                            {{ $blog->created_at?->format('j M Y') }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+                @if($categoryName)
+                    <p class="post-cat post-cat-lead">{{ $categoryName }}</p>
                 @endif
-            </div>
-        </div>
-    </section>
 
-    <!-- ============================= NEWSLETTER ============================= -->
-    <section class="section-pad">
-        @include('frontend.includes.newsletter')
-    </section>
+                <h1 class="course-title post-page-title">{{ $blog->title }}</h1>
+
+                @if($blog->description)
+                    <p class="course-intro">{{ $blog->description }}</p>
+                @endif
+
+                <div class="post-byline">
+                    <span class="byline-avatar" aria-hidden="true">{{ $authorInitials }}</span>
+                    <span>
+                        <span class="byline-name">{{ $authorName }}</span>
+                        <span class="byline-date">Published {{ $blog->created_at?->format('j F Y') }}</span>
+                    </span>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="row g-4 g-xl-5 post-layout">
+
+                {{-- ===================== BODY ===================== --}}
+                <div class="col-lg-8">
+                    @if($blog->cover_image)
+                        <figure class="post-cover">
+                            <img src="{{ asset(Storage::url($blog->cover_image)) }}" alt="{{ $blog->title }}">
+                        </figure>
+                    @endif
+
+                    <div class="prose">
+                        {!! $body !!}
+
+                        <div class="prose-cta">
+                            <p><strong>Ready to try it?</strong> Every paper in the library comes with its mark scheme and a
+                                worked solution, so you can practise without hunting for files.</p>
+                            <a class="btn btn-merit" href="{{ $resourcesUrl }}">Find past papers <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="post-foot">
+                        @if($blog->tags && $blog->tags->isNotEmpty())
+                            <ul class="post-tags list-unstyled">
+                                @foreach($blog->tags as $tag)
+                                    <li><a href="{{ route('blogs', ['p' => $tag->slug]) }}">{{ $tag->name }}</a></li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <span></span>
+                        @endif
+
+                        <div class="post-share">
+                            <span class="share-label">Share</span>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}" target="_blank" rel="noopener" aria-label="Share on Facebook"><i class="bi bi-facebook" aria-hidden="true"></i></a>
+                            <a href="https://twitter.com/intent/tweet?url={{ $shareUrl }}&text={{ $shareTitle }}" target="_blank" rel="noopener" aria-label="Share on X"><i class="bi bi-twitter-x" aria-hidden="true"></i></a>
+                            <a href="https://wa.me/?text={{ $shareTitle }}%20{{ $shareUrl }}" target="_blank" rel="noopener" aria-label="Share on WhatsApp"><i class="bi bi-whatsapp" aria-hidden="true"></i></a>
+                            <button type="button" class="share-copy" data-copy-link data-url="{{ url()->current() }}">
+                                <i class="bi bi-link-45deg" aria-hidden="true"></i> <span>Copy link</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- ===================== SIDEBAR ===================== --}}
+                <div class="col-lg-4">
+                    <aside class="post-aside">
+                        @if(count($toc))
+                            <nav class="toc" aria-label="On this page">
+                                <h2 class="toc-heading">On this page</h2>
+                                <ul class="toc-list list-unstyled">
+                                    @foreach($toc as $item)
+                                        <li><a href="#{{ $item['id'] }}">{{ $item['text'] }}</a></li>
+                                    @endforeach
+                                </ul>
+                            </nav>
+                        @endif
+
+                        <div class="aside-card">
+                            <h2 class="aside-title">Get the papers</h2>
+                            <p class="aside-text">Question paper, mark scheme and worked solution together, free, by board.</p>
+                            <a class="btn btn-soft" href="{{ $resourcesUrl }}">Browse past papers <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+                        </div>
+                    </aside>
+                </div>
+
+            </div>
+
+            {{-- ===================== RELATED ===================== --}}
+            @if(!empty($latestBlogs) && count($latestBlogs))
+                <section class="related" aria-labelledby="relatedHeading">
+                    <div class="group-head">
+                        <h2 class="group-heading" id="relatedHeading">Keep reading</h2>
+                        <a class="section-link" href="{{ route('blogs') }}">All posts <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+                    </div>
+                    <div class="row g-4 row-cols-1 row-cols-md-3 post-grid">
+                        @foreach($latestBlogs as $post)
+                            @php $postCat = $post->category->name ?? null; @endphp
+                            <div class="col">
+                                <article class="post-card">
+                                    <a class="post-thumb tint-{{ $tints[$loop->index % count($tints)] }}"
+                                       href="{{ route('blogs.details', $post->slug) }}" aria-hidden="true" tabindex="-1">
+                                        @if($post->cover_image)
+                                            <img src="{{ asset(Storage::url($post->cover_image)) }}" alt="" loading="lazy">
+                                        @else
+                                            <i class="bi bi-journal-text"></i>
+                                        @endif
+                                    </a>
+                                    <div class="post-body">
+                                        <p class="post-meta">
+                                            @if($postCat)<span class="post-cat">{{ $postCat }}</span> · @endif
+                                            {{ $post->created_at?->format('j F Y') }} · {{ $readTime($post) }} min read
+                                        </p>
+                                        <h3 class="post-title"><a href="{{ route('blogs.details', $post->slug) }}">{{ $post->title }}</a></h3>
+                                        <p class="post-excerpt">{{ Str::limit($post->description, 170) }}</p>
+                                        <span class="post-more">Read post <i class="bi bi-arrow-right" aria-hidden="true"></i></span>
+                                    </div>
+                                </article>
+                            </div>
+                        @endforeach
+                    </div>
+                </section>
+            @endif
+        </div>
+    </article>
+</main>
+
+<style>
+    .post-cover { margin: 0 0 2rem; border-radius: 16px; overflow: hidden; }
+    .post-cover img { width: 100%; height: auto; display: block; }
+    .post-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .post-tags a { color: inherit; text-decoration: none; }
+    .prose h2[id] { scroll-margin-top: 96px; }
+</style>
 @endsection
+
+@push('js')
+<script>
+    // Copy link button
+    document.querySelectorAll('[data-copy-link]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+            const url = btn.dataset.url || window.location.href;
+            const label = btn.querySelector('span');
+            try {
+                await navigator.clipboard.writeText(url);
+                if (label) {
+                    label.textContent = 'Copied';
+                    setTimeout(() => label.textContent = 'Copy link', 2000);
+                }
+            } catch (e) {
+                window.prompt('Copy this link:', url);
+            }
+        });
+    });
+</script>
+@endpush
