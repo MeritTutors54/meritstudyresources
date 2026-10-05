@@ -1,211 +1,231 @@
-@extends('layouts.frontend-2')
+@extends('layouts.frontend-3')
 
 @section('title', $defaultSEO->meta_title ?? $global_seo['seo_title'])
 @section('meta_description', $defaultSEO->meta_description ?? $global_seo['seo_description'])
 @section('meta_keywords', $defaultSEO->meta_keywords ?? $global_seo['seo_keywords'])
 @section('meta_author', $defaultSEO->meta_author ?? $global_seo['seo_author'])
 
-@section('content')
-    <!-- ============================= PAGE HEADER ============================= -->
-    <header class="page-banner text-center">
-        <div class="container">
-            <div class="breadcrumb-msr mb-3 text-center"><a href="{{ route('home') }}">Home</a> &nbsp;/&nbsp; Contact Us</div>
-            <span class="eyebrow"><span class="divider-dot"></span> GET IN TOUCH</span>
-            <h1 class="mt-4 mb-3">We'd love to hear <span class="text-green">from you.</span></h1>
-            <p class="lead-muted mx-auto mb-0" style="max-width:560px;">Questions about a plan, a missing paper, or a school partnership — our team replies within one working day.</p>
-        </div>
-    </header>
+@php
+    use Illuminate\Support\Facades\Route;
 
-    <!-- ============================= CONTACT INFO CARDS ============================= -->
-    <section class="section-pad" style="padding-top:50px;padding-bottom:20px;">
+    // Use a named route if it exists, otherwise fall back to a plain URL
+    $link = fn ($name, $fallback) => Route::has($name) ? route($name) : url($fallback);
+
+    $faqUrl     = $link('faq', '/faq');
+    $termsUrl   = $link('terms', '/terms');
+    $privacyUrl = $link('privacy.policy', '/privacy-policy');
+
+    // Topic options — the value is what gets saved as "subject"
+    $topics = [
+        'A mistake in a resource',
+        'Request a subject or paper',
+        'A file will not open',
+        'Copyright or takedown',
+        'Working with us',
+        'Something else',
+    ];
+
+    $email   = $settings->email ?? null;
+    $phone   = $settings->phone ?? null;
+    $address = $settings->address ?? null;
+@endphp
+
+@section('content')
+<main id="main">
+
+    {{-- ===================== HEADER ===================== --}}
+    <section class="course-header" aria-labelledby="pageTitle">
         <div class="container">
-            <div class="row g-4">
-                <div class="col-sm-6 col-lg-3">
-                    <div class="contact-info-card">
-                        <span class="ci-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M3 6h18v12H3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M3 7l9 6 9-6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
-                        <h3>Email Us</h3>
-                        <p>We reply within 24 hours</p>
-                        <a href="mailto:{{ $settings->email ?? '' }}">{{ $settings->email ?? '' }}</a>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="contact-info-card">
-                        <span class="ci-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8a15.5 15.5 0 006.6 6.6l2.2-2.2a1.2 1.2 0 011.2-.3c1.3.4 2.7.6 4.1.6a1.2 1.2 0 011.2 1.2v3.7a1.2 1.2 0 01-1.2 1.2C10.6 21.6 2.4 13.4 2.4 3.2A1.2 1.2 0 013.6 2h3.7a1.2 1.2 0 011.2 1.2c0 1.4.2 2.8.6 4.1.1.4 0 .9-.3 1.2l-2.2 2.3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
-                        <h3>Call Us</h3>
-                        <p>Mon–Fri, 9am–5pm GMT</p>
-                        <a href="tel:{{$settings->phone ?? ''}}">{{ $settings->phone ?? '' }}</a>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="contact-info-card">
-                        <span class="ci-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.4-9.5-9C.7 8 2.6 4.5 6 4c2-.3 3.6.6 4.9 2 1.3-1.4 2.9-2.3 4.9-2 3.4.5 5.3 4 3.5 8-2.5 4.6-9.5 9-9.5 9z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
-                        <h3>Visit Us</h3>
-                        <p>Merit Tutors, Exam Centre</p>
-                        <a href="#officeMap">{!! $settings->address ?? '' !!}</a>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="contact-info-card">
-                        <span class="ci-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.4 8.4 0 01-8.9 8.4 8.6 8.6 0 01-3.4-.7L3 20l1-5.5a8.4 8.4 0 1117-3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
-                        <h3>Live Chat</h3>
-                        <p>Available on paid plans</p>
-                        <a href="#">Open Dashboard</a>
-                    </div>
-                </div>
+            <div class="course-header-top">
+                <nav aria-label="Breadcrumb">
+                    <ol class="breadcrumb course-crumbs">
+                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Contact</li>
+                    </ol>
+                </nav>
+                <p class="spec-code">Replies within <span>2 working days</span></p>
             </div>
+            <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> Free resources<span class="eyebrow-sep" aria-hidden="true">/</span> No account needed</p>
+            <h1 class="course-title" id="pageTitle">Contact <span class="course-title-board">us</span></h1>
+            <p class="course-intro">Corrections, requests for a subject, or a question about a resource — this is the fastest way to reach us. We reply within two working days.</p>
         </div>
     </section>
 
-    <!-- ============================= FORM + OFFICE PANEL ============================= -->
-    <section class="section-pad" style="padding-top:24px;">
+    <div class="contact-body">
         <div class="container">
             <div class="row g-4">
-                <!-- CONTACT FORM -->
+
+                {{-- ===================== FORM ===================== --}}
                 <div class="col-lg-7">
-                    <div class="contact-form-panel">
-                        <span class="eyebrow"><span class="divider-dot"></span> SEND A MESSAGE</span>
-                        <h2 class="mt-3 mb-4" style="font-size:1.5rem;">Fill in the form below</h2>
-                        @if(Session::has('success'))
-                            <div class="alert alert-success background-success">
-                                <p class="m-0"><strong>Success!</strong> {{ Session::get('success') }}</p>
-                            </div>
+                    <div class="auth-card contact-card">
+                        <h2 class="pane-title">Send us a message</h2>
+                        <p class="pane-sub">Fields marked with * are required.</p>
+
+                        @if (session('success'))
+                            <p class="form-status d-block" role="status" aria-live="polite">
+                                <i class="bi bi-check-circle" aria-hidden="true"></i> {{ session('success') }}
+                            </p>
                         @endif
-                        <form
-                            method="POST">
+
+                        @if (session('error'))
+                            <p class="field-error d-block mb-3" role="alert">{{ session('error') }}</p>
+                        @endif
+
+                        <form class="auth-form" action="{{ url()->current() }}" method="POST" novalidate>
                             @csrf
-                            <div class="row g-3 mb-1">
+
+                            <div class="row g-3">
+                                {{-- Name --}}
                                 <div class="col-md-6">
-                                    <label class="form-label-msr" for="cName">Full name</label>
-                                    <input value="{{ old('name') }}"
-                                           name="name"
-                                           type="text" id="cName" class="form-control-msr" placeholder="Jane Doe">
-                                    @error('name')
-                                    <small class="text-danger">{{ $message }}</small>
-                                    @enderror
+                                    <div class="form-field">
+                                        <label class="form-label" for="name">Your name *</label>
+                                        <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                               id="name" name="name" value="{{ old('name') }}"
+                                               autocomplete="name" required
+                                               @error('name') aria-invalid="true" aria-describedby="nameError" @enderror>
+                                        @error('name')
+                                            <p class="field-error d-block" id="nameError">{{ $message }}</p>
+                                        @enderror
+                                    </div>
                                 </div>
+
+                                {{-- Email --}}
                                 <div class="col-md-6">
-                                    <label class="form-label-msr" for="cEmail">Email address</label>
-                                    <input type="email"
-                                           value="{{ old('email') }}"
-                                           name="email"
-                                           id="cEmail" class="form-control-msr" placeholder="you@example.com">
-                                    @error('email')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
+                                    <div class="form-field">
+                                        <label class="form-label" for="email">Email address *</label>
+                                        <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                               id="email" name="email" value="{{ old('email') }}"
+                                               autocomplete="email" required
+                                               @error('email') aria-invalid="true" aria-describedby="emailError" @enderror>
+                                        @error('email')
+                                            <p class="field-error d-block" id="emailError">{{ $message }}</p>
+                                        @enderror
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="row g-3 mb-1">
-                                <div class="col-md-12">
-                                    <label class="form-label-msr" for="phone">Phone Number</label>
-                                    <input value="{{ old('phone') }}"
-                                           name="phone"
-                                           type="text" id="phone" class="form-control-msr" placeholder="+123 456 7890">
-                                    @error('phone')
-                                    <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
+                            {{-- Phone (kept from the old form) --}}
+                            <div class="form-field">
+                                <label class="form-label" for="phone">Phone number</label>
+                                <input type="tel" class="form-control @error('phone') is-invalid @enderror"
+                                       id="phone" name="phone" value="{{ old('phone') }}"
+                                       autocomplete="tel" placeholder="+44 7700 900000"
+                                       @error('phone') aria-invalid="true" aria-describedby="phoneError" @enderror>
+                                @error('phone')
+                                    <p class="field-error d-block" id="phoneError">{{ $message }}</p>
+                                @enderror
                             </div>
 
-                            <div class="mb-1 mt-3">
-                                <label class="form-label-msr" for="cSubject">I'm getting in touch about</label>
-                                <select id="cSubject" name="subject" class="form-control-msr">
-                                    <option value="" selected disabled>Select a topic</option>
-                                    <option value="General enquiry">General enquiry</option>
-                                    <option value="Billing and subscriptions">Billing &amp; subscriptions</option>
-                                    <option value="Missing or incorrect paper">Missing or incorrect paper</option>
-                                    <option value="School or bulk licensing">School / bulk licensing</option>
-                                    <option value="Technical issue">Technical issue</option>
-                                    <option value="Something else">Something else</option>
+                            {{-- Topic (saved as "subject") --}}
+                            <div class="form-field">
+                                <label class="form-label" for="subject">What is it about? *</label>
+                                <select class="form-select @error('subject') is-invalid @enderror"
+                                        id="subject" name="subject" required
+                                        @error('subject') aria-invalid="true" aria-describedby="subjectError" @enderror>
+                                    <option value="" @selected(!old('subject'))>Choose a topic</option>
+                                    @foreach($topics as $topic)
+                                        <option value="{{ $topic }}" @selected(old('subject') === $topic)>{{ $topic }}</option>
+                                    @endforeach
                                 </select>
                                 @error('subject')
-                                <small class="text-danger">{{ $message }}</small>
+                                    <p class="field-error d-block" id="subjectError">{{ $message }}</p>
                                 @enderror
                             </div>
 
-                            <div class="mb-1 mt-3">
-                                <label class="form-label-msr" for="cMessage">Message</label>
-                                <textarea id="cMessage"
-                                          name="message"
-                                          class="form-control-msr" placeholder="Tell us a little about what you need..."></textarea>
+                            {{-- Message --}}
+                            <div class="form-field">
+                                <label class="form-label" for="message">Message *</label>
+                                <textarea class="form-control @error('message') is-invalid @enderror"
+                                          id="message" name="message" rows="6" required
+                                          placeholder="If it is about a specific resource, include the subject, board and paper."
+                                          @error('message') aria-invalid="true" aria-describedby="messageError" @enderror>{{ old('message') }}</textarea>
+                                <p class="field-hint">The more specific you are, the faster we can fix it.</p>
                                 @error('message')
-                                <small class="text-danger">{{ $message }}</small>
+                                    <p class="field-error d-block" id="messageError">{{ $message }}</p>
                                 @enderror
                             </div>
 
-                            <label class="form-check-msr {{ $errors->has('agree_check') ? 'mt-3 mb-0' : 'my-3' }}">
-                                <input type="checkbox" name="agree_check"> I agree to the
-                                <a href="{{ route('privacy.policy') }}"
-                                   style="color:var(--green-dark);font-weight:600;margin-left:4px;">
-                                    Privacy Policy
-                                </a>
-                            </label>
-                            @error('agree_check')
-                            <div class="mb-3">
-                                <small class="text-danger">{{ $message }}</small>
+                            {{-- Consent (saved as "agree_check") --}}
+                            <div class="form-check form-check-inline-row">
+                                <input class="form-check-input @error('agree_check') is-invalid @enderror"
+                                       type="checkbox" id="agree_check" name="agree_check" value="1" required
+                                       @checked(old('agree_check'))>
+                                <label class="form-check-label" for="agree_check">
+                                    I am happy for you to use my details to reply. See the <a href="{{ $privacyUrl }}">privacy policy</a>. *
+                                </label>
+                                @error('agree_check')
+                                    <p class="field-error d-block">{{ $message }}</p>
+                                @enderror
                             </div>
-                            @enderror
 
-                            <button type="submit" class="btn-brand btn-brand-block">
-                                Send Message
-                                <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                            </button>
-                            <p id="contactSuccess" class="text-center mt-3 mb-0 d-none" style="color:var(--green-dark);font-weight:600;font-size:.9rem;">
-                                ✓ Thanks — your message has been sent. We'll be in touch soon.
-                            </p>
+                            <button type="submit" class="btn btn-merit btn-lg">Send message <i class="bi bi-arrow-right" aria-hidden="true"></i></button>
                         </form>
                     </div>
                 </div>
 
-                <!-- OFFICE PANEL -->
+                {{-- ===================== SIDE TILES ===================== --}}
                 <div class="col-lg-5">
-                    <div class="office-panel" id="officeMap">
-                        <div class="office-map">
-                            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.4-9.5-9C.7 8 2.6 4.5 6 4c2-.3 3.6.6 4.9 2 1.3-1.4 2.9-2.3 4.9-2 3.4.5 5.3 4 3.5 8-2.5 4.6-9.5 9-9.5 9z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                    <div class="contact-side">
+
+                        @if($email)
+                            <div class="contact-tile">
+                                <span class="resource-icon res-green-chip"><i class="bi bi-envelope" aria-hidden="true"></i></span>
+                                <div>
+                                    <h2 class="contact-tile-title">Email us</h2>
+                                    <p class="contact-tile-text"><a href="mailto:{{ $email }}">{{ $email }}</a></p>
+                                </div>
+                            </div>
+                        @endif
+
+                        @if($phone)
+                            <div class="contact-tile">
+                                <span class="resource-icon res-green-chip"><i class="bi bi-telephone" aria-hidden="true"></i></span>
+                                <div>
+                                    <h2 class="contact-tile-title">Call us</h2>
+                                    <p class="contact-tile-text"><a href="tel:{{ preg_replace('/[^0-9+]/', '', $phone) }}">{{ $phone }}</a></p>
+                                </div>
+                            </div>
+                        @endif
+
+                        <div class="contact-tile">
+                            <span class="resource-icon res-blue-chip"><i class="bi bi-clock" aria-hidden="true"></i></span>
+                            <div>
+                                <h2 class="contact-tile-title">When we reply</h2>
+                                <p class="contact-tile-text">Monday to Friday, within two working days. Corrections to resources are usually same-day.</p>
+                            </div>
                         </div>
 
-                        <div class="office-row">
-                            <span class="or-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.4-9.5-9C.7 8 2.6 4.5 6 4c2-.3 3.6.6 4.9 2 1.3-1.4 2.9-2.3 4.9-2 3.4.5 5.3 4 3.5 8-2.5 4.6-9.5 9-9.5 9z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
-                            <div><h4>Head Office</h4><p>Merit Tutors, Exam Centre London, {!! $settings->address ?? '' !!}</p></div>
-                        </div>
-                        <div class="office-row">
-                            <span class="or-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M3 6h18v12H3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M3 7l9 6 9-6" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
-                            <div><h4>Email</h4><p>{{ $settings->email ?? '' }}</p></div>
-                        </div>
-                        <div class="office-row">
-                            <span class="or-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8a15.5 15.5 0 006.6 6.6l2.2-2.2a1.2 1.2 0 011.2-.3c1.3.4 2.7.6 4.1.6a1.2 1.2 0 011.2 1.2v3.7a1.2 1.2 0 01-1.2 1.2C10.6 21.6 2.4 13.4 2.4 3.2A1.2 1.2 0 013.6 2h3.7a1.2 1.2 0 011.2 1.2c0 1.4.2 2.8.6 4.1.1.4 0 .9-.3 1.2l-2.2 2.3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
-                            <div><h4>Phone</h4><p>{{ $settings->phone ?? '' }}</p></div>
+                        <div class="contact-tile">
+                            <span class="resource-icon res-amber-chip"><i class="bi bi-shield-check" aria-hidden="true"></i></span>
+                            <div>
+                                <h2 class="contact-tile-title">Copyright and takedowns</h2>
+                                <p class="contact-tile-text">Rights holders: email us with the resource and we will act promptly. See the <a href="{{ $termsUrl }}">terms</a>.</p>
+                            </div>
                         </div>
 
-                        <div class="office-hours">
-                            <p class="fw-semibold mb-2" style="color:#fff;font-size:.85rem;">Support hours</p>
-                            <div class="office-hours-row"><span>Monday – Friday</span><span>9:00 – 17:00</span></div>
-                            <div class="office-hours-row"><span>Saturday</span><span>10:00 – 14:00</span></div>
-                            <div class="office-hours-row"><span>Sunday</span><span>Closed</span></div>
+                        @if($address)
+                            <div class="contact-tile">
+                                <span class="resource-icon res-purple-chip"><i class="bi bi-geo-alt" aria-hidden="true"></i></span>
+                                <div>
+                                    <h2 class="contact-tile-title">Postal address</h2>
+                                    <p class="contact-tile-text">{!! $address !!}</p>
+                                </div>
+                            </div>
+                        @endif
+
+                        <div class="request-panel contact-faq">
+                            <div>
+                                <h2 class="request-heading">Try the FAQs first</h2>
+                                <p class="request-text">Most questions — file formats, exam boards, accounts — are answered there.</p>
+                            </div>
+                            <a class="btn btn-soft" href="{{ $faqUrl }}">Read the FAQs <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
                         </div>
 
-{{--                        <div class="office-social">--}}
-{{--                            <a href="#" class="social-ico"><svg viewBox="0 0 24 24" fill="#fff"><path d="M13.5 9H15V6.5h-1.5C12 6.5 11 7.6 11 9.5V11H9.5v2.3H11V18h2.3v-4.7h1.7l.3-2.3h-2V9.6c0-.4.2-.6.6-.6z"/></svg></a>--}}
-{{--                            <a href="#" class="social-ico"><svg viewBox="0 0 24 24" fill="#fff"><path d="M21 5.9c-.7.3-1.5.5-2.3.6.8-.5 1.4-1.3 1.7-2.3-.8.5-1.7.8-2.6 1A3.7 3.7 0 0012 7.6c0 .3 0 .6.1.9C8.9 8.4 6 6.8 4 4.4c-.4.6-.6 1.3-.6 2.1 0 1.4.7 2.6 1.8 3.4-.7 0-1.3-.2-1.9-.5 0 2 1.4 3.6 3.2 4-.4.1-.7.1-1.1.1-.3 0-.5 0-.8-.1.5 1.6 2 2.8 3.8 2.8a7.5 7.5 0 01-4.6 1.6c-.3 0-.6 0-.9-.1A10.5 10.5 0 0010 19.5c6.4 0 9.9-5.3 9.9-9.9v-.5c.7-.5 1.3-1.2 1.8-1.9-.6.3-1.3.5-2 .6z"/></svg></a>--}}
-{{--                            <a href="#" class="social-ico"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="4" fill="none" stroke="#fff" stroke-width="1.6"/><circle cx="12" cy="12" r="3.4" fill="none" stroke="#fff" stroke-width="1.6"/><circle cx="16.6" cy="7.4" r="1" fill="#fff"/></svg></a>--}}
-{{--                        </div>--}}
                     </div>
                 </div>
 
             </div>
         </div>
-    </section>
-
-    <!-- ============================= FAQ TEASER ============================= -->
-    <section class="section-pad bg-mint" style="padding-top:50px;">
-        <div class="container text-center">
-            <span class="eyebrow"><span class="divider-dot"></span> STILL UNSURE?</span>
-            <h2 class="mt-3 mb-3" style="font-size:1.7rem;">Check our frequently asked questions first</h2>
-            <p class="lead-muted mx-auto mb-4" style="max-width:480px;">Many billing, subscription and download questions are already answered there.</p>
-            <a href="faq.html" class="btn-brand">
-                Visit FAQs
-                <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-        </div>
-    </section>
+    </div>
+</main>
 @endsection

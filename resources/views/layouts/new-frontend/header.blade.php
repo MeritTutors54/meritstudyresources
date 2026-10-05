@@ -63,7 +63,7 @@
                         </a>
                     </li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('blogs') }}">Blog</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('products') }}">Product</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('products') }}">Book Shop</a></li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('all-subjects') ? 'active' : '' }}"
                             href="{{ route('all-subjects') }}">Subjects</a>

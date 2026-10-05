@@ -18,7 +18,7 @@
     </div>
     <div class="rbt-tutor-information-right">
         <div class="tutor-btn">
-            <a class="rbt-btn btn-md hover-icon-reverse" href="{{ url('/all-products') }}">
+            <a class="rbt-btn btn-md hover-icon-reverse" href="{{ url('/book-shop') }}">
                 <span class="icon-reverse-wrapper">
                     <span class="btn-text">Books Purchase</span>
                     <span class="btn-icon"><i class="feather-arrow-right"></i></span>

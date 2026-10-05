@@ -18,8 +18,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="{{ asset('frontend/new/css/style.css') }}" rel="stylesheet">
+     <link href="{{ asset('frontend/new/css/pages.css') }}" rel="stylesheet">
     <link href="{{ asset('frontend/new/css/subjects.css') }}" rel="stylesheet">
     <link href="{{ asset('frontend/new/css/resources.css') }}" rel="stylesheet">
+     <link href="{{ asset('frontend/new/css/bookshop.css') }}" rel="stylesheet">
+     
     @stack('css')
 </head>
 
@@ -56,6 +59,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('frontend/new/js/main.js') }}"></script>
     <script src="{{ asset('frontend/new/js/resources.js') }}"></script>
+    <script href="{{ asset('frontend/new/js/bookshop.js') }}"></script>
     @stack('js')
 </body>
 
