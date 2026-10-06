@@ -166,11 +166,7 @@ Route::prefix('admin')->middleware(['auth:admin', 'team.permission'])->group(fun
     Route::resource('/products', ProductController::class, ['as' => 'admin']);
     Route::resource('/year-groups', YearGroupController::class, ['as' => 'admin']);
 
-    Route::get(
-    '/get-subjects-by-year',
-    [ProductController::class, 'getSubjectsByYear']
-)->name('get.subjects.by.year');
-
+    Route::get('/get-subjects-by-year',[ProductController::class, 'getSubjectsByYear'])->name('get.subjects.by.year');
     Route::get('/manage-orders', [OrderController::class, 'index'])->name('admin.manage.order');
     Route::get('/manage-orders/{order}', [OrderController::class, 'details'])
         ->name('admin.manage.order.details');
