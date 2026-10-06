@@ -4,7 +4,6 @@
 @section('meta_description', $defaultSEO->meta_description ?? $global_seo['seo_description'])
 @section('meta_keywords', $defaultSEO->meta_keywords ?? $global_seo['seo_keywords'])
 @section('meta_author', $defaultSEO->meta_author ?? $global_seo['seo_author'])
-
 @section('content')
   <link href="{{ asset('frontend/new/css/bookshop.css') }}" rel="stylesheet">
   <main id="main">
@@ -18,232 +17,141 @@
             <li class="breadcrumb-item active" aria-current="page">Bookshop</li>
           </ol>
         </nav>
-
         <div class="row align-items-center g-4">
           <div class="col-lg-7">
             <p class="script-eyebrow">Every book comes with free answers &amp; tests</p>
             <h1 class="shop-title" id="shopTitle">Merit Tutors <span class="shop-title-accent">Bookshop</span></h1>
-            <p class="shop-lead">Workbooks written by our tutors, from Year 1 to GCSE and A Level. Buy the book on Amazon, then download the answer book, the tests and the test answers here — free with every book.</p>
+            {{-- <p class="shop-lead">Workbooks written by our tutors, from Year 1 to GCSE and A Level. Buy the book on Amazon, then download the answer book, the tests and the test answers here — free with every book.</p> --}}
             <ul class="list-unstyled shop-checks">
               <li><span class="check-dot"><i class="bi bi-check-lg"></i></span>Free downloads with every book</li>
               <li><span class="check-dot"><i class="bi bi-check-lg"></i></span>Follows the England curriculum</li>
               <li><span class="check-dot"><i class="bi bi-check-lg"></i></span>Year 1 to A Level</li>
             </ul>
           </div>
-
-          {{-- <div class="col-lg-5 col-xl-4 offset-xl-1">
-            <form class="qr-card" action="/bookshop/find" method="get" role="search">
-              <div class="qr-card-head">
-                <span class="qr-icon"><i class="bi bi-qr-code-scan"></i></span>
-                <div>
-                  <h2 class="qr-title">Scanned the QR code in your book?</h2>
-                  <p class="qr-text">Find your book below, or search by its title or code.</p>
-                </div>
-              </div>
-              <label class="visually-hidden" for="bookLookup">Book title or code</label>
-              <div class="search-shell">
-                <i class="bi bi-search search-icon"></i>
-                <input class="form-control search-input" id="bookLookup" name="q" type="search" placeholder="e.g. Year 1 Book 2 or MT-Y1-B2" autocomplete="off">
-              </div>
-              <button class="btn btn-merit qr-submit" type="submit">Find my downloads</button>
-              <p class="qr-note">The code is printed under the QR code inside the front cover.</p>
-            </form>
-          </div> --}}
         </div>
       </div>
     </section>
-
-    <!-- ===== Subject / year selector =================================== -->
-    <section class="shop-selector" aria-label="Choose subject and year">
+    <!-- ===== Subject / year selector (from book_categories + book_subjects) ===== -->
+    <section class="shop-selector" aria-label="Choose year and subject">
       <div class="container">
         <div class="selector-row">
-          {{-- <p class="selector-label" id="subjectLabel">Subject</p> --}}
-          {{-- <div class="selector-pills" role="group" aria-labelledby="subjectLabel">
-            <button class="select-pill" type="button" aria-pressed="true">Mathematics</button>
-            <span class="selector-hint">More subjects coming soon</span>
-          </div> --}}
-        </div>
-        <div class="selector-row">
           <p class="selector-label" id="yearLabel">Year</p>
-          <div class="selector-pills" role="group" aria-labelledby="yearLabel" data-year-pills>
-            <button class="select-pill" type="button" aria-pressed="true" data-year="Year 1">Year 1</button>
-            <button class="select-pill" type="button" aria-pressed="false" data-year="Year 2">Year 2</button>
-            <button class="select-pill" type="button" aria-pressed="false" data-year="Year 3">Year 3</button>
-            <button class="select-pill" type="button" aria-pressed="false" data-year="Year 4">Year 4</button>
-            <button class="select-pill" type="button" aria-pressed="false" data-year="Year 5">Year 5</button>
-            <button class="select-pill" type="button" aria-pressed="false" data-year="Year 6">Year 6</button>
-            <button class="select-pill" type="button" aria-pressed="false" data-year="Year 7">Year 7</button>
-            <button class="select-pill" type="button" aria-pressed="false" data-year="Year 8">Year 8</button>
-            <button class="select-pill" type="button" aria-pressed="false" data-year="Year 9">Year 9</button>
-            <button class="select-pill" type="button" aria-pressed="false" data-year="GCSE">GCSE</button>
-            <button class="select-pill" type="button" aria-pressed="false" data-year="A Level">A Level</button>
-          </div>
+          <nav class="selector-pills" aria-labelledby="yearLabel">
+            @foreach ($categories as $cat)
+              <a class="select-pill {{ $category && $cat->id === $category->id ? 'is-active' : '' }}"
+                 href="{{ request()->url() }}?year={{ $cat->slug }}#books"
+                 @if ($category && $cat->id === $category->id) aria-current="page" @endif>{{ $cat->name }}</a>
+            @endforeach
+          </nav>
         </div>
+
+        {{-- subject row only appears when a year has more than one subject --}}
+        @if ($subjects->count() > 1)
+          <div class="selector-row">
+            <p class="selector-label" id="subjectLabel">Subject</p>
+            <nav class="selector-pills" aria-labelledby="subjectLabel">
+              @foreach ($subjects as $sub)
+                <a class="select-pill {{ $subject && $sub->id === $subject->id ? 'is-active' : '' }}"
+                   href="{{ request()->url() }}?year={{ $category->slug }}&subject={{ $sub->slug }}#books"
+                   @if ($subject && $sub->id === $subject->id) aria-current="page" @endif>{{ $sub->name }}</a>
+              @endforeach
+            </nav>
+          </div>
+        @endif
       </div>
     </section>
 
     <!-- ===== Books ====================================================== -->
-    <section class="shop-books" aria-labelledby="booksTitle">
+    <section class="shop-books" id="books" aria-labelledby="booksTitle">
       <div class="container">
+        @php
+          $countWords = [1 => 'One book', 2 => 'Two books', 3 => 'Three books', 4 => 'Four books', 5 => 'Five books', 6 => 'Six books'];
+          $total = $books->count();
+          $basketLive = false; // set to true when on-site sales start — the button then uses your add-to-cart script
+        @endphp
+
+        @if (session('lookup_error'))
+          <div class="alert alert-warning">{{ session('lookup_error') }}</div>
+        @endif
+
         <div class="books-head">
           <div>
-            <h2 class="books-title" id="booksTitle"><span data-year-label>Year 1</span> Mathematics</h2>
-            <p class="books-sub">Four books that cover the whole <span data-year-label>Year 1</span> curriculum, in order.</p>
+            <h2 class="books-title" id="booksTitle">{{ $category?->name }} {{ $subject?->name }}</h2>
+            @if ($total)
+              <p class="books-sub">{{ $countWords[$total] ?? $total.' books' }} that cover the whole {{ $category?->name }} curriculum, in order.</p>
+            @endif
           </div>
           <span class="books-badge"><i class="bi bi-download"></i>Answers and tests are PDFs — free with the book</span>
         </div>
 
-        <div class="row g-3">
-
-          <!-- Book 1 -->
-          <div class="col-sm-6 col-lg-3">
-            <article class="book-card ink-green">
-              <div class="book-cover-wrap">
-                <div class="book-cover cover-green" aria-hidden="true">
-                  <span class="cover-brand">Merit Tutors</span>
-                  <span class="cover-series">Year 1 Mathematics</span>
-                  <span class="cover-title">Build Confidence</span>
-                  <span class="cover-num">Book 1</span>
-                </div>
-              </div>
-              <div class="book-body">
-                <p class="book-eyebrow">Book 1 of 4</p>
-                <h3 class="book-title">Build Confidence</h3>
-                <p class="book-meta">Year 1 Mathematics · A4 · approx. 150 pages</p>
-                <p class="book-desc">The first of the four books. Learn &amp; Try pages introduce each skill before short Practise &amp; Apply sets.</p>
-                <ul class="list-unstyled book-includes" aria-label="Free with this book">
-                  <li class="include-chip"><i class="bi bi-check-lg"></i>Answer book</li>
-                  <li class="include-chip"><i class="bi bi-check-lg"></i>5 tests</li>
-                  <li class="include-chip"><i class="bi bi-check-lg"></i>Test answers</li>
-                </ul>
-                <div class="book-actions">
-                  <a class="btn btn-merit" href="#" target="_blank" rel="noopener">Buy on Amazon <i class="bi bi-box-arrow-up-right"></i><span class="visually-hidden"> (opens in a new tab)</span></a>
-                  <button class="btn btn-downloads" type="button" data-bs-toggle="collapse" data-bs-target="#dl-y1b1" aria-expanded="false" aria-controls="dl-y1b1">Downloads <i class="bi bi-chevron-down"></i></button>
-                  <div class="collapse" id="dl-y1b1">
-                    <ul class="list-unstyled download-list">
-                      <li><a href="#"><i class="bi bi-file-earmark-pdf"></i>Answer book<span class="dl-size">PDF</span></a></li>
-                      <li><a href="#"><i class="bi bi-file-earmark-pdf"></i>Tests 1–5<span class="dl-size">PDF</span></a></li>
-                      <li><a href="#"><i class="bi bi-file-earmark-pdf"></i>Test answers<span class="dl-size">PDF</span></a></li>
-                    </ul>
+        @if ($books->isEmpty())
+          <p class="empty-state">
+            <i class="bi bi-journal-bookmark"></i>
+            Books for {{ $category?->name }} {{ $subject?->name }} are coming soon.
+          </p>
+        @else
+          <div class="row g-3">
+            @foreach ($books as $book)
+              <div class="col-sm-6 col-lg-3">
+                <article class="book-card ink-{{ $book['colour'] }}">
+                  <div class="book-cover-wrap">
+                    <span class="book-cover-photo">
+                      <img src="{{ $book['cover'] }}" alt="Cover of {{ $book['title'] }}"
+                           width="300" height="400" loading="lazy" decoding="async"
+                           onerror="this.onerror=null;this.src='{{ asset('frontend/new/images/books/book-cover-placeholder.svg') }}'">
+                    </span>
                   </div>
-                  <button class="btn btn-basket" type="button" disabled><i class="bi bi-bag"></i>Basket<span class="soon-badge">SOON</span></button>
-                </div>
-              </div>
-            </article>
-          </div>
 
-          <!-- Book 2 -->
-          <div class="col-sm-6 col-lg-3">
-            <article class="book-card ink-blue">
-              <div class="book-cover-wrap">
-                <div class="book-cover cover-blue" aria-hidden="true">
-                  <span class="cover-brand">Merit Tutors</span>
-                  <span class="cover-series">Year 1 Mathematics</span>
-                  <span class="cover-title">Strengthen Skills</span>
-                  <span class="cover-num">Book 2</span>
-                </div>
-              </div>
-              <div class="book-body">
-                <p class="book-eyebrow">Book 2 of 4</p>
-                <h3 class="book-title">Strengthen Skills</h3>
-                <p class="book-meta">Year 1 Mathematics · A4 · approx. 150 pages</p>
-                <p class="book-desc">Fuller practice on every topic, building fluency across the whole year.</p>
-                <ul class="list-unstyled book-includes" aria-label="Free with this book">
-                  <li class="include-chip"><i class="bi bi-check-lg"></i>Answer book</li>
-                  <li class="include-chip"><i class="bi bi-check-lg"></i>5 tests</li>
-                  <li class="include-chip"><i class="bi bi-check-lg"></i>Test answers</li>
-                </ul>
-                <div class="book-actions">
-                  <a class="btn btn-merit" href="#" target="_blank" rel="noopener">Buy on Amazon <i class="bi bi-box-arrow-up-right"></i><span class="visually-hidden"> (opens in a new tab)</span></a>
-                  <button class="btn btn-downloads" type="button" data-bs-toggle="collapse" data-bs-target="#dl-y1b2" aria-expanded="false" aria-controls="dl-y1b2">Downloads <i class="bi bi-chevron-down"></i></button>
-                  <div class="collapse" id="dl-y1b2">
-                    <ul class="list-unstyled download-list">
-                      <li><a href="#"><i class="bi bi-file-earmark-pdf"></i>Answer book<span class="dl-size">PDF</span></a></li>
-                      <li><a href="#"><i class="bi bi-file-earmark-pdf"></i>Tests 1–5<span class="dl-size">PDF</span></a></li>
-                      <li><a href="#"><i class="bi bi-file-earmark-pdf"></i>Test answers<span class="dl-size">PDF</span></a></li>
-                    </ul>
+                  <div class="book-body">
+                    <p class="book-eyebrow">Book {{ $book['number'] }} of {{ $total }}</p>
+                    <h3 class="book-title">{{ $book['title'] }}</h3>
+                    <p class="book-meta">{{ $book['series'] }}</p>
+                    @if ($book['description'])
+                      <p class="book-desc">{{ $book['description'] }}</p>
+                    @endif
+
+                    {{-- chips = solution names (product_solutions via solution_types) --}}
+                    @if (count($book['includes']))
+                      <ul class="list-unstyled book-includes" aria-label="Free with this book">
+                        @foreach ($book['includes'] as $name)
+                          <li class="include-chip"><i class="bi bi-check-lg"></i>{{ $name }}</li>
+                        @endforeach
+                      </ul>
+                    @endif
+
+                    <div class="book-actions">
+                      @if ($book['amazon'])
+                        <a class="btn btn-merit" href="{{ $book['amazon'] }}" target="_blank" rel="noopener">Buy on Amazon <i class="bi bi-box-arrow-up-right"></i><span class="visually-hidden"> (opens in a new tab)</span></a>
+                      @else
+                        <span class="btn btn-merit disabled" aria-disabled="true">Coming soon to Amazon</span>
+                      @endif
+
+                      @if (count($book['downloads']))
+                        <button class="btn btn-downloads" type="button" data-bs-toggle="collapse" data-bs-target="#dl-{{ $book['id'] }}" aria-expanded="false" aria-controls="dl-{{ $book['id'] }}">Downloads <i class="bi bi-chevron-down"></i></button>
+                        <div class="collapse" id="dl-{{ $book['id'] }}">
+                          <ul class="list-unstyled download-list">
+                            @foreach ($book['downloads'] as $dl)
+                              <li><a href="{{ $dl['url'] }}" target="_blank" rel="noopener" download><i class="bi bi-file-earmark-pdf"></i>{{ $dl['label'] }}<span class="dl-size">PDF</span></a></li>
+                            @endforeach
+                          </ul>
+                        </div>
+                      @endif
+
+                      @if ($basketLive)
+                        <button class="btn btn-basket addToCartButton" type="button"
+                                data-product="{{ $book['id'] }}" data-title="{{ $book['title'] }}">
+                          <i class="bi bi-bag"></i>Add to basket @if ($book['price']) · £{{ number_format($book['price'], 2) }} @endif
+                        </button>
+                      @else
+                        <button class="btn btn-basket" type="button" disabled><i class="bi bi-bag"></i>Basket<span class="soon-badge">SOON</span></button>
+                      @endif
+                    </div>
                   </div>
-                  <button class="btn btn-basket" type="button" disabled><i class="bi bi-bag"></i>Basket<span class="soon-badge">SOON</span></button>
-                </div>
+                </article>
               </div>
-            </article>
+            @endforeach
           </div>
-
-          <!-- Book 3 -->
-          <div class="col-sm-6 col-lg-3">
-            <article class="book-card ink-orange">
-              <div class="book-cover-wrap">
-                <div class="book-cover cover-orange" aria-hidden="true">
-                  <span class="cover-brand">Merit Tutors</span>
-                  <span class="cover-series">Year 1 Mathematics</span>
-                  <span class="cover-title">Apply Your Skills</span>
-                  <span class="cover-num">Book 3</span>
-                </div>
-              </div>
-              <div class="book-body">
-                <p class="book-eyebrow">Book 3 of 4</p>
-                <h3 class="book-title">Apply Your Skills</h3>
-                <p class="book-meta">Year 1 Mathematics · A4 · approx. 150 pages</p>
-                <p class="book-desc">Puts the skills to work in word problems and mixed practice.</p>
-                <ul class="list-unstyled book-includes" aria-label="Free with this book">
-                  <li class="include-chip"><i class="bi bi-check-lg"></i>Answer book</li>
-                  <li class="include-chip"><i class="bi bi-check-lg"></i>5 tests</li>
-                  <li class="include-chip"><i class="bi bi-check-lg"></i>Test answers</li>
-                </ul>
-                <div class="book-actions">
-                  <a class="btn btn-merit" href="#" target="_blank" rel="noopener">Buy on Amazon <i class="bi bi-box-arrow-up-right"></i><span class="visually-hidden"> (opens in a new tab)</span></a>
-                  <button class="btn btn-downloads" type="button" data-bs-toggle="collapse" data-bs-target="#dl-y1b3" aria-expanded="false" aria-controls="dl-y1b3">Downloads <i class="bi bi-chevron-down"></i></button>
-                  <div class="collapse" id="dl-y1b3">
-                    <ul class="list-unstyled download-list">
-                      <li><a href="#"><i class="bi bi-file-earmark-pdf"></i>Answer book<span class="dl-size">PDF</span></a></li>
-                      <li><a href="#"><i class="bi bi-file-earmark-pdf"></i>Tests 1–5<span class="dl-size">PDF</span></a></li>
-                      <li><a href="#"><i class="bi bi-file-earmark-pdf"></i>Test answers<span class="dl-size">PDF</span></a></li>
-                    </ul>
-                  </div>
-                  <button class="btn btn-basket" type="button" disabled><i class="bi bi-bag"></i>Basket<span class="soon-badge">SOON</span></button>
-                </div>
-              </div>
-            </article>
-          </div>
-
-          <!-- Book 4 -->
-          <div class="col-sm-6 col-lg-3">
-            <article class="book-card ink-purple">
-              <div class="book-cover-wrap">
-                <div class="book-cover cover-purple" aria-hidden="true">
-                  <span class="cover-brand">Merit Tutors</span>
-                  <span class="cover-series">Year 1 Mathematics</span>
-                  <span class="cover-title">Deepen Understanding</span>
-                  <span class="cover-num">Book 4</span>
-                </div>
-              </div>
-              <div class="book-body">
-                <p class="book-eyebrow">Book 4 of 4</p>
-                <h3 class="book-title">Deepen Understanding</h3>
-                <p class="book-meta">Year 1 Mathematics · A4 · approx. 150 pages</p>
-                <p class="book-desc">Reasoning and problem solving to secure the full curriculum for the year.</p>
-                <ul class="list-unstyled book-includes" aria-label="Free with this book">
-                  <li class="include-chip"><i class="bi bi-check-lg"></i>Answer book</li>
-                  <li class="include-chip"><i class="bi bi-check-lg"></i>5 tests</li>
-                  <li class="include-chip"><i class="bi bi-check-lg"></i>Test answers</li>
-                </ul>
-                <div class="book-actions">
-                  <a class="btn btn-merit" href="#" target="_blank" rel="noopener">Buy on Amazon <i class="bi bi-box-arrow-up-right"></i><span class="visually-hidden"> (opens in a new tab)</span></a>
-                  <button class="btn btn-downloads" type="button" data-bs-toggle="collapse" data-bs-target="#dl-y1b4" aria-expanded="false" aria-controls="dl-y1b4">Downloads <i class="bi bi-chevron-down"></i></button>
-                  <div class="collapse" id="dl-y1b4">
-                    <ul class="list-unstyled download-list">
-                      <li><a href="#"><i class="bi bi-file-earmark-pdf"></i>Answer book<span class="dl-size">PDF</span></a></li>
-                      <li><a href="#"><i class="bi bi-file-earmark-pdf"></i>Tests 1–5<span class="dl-size">PDF</span></a></li>
-                      <li><a href="#"><i class="bi bi-file-earmark-pdf"></i>Test answers<span class="dl-size">PDF</span></a></li>
-                    </ul>
-                  </div>
-                  <button class="btn btn-basket" type="button" disabled><i class="bi bi-bag"></i>Basket<span class="soon-badge">SOON</span></button>
-                </div>
-              </div>
-            </article>
-          </div>
-
-        </div>
+        @endif
       </div>
     </section>
 
@@ -324,6 +232,15 @@
 @endsection
 @push('js')
     <script>
+        // Coming from a QR code (?book=ID): scroll to that book and open its downloads
+        (function () {
+            var id = new URLSearchParams(location.search).get('book');
+            var panel = id && document.getElementById('dl-' + id);
+            if (!panel) return;
+            panel.closest('.book-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            bootstrap.Collapse.getOrCreateInstance(panel).show();
+        })();
+
         function showCartToast(name){
             const toast = document.getElementById('cartToast');
             if(!toast) return;

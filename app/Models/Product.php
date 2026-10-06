@@ -15,27 +15,31 @@ class Product extends Model
 {
     use HasFactory, softDeletes;
 
-    protected $fillable = [
-        'title',
-        'slug',
-        'book_variant_id',
-        'year_group_id',
-        'description',
-        'regular_price',
-        'discount_price',
-        'discount_percentage',
-        'image',
-        'sku',
-        'search_text',
-        'stripe_price_id',
-        'status'
-    ];
+protected $fillable = [
+    'book_variant_id',
+    'title',
+    'year_group_id',
+    'slug',
+    'sku',
+    'description',
+    'image',
+    'regular_price',
+    'discount_price',
+    'discount_percentage',
+    'base_currency',
+    'search_text',
+    'status',
+    'amazon_link',
+    'subjects',
+    'solution_types',
+    'product_image',
+    'product_soluition',
+];
 
-    protected $casts = [
-        'regular_price' => MoneyCast::class ,
-        'discount_price' => MoneyCast::class ,
-    ];
-
+protected $casts = [
+    'solution_types' => 'array',
+    'product_image' => 'array',
+];
     public function getMirrorPriceAttribute(): ?string
     {
         if (!$this->regular_price) {

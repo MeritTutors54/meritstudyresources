@@ -48,11 +48,10 @@
                                         <thead>
                                         <tr>
                                             <th>Title</th>
-                                            <th>Variant</th>
+                                          
                                             <th>SKU</th>
                                             <th>Year Group</th>
-                                            <th>(£) Price</th>
-                                            <th>(£) Discount Price</th>
+                                      
                                             <th class="text-center">Status</th>
                                             <th class="text-center">Action</th>
                                         </tr>
@@ -61,12 +60,12 @@
                                         @if(isset($products) && $products->isNotEmpty())
                                             @foreach($products as $product)
                                                 <tr>
-                                                    <td>{{ $product->title }}</td>
-                                                    <td>{{ $product->BookVariant->name }}</td>
+                                                 
                                                     <td>{{ $product->sku }}</td>
+                                                    <td></td>
                                                     <td>{{ $product->yearGroup->year_name ?? "" }}</td>
-                                                    <td>{{ $product->mirror_price }}</td>
-                                                    <td>{{ $product->mirror_discount }}</td>
+                                                    {{-- <td>{{ $product->mirror_price }}</td>
+                                                    <td>{{ $product->mirror_discount }}</td> --}}
                                                     <td class="text-center">
                                                         @if($product->status === \App\Enums\Status::ACTIVE->value)
                                                             <span class="badge badge-success">

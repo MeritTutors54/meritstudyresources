@@ -36,37 +36,7 @@
                     @enderror
                 </div>
             </div>
-
-
-
             <div class="col-lg-5 col-12">
-                <div class="form-group">
-                    <label class="form-label" for="book_variant_id">Book Variant</label>
-                    <select name="book_variant_id"
-                            id="book_variant_id"
-                            class="form-select">
-                        <option value="">Select...</option>
-                        @if(!empty($bookVariants))
-                            @foreach($bookVariants as $variant)
-                                <option
-                                    {{ old('book_variant_id', isset($product) ? (string)$product->book_variant_id : "1") === (string)$variant->id ? 'selected' : '' }}
-                                    value="{{ $variant->id }}">
-                                    {{ ucfirst($variant->name)  }} -
-                                    {{ ucfirst($variant->bookSubject->name) }} -
-                                    {{ ucfirst($variant->bookCategory->name) }}
-                                </option>
-                            @endforeach
-                        @endif
-                    </select>
-                    @error('book_variant_id')
-                    <div class="form-control-feedback text-danger mt-1">
-                        {{ $message }}
-                    </div>
-                    @enderror
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-12">
                 <div class="form-group">
                     <label class="form-label" for="year_group_id">Year Group</label>
                     <select name="year_group_id"
@@ -82,6 +52,22 @@
                                 </option>
                             @endforeach
                         @endif
+                    </select>
+                    @error('year_group_id')
+                    <div class="form-control-feedback text-danger mt-1">
+                        {{ $message }}
+                    </div>
+                    @enderror
+                </div>
+            </div>
+            <div class="col-lg-4 col-12">
+                <div class="form-group">
+                    <label class="form-label" for="subjects">Subject</label>
+                    <select name="subjects"
+                            id="subjects"
+                            class="form-select">
+                        <option value="">Select...</option>
+                      
                     </select>
                     @error('year_group_id')
                     <div class="form-control-feedback text-danger mt-1">
@@ -146,7 +132,23 @@
                     @enderror
                 </div>
             </div>
-
+   <div class="col-lg-12 col-12">
+                <div class="form-group">
+                    <label for="description"
+                           class="form-label">Amazon Link</label>
+                    <textarea
+                        name="amazon_link"
+                        id="amazon_link"
+                        class="form-control"
+                        placeholder="Enter product amazon_link"
+                        rows="4">{{ old('amazon_link', $product->amazon_link ?? "") }}</textarea>
+                    @error('amazon_link')
+                    <div class="form-control-feedback text-danger mt-1">
+                        {{ $message }}
+                    </div>
+                    @enderror
+                </div>
+            </div>
             <div class="col-lg-8 col-12">
                 <div class="form-group">
                     <label for="file" class="form-label">Product Image</label>

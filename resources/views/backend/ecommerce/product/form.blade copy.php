@@ -82,113 +82,15 @@
     <!-- /.content-wrapper -->
 @endsection
 @section('js')
- 
-
-
-<script>
-    $(document).ready(function () {
-
-        $('#year_group_id').on('change', function () {
-
-            let yearGroupId = $(this).val();
-            let subjectSelect = $('#subjects');
-
-            // Reset subjects
-            subjectSelect.html('<option value="">Loading...</option>');
-
-            if (yearGroupId === '') {
-                subjectSelect.html('<option value="">Select...</option>');
-                return;
-            }
-
-            $.ajax({
-                url: "{{ route('get.subjects.by.year') }}",
-                type: "GET",
-                data: {
-                    year_group_id: yearGroupId
-                },
-                success: function (response) {
-
-                    subjectSelect.html(
-                        '<option value="">Select...</option>'
-                    );
-
-                    $.each(response.subjects, function (index, subject) {
-
-                        subjectSelect.append(
-                            '<option value="' + subject.id + '">' +
-                                subject.name +
-                            '</option>'
-                        );
-
-                    });
-                },
-
-                error: function (xhr) {
-
-                    console.log(xhr.responseText);
-
-                    subjectSelect.html(
-                        '<option value="">Unable to load subjects</option>'
-                    );
-                }
-            });
-        });
-
-    });
-</script>
-
-<script>
-    $("#create-sample-button").on('click', function () {
-
-        let holder = $('#sample-holder');
-
-        holder.append(`
-            <div class="row mt-2">
-
-                <div class="col-lg-6 col-6">
-                    <div class="form-group">
-                        <select name="solution_type[]" class="form-control">
-                            <option value="">Select</option>
-
-                            @php
-                                $SOLUTION = DB::table('product_solutions')->get();
-                            @endphp
-
-                            @foreach ($SOLUTION as $solu)
-                                <option value="{{ $solu->id }}">
-                                    {{ $solu->solution_name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
-                <div class="col-lg-5 col-5">
-                    <div class="form-group">
-                        <input
-                            name="pdf_sample[]"
-                            type="file"
-                            class="form-control"
-                            accept=""
-                        >
-                    </div>
-                </div>
-
-                <div class="col-lg-1 col-1">
-                    <button type="button"
-                            class="btn btn-danger remove-sample">
-                        ×
-                    </button>
-                </div>
-
-            </div>
-        `);
-    });
-
-    // Remove dynamically added row
-    $(document).on('click', '.remove-sample', function () {
-        $(this).closest('.sample-row').remove();
-    });
-</script>
+    <script>
+        $("#create-sample-button").on('click', function() {
+            console.log('sss')
+            let holder = $('#sample-holder');
+            holder.append('<input  id="pdf_sample"' +
+                'name="pdf_sample[]"' +
+                'type="file"' +
+                'class="form-control mt-2"' +
+                'accept="image/*" ' + '>')
+        })
+    </script>
 @endsection
