@@ -26,6 +26,7 @@ use Laravel\Cashier\Cashier;
 use Money\Currency;
 use Money\Money;
 use function Symfony\Component\String\s;
+use Str;
 
 class ProductController extends Controller
 {
@@ -66,7 +67,238 @@ class ProductController extends Controller
                 'yearGroups' => $yearGroups
             ]);
     }
+public function store(Request $request)
+{
+    $this->authorize('createProduct', Auth::user());
 
+    $validated = $request->validate([
+        'title' => 'required|string|max:255',
+
+        'sku' => 'required|string|max:255|unique:products,sku',
+
+        'year_group_id' => 'nullable|integer',
+
+        'subjects' => 'nullable|integer',
+
+        'regular_price' => 'required|numeric|min:0',
+
+        'discount_price' => 'nullable|numeric|min:0',
+
+        'description' => 'nullable|string',
+
+        'amazon_link' => 'nullable|string|max:2000',
+
+        'status' => 'required|boolean',
+
+        /*
+        |--------------------------------------------------------------------------
+        | Solution Types
+        |--------------------------------------------------------------------------
+        */
+        'solution_type' => 'nullable|array',
+
+        /*
+        |--------------------------------------------------------------------------
+        | Main Product Solution File
+        |--------------------------------------------------------------------------
+        */
+        'file' => 'nullable|file|max:20480',
+
+        /*
+        |--------------------------------------------------------------------------
+        | PDF Samples
+        |--------------------------------------------------------------------------
+        */
+        'pdf_sample' => 'nullable|array',
+
+        'pdf_sample.*' => 'nullable|file|mimes:pdf|max:20480',
+    ]);
+
+    DB::beginTransaction();
+
+    try {
+
+        /*
+        |--------------------------------------------------------------------------
+        | Generate Slug
+        |--------------------------------------------------------------------------
+        */
+
+        $slug = Str::slug($validated['title']);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Make sure slug is unique
+        |--------------------------------------------------------------------------
+        */
+
+        $originalSlug = $slug;
+        $counter = 1;
+
+        while (
+            Product::where('slug', $slug)->exists()
+        ) {
+            $slug = $originalSlug . '-' . $counter;
+            $counter++;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Main Product Solution
+        |--------------------------------------------------------------------------
+        */
+
+        $productSolution = null;
+
+        if ($request->hasFile('file')) {
+
+            $productSolution = $request
+                ->file('file')
+                ->store('products/solutions', 'public');
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | PDF Samples
+        |--------------------------------------------------------------------------
+        */
+
+        $productImages = [];
+
+        if ($request->hasFile('pdf_sample')) {
+
+            foreach ($request->file('pdf_sample') as $pdf) {
+
+                if ($pdf) {
+
+                    $path = $pdf->store(
+                        'products/samples',
+                        'public'
+                    );
+
+                    $productImages[] = $path;
+                }
+            }
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Solution Types
+        |--------------------------------------------------------------------------
+        */
+
+        $solutionTypes = $validated['solution_type'] ?? [];
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Create Product
+        |--------------------------------------------------------------------------
+        */
+
+        $product = Product::create([
+
+            'book_variant_id' => null,
+
+            'title' => $validated['title'],
+
+            'year_group_id' => $validated['year_group_id'] ?? null,
+
+            'slug' => $slug,
+
+            'sku' => $validated['sku'],
+
+            'description' => $validated['description'] ?? null,
+
+            /*
+            |--------------------------------------------------------------------------
+            | Product Image
+            |--------------------------------------------------------------------------
+            |
+            | If your "image" field is for a cover image, leave it null
+            | because your current form does not have a cover-image field.
+            |
+            */
+            'image' => null,
+
+            'regular_price' => $validated['regular_price'],
+
+            'discount_price' => $validated['discount_price'] ?? null,
+
+            'discount_percentage' => null,
+
+            'base_currency' => 'GBP',
+
+            'search_text' => null,
+
+            'status' => $validated['status'],
+
+            'amazon_link' => $validated['amazon_link'] ?? null,
+
+            'subjects' => $validated['subjects'] ?? null,
+
+            /*
+            |--------------------------------------------------------------------------
+            | Store solution type IDs as JSON
+            |--------------------------------------------------------------------------
+            */
+            'solution_types' => !empty($solutionTypes)
+                ? json_encode($solutionTypes)
+                : null,
+
+            /*
+            |--------------------------------------------------------------------------
+            | Store PDF sample paths as JSON
+            |--------------------------------------------------------------------------
+            */
+            'product_image' => !empty($productImages)
+                ? json_encode($productImages)
+                : null,
+
+            /*
+            |--------------------------------------------------------------------------
+            | Store main product file
+            |--------------------------------------------------------------------------
+            */
+            'product_soluition' => $productSolution,
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Activity Log
+        |--------------------------------------------------------------------------
+        */
+
+        AdminActivity::track([
+            'action' => 'created',
+            'model_type' => Product::class,
+        ], $product);
+
+
+        DB::commit();
+
+        return to_route('admin.products.index')
+            ->with(
+                'success',
+                'Product has been created successfully.'
+            );
+
+    } catch (\Throwable $e) {
+
+        DB::rollBack();
+
+        return back()
+            ->withInput()
+            ->with(
+                'error',
+                $e->getMessage()
+            );
+    }
+}
 
     public function edit(Product $product): View
     {
@@ -180,5 +412,21 @@ class ProductController extends Controller
             ->with($this->notification['status'], $this->notification['message']);
 
     }
+
+public function getSubjectsByYear(Request $request)
+{
+    $request->validate([
+        'year_group_id' => 'required|integer'
+    ]);
+
+    $subjects = DB::table('book_subjects')
+        ->where('book_category_id', $request->year_group_id)
+        ->orderBy('name', 'asc')
+        ->get();
+
+    return response()->json([
+        'subjects' => $subjects
+    ]);
+}
 
 }

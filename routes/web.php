@@ -18,6 +18,7 @@ use App\Http\Controllers\Frontend\SitemapController;
 use App\Http\Controllers\Frontend\SubscriptionController;
 use App\Http\Controllers\Frontend\UserController;
 use App\Http\Controllers\Frontend\UserDashboardController;
+use App\Http\Controllers\Frontend\BookShopController;
 use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\StripeWebhookController;
 use App\Jobs\SendWelcomeEmail;
@@ -45,7 +46,7 @@ Route::group(['middleware' => 'team.permission'], function () {
 
 
     // Route::get('/all-products', [ProductController::class, 'allProducts'])->name('products');
-    Route::get('/book-shop', [ProductController::class, 'allProducts'])->name('products');
+    Route::get('/book-shop', [BookShopController::class, 'index'])->name('products');
     Route::get('/get-product/{product_slug}', [ProductController::class, 'details'])
         ->name('single.product');
 
