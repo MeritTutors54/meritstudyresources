@@ -413,20 +413,20 @@ public function store(Request $request)
 
     }
 
-public function getSubjectsByYear(Request $request)
-{
-    $request->validate([
-        'year_group_id' => 'required|integer'
-    ]);
+    public function getSubjectsByYear(Request $request)
+    {
+        $request->validate([
+            'year_group_id' => 'required|integer'
+        ]);
 
-    $subjects = DB::table('book_subjects')
-        ->where('book_category_id', $request->year_group_id)
-        ->orderBy('name', 'asc')
-        ->get();
+        $subjects = DB::table('book_subjects')
+            ->where('book_category_id', $request->year_group_id)
+            ->orderBy('name', 'asc')
+            ->get();
 
-    return response()->json([
-        'subjects' => $subjects
-    ]);
-}
+        return response()->json([
+            'subjects' => $subjects
+        ]);
+    }
 
 }
