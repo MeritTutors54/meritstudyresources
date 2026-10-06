@@ -67,58 +67,6 @@ class ProductController extends Controller
             ]);
     }
 
-    public function store(StoreProductRequest $request): RedirectResponse
-//    public function store(Request $request): RedirectResponse
-    {
-//        dd($request->all());
-        $this->authorize('createProduct', Auth::user());
-
-        $this->log = [
-            'action' => 'created',
-            'model_type' => 'App\Models\Product',
-        ];
-
-        DB::beginTransaction();
-
-        try {
-            $product = Product::query()->create([
-                'title' => $request->title ?? '',
-                'slug' => $request->slug ?? '',
-                'book_variant_id' => $request->book_variant_id ?? '',
-                'description' => $request->description ?? '',
-                'regular_price' => $request->regular_price ?? 0,
-                'discount_price' => $request->discount_price ?? 0,
-                'year_group_id' => $request->year_group_id ?? '',
-                'image' => $request->image ?? '',
-                'sku' => $request->sku ?? '',
-                'status' => $request->status ?? '',
-            ]);
-
-            if (count($request->samples ?? []) > 0) {
-                foreach ($request->samples ?? [] as $sample) {
-                    ProductImage::query()->create([
-                        'product_id' => $product->id,
-                        'path' => $sample ?? '',
-                    ]);
-                }
-            }
-
-            AdminActivity::track($this->log, $product);
-
-            $this->notification['status'] = 'success';
-            $this->notification['message'] = 'Product has been created';
-
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            $this->notification['status'] = 'error';
-            $this->notification['message'] = $e->getMessage();
-        }
-
-        return to_route('admin.products.index')
-            ->with($this->notification['status'], $this->notification['message']);
-    }
 
     public function edit(Product $product): View
     {
