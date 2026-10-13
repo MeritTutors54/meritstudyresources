@@ -208,6 +208,122 @@
                             @endcan
                         </ul>
                     </li>
+
+             
+<li class="header">Teacher Library</li>
+<li class="treeview {{ request()->is('admin/teacher-library*') ? 'active menu-open' : '' }}">
+    <a href="#">
+        <i class="icon-Books"><span class="path1"></span><span class="path2"></span></i>
+        <span>Teacher Library</span>
+        <span class="pull-right-container">
+            <i class="fa fa-angle-right pull-right"></i>
+        </span>
+    </a>
+    <ul class="treeview-menu">
+        
+            <li class="{{ request()->is('admin/teacher-library') ? 'active' : '' }}">
+                <a href="{{ route('admin.teacher-library.index') }}">
+                    <i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>
+                    Overview
+                </a>
+            </li>
+     
+            <li class="{{ request()->is('admin/teacher-library/phases*') ? 'active' : '' }}">
+                <a href="{{ route('admin.teacher-library.phases.index') }}">
+                    <i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>
+                    Phases
+                </a>
+            </li>
+     
+            <li class="{{ request()->is('admin/teacher-library/years*') ? 'active' : '' }}">
+                <a href="{{ route('admin.teacher-library.years.index') }}">
+                    <i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>
+                    Years
+                </a>
+            </li>
+      
+      
+            <li class="{{ request()->is('admin/teacher-library/subjects*') ? 'active' : '' }}">
+                <a href="{{ route('admin.teacher-library.subjects.index') }}">
+                    <i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>
+                    Subjects
+                </a>
+            </li>
+       
+            <li class="{{ request()->is('admin/teacher-library/resource-types*') ? 'active' : '' }}">
+                <a href="{{ route('admin.teacher-library.resource-types.index') }}">
+                    <i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>
+                    File Types
+                </a>
+            </li>
+        
+            <li class="{{ request()->is('admin/teacher-library/courses*') ? 'active' : '' }}">
+                <a href="{{ route('admin.teacher-library.courses.index') }}">
+                    <i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>
+                    Courses
+                </a>
+            </li>
+      
+            <li class="{{ request()->is('admin/teacher-library/downloads*') ? 'active' : '' }}">
+                <a href="{{ route('admin.teacher-library.downloads.index') }}">
+                    <i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>
+                    Downloads Report
+                </a>
+            </li>
+      
+    </ul>
+</li>
+
+                    {{-- ============ Teacher Library ============ --}}
+                 
+                        {{-- @php
+                            $tlLinks = [
+                                ['admin.teacher-library.phases.index',         'viewCurriculumPhase',    'Phases',           'admin/teacher-library/phases*'],
+                                ['admin.teacher-library.years.index',          'viewCurriculumYear',     'Years',            'admin/teacher-library/years*'],
+                                ['admin.teacher-library.subjects.index',       'viewCurriculumSubject',  'Subjects',         'admin/teacher-library/subjects*'],
+                                ['admin.teacher-library.resource-types.index', 'viewLessonResourceType', 'File types',       'admin/teacher-library/resource-types*'],
+                                ['admin.teacher-library.courses.index',        'viewCurriculumCourse',   'Courses',          'admin/teacher-library/courses*'],
+                                ['admin.teacher-library.downloads.index',      'viewLessonDownloads',    'Downloads report', 'admin/teacher-library/downloads*'],
+                            ];
+                        @endphp
+                        <li class="header">Teacher Library</li>
+                        <li class="treeview {{ request()->is('admin/teacher-library*') ? 'active menu-open' : '' }}">
+                            <a href="#">
+                                <i class="icon-Books"><span class="path1"></span><span class="path2"></span></i>
+                                <span>Teacher Library</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-right pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                @if (Route::has('admin.teacher-library.index'))
+                                    <li class="{{ request()->is('admin/teacher-library') ? 'active' : '' }}">
+                                        <a href="{{ route('admin.teacher-library.index') }}">
+                                            <i class="icon-Commit">
+                                                <span class="path1"></span><span class="path2"></span>
+                                            </i>
+                                            Overview
+                                        </a>
+                                    </li>
+                                @endif
+                                @foreach ($tlLinks as [$tlRoute, $tlAbility, $tlLabel, $tlPattern])
+                                    @if (Route::has($tlRoute))
+                                        @can($tlAbility, Auth::user())
+                                            <li class="{{ request()->is($tlPattern) ? 'active' : '' }}">
+                                                <a href="{{ route($tlRoute) }}">
+                                                    <i class="icon-Commit">
+                                                        <span class="path1"></span><span class="path2"></span>
+                                                    </i>
+                                                    {{ $tlLabel }}
+                                                </a>
+                                            </li>
+                                        @endcan
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </li>
+                    --}}
+                    {{-- ========== /Teacher Library ========== --}}
                     @can('viewSubscriptionPlan', Auth::user())
                         <li class="header">Subscription Section</li>
                         <li class="treeview {{ request()->is('admin/subscription-plans*') ? 'active menu-open' : '' }}">

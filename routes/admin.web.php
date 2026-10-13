@@ -39,6 +39,51 @@ use App\Http\Controllers\Backend\SubscriptionPlanController;
 use Illuminate\Support\Facades\Route;
 
 
+
+
+use App\Http\Controllers\Backend\TeacherLibrary\TeacherLibraryController;
+use App\Http\Controllers\Backend\TeacherLibrary\CurriculumPhaseController;
+use App\Http\Controllers\Backend\TeacherLibrary\CurriculumYearController;
+use App\Http\Controllers\Backend\TeacherLibrary\CurriculumSubjectController;
+use App\Http\Controllers\Backend\TeacherLibrary\LessonResourceTypeController;
+use App\Http\Controllers\Backend\TeacherLibrary\CurriculumCourseController;
+use App\Http\Controllers\Backend\TeacherLibrary\CourseDocumentController;
+use App\Http\Controllers\Backend\TeacherLibrary\CurriculumUnitController;
+use App\Http\Controllers\Backend\TeacherLibrary\CurriculumLessonController;
+use App\Http\Controllers\Backend\TeacherLibrary\LessonResourceController;
+use App\Http\Controllers\Backend\TeacherLibrary\LessonDownloadReportController;
+
+
+Route::prefix('teacher-library')->name('admin.teacher-library.')->group(function () {
+
+    Route::get('/', [TeacherLibraryController::class, 'index'])->name('index');
+
+    Route::resource('phases', CurriculumPhaseController::class)->except(['show']);
+    Route::resource('years', CurriculumYearController::class)->except(['show']);
+    Route::resource('subjects', CurriculumSubjectController::class)->except(['show']);
+    Route::resource('resource-types', LessonResourceTypeController::class)->except(['show']);
+
+    Route::resource('courses', CurriculumCourseController::class);
+    Route::resource('courses.documents', CourseDocumentController::class)->shallow()->except(['index', 'show']);
+    Route::get('documents/{document}/file', [CourseDocumentController::class, 'file'])->name('documents.file');
+
+    Route::patch('courses/{course}/units/reorder', [CurriculumUnitController::class, 'reorder'])->name('courses.units.reorder');
+    Route::resource('courses.units', CurriculumUnitController::class)->shallow()->except(['index']);
+
+    Route::patch('units/{unit}/lessons/reorder', [CurriculumLessonController::class, 'reorder'])->name('units.lessons.reorder');
+    Route::post('courses/{course}/renumber', [CurriculumLessonController::class, 'renumber'])->name('courses.renumber');
+    Route::resource('units.lessons', CurriculumLessonController::class)->shallow()->except(['index']);
+
+    Route::patch('lessons/{lesson}/resources/reorder', [LessonResourceController::class, 'reorder'])->name('lessons.resources.reorder');
+    Route::get('resources/{resource}/file', [LessonResourceController::class, 'file'])->name('resources.file');
+    Route::resource('lessons.resources', LessonResourceController::class)->shallow()->except(['index', 'show']);
+
+    Route::get('downloads', [LessonDownloadReportController::class, 'index'])->name('downloads.index');
+    Route::get('downloads/export', [LessonDownloadReportController::class, 'export'])->name('downloads.export');
+});
+
+
+
 Route::prefix('admin')->group(function () {
     Route::get('/login', [LoginController::class, 'index'])->name('admin.login')->middleware('user-access');
     Route::post('/login', [LoginController::class, 'login']);
