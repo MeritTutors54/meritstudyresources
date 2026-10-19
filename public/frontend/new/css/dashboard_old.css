@@ -1,0 +1,115 @@
+/* ==========================================================================
+   Merit Study Resources — user dashboard
+   Load AFTER style.css, resources.css, pages.css and subjects.css.
+   Only fills the gaps — everything else reuses existing components.
+   1. Header  2. Sections  3. Continue list  4. Membership  5. Activity
+   6. Responsive
+   ========================================================================== */
+
+/* 1. Dashboard header ---------------------------------------------------- */
+.dash-header { padding-bottom: 1.75rem; }
+.dash-hello { display: flex; align-items: center; gap: 1rem; }
+.dash-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--merit-green);
+  color: #fff;
+  font-size: 1.15rem;
+  font-weight: 700;
+  box-shadow: 0 0 0 4px var(--merit-light-green);
+}
+.dash-hello .course-title { margin-bottom: .2rem; }
+.dash-hello .course-intro { margin: 0; }
+
+/* 2. Sections ------------------------------------------------------------ */
+.dash-section { scroll-margin-top: 5rem; }
+.dash-body .dash-section:first-child { margin-top: 0; }
+.dash-nav-user {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .5rem .75rem .85rem;
+  margin-bottom: .4rem;
+  border-bottom: 1px solid var(--merit-line);
+}
+.dash-nav-user .member-avatar { width: 32px; height: 32px; font-size: .75rem; }
+.dash-nav-name { display: block; font-size: .88rem; font-weight: 700; color: var(--merit-navy); line-height: 1.2; }
+.dash-nav-plan { display: block; font-size: .74rem; color: var(--merit-muted); }
+
+/* 3. Continue where you left off ---------------------------------------- */
+.resource-row .progress-track { max-width: 14rem; }
+.row-progress {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin-top: .45rem;
+  font-size: .76rem;
+  font-weight: 600;
+  color: var(--merit-muted);
+}
+.row-progress .progress-track { flex: 1 1 auto; margin-top: 0; }
+
+/* 4. Membership card ----------------------------------------------------- */
+.plan-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+  flex-wrap: wrap;
+  padding: 1.25rem 1.35rem;
+  background: var(--merit-navy);
+  border-radius: var(--radius-lg);
+  color: #c3d3e0;
+}
+.plan-label {
+  margin: 0 0 .25rem;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #5fd08a;
+}
+.plan-name { margin: 0 0 .2rem; font-size: 1.25rem; font-weight: 800; color: #fff; letter-spacing: -.02em; }
+.plan-text { margin: 0; font-size: .87rem; }
+.plan-card .btn-light { font-weight: 600; border-radius: var(--radius-sm); min-height: 42px; }
+
+/* 5. Recent activity ---------------------------------------------------- */
+.activity-list {
+  margin: 0;
+  padding: .35rem 1.1rem;
+  list-style: none;
+  background: #fff;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+}
+.activity-item {
+  display: flex;
+  align-items: flex-start;
+  gap: .75rem;
+  padding: .8rem 0;
+  font-size: .87rem;
+  color: var(--merit-text);
+}
+.activity-item + .activity-item { border-top: 1px solid var(--merit-line); }
+.activity-item i { margin-top: .1rem; color: var(--merit-green); }
+.activity-time { margin-left: auto; flex: none; font-size: .78rem; color: var(--merit-muted); white-space: nowrap; }
+
+/* 6. Responsive --------------------------------------------------------- */
+@media (max-width: 991.98px) {
+  .dash-nav ul { display: flex; overflow-x: auto; scrollbar-width: none; gap: .25rem; }
+  .dash-nav ul::-webkit-scrollbar { display: none; }
+  .dash-nav-link { white-space: nowrap; }
+  .dash-nav-user, .dash-nav-foot { display: none; }
+}
+
+@media (max-width: 575.98px) {
+  .dash-avatar { width: 46px; height: 46px; font-size: 1rem; }
+  .activity-item { flex-wrap: wrap; }
+  .activity-time { margin-left: 1.75rem; }
+  .plan-card .btn { width: 100%; }
+}

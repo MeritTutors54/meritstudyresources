@@ -1,4 +1,4 @@
-@extends('layouts.frontend-2')
+@extends('layouts.frontend-3')
 
 @section('title', $defaultSEO->meta_title ?? $global_seo['seo_title'])
 @section('meta_description', $defaultSEO->meta_description ?? $global_seo['seo_description'])
@@ -6,296 +6,273 @@
 @section('meta_author', $defaultSEO->meta_author ?? $global_seo['seo_author'])
 
 @section('content')
+@php
+    $cartItems   = $cartItems ?? collect();
+    $hasItems    = $cartItems->isNotEmpty();
+    $itemCount   = $cartItems->sum('quantity');
+    $showDelivery = !is_null($siteSettings->delivery_charge ?? null);
+@endphp
+
+{{-- Needs Bootstrap Icons + style.css and resources.css (Merit tokens) loaded by the layout --}}
+<link href="{{ asset('frontend/new/css/cart.css') }}" rel="stylesheet">
+
+<div class="page-resources page-cart">
+
     <!-- ============================= PAGE HEADER ============================= -->
-    <header class="page-banner text-center" style="padding-bottom:50px;">
+    <section class="course-header cart-header">
         <div class="container">
-            <h1 class="mb-2">Cart</h1>
-            <div class="breadcrumb-msr text-center"><a href="{{ route('home') }}">Home</a> &nbsp;&gt;&nbsp; Cart</div>
+            <div class="course-header-top">
+                <nav aria-label="Breadcrumb">
+                    <ol class="breadcrumb course-crumbs">
+                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('products') }}">Bookshop</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Cart</li>
+                    </ol>
+                </nav>
+                <p class="spec-code"><span id="cartItemCount">{{ $itemCount }}</span> {{ \Illuminate\Support\Str::plural('item', $itemCount) }}</p>
+            </div>
+            <p class="eyebrow"><span class="eyebrow-dot"></span>Checkout</p>
+            <h1 class="course-title mb-0">Your cart</h1>
+
+            <!-- checkout steps -->
+            <ol class="cart-steps list-unstyled" aria-label="Checkout progress">
+                <li class="is-current"><span>1</span> Cart</li>
+                <li><span>2</span> Details &amp; delivery</li>
+                <li><span>3</span> Payment</li>
+            </ol>
         </div>
-    </header>
+    </section>
 
     <!-- ============================= CART CONTENT ============================= -->
-    <section class="section-pad" style="padding-top:36px;">
+    <section class="cart-body">
         <div class="container">
 
-            <div id="cartLoaded">
+            <div id="cartLoaded" @if(!$hasItems) hidden @endif>
                 <div class="row g-4">
+
+                    <!-- Items -->
                     <div class="col-lg-8">
-                        <div class="cart-table-wrap">
-                            <div class="cart-table-head">
-                                <span>Image</span>
+                        <div class="cart-card">
+                            <div class="cart-card-head">
                                 <span>Product</span>
-                                <span>Price</span>
-                                <span>Quantity</span>
-                                <span>Total</span>
-                                <span>Remove</span>
+                                <span class="text-center">Quantity</span>
+                                <span class="text-end">Total</span>
+                                <span class="visually-hidden">Remove</span>
                             </div>
-                            @if(isset($cartItems) && $cartItems->isNotEmpty())
+
+                            <ul class="cart-list list-unstyled" id="cartList">
                                 @foreach($cartItems as $item)
-                                    <div class="cart-row">
-                                        <div class="w-50">
-                                            <a href="#" class="d-flex text-black-50">
-                                                <img
-                                                    class="cart-thumb-img"
-                                                    src="{{ asset(\Illuminate\Support\Facades\Storage::url($item->product->image)) }}"
-                                                    alt="Product">
-                                            </a>
+                                    @php
+                                        $product   = $item->product;
+                                        $regular   = (float) ($product?->mirror_price ?? 0);
+                                        $sale      = (float) ($product?->mirror_discount ?? 0);
+                                        $onSale    = $sale > 0 && $sale < $regular;
+                                        $unit      = $sale > 0 ? $sale : $regular;
+                                        $image     = $product?->image ? asset(\Illuminate\Support\Facades\Storage::url($product->image)) : null;
+                                        $lineTotal = is_numeric($item->total) ? number_format((float) $item->total, 2) : $item->total;
+                                    @endphp
+                                    <li class="cart-row" data-row="{{ $item->id }}">
+                                        <!-- product -->
+                                        <div class="cart-product">
+                                            <span class="cart-thumb">
+                                                @if($image)
+                                                    <img src="{{ $image }}" alt="{{ $product?->title }}" loading="lazy">
+                                                @else
+                                                    <i class="bi bi-book" aria-hidden="true"></i>
+                                                @endif
+                                            </span>
+                                            <div class="cart-product-info">
+                                                <p class="cart-prod-name">{{ $product?->title ?? 'Removed product' }}</p>
+                                                <p class="cart-unit">
+                                                    <span class="cart-unit-now">£{{ number_format($unit, 2) }}</span>
+                                                    @if($onSale)
+                                                        <s class="cart-unit-was">£{{ number_format($regular, 2) }}</s>
+                                                        <span class="cart-sale-tag">Sale</span>
+                                                    @endif
+                                                    <span class="cart-unit-each">each</span>
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div class="cart-prod-name">{{ $item->product->title }}</div>
-                                        <div class="cart-price">
-                                            @if(!empty($item->product->mirror_discount))
-                                                <span>£{{ number_format($item->product->mirror_discount ?? 0, 2) }}</span>
-                                            @else
-                                                <span>£{{ number_format($item->product->mirror_price ?? 0, 2) }}</span>
-                                            @endif
-                                        </div>
-                                        <div class="qty-stepper">
-                                            <button type="button" class="cart-minus"
-                                                    data-cart="{{ $item->id }}">−
+
+                                        <!-- quantity -->
+                                        <div class="qty-stepper" role="group" aria-label="Quantity for {{ $product?->title }}">
+                                            <button type="button" class="cart-minus" data-cart="{{ $item->id }}" aria-label="Decrease quantity">
+                                                <i class="bi bi-dash"></i>
                                             </button>
-                                            <input type="text" class="cart-quantity-input"
-                                                   value="{{ $item->quantity }}" readonly>
-                                            <button type="button" data-cart="{{ $item->id }}"
-                                                    class="cart-plus">+
+                                            <input type="text" class="cart-quantity-input" value="{{ $item->quantity }}" readonly
+                                                   inputmode="numeric" aria-label="Quantity">
+                                            <button type="button" class="cart-plus" data-cart="{{ $item->id }}" aria-label="Increase quantity">
+                                                <i class="bi bi-plus"></i>
                                             </button>
                                         </div>
-                                        <div class="cart-total">£{{ $item->total }}</div>
-                                        <button data-cart="{{ $item->id }}"
-                                                class="cart-remove-btn"
-                                                aria-label="Remove item">
-                                            <svg viewBox="0 0 24 24" fill="none">
-                                                <path d="M6 6l12 12M18 6L6 18"
-                                                      stroke="currentColor"
-                                                      stroke-width="2"
-                                                      stroke-linecap="round"/>
-                                            </svg>
+
+                                        <!-- total -->
+                                        <div class="cart-total">£{{ $lineTotal }}</div>
+
+                                        <!-- remove -->
+                                        <button type="button" class="cart-remove-btn" data-cart="{{ $item->id }}"
+                                                aria-label="Remove {{ $product?->title }} from cart" title="Remove">
+                                            <i class="bi bi-trash3"></i>
                                         </button>
-                                    </div>
+                                    </li>
                                 @endforeach
-                            @endif
+                            </ul>
                         </div>
+
+                        <a href="{{ route('products') }}" class="cart-continue">
+                            <i class="bi bi-arrow-left"></i> Continue shopping
+                        </a>
                     </div>
 
+                    <!-- Summary -->
                     <div class="col-lg-4">
-                        <div class="cart-summary-panel">
-                            <h2 class="h5 mb-3">Cart Summary</h2>
-                            <div class="cs-row">
-                                <span>Sub Total</span>
-                                <span class="cs-val" id="csSubtotal">£{{ number_format($subTotalPrice ?? 0, 2) }}</span>
-                            </div>
-                            @if(!is_null($siteSettings->delivery_charge))
-                                <div class="cs-row">
-                                    <span>Shipping Cost</span>
-                                    <span class="cs-val" id="csShipping">£{{ number_format($deliveryCharge ?? 0, 2) }}</span>
-                                </div>
-                            @endif
-                            <div class="cs-row total">
-                                <span>Grand Total</span>
-                                <span class="cs-val" id="csGrandTotal">£{{ number_format($grandTotalPrice ?? 0, 2) }}</span>
-                            </div>
-                            <a href="{{ route('user.order.checkout') }}" class="btn-navy-block mt-4" id="checkoutBtn">
-                                Proceed To Checkout
-                                <svg viewBox="0 0 24 24" fill="none" width="15" height="15">
-                                    <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="#fff" stroke-width="2"
-                                          stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </a>
-                            <a href="{{ route('products') }}" class="d-block d-flex align-items-center gap-1 justify-content-center text-center mt-3 fw-semibold"
-                               style="font-size:.85rem;color:var(--green-dark);">
-                                <svg viewBox="0 0 24 24" fill="none" width="15" height="15">
-                                    <path d="M19 12H5M5 12L11 6M5 12L11 18" stroke="#16804AFF" stroke-width="2"
-                                          stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
+                        <aside class="cart-summary" aria-labelledby="summary-title">
+                            <h2 class="cart-summary-title" id="summary-title">Order summary</h2>
 
-                                Continue shopping
+                            <dl class="cart-sum-list">
+                                <div>
+                                    <dt>Subtotal</dt>
+                                    <dd id="csSubtotal">£{{ number_format($subTotalPrice ?? 0, 2) }}</dd>
+                                </div>
+                                @if($showDelivery)
+                                    <div>
+                                        <dt>Delivery</dt>
+                                        <dd id="csShipping">£{{ number_format($deliveryCharge ?? 0, 2) }}</dd>
+                                    </div>
+                                @endif
+                                <div class="is-total">
+                                    <dt>Total</dt>
+                                    <dd id="csGrandTotal">£{{ number_format($grandTotalPrice ?? 0, 2) }}</dd>
+                                </div>
+                            </dl>
+
+                            <a href="{{ route('user.order.checkout') }}" class="btn btn-merit cart-checkout" id="checkoutBtn">
+                                Proceed to checkout <i class="bi bi-arrow-right"></i>
                             </a>
-                        </div>
+
+                            <ul class="cart-assure list-unstyled">
+                                <li><i class="bi bi-shield-lock"></i> Secure checkout</li>
+                                <li><i class="bi bi-qr-code"></i> Free QR-code downloads with every book</li>
+                                <li><i class="bi bi-truck"></i> UK delivery</li>
+                            </ul>
+                        </aside>
                     </div>
+
                 </div>
             </div>
 
-            <div class="cart-empty d-none" id="cartEmptyState">
-                <span class="ce-ico">
-                    <svg viewBox="0 0 24 24" fill="none">
-                        <path
-                            d="M3 4h2l2.4 12.4a2 2 0 002 1.6h8.4a2 2 0 002-1.6L21 8H6" stroke="currentColor"
-                            stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                        <circle cx="10" cy="20"
-                                r="1.3"
-                                fill="currentColor"/>
-                        <circle cx="17" cy="20" r="1.3" fill="currentColor"/>
-                    </svg>
-                </span>
-                <h2 class="h4 mb-2">Your cart is empty</h2>
-                <p class="text-muted-c mb-4">
-                    Looks like you haven't added anything yet — browse our workbooks and past
-                    papers to get started.
-                </p>
-                <a href="{{ route('products') }}" class="btn-brand">
-                    Browse Products
-                    <svg viewBox="0 0 24 24" fill="none" width="16" height="16">
-                        <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="#fff" stroke-width="2" stroke-linecap="round"
-                              stroke-linejoin="round"/>
-                    </svg>
+            <!-- Empty state -->
+            <div class="empty-state cart-empty" id="cartEmptyState" @if($hasItems) hidden @endif>
+                <span class="cart-empty-ico"><i class="bi bi-bag"></i></span>
+                <h2 class="cart-empty-title">Your cart is empty</h2>
+                <p>Looks like you haven't added anything yet — browse our workbooks and past papers to get started.</p>
+                <a href="{{ route('products') }}" class="btn btn-merit cart-checkout d-inline-flex w-auto">
+                    Browse products <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
 
         </div>
     </section>
-
+</div>
 @endsection
+
 @push('js')
     <script>
+        (function () {
+            const MINUS = 1, PLUS = 2, REMOVE = 3;
 
-        const loader = document.getElementById('merit-loader');
-        const subTotalDiv = document.querySelector('#sub-total span');
-        const grandTotalDiv = document.querySelector('#grand-total span');
-        const deliveryDiv = document.querySelector('#delivery-cost span');
+            const $  = (sel, ctx = document) => ctx.querySelector(sel);
+            const gbp = (v) => '£' + (parseFloat(v) || 0).toFixed(2);
 
-        const minusCall = 1;
-        const plusCall = 2;
-        const deleteCall = 3;
+            function setSummary(res) {
+                if (res.subTotalPrice !== undefined && $('#csSubtotal'))   $('#csSubtotal').textContent   = gbp(res.subTotalPrice);
+                if (res.deliveryCharge !== undefined && $('#csShipping'))  $('#csShipping').textContent   = gbp(res.deliveryCharge);
+                if (res.grandTotalPrice !== undefined && $('#csGrandTotal')) $('#csGrandTotal').textContent = gbp(res.grandTotalPrice);
+                if (res.count !== undefined && $('#merit-cart-count'))     $('#merit-cart-count').textContent = res.count;
+            }
 
-        document.addEventListener('click', function (e) {
-            const minusBtn = e.target.closest('.cart-minus');
-            const plusBtn = e.target.closest('.cart-plus');
+            function refreshCount() {
+                let n = 0;
+                document.querySelectorAll('.cart-quantity-input').forEach(i => n += parseInt(i.value, 10) || 0);
+                const el = $('#cartItemCount');
+                if (el) el.textContent = n;
+            }
 
-            if (!minusBtn && !plusBtn) return;
-
-            e.preventDefault();
-
-            const button = minusBtn || plusBtn;
-            const action = minusBtn ? minusCall : plusCall;
-            const cartID = button.dataset.cart;
-
-            if (!cartID) return;
-
-            // DOM References
-            const row = button.closest('.cart-row');
-            const input = row?.querySelector('.cart-quantity-input');
-            const totalElement = row?.querySelector('.cart-total');
-
-            // Safe lookup for global cart summary elements
-            const loader = document.querySelector('.loader-selector') || null;
-            const subTotalDiv = document.querySelector('#csSubtotal');
-            const deliveryDiv = document.querySelector('#csShipping');
-            const grandTotalDiv = document.querySelector('#csGrandTotal');
-
-            console.log(subTotalDiv, deliveryDiv, grandTotalDiv);
-
-            // UI state updates
-            button.disabled = true;
-            if (loader) loader.classList.remove('hidden');
-
-            ajaxCall(action, cartID, function (response) {
-                // Safe UI re-enable
-                button.disabled = false;
-                if (loader) loader.classList.add('hidden');
-
-                console.log(response);
-
-                if (!response) return;
-
-
-                // Update item quantity input
-                if (input && response?.cart) {
-                    input.value = response?.cart?.quantity;
-                }
-
-                // Update item total price
-                if (totalElement && response.unitPrice !== undefined) {
-                    totalElement.textContent = '£' + parseFloat(response.unitPrice).toFixed(2);
-                }
-
-                // Update summary totals
-                if (subTotalDiv && response.subTotalPrice !== undefined) {
-                    subTotalDiv.textContent = '£' + parseFloat(response.subTotalPrice).toFixed(2);
-                }
-                if (deliveryDiv && response.deliveryCharge !== undefined) {
-                    deliveryDiv.textContent = '£' + parseFloat(response.deliveryCharge).toFixed(2);
-                }
-                if (grandTotalDiv && response.grandTotalPrice !== undefined) {
-                    grandTotalDiv.textContent = '£' + parseFloat(response.grandTotalPrice).toFixed(2);
-                }
-            }, function (error) {
-                // Error handling fallback
-                console.error('Cart update failed:', error);
-                button.disabled = false;
-                if (loader) loader.classList.add('hidden');
-            });
-        });
-
-        // $('.cart-plus').on('click', function (e) {
-        //     e.stopPropagation();
-        //     loader.removeClass('hidden');
-        //     let button = $(this);
-        //     let inputGroup = $(this).parent('div');
-        //     let cartID = inputGroup.data('cart');
-        //     let input = $(this).siblings('input');
-        //     let subtotalCell = $(this).closest('tr').find('.pro-subtotal span');
-        //
-        //     button.prop('disabled', true);
-        //
-        //     ajaxCall(2, cartID, function (response) {
-        //         subtotalCell.html('£ ' + response.unitPrice);
-        //         input.val(response.cart?.quantity);
-        //         subTotalDiv.html('£ ' + response.subTotalPrice);
-        //         deliveryDiv.html('£ ' + response.deliveryCharge);
-        //         grandTotalDiv.html('£ ' + response.grandTotalPrice);
-        //         button.prop('disabled', false);
-        //         loader.addClass('hidden');
-        //     });
-        // });
-
-        // $('.remove-cart').on('click', function (e) {
-        //     e.preventDefault();
-        //     loader.removeClass('hidden');
-        //     let button = $(this);
-        //     let cartID = button.data('cart');
-        //     let closetTableRow = $(this).closest('tr');
-        //
-        //     ajaxCall(3, cartID, function (response) {
-        //         console.log(response);
-        //         closetTableRow.remove();
-        //         subTotalDiv.html('£ ' + response.subTotalPrice);
-        //         deliveryDiv.html('£ ' + response.deliveryCharge);
-        //         grandTotalDiv.html('£ ' + response.grandTotalPrice);
-        //         button.prop('disabled', false);
-        //         loader.addClass('hidden');
-        //         $("#merit-cart-count").html(response.count);
-        //     })
-        // })
-
-
-        // type 1 = minus call, type 2 = plus call, type 3 = delete
-        function ajaxCall(type, cartID, callback) {
-            fetch("{{ route('ajax.cart.item') }}", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}", // Standard Laravel CSRF header
-                    "Accept": "application/json"
-                },
-                body: JSON.stringify({
-                    _token: "{{ csrf_token() }}",
-                    type: type,
-                    cart_id: cartID
-                })
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
+            function removeRow(row) {
+                row.classList.add('is-removing');
+                setTimeout(() => {
+                    row.remove();
+                    refreshCount();
+                    if (!document.querySelector('#cartList .cart-row')) {
+                        $('#cartLoaded').hidden = true;
+                        $('#cartEmptyState').hidden = false;
                     }
-                    return response.json(); // Parses JSON response body
-                })
-                .then(data => {
-                    callback(data);
-                })
-                .catch(error => {
-                    console.error('AJAX Error:', error);
-                    callback(error);
-                });
-        }
+                }, 220);
+            }
 
+            function setBusy(row, busy) {
+                if (!row) return;
+                row.classList.toggle('is-busy', busy);
+                row.querySelectorAll('button').forEach(b => b.disabled = busy);
+            }
+
+            // type 1 = minus, 2 = plus, 3 = delete
+            function ajaxCall(type, cartID) {
+                return fetch("{{ route('ajax.cart.item') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({ type: type, cart_id: cartID })
+                }).then(r => {
+                    if (!r.ok) throw new Error('HTTP ' + r.status);
+                    return r.json();
+                });
+            }
+
+            document.addEventListener('click', function (e) {
+                const btn = e.target.closest('.cart-minus, .cart-plus, .cart-remove-btn');
+                if (!btn) return;
+                e.preventDefault();
+
+                const cartID = btn.dataset.cart;
+                const row    = btn.closest('.cart-row');
+                if (!cartID || !row) return;
+
+                const input  = row.querySelector('.cart-quantity-input');
+                const isRemove = btn.classList.contains('cart-remove-btn');
+                const isMinus  = btn.classList.contains('cart-minus');
+
+                // minus at 1 = remove
+                const type = isRemove || (isMinus && parseInt(input.value, 10) <= 1)
+                    ? REMOVE
+                    : (isMinus ? MINUS : PLUS);
+
+                if (type === REMOVE && !isRemove && !confirm('Remove this item from your cart?')) return;
+
+                setBusy(row, true);
+
+                ajaxCall(type, cartID)
+                    .then(res => {
+                        setSummary(res || {});
+                        if (type === REMOVE || !res?.cart) {
+                            removeRow(row);
+                            return;
+                        }
+                        input.value = res.cart.quantity;
+                        if (res.unitPrice !== undefined) row.querySelector('.cart-total').textContent = gbp(res.unitPrice);
+                        refreshCount();
+                        setBusy(row, false);
+                    })
+                    .catch(err => {
+                        console.error('Cart update failed:', err);
+                        setBusy(row, false);
+                        row.classList.add('is-error');
+                        setTimeout(() => row.classList.remove('is-error'), 1200);
+                    });
+            });
+        })();
     </script>
 @endpush

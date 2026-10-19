@@ -19,8 +19,11 @@ use App\Http\Controllers\Frontend\SubscriptionController;
 use App\Http\Controllers\Frontend\UserController;
 use App\Http\Controllers\Frontend\UserDashboardController;
 use App\Http\Controllers\Frontend\BookShopController;
+use App\Http\Controllers\Frontend\TeacherLibraryController;
 use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\StripeWebhookController;
+
+
 use App\Jobs\SendWelcomeEmail;
 use App\Models\User;
 use Illuminate\Support\Collection;
@@ -48,6 +51,7 @@ Route::group(['middleware' => 'team.permission'], function () {
     // Route::get('/all-products', [ProductController::class, 'allProducts'])->name('products');
 
     Route::get('/book-shop', [BookShopController::class, 'index'])->name('products');
+    
     Route::get('/get-product/{product_slug}', [ProductController::class, 'details'])
         ->name('single.product');
 
@@ -92,6 +96,7 @@ Route::group(['middleware' => 'team.permission'], function () {
     Route::get('/privacy-policy', [FrontendController::class, 'privacyPolicy'])->name('privacy.policy');
     Route::get('/refund-policy', [FrontendController::class, 'refundPolicy'])->name('refund.policy');
     Route::get('/faq', [FrontendController::class, 'faq'])->name('faq');
+    Route::get('/teacher-panel', [FrontendController::class, 'teachersPanel'])->name('teachersPanel');
     //Route::post('/newsletter-subscribe', [FrontendController::class, 'newsletterSubscribe'])->name('newsletterSubscribe');
 
     Route::post('/collect-emails', [FrontendController::class, 'collectEmails'])->name('collect-emails');
@@ -207,6 +212,11 @@ Route::group(['middleware' => 'team.permission'], function () {
 //    Route::post('ajax/get-past-paper-details-route/{category_id}/{subcategory_id}/{resub_category_id}', [AjaxController::class, 'getPastPaperDetailsRoute'])->name('ajax.get.resub.categories');
 });
 
+
+
+
+  
+
 /*
 |--------------------------------------------------------------------------
 | Sitemap Section
@@ -234,5 +244,30 @@ Route::get('/find-extention', [App\Http\Controllers\Frontend\FrontendController:
 Route::get('/auth/google', [SocialAuthController::class, 'redirectToGoogle']);
 Route::get('/auth/google/callback', [SocialAuthController::class, 'handleGoogleCallback']);
 Route::post('/auth/final/callback', [SocialAuthController::class, 'finalCallback'])->name('google.final.callback');
+
+
+
+//    Route::permanentRedirect('/teacher-panel', '/teacher-library')->name('teachersPanel');   // old address
+    
+    // Route::get('/teacher-library-index', [TeacherLibraryController::class, 'index'])->name('teacher-library.index');
+
+    // Route::post('/teacher-library/files/{file}/download', [TeacherLibraryController::class, 'download'])
+    //     ->middleware(['auth', 'throttle:30,1'])->name('teacher-library.download');
+    // Route::get('/teacher-library/{course:slug}/documents/{document}', [TeacherLibraryController::class, 'document'])
+    //     ->middleware('auth')->whereNumber('document')->name('teacher-library.document');
+    // Route::get('/teacher-library/{course:slug}', [TeacherLibraryController::class, 'course'])->name('teacher-library.course');
+    // Route::get('/teacher-library/{course:slug}/{lesson}/{slug?}', [TeacherLibraryController::class, 'lesson'])
+    //     ->whereNumber('lesson')->name('teacher-library.lesson');
+
+
+    //    Route::permanentRedirect('/teacher-panel', '/teacher-resources')->name('teachersPanel');   // old address
+    Route::get('/teacher-resources', [TeacherLibraryController::class, 'index'])->name('teacher-resources.index');
+    Route::post('/teacher-resources/files/{file}/download', [TeacherLibraryController::class, 'download'])
+        ->middleware(['auth', 'throttle:30,1'])->name('teacher-resources.download');
+    Route::get('/teacher-resources/{course:slug}/documents/{document}', [TeacherLibraryController::class, 'document'])
+        ->middleware('auth')->whereNumber('document')->name('teacher-resources.document');
+    Route::get('/teacher-resources/{course:slug}', [TeacherLibraryController::class, 'course'])->name('teacher-resources.course');
+    Route::get('/teacher-resources/{course:slug}/{lesson}/{slug?}', [TeacherLibraryController::class, 'lesson'])
+        ->whereNumber('lesson')->name('teacher-resources.lesson');
 
 require base_path('/routes/admin.web.php');

@@ -1,4 +1,4 @@
-@extends('layouts.frontend', ['main_title' => $defaultSEO->meta_title ?? 'About Us - MeritStudyResources.co.uk' ])
+@extends('layouts.frontend-3', ['main_title' => $defaultSEO->meta_title ?? 'About Us - MeritStudyResources.co.uk' ])
 @section('page-seo')
     <meta name="description" content="{{ $defaultSEO->meta_description ?? '' }}">
     <meta name="keywords" content="{{ $defaultSEO->meta_keywords ?? '' }}">

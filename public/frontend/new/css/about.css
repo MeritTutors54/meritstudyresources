@@ -1,0 +1,187 @@
+/* ==========================================================================
+   Merit Study Resources — About page
+   Load AFTER style.css and resources.css; reuses their tokens and the
+   hero, book-stack, resource-card and why-section components.
+   1. Hero  2. Stats  3. Story  4. Values  5. Team  6. Newsletter  7. Responsive
+   ========================================================================== */
+
+.page-about { --card-border: #e5ebe7; }
+
+.about-h2 {
+  margin: 0 0 1rem;
+  font-size: clamp(1.6rem, 1.1rem + 1.4vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: -.028em;
+}
+.about-text { font-size: 1rem; line-height: 1.65; color: #4a5f70; margin-bottom: 1rem; }
+.about-head { max-width: 38rem; margin: 0 auto 2rem; text-align: center; }
+.about-cta { display: inline-flex; align-items: center; gap: .5rem; min-height: 46px; padding-inline: 1.35rem; }
+.about-cta i { transition: transform var(--ease); }
+.about-cta:hover i { transform: translateX(3px); }
+.about-section { padding: 4rem 0; }
+
+/* 1. Hero --------------------------------------------------------------- */
+.about-hero { padding: 1.5rem 0 3rem; }
+.about-hero .hero-lead { max-width: 36rem; }
+.about-hero .btn-outline-merit { min-height: 46px; padding-inline: 1.2rem; }
+.about-art { min-height: 300px; }
+/* show the books even if the page's entrance animation script isn't running */
+.page-about .book { opacity: 1; }
+
+/* 2. Stats band --------------------------------------------------------- */
+.about-stats {
+  background: var(--merit-navy);
+  padding: 1.75rem 0;
+}
+.about-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 0;
+}
+.about-stat {
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+  padding: .25rem 0 .25rem 1.25rem;
+  border-left: 1px solid rgba(255, 255, 255, .12);
+}
+.about-stat:first-child { border-left: 0; padding-left: 0; }
+.about-stat .benefit-icon { width: 42px; height: 42px; font-size: 1.1rem; }
+.about-stat-num {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -.03em;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+.about-stat-label { display: block; font-size: .82rem; color: #9db1c1; }
+
+/* 3. Story -------------------------------------------------------------- */
+.about-boards { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0 0 1.5rem; }
+.about-boards li {
+  padding: .3rem .75rem;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-pill);
+  background: #fff;
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--merit-navy);
+}
+
+.story-steps {
+  position: relative;
+  margin: 0;
+  padding: 1.75rem 1.5rem;
+  background:
+    radial-gradient(rgba(22, 138, 69, .12) 1px, transparent 1.2px) 0 0 / 22px 22px,
+    #f6faf7;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+}
+.story-step {
+  position: relative;
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 1.1rem;
+  background: #fff;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-xs);
+}
+.story-step + .story-step { margin-top: 1.25rem; }
+/* connector */
+.story-step + .story-step::before {
+  content: "";
+  position: absolute;
+  top: -1.3rem;
+  left: 2.15rem;
+  width: 2px;
+  height: 1.3rem;
+  background: var(--merit-green);
+  opacity: .35;
+}
+.story-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--tint-mint);
+  color: var(--merit-green);
+  font-size: 1.05rem;
+}
+.story-step.is-now { border-color: #cfe5d8; box-shadow: var(--shadow-sm); }
+.story-step.is-now .story-dot { background: var(--merit-green); color: #fff; box-shadow: 0 0 0 4px var(--merit-light-green); }
+.story-label {
+  margin: 0 0 .1rem;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--merit-green);
+}
+.story-title { margin: 0 0 .2rem; font-size: 1rem; font-weight: 700; color: var(--merit-navy); }
+.story-text { margin: 0; font-size: .86rem; line-height: 1.5; color: var(--merit-muted); }
+
+/* 4. Values ------------------------------------------------------------- */
+.about-values { margin-top: 0; padding: 4rem 0; }
+
+/* 5. Team --------------------------------------------------------------- */
+.team-tile {
+  height: 100%;
+  padding: 1.5rem 1rem 1.35rem;
+  text-align: center;
+  background: #fff;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  transition: transform var(--ease), box-shadow var(--ease), border-color var(--ease);
+}
+.team-tile:hover { transform: translateY(-2px); border-color: #cfdcd4; box-shadow: var(--shadow-sm); }
+.team-initials {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 68px;
+  height: 68px;
+  margin-bottom: .9rem;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+}
+.team-initials.is-blue  { background: var(--ink-blue);  box-shadow: 0 0 0 5px var(--tint-sky); }
+.team-initials.is-amber { background: var(--ink-amber); box-shadow: 0 0 0 5px var(--tint-cream); }
+.team-initials.is-rose  { background: var(--ink-rose);  box-shadow: 0 0 0 5px var(--tint-blush); }
+.team-initials.is-green { background: var(--merit-green); box-shadow: 0 0 0 5px var(--tint-mint); }
+.team-name { margin: 0 0 .2rem; font-size: 1rem; font-weight: 700; }
+.team-role { margin: 0; font-size: .84rem; color: var(--merit-muted); }
+
+/* 6. Newsletter wrapper ------------------------------------------------- */
+.about-newsletter {
+  padding: 3.5rem 0;
+  background: var(--merit-light-green);
+  border-top: 1px solid #d9e9df;
+}
+
+/* 7. Responsive --------------------------------------------------------- */
+@media (max-width: 991.98px) {
+  .about-stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 1.25rem; }
+  .about-stat:nth-child(odd) { border-left: 0; padding-left: 0; }
+  .about-section, .about-values { padding: 3rem 0; }
+}
+
+@media (max-width: 575.98px) {
+  .about-stat { flex-direction: column; align-items: flex-start; gap: .5rem; }
+  .about-stat-num { font-size: 1.35rem; }
+  .story-steps { padding: 1rem; }
+  .about-hero .d-flex .btn, .about-hero .d-flex .btn-outline-merit { flex: 1 1 auto; justify-content: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-cta:hover i, .team-tile:hover { transform: none; }
+}

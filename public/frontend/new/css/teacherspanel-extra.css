@@ -1,0 +1,212 @@
+/* ==========================================================================
+   Merit Study Resources — Teacher library: dynamic pages
+   Load AFTER teacherspanel.css.
+   1. Fixes for the site layout   2. Topic links as <a>   3. Alerts
+   4. Course documents menu       5. Lesson page          6. Responsive
+   ========================================================================== */
+
+/* 1. Fixes for the site layout ---------------------------------------- */
+/* The site's main nav is the sticky bar (not the old .tl-header), so the
+   sidebar sticks just under it instead of 68px down. */
+.page-teacher .tl-sidebar { top: 64px; max-height: calc(100vh - 64px); }
+.page-teacher .tl-body { padding-bottom: 3.5rem; }
+.tl-unit[hidden], .tl-results[hidden], .unit-foot[hidden] { display: none !important; }
+.tl-unit { scroll-margin-top: 80px; }
+.tl-tools:empty { display: none; }
+.tl-tools:empty + * { margin-top: 1.5rem; }
+
+/* 2. Topic links are now <a> (crawlable, work without JavaScript) ----- */
+a.topic-link, a.topic-link:hover, a.topic-link:focus { text-decoration: none; }
+
+/* topic tag only shows in search results */
+.lesson-topic-tag { display: none; }
+.is-search .lesson-topic-tag { display: inline-block; }
+.lesson-soon { font-style: italic; }
+
+/* 3. Alerts ----------------------------------------------------------- */
+.tl-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+  margin: 0 0 1.25rem;
+  padding: .8rem 1rem;
+  border: 1px solid #f3d6a4;
+  border-radius: var(--radius);
+  background: #fff8ec;
+  font-size: .88rem;
+  color: #7a4b00;
+}
+.tl-alert i { margin-top: .1rem; }
+
+/* 4. Course documents menu -------------------------------------------- */
+.tl-tools .dropdown-toggle::after { margin-left: .35rem; }
+.tl-tool-menu {
+  min-width: 200px;
+  padding: .35rem;
+  border: 1px solid var(--merit-border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+}
+.tl-tool-menu .dropdown-item {
+  border-radius: 6px;
+  padding: .5rem .7rem;
+  font-size: .86rem;
+  font-weight: 500;
+  color: var(--merit-navy);
+}
+.tl-tool-menu .dropdown-item:hover { background: var(--merit-light-green); color: var(--merit-dark-green); }
+
+/* 5. Lesson page ------------------------------------------------------ */
+.tl-back {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  margin: 0 0 1.25rem;
+  font-size: .82rem;
+  font-weight: 600;
+}
+.tl-back:hover { text-decoration: none; }
+
+.tl-objective {
+  margin: 0 0 2rem;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid var(--card-border);
+  border-left: 3px solid var(--merit-green);
+  border-radius: var(--radius);
+  background: #fff;
+  max-width: 48rem;
+}
+.tl-objective-label {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  margin: 0 0 .3rem;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--merit-green);
+}
+.tl-objective-text { margin: 0; font-size: 1rem; font-weight: 600; color: var(--merit-navy); line-height: 1.5; }
+.tl-summary { margin: .6rem 0 0; font-size: .9rem; line-height: 1.6; color: #4a5f70; }
+.tl-objective-text + .tl-summary { padding-top: .6rem; border-top: 1px solid var(--merit-line); }
+
+.tl-files { margin-top: .5rem; }
+
+.tl-access {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  margin: 0 0 1rem;
+  padding: .8rem 1rem;
+  border: 1px solid #d9e9df;
+  border-radius: var(--radius);
+  background: var(--merit-light-green);
+}
+.tl-access > i { font-size: 1.15rem; color: var(--merit-green); }
+.tl-access p { flex: 1 1 auto; margin: 0; font-size: .86rem; color: #3b5163; }
+.tl-access strong { color: var(--merit-navy); }
+.tl-access .btn { flex: none; }
+.tl-access.is-ok { background: #fff; border-color: var(--card-border); }
+
+.tl-file {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  transition: background var(--ease);
+}
+.tl-file + .tl-file { border-top: 1px solid var(--merit-line); }
+.tl-file:hover { background: #fafcfb; }
+.tl-file-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: var(--merit-light-green);
+  font-size: 1.1rem;
+  color: var(--merit-dark-green);
+}
+.tl-file-type {
+  margin: 0 0 .1rem;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--merit-green);
+}
+.tl-file-title { margin: 0 0 .3rem; font-size: .96rem; font-weight: 700; letter-spacing: -.01em; color: var(--merit-navy); }
+.tl-file-action form { margin: 0; }
+
+.tl-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  padding: .05rem .5rem;
+  border-radius: var(--radius-pill);
+  font-size: .7rem;
+  font-weight: 700;
+}
+.tl-badge.is-free { background: var(--merit-light-green); color: var(--merit-dark-green); }
+.tl-badge.is-pro { background: #fdf4dc; color: #8a5a00; }
+.tl-badge i { font-size: .62rem; }
+
+.tl-locked {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--merit-muted);
+  white-space: nowrap;
+}
+
+.tl-pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .75rem;
+  margin-top: 1.75rem;
+}
+.tl-pager-link {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+  padding: .9rem 1.1rem;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  background: #fff;
+  transition: border-color var(--ease), background var(--ease);
+}
+.tl-pager-link:hover { border-color: #cfe5d8; background: var(--merit-light-green); text-decoration: none; }
+.tl-pager-link.is-next { text-align: right; align-items: flex-end; }
+.tl-pager-dir {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  font-size: .74rem;
+  font-weight: 600;
+  color: var(--merit-muted);
+}
+.tl-pager-title { font-size: .92rem; font-weight: 700; color: var(--merit-navy); }
+
+.tl-coming { max-width: 36rem; margin: 2rem auto; }
+.tl-coming strong { color: var(--merit-navy); }
+
+/* 6. Responsive ------------------------------------------------------- */
+@media (max-width: 991.98px) {
+  .page-teacher .tl-sidebar { top: 56px; }
+  .tl-back { display: none; }
+  .topic-nav .topic-name { max-width: 16rem; overflow: hidden; text-overflow: ellipsis; }
+}
+
+@media (max-width: 767.98px) {
+  .tl-file { grid-template-columns: 38px minmax(0, 1fr); gap: .75rem; padding: 1rem; }
+  .tl-file-icon { width: 36px; height: 36px; font-size: 1rem; }
+  .tl-file-action { grid-column: 2; }
+  .tl-access { flex-wrap: wrap; }
+  .tl-pager { grid-template-columns: 1fr; }
+  .tl-pager-link.is-next { text-align: left; align-items: flex-start; }
+}

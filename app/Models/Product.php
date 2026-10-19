@@ -40,29 +40,29 @@ protected $casts = [
     'solution_types' => 'array',
     'product_image' => 'array',
 ];
-    public function getMirrorPriceAttribute(): ?string
-    {
-        if (!$this->regular_price) {
-            return null;                          // or return '0.00'
-        }
+    // public function getMirrorPriceAttribute(): ?string
+    // {
+    //     if (!$this->regular_price) {
+    //         return null;                          // or return '0.00'
+    //     }
 
-        $currencies = new ISOCurrencies();
-        $formatter  = new DecimalMoneyFormatter($currencies);
+    //     $currencies = new ISOCurrencies();
+    //     $formatter  = new DecimalMoneyFormatter($currencies);
 
-        return $formatter->format($this->regular_price); // "853.00"
-    }
+    //     return $formatter->format($this->regular_price); // "853.00"
+    // }
 
-    public function getMirrorDiscountAttribute()
-    {
-        if (!$this->discount_price) {
-            return null;                          // or return '0.00'
-        }
+    // public function getMirrorDiscountAttribute()
+    // {
+    //     if (!$this->discount_price) {
+    //         return null;                          // or return '0.00'
+    //     }
 
-        $currencies = new ISOCurrencies();
-        $formatter  = new DecimalMoneyFormatter($currencies);
+    //     $currencies = new ISOCurrencies();
+    //     $formatter  = new DecimalMoneyFormatter($currencies);
 
-        return $formatter->format($this->discount_price); // "853.00"
-    }
+    //     return $formatter->format($this->discount_price); // "853.00"
+    // }
 
     public function bookVariant(): BelongsTo
     {

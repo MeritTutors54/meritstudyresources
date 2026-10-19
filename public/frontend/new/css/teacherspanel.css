@@ -1,0 +1,477 @@
+/* ==========================================================================
+   Merit Study Resources — Teacher library (curriculum / lesson browser)
+   Loaded after style.css, resources.css and pages.css; reuses their tokens.
+   1. Header  2. Filter bar  3. Layout  4. Topic sidebar  5. Course head
+   6. Tool buttons  7. Lesson list  8. Empty state  9. Responsive
+   ========================================================================== */
+
+.page-teacher {
+  --page-bg: #f6f8f7;
+  --card-border: #e3e9e5;
+  background: var(--page-bg);
+}
+
+/* 1. Header ------------------------------------------------------------- */
+.tl-header {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  background: #fff;
+  border-bottom: 1px solid var(--merit-line);
+}
+.tl-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 68px;
+}
+.tl-header .brand-mark { width: 40px; height: 40px; }
+.tl-header .brand-name { font-size: .98rem; letter-spacing: .01em; }
+.tl-header .brand-tagline { margin-top: .2rem; font-size: .52rem; letter-spacing: .16em; }
+
+.tl-header-nav { display: flex; align-items: center; gap: .5rem; }
+.tl-nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .45rem .75rem;
+  border-radius: var(--radius-sm);
+  font-size: .88rem;
+  font-weight: 600;
+  color: var(--merit-text);
+}
+.tl-nav-link:hover { color: var(--merit-dark-green); background: var(--merit-light-green); text-decoration: none; }
+.tl-nav-link.is-active { color: var(--merit-green); }
+
+.member-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .35rem .8rem .35rem .4rem;
+  border: 1px solid var(--merit-border);
+  border-radius: var(--radius-pill);
+  background: #fff;
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--merit-navy);
+  transition: border-color var(--ease), background var(--ease);
+}
+.member-pill:hover { border-color: #cfe5d8; background: var(--merit-light-green); color: var(--merit-navy); text-decoration: none; }
+.member-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--merit-green);
+  color: #fff;
+  font-size: .68rem;
+  font-weight: 700;
+}
+
+/* 2. Filter bar --------------------------------------------------------- */
+.tl-filters {
+  background: #fff;
+  border-bottom: 1px solid var(--card-border);
+  padding: 1rem 0 1.1rem;
+}
+.tl-filter-row {
+  display: grid;
+  grid-template-columns: 150px 150px 150px minmax(0, 1fr);
+  gap: .75rem 1rem;
+  align-items: end;
+}
+.tl-field-label {
+  display: block;
+  margin-bottom: .35rem;
+  font-size: .74rem;
+  font-weight: 600;
+  color: var(--merit-muted);
+}
+.tl-select {
+  min-height: 44px;
+  border: 1px solid var(--merit-border);
+  border-radius: var(--radius-sm);
+  font-size: .9rem;
+  font-weight: 500;
+  color: var(--merit-navy);
+  transition: border-color var(--ease), box-shadow var(--ease);
+}
+.tl-select:focus { border-color: var(--merit-green); box-shadow: 0 0 0 3px rgba(22, 138, 69, .1); }
+.tl-filters .search-shell { min-height: 44px; padding-right: .5rem; }
+.search-kbd {
+  flex: none;
+  padding: .1rem .45rem;
+  border: 1px solid var(--merit-border);
+  border-radius: 5px;
+  background: #f6f8f7;
+  font-size: .7rem;
+  font-weight: 600;
+  color: var(--merit-muted);
+}
+
+/* 3. Layout -------------------------------------------------------------- */
+.tl-body { padding: 0 0 3rem; }
+.tl-layout {
+  display: grid;
+  grid-template-columns: 270px minmax(0, 1fr);
+  min-height: calc(100vh - 160px);
+}
+
+/* 4. Topic sidebar ------------------------------------------------------ */
+.tl-sidebar {
+  position: sticky;
+  top: 68px;
+  align-self: start;
+  max-height: calc(100vh - 68px);
+  overflow-y: auto;
+  padding: 1.5rem 1.25rem 1.5rem 0;
+  border-right: 1px solid var(--card-border);
+}
+.tl-side-title {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  margin: 0;
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--merit-navy);
+}
+.tl-side-title i { font-size: .75rem; color: var(--merit-green); }
+.tl-side-sub {
+  margin: .25rem 0 1rem 1.2rem;
+  font-size: .66rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--merit-muted);
+}
+
+.topic-nav { display: grid; gap: .15rem; margin: 0; }
+.topic-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  width: 100%;
+  padding: .7rem .8rem;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  text-align: left;
+  font-size: .88rem;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--merit-text);
+  transition: background var(--ease), color var(--ease);
+}
+.topic-link:hover { background: #fff; color: var(--merit-dark-green); }
+.topic-link.is-active {
+  background: #fff;
+  color: var(--merit-dark-green);
+  font-weight: 700;
+  box-shadow: var(--shadow-xs), inset 3px 0 0 var(--merit-green);
+}
+.topic-num {
+  flex: none;
+  width: 22px;
+  font-size: .72rem;
+  font-weight: 700;
+  color: #a5b4ad;
+  font-variant-numeric: tabular-nums;
+}
+.topic-link.is-active .topic-num { color: var(--merit-green); }
+.topic-name { flex: 1 1 auto; min-width: 0; }
+.topic-count {
+  flex: none;
+  min-width: 24px;
+  padding: .05rem .4rem;
+  border-radius: var(--radius-pill);
+  background: #eef2f0;
+  font-size: .7rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--merit-muted);
+}
+.topic-link.is-active .topic-count { background: var(--merit-light-green); color: var(--merit-dark-green); }
+
+.side-help {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border: 1px solid #d9e9df;
+  border-radius: var(--radius);
+  background: var(--merit-light-green);
+}
+.side-help-title { margin: 0 0 .25rem; font-size: .86rem; font-weight: 700; color: var(--merit-navy); }
+.side-help p { margin: 0 0 .65rem; font-size: .78rem; line-height: 1.5; color: #4a5f70; }
+.side-help a { font-size: .8rem; font-weight: 600; }
+
+/* 5. Course head -------------------------------------------------------- */
+.tl-main { padding: 1.5rem 0 0 2rem; min-width: 0; }
+.tl-main .course-crumbs { margin-bottom: 1.25rem; font-size: .8rem; }
+
+.tl-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin: 0 0 .5rem;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--merit-green);
+}
+.tl-eyebrow::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--merit-green);
+}
+.tl-title {
+  font-size: clamp(1.8rem, 1.2rem + 1.8vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  margin: 0 0 .6rem;
+}
+.tl-lead { max-width: 40rem; margin: 0 0 .9rem; font-size: .98rem; line-height: 1.6; color: #4a5f70; }
+
+.tl-stats { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0 0 1.4rem; }
+.tl-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .28rem .7rem;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-pill);
+  background: #fff;
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--merit-navy);
+}
+.tl-stat i { color: var(--merit-green); font-size: .8rem; }
+
+/* 6. Tool buttons ------------------------------------------------------- */
+.tl-tools { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 2.25rem; }
+.tl-tool {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  min-height: 42px;
+  padding: .5rem 1rem;
+  border: 1px solid var(--merit-border);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  font-size: .86rem;
+  font-weight: 600;
+  color: var(--merit-navy);
+  box-shadow: var(--shadow-xs);
+  transition: border-color var(--ease), background var(--ease), color var(--ease);
+}
+.tl-tool i { font-size: .95rem; color: var(--merit-green); }
+.tl-tool:hover { border-color: #cfe5d8; background: var(--merit-light-green); color: var(--merit-dark-green); text-decoration: none; }
+
+/* 7. Lesson list -------------------------------------------------------- */
+.unit-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: .85rem;
+}
+.unit-title { font-size: 1.3rem; font-weight: 800; letter-spacing: -.02em; margin: 0; }
+.unit-meta { margin: .2rem 0 0; font-size: .82rem; color: var(--merit-muted); }
+.unit-count {
+  flex: none;
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--merit-muted);
+}
+
+.lesson-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: #fff;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.lesson-row {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.05rem 1.25rem;
+  transition: background var(--ease);
+}
+.lesson-row + .lesson-row { border-top: 1px solid var(--merit-line); }
+.lesson-row:hover { background: #fafcfb; }
+
+.lesson-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--merit-light-green);
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--merit-dark-green);
+  font-variant-numeric: tabular-nums;
+}
+.lesson-title { margin: 0 0 .25rem; font-size: .98rem; font-weight: 700; letter-spacing: -.012em; }
+.lesson-title a { color: var(--merit-navy); }
+.lesson-title a:hover { color: var(--merit-dark-green); text-decoration: none; }
+
+.lesson-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .3rem .55rem;
+  margin: 0;
+  font-size: .78rem;
+  color: var(--merit-muted);
+}
+.lesson-week { font-weight: 600; color: #4a5f70; }
+.lesson-code {
+  padding: .05rem .4rem;
+  border-radius: 5px;
+  background: #f1f4f3;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .72rem;
+  color: #4a5f70;
+}
+.lesson-dot { width: 3px; height: 3px; border-radius: 50%; background: #c3cfc8; }
+.lesson-res { display: inline-flex; align-items: center; gap: .55rem; }
+.lesson-res span { display: inline-flex; align-items: center; gap: .2rem; }
+.lesson-res i { font-size: .78rem; color: #8aa096; }
+
+.btn-open {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  min-height: 40px;
+  padding: .45rem 1.05rem;
+  font-size: .86rem;
+  white-space: nowrap;
+}
+.btn-open i { transition: transform var(--ease); }
+.lesson-row:hover .btn-open i { transform: translateX(3px); }
+
+.unit-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+.unit-pager { display: flex; gap: .5rem; }
+.unit-note { margin: 0; font-size: .8rem; color: var(--merit-muted); }
+
+/* 8. Empty / search state ---------------------------------------------- */
+.tl-empty {
+  padding: 2.5rem 1rem;
+  text-align: center;
+  font-size: .92rem;
+  color: var(--merit-muted);
+}
+.tl-empty i { display: block; margin-bottom: .5rem; font-size: 1.5rem; color: #b6c6bd; }
+.lesson-topic-tag {
+  display: inline-block;
+  margin-bottom: .2rem;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--merit-green);
+}
+mark { padding: 0 .1em; border-radius: 3px; background: #fdf1c7; color: inherit; }
+
+/* 9. Responsive --------------------------------------------------------- */
+@media (max-width: 1199.98px) {
+  .tl-layout { grid-template-columns: 240px minmax(0, 1fr); }
+  .tl-main { padding-left: 1.5rem; }
+}
+
+@media (max-width: 991.98px) {
+  .tl-filter-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .tl-search { grid-column: 1 / -1; }
+
+  .tl-layout { display: block; }
+  /* sidebar becomes a horizontal, scrollable topic strip */
+  .tl-sidebar {
+    position: sticky;
+    top: 68px;
+    z-index: 1010;
+    max-height: none;
+    overflow: visible;
+    margin: 0 calc(var(--bs-gutter-x, 1.5rem) * -.5);
+    padding: .75rem calc(var(--bs-gutter-x, 1.5rem) * .5);
+    border-right: 0;
+    border-bottom: 1px solid var(--card-border);
+    background: rgba(246, 248, 247, .96);
+    backdrop-filter: saturate(140%) blur(6px);
+  }
+  .tl-side-title, .tl-side-sub, .side-help { display: none; }
+  .topic-nav {
+    display: flex;
+    gap: .4rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .topic-nav::-webkit-scrollbar { display: none; }
+  .topic-link {
+    flex: none;
+    width: auto;
+    padding: .45rem .85rem;
+    border: 1px solid var(--merit-border);
+    border-radius: var(--radius-pill);
+    background: #fff;
+    white-space: nowrap;
+    font-size: .84rem;
+  }
+  .topic-link.is-active {
+    border-color: var(--merit-green);
+    background: var(--merit-green);
+    color: #fff;
+    box-shadow: none;
+  }
+  .topic-link.is-active .topic-count { background: rgba(255, 255, 255, .2); color: #fff; }
+  .topic-num { display: none; }
+  .tl-main { padding: 1.25rem 0 0; }
+}
+
+@media (max-width: 767.98px) {
+  .tl-header-nav .tl-nav-link span { display: none; }
+  .lesson-row {
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: .75rem;
+    padding: 1rem;
+  }
+  .lesson-num { width: 34px; height: 34px; }
+  .lesson-action { grid-column: 2; }
+  .btn-open { min-height: 38px; }
+  .unit-head { align-items: flex-start; flex-direction: column; gap: .2rem; }
+}
+
+@media (max-width: 575.98px) {
+  .tl-filter-row { grid-template-columns: 1fr 1fr; }
+  .tl-filter-row > :first-child { grid-column: 1 / -1; }
+  .tl-tools { display: grid; grid-template-columns: 1fr; }
+  .tl-tool { justify-content: center; }
+  .member-pill .member-label { display: none; }
+  .member-pill { padding-right: .4rem; }
+  .search-kbd { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lesson-row:hover .btn-open i { transform: none; }
+}
+
+/* pager buttons at the first / last topic */
+.unit-pager .btn-soft:disabled { opacity: .45; background: #fff; color: var(--merit-navy); border-color: var(--merit-border); }

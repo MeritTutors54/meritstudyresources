@@ -68,8 +68,12 @@
                         <a class="nav-link {{ request()->routeIs('all-subjects') ? 'active' : '' }}"
                             href="{{ route('all-subjects') }}">Subjects</a>
                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('teacher-resources.index') ? 'active' : '' }}"
+                            href="{{ route('teacher-resources.index') }}">School Resources</a>
+                    </li>
 
-                    <li class="nav-item dropdown">
+                    {{-- <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Resources
                         </a>
@@ -92,7 +96,7 @@
                                 @endforeach
                             </ul>
                         @endif
-                    </li>
+                    </li> --}}
 
                     <li class="nav-item"><a class="nav-link" href="{{ route('past.papers') }}">Past Papers</a></li>
 
@@ -109,16 +113,18 @@
                 <div class="navbar-nav ms-auto d-flex align-items-center gap-2 mt-2 mt-lg-0">
                     @auth
                         <!-- Cart Icon with Incrementable Badge -->
-                        <a href="{{ route('view.cart') }}" class="btn-soft position-relative px-2.5" title="View Cart">
+                        {{-- <a href="{{ route('view.cart') }}" class="btn-soft position-relative px-2.5" title="View Cart">
                             <i class="bi bi-cart3 fs-6"></i>
-                            <!-- Cart count badge (update variable or dynamic count as needed) -->
+                            
                             @if(isset($cartCount) && $cartCount > 0)
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill" style="background: var(--merit-green); font-size: 0.65rem;">
                                     {{ $cartCount }}
                                 </span>
                             @endif
-                        </a>
-
+                        </a> --}}
+                         {{-- <a href="{{ url('/teacher-resources') }}" class="btn btn-merit btn-sm px-3 py-2 d-inline-flex align-items-center gap-1">
+                            <i class="bi bi-speedometer2"></i> Teacher Panel
+                        </a> --}}
                         <!-- Dashboard Button -->
                         <a href="{{ route('user.dashboard') }}" class="btn btn-merit btn-sm px-3 py-2 d-inline-flex align-items-center gap-1">
                             <i class="bi bi-speedometer2"></i> Dashboard

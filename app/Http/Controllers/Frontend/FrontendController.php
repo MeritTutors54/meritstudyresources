@@ -427,4 +427,10 @@ class FrontendController extends Controller
             'fixed_files' => $fixed
         ]);
     }
+
+
+    public function teachersPanel(){
+
+        return view('frontend.teacherpanel.index');
+    }
 }
