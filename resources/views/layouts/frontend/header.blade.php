@@ -41,7 +41,7 @@
                                 <li><a href="{{ route('pricing') }}">Pricing</a></li>
 
 
-                                <li class="has-custom-submenu">
+                                {{-- <li class="has-custom-submenu">
                                     <a href="#">Resources
                                         <i class="feather-chevron-down"></i>
                                     </a>
@@ -64,7 +64,7 @@
                                             @endforeach
                                         </div>
                                     @endif
-                                </li>
+                                </li> --}}
                                 <li><a href="{{ route('past.papers') }}">Past Papers</a></li>
                             </ul>
                         @endguest

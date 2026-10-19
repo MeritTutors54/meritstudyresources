@@ -120,4 +120,23 @@
   .auth-or::before, .auth-or::after { content: ""; flex: 1; height: 1px; background: currentColor; opacity: .25; }
   .btn-google { display: inline-flex; align-items: center; justify-content: center; gap: .6rem; }
 </style>
+<script>
+document.addEventListener('click', function (e) {
+    const btn = e.target.closest('[data-password-toggle]');
+    if (!btn) return;
+
+    const input = document.getElementById(btn.dataset.passwordToggle);
+    if (!input) return;
+
+    const show = input.type === 'password';
+    input.type = show ? 'text' : 'password';
+
+    const icon = btn.querySelector('i');
+    if (icon) {
+        icon.classList.toggle('bi-eye', !show);
+        icon.classList.toggle('bi-eye-slash', show);
+    }
+    btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+});
+</script>
 @endsection
