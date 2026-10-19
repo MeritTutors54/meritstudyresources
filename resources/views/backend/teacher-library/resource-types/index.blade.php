@@ -18,13 +18,13 @@
                             <div class="box-header with-border">
                                 <div class="d-flex align-items-center">
                                     <h3 class="box-title">All file types</h3>
-                                    @can('createLessonResourceType', Auth::user())
+                                   
                                         <a href="{{ route('admin.teacher-library.resource-types.create') }}"
                                            class="ms-auto waves-effect waves-light btn btn-primary">
                                             <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                                             <span class="ms-2">Create New</span>
                                         </a>
-                                    @endcan
+                                    
                                 </div>
                             </div>
                             <div class="box-body">
@@ -49,17 +49,16 @@
 <td class="text-center">{{ $item->resources_count }}</td>
                                                 <td class="text-center">@include('backend.teacher-library.partials.status-badge', ['status' => $item->status])</td>
                                                 <td class="text-center">
-                                                    @can('updateLessonResourceType', Auth::user())
+                                                  
                                                         <a href="{{ route('admin.teacher-library.resource-types.edit', $item) }}" title="Edit">
                                                             <i class="fa fa-edit" aria-hidden="true"></i>
                                                         </a>
-                                                    @endcan
-                                                    @can('deleteLessonResourceType', Auth::user())
+                                                   
                                                         @include('backend.teacher-library.partials.delete-button', [
                                                             'route' => route('admin.teacher-library.resource-types.destroy', $item),
                                                             'name'  => $item->name,
                                                         ])
-                                                    @endcan
+                                                  
                                                 </td>
                                             </tr>
                                         @empty

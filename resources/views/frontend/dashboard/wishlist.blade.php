@@ -1,162 +1,131 @@
-@extends('layouts.frontend')
+@extends('layouts.frontend-3', ['main_title' => 'Wishlist - MeritStudyResources.co.uk' ])
+@section('page-seo')
+    <meta name="robots" content="noindex">
+@endsection
 @section('content')
-<div class="rbt-page-banner-wrapper">
-    <!-- Start Banner BG Image  -->
-    <div class="rbt-banner-image"></div>
-    <!-- End Banner BG Image  -->
-</div>
-<div class="rbt-dashboard-area rbt-section-overlayping-top rbt-section-gapBottom">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <!-- Start Dashboard Top  -->
-                <div class="rbt-dashboard-content-wrapper">
-                  
-                    <!-- Start Tutor Information  -->
-                    @include('frontend.dashboard.include.header')
-                    <!-- End Tutor Information  -->
+@php
+    // Pass $wishlist from the controller, e.g. auth()->user()->wishlist()->with('resource')->latest()->paginate(12)
+    $wishlist    = $wishlist ?? collect();
+    $isPaginated = $wishlist instanceof \Illuminate\Contracts\Pagination\Paginator;
+    $hasItems    = count($wishlist) > 0;
+    $total       = $wishlist instanceof \Illuminate\Contracts\Pagination\LengthAwarePaginator
+                    ? $wishlist->total()
+                    : count($wishlist);
+    $canRemove   = \Illuminate\Support\Facades\Route::has('user.wishlist.remove');
+
+    $tints = ['res-green', 'res-blue', 'res-purple', 'res-amber', 'res-teal', 'res-rose'];
+@endphp
+
+{{-- Load after style.css, resources.css and pages.css (or move into your layout's <head>) --}}
+<link href="{{ asset('frontend/new/css/dashboard.css') }}" rel="stylesheet">
+
+<div class="page-resources page-dashboard">
+
+    <!-- ===== Page header ===== -->
+    <section class="course-header dash-header">
+        <div class="container">
+            <div class="course-header-top">
+                <nav aria-label="Breadcrumb">
+                    <ol class="breadcrumb course-crumbs">
+                        <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Wishlist</li>
+                    </ol>
+                </nav>
+                <p class="spec-code"><span>{{ number_format($total) }}</span> saved</p>
+            </div>
+
+            <div class="course-header-main">
+                <div>
+                    <p class="eyebrow"><span class="eyebrow-dot"></span>Saved</p>
+                    <h1 class="course-title">My wishlist</h1>
+                    <p class="course-intro">Resources and books you've saved for later.</p>
                 </div>
-                <!-- End Dashboard Top  -->
-                <div class="row g-5">
-                    <div class="col-lg-3">
-                        <!-- Start Dashboard Sidebar  -->
-                        <div class="rbt-default-sidebar sticky-top rbt-shadow-box rbt-gradient-border">
-                            <div class="inner">
-                                <div class="content-item-content">
-                                        {{-- 
-                                    <div class="rbt-default-sidebar-wrapper">
-                                        <div class="section-title mb--20">
-                                            <h6 class="rbt-title-style-2">Welcome, Jone Due</h6>
-                                        </div>
-                                        <nav class="mainmenu-nav">
-                                            <ul class="dashboard-mainmenu rbt-default-sidebar-list">
-                                                <li><a href="instructor-dashboard.html"><i
-                                                            class="feather-home"></i><span>Dashboard</span></a></li>
-                                                <li><a href="instructor-profile.html"><i
-                                                            class="feather-user"></i><span>My Profile</span></a>
-                                                </li>
-                                                <li><a href="instructor-enrolled-courses.html"><i
-                                                            class="feather-book-open"></i><span>Enrolled
-                                                            Courses</span></a></li>
-                                                <li><a href="instructor-wishlist.html"><i
-                                                            class="feather-bookmark"></i><span>Wishlist</span></a>
-                                                </li>
-                                                <li><a href="instructor-reviews.html"><i
-                                                            class="feather-star"></i><span>Reviews</span></a></li>
-                                                <li><a href="instructor-my-quiz-attempts.html"><i
-                                                            class="feather-help-circle"></i><span>My Quiz
-                                                            Attempts</span></a></li>
-                                                <li><a href="instructor-order-history.html"><i
-                                                            class="feather-shopping-bag"></i><span>Order
-                                                            History</span></a></li>
-                                            </ul>
-                                        </nav>
+                <div class="course-actions">
+                    <a class="btn btn-merit d-inline-flex align-items-center gap-2" href="{{ url('subjects') }}">
+                        <i class="bi bi-search"></i> Find resources
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                                        <div class="section-title mt--40 mb--20">
-                                            <h6 class="rbt-title-style-2">Instructor</h6>
-                                        </div>
+    <!-- ===== Body ===== -->
+    <div class="container dash-body">
+        <div class="row g-4">
 
-                                        <nav class="mainmenu-nav">
-                                            <ul class="dashboard-mainmenu rbt-default-sidebar-list">
-                                                <li><a href="instructor-course.html"><i
-                                                            class="feather-monitor"></i><span>My Courses</span></a>
-                                                </li>
-                                                <li><a href="instructor-announcements.html"><i
-                                                            class="feather-volume-2"></i><span>Announcements</span></a>
-                                                </li>
-                                                <li><a href="instructor-quiz-attempts.html"><i
-                                                            class="feather-message-square"></i><span>Quiz
-                                                            Attempts</span></a></li>
-                                                <li><a href="instructor-assignments.html"><i
-                                                            class="feather-list"></i><span>Assignments</span></a>
-                                                </li>
-                                            </ul>
-                                        </nav>
+            <!-- Side nav -->
+            <aside class="col-lg-3">
+                <div class="dash-nav">
+                    @include('frontend.dashboard.include.menu')
+                </div>
+            </aside>
 
-                                        <div class="section-title mt--40 mb--20">
-                                            <h6 class="rbt-title-style-2">User</h6>
-                                        </div>
+            <!-- Main column -->
+            <div class="col-lg-9">
+                @include('layouts.frontend.notification')
 
-                                        <nav class="mainmenu-nav">
-                                            <ul class="dashboard-mainmenu rbt-default-sidebar-list">
-                                                <li><a href="instructor-settings.html"><i
-                                                            class="feather-settings"></i><span>Settings</span></a>
-                                                </li>
-                                                <li><a href="index.html"><i
-                                                            class="feather-log-out"></i><span>Logout</span></a></li>
-                                            </ul>
-                                        </nav>
+                @if($hasItems)
+                    <div class="row g-3">
+                        @foreach($wishlist as $item)
+                            @php
+                                // works whether each row is the resource itself or a pivot with ->resource
+                                $res   = $item->resource ?? $item->book ?? $item;
+                                $name  = $res->name ?? $res->title ?? 'Saved item';
+                                $type  = $res->resource_type_name ?? $res->type_name ?? null;
+                                $meta  = collect([$res->exam_board ?? null, $res->level ?? null, $res->subject?->name ?? null])->filter()->implode(' · ');
+                                $link  = $res->url ?? (isset($res->slug) ? url('resources/'.$res->slug) : null);
+                                $saved = $item->created_at ? \Illuminate\Support\Carbon::parse($item->created_at)->diffForHumans() : null;
+                            @endphp
+                            <div class="col-md-6 col-xl-4">
+                                <article class="resource-card wish-card {{ $tints[$loop->index % count($tints)] }}">
+                                    <div class="wish-top">
+                                        <span class="resource-icon"><i class="bi bi-bookmark-heart"></i></span>
+                                        @if($canRemove)
+                                            <form action="{{ route('user.wishlist.remove', $item) }}" method="POST" class="m-0">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="wish-remove" aria-label="Remove {{ $name }} from wishlist" title="Remove">
+                                                    <i class="bi bi-x-lg"></i>
+                                                </button>
+                                            </form>
+                                        @endif
                                     </div>
-                                      --}}
-                                    @include('frontend.dashboard.include.menu')
 
-                                </div>
+                                    @if($type)
+                                        <p class="row-eyebrow">{{ $type }}</p>
+                                    @endif
+                                    <h2 class="resource-title">
+                                        @if($link)<a href="{{ $link }}">{{ $name }}</a>@else{{ $name }}@endif
+                                    </h2>
+                                    @if($meta)
+                                        <p class="resource-text mb-2">{{ $meta }}</p>
+                                    @endif
+                                    @if($saved)
+                                        <p class="wish-saved"><i class="bi bi-clock"></i> Saved {{ $saved }}</p>
+                                    @endif
+
+                                    @if($link)
+                                        <a class="btn-soft" href="{{ $link }}">Open <i class="bi bi-arrow-right"></i></a>
+                                    @endif
+                                </article>
                             </div>
-                        </div>
-                        <!-- End Dashboard Sidebar  -->
+                        @endforeach
                     </div>
-                    <div class="col-lg-9">
-                        <!-- Start Instructor Profile  -->
-                        <div class="rbt-dashboard-content bg-color-white rbt-shadow-box">
-                            <div class="content">
-                                <div class="section-title">
-                                    <h4 class="rbt-title-style-3">Wishlist</h4>
-                                </div>
-                                <div class="row g-5">
-                                    <!-- Start Single Course  -->
-                                    {{-- <div class="col-lg-4 col-md-6 col-12">
-                                        <div class="rbt-card variation-01 rbt-hover">
-                                            <div class="rbt-card-img">
-                                                <a href="course-details.html">
-                                                    <img src="assets/images/course/course-online-01.jpg"
-                                                        alt="Card image">
-                                                </a>
-                                            </div>
-                                            <div class="rbt-card-body">
-                                                <div class="rbt-card-top">
-                                                    <div class="rbt-review">
-                                                        <div class="rating">
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                        </div>
-                                                        <span class="rating-count"> (15 Reviews)</span>
-                                                    </div>
-                                                    <div class="rbt-bookmark-btn">
-                                                        <a class="rbt-round-btn" title="Bookmark" href="#"><i
-                                                                class="feather-bookmark"></i></a>
-                                                    </div>
-                                                </div>
-                                                <h4 class="rbt-card-title"><a href="course-details.html">React Front
-                                                        To Back</a>
-                                                </h4>
-                                                <ul class="rbt-meta">
-                                                    <li><i class="feather-book"></i>20 Lessons</li>
-                                                    <li><i class="feather-users"></i>40 Students</li>
-                                                </ul>
 
-                                                <div class="rbt-card-bottom">
-                                                    <div class="rbt-price">
-                                                        <span class="current-price">$60</span>
-                                                        <span class="off-price">$120</span>
-                                                    </div>
-                                                    <a class="rbt-btn-link" href="course-details.html">Learn
-                                                        More<i class="feather-arrow-right"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> --}}
-                                  
-                                    <!-- End Single Course  -->
-                                </div>
-                            </div>
+                    @if($isPaginated && $wishlist->hasPages())
+                        <div class="data-pager">
+                            {{ $wishlist->onEachSide(1)->links('pagination::bootstrap-5') }}
                         </div>
-                        <!-- End Instructor Profile  -->
-
+                    @endif
+                @else
+                    <div class="empty-state data-empty">
+                        <i class="bi bi-bookmark-heart"></i>
+                        <p class="data-empty-title">Your wishlist is empty</p>
+                        <p>Tap the bookmark on any resource or book to save it here.</p>
+                        <a class="btn btn-merit btn-sm" href="{{ url('subjects') }}">Browse subjects</a>
                     </div>
-                </div>
+                @endif
 
             </div>
         </div>
