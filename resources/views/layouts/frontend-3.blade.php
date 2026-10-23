@@ -22,7 +22,7 @@
     <link href="{{ asset('frontend/new/css/subjects.css') }}" rel="stylesheet">
     <link href="{{ asset('frontend/new/css/resources.css') }}" rel="stylesheet">
      <link href="{{ asset('frontend/new/css/bookshop.css') }}" rel="stylesheet">
-     
+     <meta name="google-site-verification" content="lPvNOY9Rj6EYxBxxdKN7QI442VoalhjWTtzDTx_9Jbg" />
     @stack('css')
 </head>
 

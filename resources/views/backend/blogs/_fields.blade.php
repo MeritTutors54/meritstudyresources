@@ -67,6 +67,37 @@
                     @enderror
                 </div>
             </div>
+
+            {{-- Slug --}}
+            <div class="col-lg-12 col-12">
+                <div class="form-group">
+                    <label for="slug" class="form-label">Slug</label>
+                    <div class="input-group">
+                        <input type="text"
+                               name="slug"
+                               id="slug"
+                               value="{{ old('slug', $blog->slug ?? '') }}"
+                               class="form-control"
+                               data-locked="{{ (isset($blog) || old('slug')) ? '1' : '0' }}"
+                               placeholder="auto-generated-from-title">
+                        <button type="button"
+                                class="btn btn-outline-secondary"
+                                id="regenerate-slug"
+                                title="Regenerate from title">
+                            <i class="mdi mdi-refresh"></i>
+                        </button>
+                    </div>
+                    <div class="slug-preview mt-1">
+                        {{ url('/blog') }}/<span id="slug-preview-text">{{ old('slug', $blog->slug ?? '') }}</span>
+                    </div>
+                    @error('slug')
+                    <div class="form-control-feedback text-danger mt-1">
+                        {{ $message }}
+                    </div>
+                    @enderror
+                </div>
+            </div>
+
             <div class="col-lg-6 col-12">
                 <div class="form-group">
                     <label class="form-label" for="blog_category_id">Blog Categories</label>
@@ -93,12 +124,7 @@
             </div>
 
             @php
-
-                $tagBox = isset($blog) ? $blog->tags->pluck('name')->toArray() : '';
-//                foreach($tags as $tag) {
-//                dd(old('blog_tags', isset($blog) ? $tagBox : ""));
-//
-//                }
+                $tagBox = isset($blog) ? $blog->tags->pluck('name')->toArray() : [];
             @endphp
 
             <div class="col-lg-6 col-12">
@@ -107,11 +133,10 @@
                     <select name="blog_tags[]"
                             id="blog_tags" multiple="multiple"
                             class="form-select js-example-basic-single">
-                        <option value="">Select...</option>
                         @if(!empty($tags))
                             @foreach($tags as $tag)
                                 <option
-                                    {{  in_array($tag->name, old('blog_tags', isset($blog) ?  $tagBox : [])) ? 'selected' : '' }}
+                                    {{ in_array($tag->name, old('blog_tags', $tagBox)) ? 'selected' : '' }}
                                     value="{{ $tag->name }}">
                                     {{ $tag->name }}
                                 </option>
@@ -158,12 +183,12 @@
 
             <div class="col-lg-12 col-12">
                 <div class="form-group">
-                    <label class="form-label" for="blog_category_id">Blog Content</label>
+                    <label class="form-label" for="editor1">Blog Content</label>
                     <textarea
                         placeholder="Type the content here!"
                         id="editor1" name="details" rows="10"
                         cols="80">{!! old('details', $blog->details ?? '') !!}</textarea>
-                    @error('blog_category_id')
+                    @error('details')
                     <div class="form-control-feedback text-danger mt-1">
                         {{ $message }}
                     </div>

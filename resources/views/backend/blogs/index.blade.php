@@ -138,4 +138,5 @@
             $('#dltModal').modal('show');
         });
     </script>
+    
 @endsection
