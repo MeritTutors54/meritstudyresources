@@ -7,6 +7,11 @@
         .select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered {
             padding: 4px 0;
         }
+        .slug-preview {
+            font-size: 12px;
+            color: #6c757d;
+            word-break: break-all;
+        }
     </style>
 @endsection
 @section('content')
@@ -80,7 +85,8 @@
                                                 <div class="form-label">Blog Cover Image</div>
                                                 <img
                                                     src="{{ asset(\Illuminate\Support\Facades\Storage::url($blog->cover_image)) }}"
-                                                    alt=""/>
+                                                    class="img-fluid rounded"
+                                                    alt="{{ $blog->title }}"/>
                                             @endif
                                         </div>
                                     </div>
@@ -115,5 +121,61 @@
             theme: 'bootstrap-5',
             tags: true
         });
+    </script>
+
+    <script>
+        // Live slug generation
+        (function () {
+            const title   = document.getElementById('title');
+            const slug    = document.getElementById('slug');
+            const btn     = document.getElementById('regenerate-slug');
+            const preview = document.getElementById('slug-preview-text');
+            if (!title || !slug) return;
+
+            const slugify = (text) => text
+                .toString()
+                .normalize('NFKD').replace(/[\u0300-\u036f]/g, '') // strip accents
+                .toLowerCase().trim()
+                .replace(/[^a-z0-9\s-]/g, '')   // remove special characters
+                .replace(/[\s_-]+/g, '-')       // spaces / underscores -> single dash
+                .replace(/^-+|-+$/g, '');       // trim dashes from both ends
+
+            const updatePreview = () => {
+                if (preview) preview.textContent = slug.value || '...';
+            };
+
+            // Locked = editing an existing blog, or the user typed their own slug.
+            // While unlocked, the slug follows the title.
+            let locked = slug.dataset.locked === '1';
+
+            title.addEventListener('input', () => {
+                if (!locked) {
+                    slug.value = slugify(title.value);
+                    updatePreview();
+                }
+            });
+
+            slug.addEventListener('input', () => {
+                // Clearing the slug field switches back to auto mode
+                locked = slug.value.trim() !== '';
+                // Keep the typed value clean, but allow a trailing dash while typing
+                const endsWithDash = /[\s-]$/.test(slug.value);
+                slug.value = slugify(slug.value) + (endsWithDash ? '-' : '');
+                updatePreview();
+            });
+
+            slug.addEventListener('blur', () => {
+                slug.value = slugify(slug.value);
+                updatePreview();
+            });
+
+            btn?.addEventListener('click', () => {
+                slug.value = slugify(title.value);
+                locked = false;
+                updatePreview();
+            });
+
+            updatePreview();
+        })();
     </script>
 @endsection
