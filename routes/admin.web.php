@@ -36,6 +36,7 @@ use App\Http\Controllers\Backend\StudyMaterial\MeritResourceController;
 use App\Http\Controllers\Backend\StudyMaterial\SubjectController;
 use App\Http\Controllers\Backend\StudyMaterial\TopicController;
 use App\Http\Controllers\Backend\SubscriptionPlanController;
+use App\Http\Controllers\Backend\NewPastpapersController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -252,4 +253,12 @@ Route::prefix('admin')->middleware(['auth:admin', 'team.permission'])->group(fun
 
     Route::post('/update-status', [AjaxController::class, 'updateStatus'])->name('admin.ajax.updateStatus');
     Route::get('/get-parents/{id}/{resource_type}', [AjaxController::class, 'getParents'])->name('admin.ajax.getParents');
+
+//  update pastpapers
+
+    Route::get('/pastpapers-uploads-create', [NewPastpapersController::class, 'create'])->name('admin.pastpapers-uploads-create');
+    Route::post('/pastpapers-uploads-submit', [NewPastpapersController::class, 'store'])->name('admin.pastpapers-uploads-store');
+    Route::get('/pastpapers-uploads-edit/{id}/', [NewPastpapersController::class, 'edit'])->name('admin.pastpapers-uploads-edit');
+
+
 });
