@@ -50,7 +50,7 @@ Route::group(['middleware' => 'team.permission'], function () {
 
     // Route::get('/all-products', [ProductController::class, 'allProducts'])->name('products');
 
-    Route::get('/book-shop', [BookShopController::class, 'index'])->name('products');
+    Route::get('/bookshop', [BookShopController::class, 'index'])->name('products');
     
     Route::get('/get-product/{product_slug}', [ProductController::class, 'details'])
         ->name('single.product');
