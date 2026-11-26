@@ -34,26 +34,29 @@ class ProductController extends Controller
     {
     }
 
-    public function allProducts(Request $request): View
+    public function allProducts()
     {
-        if (Auth::check()) {
-            $this->authorize('viewProductsSection', Auth::user());
-        }
+         //return "ok";
 
-        $products = Product::query()
-            ->where('status', Status::ACTIVE->value)
-            ->orderByDesc('created_at')
-            ->paginate(15);
+         return  redirect('/bookshop');
+        // if (Auth::check()) {
+        //     $this->authorize('viewProductsSection', Auth::user());
+        // }
 
-        $defaultSEO = Seo::query()
-            ->where('page_title', SEOPage::PRODUCTS->value)
-            ->first();
+        // $products = Product::query()
+        //     ->where('status', Status::ACTIVE->value)
+        //     ->orderByDesc('created_at')
+        //     ->paginate(15);
 
-        return view('frontend.product.index-2')
-            ->with([
-                'defaultSEO' => $defaultSEO,
-                'products' => $products
-            ]);
+        // $defaultSEO = Seo::query()
+        //     ->where('page_title', SEOPage::PRODUCTS->value)
+        //     ->first();
+
+        // return view('frontend.product.index-2')
+        //     ->with([
+        //         'defaultSEO' => $defaultSEO,
+        //         'products' => $products
+        //     ]);
     }
 
     public function details($product_slug)

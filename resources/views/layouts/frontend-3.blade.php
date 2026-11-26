@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Merit Study Resources — Free past papers, revision notes and practice resources')</title>
 {{--    <title>Merit Study Resources — Free past papers, revision notes and practice resources</title>--}}
+    @yield('page-seo')
     <meta name="description"
         content="Free GCSE, IGCSE, AS and A Level past papers, revision notes, topic questions, topic tests, workbooks and worked solutions, organised by subject and exam board.">
-
+    <link rel="canonical" href="{{ url()->current() }}">
     <link rel="icon" href="{{ asset('frontend/new/assets/images/logo.png') }}" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,6 +29,17 @@
         @endphp
 
      @stack('css')
+
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YDG4M0JY4F"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-YDG4M0JY4F');
+    </script>
 </head>
 
 <body class="@yield('body_class')">

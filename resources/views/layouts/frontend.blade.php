@@ -64,7 +64,12 @@
     {{--        {!! $seoSettings->google_analytics !!}--}}
     {{--    @endif--}}
     @yield('page-css')
-
+ @if(!empty($seo->google_verification))
+        <meta name="google-site-verification" content="{{ $seo->google_verification }}" />
+    @endif
+    @if(!empty($seo->bing_verification))
+        <meta name="msvalidate.01" content="{{ $seo->bing_verification }}" />
+    @endif
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-YDG4M0JY4F"></script>
     <script>

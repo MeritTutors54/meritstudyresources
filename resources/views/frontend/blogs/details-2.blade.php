@@ -1,7 +1,7 @@
 @extends('layouts.frontend-3')
 
-@section('title', $defaultSEO->meta_title ?? $global_seo['seo_title'])
-@section('meta_description', $defaultSEO->meta_description ?? $global_seo['seo_description'])
+@section('title', $blog->meta_title ?? $global_seo['seo_title'])
+@section('meta_description', $$blog->meta_description ?? $global_seo['seo_description'])
 @section('meta_keywords', $defaultSEO->meta_keywords ?? $global_seo['seo_keywords'])
 @section('meta_author', $defaultSEO->meta_author ?? $global_seo['seo_author'])
 

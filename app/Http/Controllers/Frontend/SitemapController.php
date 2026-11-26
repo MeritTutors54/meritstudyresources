@@ -23,6 +23,8 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Cache;
+use App\Models\Blogs;
 
 class SitemapController extends Controller
 {
@@ -63,7 +65,7 @@ class SitemapController extends Controller
             }
 
             // 2. Blog posts (database theke)
-            Blog::query()
+            Blogs::query()
                 // ->where('status', 1)          // published filter thakle chalu korun
                 ->select('slug', 'updated_at')
                 ->orderByDesc('updated_at')

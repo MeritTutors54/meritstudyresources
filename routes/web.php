@@ -38,7 +38,7 @@ Route::redirect('/search', '/', 301);
 
 // ===== OLD URL REDIRECTS (keep at top) =====
 Route::permanentRedirect('/resources', '/past-papers');
-Route::permanentRedirect('/all-products', '/shop');          // apnar real shop URL din
+// Route::permanentRedirect('/all-products', '/shop');          // apnar real shop URL din
 
 // purono .html page gula
 $oldHtml = [
@@ -50,12 +50,13 @@ $oldHtml = [
     'terms'   => '/terms',
     'refund'  => '/refund-policy',
 ];
-foreach ($oldHtml as $old => $new) {
-    Route::permanentRedirect("/{$old}.html", $new);
-}
+
+Route::get('{page}.html', function (string $page) use ($oldHtml) {
+    return redirect()->to(url($oldHtml[$page]), 301);
+})->whereIn('page', array_keys($oldHtml));
 
 // purono blog slug → notun slug (URLs tab theke list nin)
-Route::permanentRedirect('/blogs/old-slug-1', '/blogs/new-slug-1');
+// Route::permanentRedirect('/blogs/old-slug-1', '/blogs/new-slug-1');
 // ...
 
 
@@ -75,7 +76,7 @@ Route::group(['middleware' => 'team.permission'], function () {
     Route::get('/about-us', [FrontendController::class, 'aboutUs'])->name('about-us');
 
 
-    // Route::get('/all-products', [ProductController::class, 'allProducts'])->name('products');
+ Route::get('/all-products', [ProductController::class, 'allProducts'])->name('products.all');
 
     Route::get('/bookshop', [BookShopController::class, 'index'])->name('products');
     
