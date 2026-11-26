@@ -109,8 +109,6 @@ class NewPastpapersController extends Controller
                 'created_by' => Auth::user()->id,
                 'created_at' => Carbon::now()->toDateTimeString(),
             ]);
-
-
             if ($request->have_solution == 1) {
                 PastPaper::where('id', $pastPaperID)->update([
                     'have_solution' => $request->have_solution,

@@ -28,6 +28,7 @@ class UpdateBlogRequest extends FormRequest
             'details' => 'nullable|string',
             'status' => 'required|in:0,1',
             'is_feature' => 'required|in:0,1',
+            'slug'=> 'required',
         ];
     }
 
@@ -46,7 +47,7 @@ class UpdateBlogRequest extends FormRequest
         }
 
         $this->merge([
-            'slug' => SlugService::generateSlug($this->title ?? ''),
+            // 'slug' => SlugService::generateSlug($this->title ?? ''),
             'author_id' => Auth::id(),
             'image' => $uploadPath . '/' . $imageName,
         ]);

@@ -31,6 +31,33 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Auth::routes();
+Route::redirect('/board-resources', '/subjects', 301);
+Route::redirect('/workbooks', '/bookshop', 301);
+Route::redirect('/board-resources/worked-solutions', '/bookshop', 301);
+Route::redirect('/search', '/', 301);
+
+// ===== OLD URL REDIRECTS (keep at top) =====
+Route::permanentRedirect('/resources', '/past-papers');
+Route::permanentRedirect('/all-products', '/shop');          // apnar real shop URL din
+
+// purono .html page gula
+$oldHtml = [
+    'index'   => '/',
+    'about'   => '/about',
+    'contact' => '/contact',
+    'faq'     => '/faq',
+    'privacy' => '/privacy-policy',
+    'terms'   => '/terms',
+    'refund'  => '/refund-policy',
+];
+foreach ($oldHtml as $old => $new) {
+    Route::permanentRedirect("/{$old}.html", $new);
+}
+
+// purono blog slug → notun slug (URLs tab theke list nin)
+Route::permanentRedirect('/blogs/old-slug-1', '/blogs/new-slug-1');
+// ...
+
 
 Route::group(['middleware' => 'team.permission'], function () {
     Route::get('/forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])
@@ -96,7 +123,6 @@ Route::group(['middleware' => 'team.permission'], function () {
     Route::get('/privacy-policy', [FrontendController::class, 'privacyPolicy'])->name('privacy.policy');
     Route::get('/refund-policy', [FrontendController::class, 'refundPolicy'])->name('refund.policy');
     Route::get('/faq', [FrontendController::class, 'faq'])->name('faq');
-    Route::get('/teacher-panel', [FrontendController::class, 'teachersPanel'])->name('teachersPanel');
     //Route::post('/newsletter-subscribe', [FrontendController::class, 'newsletterSubscribe'])->name('newsletterSubscribe');
 
     Route::post('/collect-emails', [FrontendController::class, 'collectEmails'])->name('collect-emails');
@@ -116,6 +142,7 @@ Route::group(['middleware' => 'team.permission'], function () {
     */
     Route::group(['middleware' => ['auth']], function () {
 
+    Route::get('/teacher-panel', [FrontendController::class, 'teachersPanel'])->name('teachersPanel');
         Route::get('/dashboard', [UserDashboardController::class, 'dashboard'])->name('user.dashboard');
         Route::get('/logout', [UserDashboardController::class, 'logout'])->name('user.logout');
         Route::get('/subscription-list', [UserDashboardController::class, 'subscriptionList'])->name('user.subscription.list');

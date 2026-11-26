@@ -114,7 +114,7 @@ class BlogController extends Controller
             ->with('author', 'category', 'author', 'tags')
             ->where('slug', $slug)
             ->where('status', Status::ACTIVE->value)
-            ->first();
+            ->firstOrFail();
 
         // all categories
         $categories = BlogCategory::query()

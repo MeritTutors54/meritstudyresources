@@ -23,7 +23,11 @@
     <link href="{{ asset('frontend/new/css/resources.css') }}" rel="stylesheet">
      <link href="{{ asset('frontend/new/css/bookshop.css') }}" rel="stylesheet">
      <meta name="google-site-verification" content="lPvNOY9Rj6EYxBxxdKN7QI442VoalhjWTtzDTx_9Jbg" />
-    @stack('css')
+        @php
+        $robots = request()->hasAny(['p','category','cat_s','q']) ? 'noindex, follow' : 'index, follow';
+        @endphp
+
+     @stack('css')
 </head>
 
 <body class="@yield('body_class')">

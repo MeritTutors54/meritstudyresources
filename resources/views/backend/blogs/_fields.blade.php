@@ -42,6 +42,41 @@
                     @enderror
                 </div>
             </div>
+            <div class="col-lg-8 col-12">
+                <div class="form-group">
+                    <label for="meta_title"
+                           class="form-label">Meta Title</label>
+                    <input type="text"
+                           name="meta_title"
+                           id="meta_title"
+                           value="{{ old('title', $blog->meta_title ?? "") }}"
+                           class="form-control"
+                           placeholder="Enter blog meta title name">
+                    @error('meta_title')
+                    <div class="form-control-feedback text-danger mt-1">
+                        {{ $message }}
+                    </div>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="col-lg-8 col-12">
+                <div class="form-group">
+                    <label for="meta_description"
+                           class="form-label">Meta Description</label>
+                    <input type="text"
+                           name="meta_description"
+                           id="meta_description"
+                           value="{{ old('title', $blog->meta_description ?? "") }}"
+                           class="form-control"
+                           placeholder="Enter blog meta title name">
+                    @error('meta_description')
+                    <div class="form-control-feedback text-danger mt-1">
+                        {{ $message }}
+                    </div>
+                    @enderror
+                </div>
+            </div>
             <div class="col-lg-2 col-12">
                 <div class="form-group">
                     <label class="form-label" for="is-feature">Feature Blog?</label>

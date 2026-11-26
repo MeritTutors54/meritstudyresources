@@ -7,9 +7,7 @@
             <span class="eyebrow"><span class="divider-dot"></span> REVISION LIBRARY</span>
             <h1 class="mt-4 mb-3">All Past Papers, mapped to your <span class="text-green">exact exam board.</span></h1>
             <p class="lead-muted mb-4" style="max-width:560px;">Browse thousands of papers with full mark schemes across
-                A
-                Level, AS Level, GCSE and IGCSE — filter by subject on the left or search below.</p>
-
+                A Level, AS Level, GCSE and IGCSE — filter by subject on the left or search below.</p>
             <div class="pp-search-wrapper">
                 <div class="pp-search-row">
                     <svg viewBox="0 0 24 24" fill="none">
@@ -19,7 +17,6 @@
                     <input type="text" id="ppSearchInput" placeholder="Search any subject, e.g. 'Biology' or 'French'"
                            autocomplete="off">
                 </div>
-
                 <!-- Dynamic Search Dropdown Panel -->
                 <div id="ppSearchResultsPanel" class="search-dropdown-panel d-none">
                     <div id="searchResultsList" class="search-results-list"></div>
@@ -27,7 +24,6 @@
             </div>
         </div>
     </header>
-
     <!-- ============================= MAIN CONTENT ============================= -->
     <section class="section-pad" style="padding-top:24px;">
         <div class="container">

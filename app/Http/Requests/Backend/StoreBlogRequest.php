@@ -21,6 +21,8 @@ class StoreBlogRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
+            'meta_title' => 'required|string|max:255',
+            'meta_description' => 'required|string|max:255',
             'blog_category_id' => 'required|integer|exists:blog_categories,id',
             'blog_tags' => 'required|array',
             'description' => 'required|string|max:3000',
@@ -28,6 +30,7 @@ class StoreBlogRequest extends FormRequest
             'details' => 'nullable|string',
             'status' => 'required|in:0,1',
             'is_feature' => 'required|in:0,1',
+            'slug'=>'required',
         ];
     }
 
@@ -43,7 +46,7 @@ class StoreBlogRequest extends FormRequest
         }
 
         $this->merge([
-            'slug' => SlugService::generateSlug($this->title ?? ''),
+            // 'slug' => SlugService::generateSlug($this->title ?? ''),
             'author_id' => Auth::id(),
             'image' => $uploadPath . '/' . $imageName,
         ]);

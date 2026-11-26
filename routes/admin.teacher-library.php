@@ -1,20 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Teacher Library — admin routes
-|--------------------------------------------------------------------------
-| Loaded from routes/admin.web.php INSIDE the ['auth:admin', 'team.permission']
-| group, so every route here is already /admin/... and admin-only.
-|
-| URL prefix : /admin/teacher-library
-| Name prefix: admin.teacher-library.
-|
-| Each step's block is commented out until its controller exists.
-| Building a step = create the controller, then uncomment its block.
-| The sidebar shows a link only when its route exists (Route::has),
-| so links appear by themselves as steps are switched on.
-*/
 
 use App\Http\Controllers\Backend\TeacherLibrary\TeacherLibraryController;
 use Illuminate\Support\Facades\Route;
@@ -25,7 +10,6 @@ Route::prefix('teacher-library')
 
         // Step 0 — landing page: counts + links to every screen
         Route::get('/', [TeacherLibraryController::class, 'index'])->name('index');
-
         // Step 1 — Phases
         Route::resource('phases', \App\Http\Controllers\Backend\TeacherLibrary\CurriculumPhaseController::class)->except(['show']);
 
