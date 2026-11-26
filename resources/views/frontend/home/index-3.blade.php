@@ -71,11 +71,11 @@
                                                                             aria-hidden="true"></i></span>
                             <span><strong>Exam-Specific</strong><br>Resources</span>
                         </li>
-                        <li class="hero-benefit">
+                        {{-- <li class="hero-benefit">
                             <span class="benefit-icon benefit-icon-navy"><i class="bi bi-book-half"
                                                                             aria-hidden="true"></i></span>
                             <span><strong>Organised by</strong><br>Topic</span>
-                        </li>
+                        </li> --}}
                         <li class="hero-benefit">
                             <span class="benefit-icon benefit-icon-teal"><i class="bi bi-people-fill"
                                                                             aria-hidden="true"></i></span>
@@ -365,105 +365,7 @@
     {{--       Sample/illustrative content only — replace with real data.--}}
     {{--    ============================================================ -->--}}
     <section class="section" aria-labelledby="popularHeading">
-{{--        <div class="container">--}}
-{{--            <div class="section-head" data-reveal>--}}
-{{--                <h2 class="section-heading" id="popularHeading">Popular This Week</h2>--}}
 
-{{--                <div class="filter-pills" role="group" aria-label="Filter popular resources by type">--}}
-{{--                    <button type="button" class="filter-pill is-active" data-filter="past-papers"--}}
-{{--                            aria-pressed="true">--}}
-{{--                        Past Papers--}}
-{{--                    </button>--}}
-{{--                    <button type="button" class="filter-pill" data-filter="revision-notes"--}}
-{{--                            aria-pressed="false">--}}
-{{--                        Revision Notes--}}
-{{--                    </button>--}}
-{{--                    <button type="button" class="filter-pill" data-filter="topic-questions" aria-pressed="false">--}}
-{{--                        Topic Questions--}}
-{{--                    </button>--}}
-{{--                    <button type="button" class="filter-pill" data-filter="topic-tests" aria-pressed="false">--}}
-{{--                        Topic Tests--}}
-{{--                    </button>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-
-{{--            <!-- Sample rows: titles and metadata below are illustrative placeholders -->--}}
-{{--            <div class="row g-3 row-cols-1 row-cols-md-2 row-cols-xl-3" id="popularList" data-reveal-group>--}}
-{{--                <div class="col">--}}
-{{--                    <div class="popular-card">--}}
-{{--                        <span class="popular-icon"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>--}}
-{{--                        <div class="popular-body">--}}
-{{--                            <h3 class="popular-title">GCSE Maths <span class="popular-board">(Edexcel)</span></h3>--}}
-{{--                            <p class="popular-meta">Higher Tier · Paper 1 · June 2024</p>--}}
-{{--                        </div>--}}
-{{--                        <a class="btn btn-merit btn-sm popular-btn"--}}
-{{--                           href="{{ route('past.papers.details', ['gcse','mathematics','edexcel']) }}"--}}
-{{--                           aria-label="View GCSE Maths Edexcel Higher Tier Paper 1 June 2024">View</a>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--                <div class="col">--}}
-{{--                    <div class="popular-card">--}}
-{{--                        <span class="popular-icon"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>--}}
-{{--                        <div class="popular-body">--}}
-{{--                            <h3 class="popular-title">A Level Maths <span class="popular-board">(Edexcel)</span></h3>--}}
-{{--                            <p class="popular-meta">Paper 1 · June 2024</p>--}}
-{{--                        </div>--}}
-{{--                        <a class="btn btn-merit btn-sm popular-btn"--}}
-{{--                           href="{{ route('past.papers.details', ['a-levels', 'mathematics', 'edexcel']) }}"--}}
-{{--                           aria-label="View A Level Maths Edexcel Paper 1 June 2024">View</a>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--                <div class="col">--}}
-{{--                    <div class="popular-card">--}}
-{{--                        <span class="popular-icon"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>--}}
-{{--                        <div class="popular-body">--}}
-{{--                            <h3 class="popular-title">GCSE Chemistry <span class="popular-board">(AQA)</span></h3>--}}
-{{--                            <p class="popular-meta">Higher Tier · Paper 1 · June 2024</p>--}}
-{{--                        </div>--}}
-{{--                        <a class="btn btn-merit btn-sm popular-btn"--}}
-{{--                           href="{{ route('past.papers.details', ['gcse','chemistry','aqa']) }}"--}}
-{{--                           aria-label="View GCSE Chemistry OCR Higher Tier Paper 1 June 2024">View</a>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--                <div class="col">--}}
-{{--                    <div class="popular-card">--}}
-{{--                        <span class="popular-icon"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>--}}
-{{--                        <div class="popular-body">--}}
-{{--                            <h3 class="popular-title">GCSE Biology <span class="popular-board">(AQA)</span></h3>--}}
-{{--                            <p class="popular-meta">Higher Tier · Paper 2 · June 2024</p>--}}
-{{--                        </div>--}}
-{{--                        <a class="btn btn-merit btn-sm popular-btn"--}}
-{{--                           href="{{ route('past.papers.details', ['gcse', 'biology', 'aqa']) }}"--}}
-{{--                           aria-label="View GCSE Biology AQA Higher Tier Paper 2 June 2024">View</a>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--                <div class="col">--}}
-{{--                    <div class="popular-card">--}}
-{{--                        <span class="popular-icon"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>--}}
-{{--                        <div class="popular-body">--}}
-{{--                            <h3 class="popular-title">GCSE English Language <span class="popular-board">(AQA)</span>--}}
-{{--                            </h3>--}}
-{{--                            <p class="popular-meta">Paper 1 · June 2024</p>--}}
-{{--                        </div>--}}
-{{--                        <a class="btn btn-merit btn-sm popular-btn"--}}
-{{--                           href="{{ route('past.papers.details', ['gcse', 'english-language', 'aqa']) }}"--}}
-{{--                           aria-label="View GCSE English Language AQA Paper 1 June 2024">View</a>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--                <div class="col">--}}
-{{--                    <div class="popular-card">--}}
-{{--                        <span class="popular-icon"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>--}}
-{{--                        <div class="popular-body">--}}
-{{--                            <h3 class="popular-title">A Level Physics <span class="popular-board">(AQA)</span></h3>--}}
-{{--                            <p class="popular-meta">Paper 2 · June 2024</p>--}}
-{{--                        </div>--}}
-{{--                        <a class="btn btn-merit btn-sm popular-btn"--}}
-{{--                           href="{{ route('past.papers.details', ['a-levels', 'physics', 'aqa']) }}"--}}
-{{--                           aria-label="View A Level Physics AQA Paper 2 June 2024">View</a>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
         <div class="container">
             <div class="section-head" data-reveal>
                 <h2 class="section-heading" id="popularHeading">Popular This Week</h2>
@@ -473,18 +375,7 @@
                             aria-pressed="true" aria-controls="popular-past-papers">
                         Past Papers
                     </button>
-{{--                    <button type="button" class="filter-pill" data-filter="revision-notes"--}}
-{{--                            aria-pressed="false" aria-controls="popular-revision-notes">--}}
-{{--                        Revision Notes--}}
-{{--                    </button>--}}
-{{--                    <button type="button" class="filter-pill" data-filter="topic-questions"--}}
-{{--                            aria-pressed="false" aria-controls="popular-topic-questions">--}}
-{{--                        Topic Questions--}}
-{{--                    </button>--}}
-{{--                    <button type="button" class="filter-pill" data-filter="topic-tests"--}}
-{{--                            aria-pressed="false" aria-controls="popular-topic-tests">--}}
-{{--                        Topic Tests--}}
-{{--                    </button>--}}
+
                 </div>
             </div>
 

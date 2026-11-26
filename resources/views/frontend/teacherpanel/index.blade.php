@@ -25,7 +25,7 @@
 
     <!-- ===== Filters ===================================================== -->
     <section class="tl-filters" aria-label="Find resources">
-        <div class="container-fluid px-lg-4">
+        <div class="container px-lg-4">
             {{-- Works without JavaScript too: the Show button sends the choice to /teacher-resources --}}
             <form class="tl-filter-row" role="search" method="GET" action="{{ route('teacher-resources.index') }}">
                 <div>
@@ -68,7 +68,7 @@
 
     <!-- ===== Library ===================================================== -->
     <div class="tl-body">
-        <div class="container-fluid px-lg-4">
+        <div class="container px-lg-4">
             <div class="tl-layout">
 
                 <!-- Topic sidebar -->
