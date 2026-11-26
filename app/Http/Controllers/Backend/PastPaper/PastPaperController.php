@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\File;
 
 class PastPaperController extends Controller
 {
@@ -490,29 +491,51 @@ class PastPaperController extends Controller
         }
     }
 
-    public function missingPastPaper()
-    {
-        $wrongPdfFiles = PastPaper::with([
+public function missingPastPaper()
+{
+    $folder = public_path('uploads/pastpapers');
+
+    // All file names that actually exist in the folder
+    $existingFiles = [];
+    if (File::isDirectory($folder)) {
+        foreach (File::files($folder) as $file) {
+            $existingFiles[strtolower($file->getFilename())] = true;
+        }
+    }
+
+    // Returns true if a file name is saved in the DB but not found in the folder
+    $isMissing = function ($name) use ($existingFiles) {
+        $name = trim((string) $name);
+        if ($name === '') {
+            return false; // nothing uploaded for this field
+        }
+        return !isset($existingFiles[strtolower(basename($name))]);
+    };
+
+    $missingFiles = PastPaper::with([
             'category_model',
             'subcategory_model',
             'resubcategory_model',
-            'series'
+            'series',
         ])
-            ->where('is_deleted', 0)
-            ->where(function ($query) {
-                $query->where(function ($q) {
-                    $q->where('ques_paper', 'LIKE', '%pdf')
-                        ->where('ques_paper', 'NOT LIKE', '%.pdf');
-                })
-                    ->orWhere(function ($q) {
-                        $q->where('ans_paper', 'LIKE', '%pdf')
-                            ->where('ans_paper', 'NOT LIKE', '%.pdf');
-                    });
-            })
-            ->orderBy('id', 'DESC')
-            ->get();
+        ->where('is_deleted', 0)
+        ->where(function ($q) {
+            $q->where(function ($q2) {
+                $q2->whereNotNull('ques_paper')->where('ques_paper', '!=', '');
+            })->orWhere(function ($q2) {
+                $q2->whereNotNull('ans_paper')->where('ans_paper', '!=', '');
+            });
+        })
+        ->orderBy('id', 'DESC')
+        ->get()
+        ->filter(function ($paper) use ($isMissing) {
+            $paper->ques_missing = $isMissing($paper->ques_paper);
+            $paper->ans_missing  = $isMissing($paper->ans_paper);
 
+            return $paper->ques_missing || $paper->ans_missing;
+        })
+        ->values();
 
-        return view('backend.past-paper.missing-past-papers.index', compact('wrongPdfFiles'));
-    }
+    return view('backend.past-paper.missing-past-papers.index', compact('missingFiles'));
+}
 }
