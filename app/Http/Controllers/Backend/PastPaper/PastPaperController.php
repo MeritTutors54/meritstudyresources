@@ -493,7 +493,7 @@ class PastPaperController extends Controller
 
 public function missingPastPaper()
 {
-    $folder = public_path('uploads/pastpapers');
+    $folder = public_path('uploads/pastpaper');
 
     // All file names that actually exist in the folder
     $existingFiles = [];
